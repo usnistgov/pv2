@@ -28,10 +28,10 @@ themes:
   # - Optical communications
   # - Quantum communications
   # - Bioscience
-  # - Buildings and Construction
+  - Buildings and Construction
   # - Chemistry
   # - Electronics
-  # - Energy
+  - Energy
   # - Environment
   # - Fire
   # - Forensic Science
