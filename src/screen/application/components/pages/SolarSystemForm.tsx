@@ -1,9 +1,12 @@
 import {Component} from "react";
+import {Box} from "@material-ui/core";
 
 class SolarSystemForm extends Component {
     render() {
         return (
-            <h1>SolarSystemForm</h1>
+            <Box>
+
+            </Box>
         );
     }
 }
