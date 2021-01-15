@@ -5,7 +5,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-import LandingPage from "./screen/landingpage/LandingPage";
+import LandingPage from "./screen/LandingPage/LandingPage";
 import Application from "./screen/application/Application";
 
 ReactDOM.render(

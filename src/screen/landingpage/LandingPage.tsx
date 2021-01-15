@@ -1,15 +1,15 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {useHistory} from "react-router-dom";
+import Button from "../components/Button/Button";
 
-class LandingPage extends React.Component {
-    render(): React.ReactNode {
-        return (
-            <div>
-                <h1>Landing Page</h1>
-                <Link to={"/application"}>Application</Link>
-            </div>
-        );
-    }
+const LandingPage = () => {
+  const history = useHistory();
+
+  return (
+    <div>
+      <Button text={"Try it out!"} onClick={() => history.push("/application")}/>
+    </div>
+  );
 }
 
 export default LandingPage;

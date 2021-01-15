@@ -1,0 +1,18 @@
+.button-wrapper {
+    background-color: #5CA3A1;
+    color: #EFEFEF;
+    
+    width: 5em;
+    height: min-content;
+
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+
+    text-align: center;
+    font-size: 18px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #29706E;
+    }    
+}
