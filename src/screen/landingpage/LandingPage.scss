@@ -1,13 +1,13 @@
 @import '../../main.scss';
 
 .landing-page-wrapper {
-  padding: 4em 12em;
+  padding: 8em 12vw;
 
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  text-align: left;
+  display: flex;
+  flex-direction: row;
 
   .landing-content {
+    flex: 1;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -16,7 +16,7 @@
     font-size: 18px;
     gap: 0.5em;
 
-    margin: 2em;
+    margin: 0em 2em;
 
     h1 {
       font-size: 48px;
@@ -30,12 +30,15 @@
 
   // todo: figure out a good way to handle images/sizing
   .landing-image {
+    flex: 1;
     box-sizing: border-box;
     margin: 2em;
 
-    height: 100%;
-
-    background-color: red;
+    img {
+      width: 100%;
+      height: 90%;
+      object-fit: contain;
+    }
   }
 }
 
@@ -43,14 +46,14 @@
   .landing-page-wrapper {
     padding: 2em;
 
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
+    flex-direction: column;
 
     text-align: center;
 
     .landing-content {
       margin: 0em;
       align-items: center;
+      padding-bottom: 2em;
     }
 
     .landing-image {
