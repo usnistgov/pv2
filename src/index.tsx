@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
-import './index.css';
+import './main.scss';
 import reportWebVitals from './reportWebVitals';
 
 import LandingPage from "./screen/LandingPage/LandingPage";
