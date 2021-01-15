@@ -1,0 +1,60 @@
+@import '../../main.scss';
+
+.landing-page-wrapper {
+  padding: 4em 12em;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: left;
+
+  .landing-content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 18px;
+    gap: 0.5em;
+
+    margin: 2em;
+
+    h1 {
+      font-size: 48px;
+    }
+
+    hr {
+      width: 100%;
+      border: 1px solid $material-light-green;
+    }
+  }
+
+  // todo: figure out a good way to handle images/sizing
+  .landing-image {
+    box-sizing: border-box;
+    margin: 2em;
+
+    height: 100%;
+
+    background-color: red;
+  }
+}
+
+@media screen and (max-width: $breakpoint-tablet) {
+  .landing-page-wrapper {
+    padding: 2em;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+
+    text-align: center;
+
+    .landing-content {
+      margin: 0em;
+      align-items: center;
+    }
+
+    .landing-image {
+      margin: 0em;
+    }
+  }
+}
