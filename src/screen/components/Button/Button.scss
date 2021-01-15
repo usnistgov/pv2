@@ -1,6 +1,8 @@
+@import '../../../main.scss';
+
 .button-wrapper {
-    background-color: #5CA3A1;
-    color: #EFEFEF;
+    background-color: $button-color;
+    color: $off-white;
     
     width: 5em;
     height: min-content;
@@ -13,6 +15,6 @@
 
     &:hover {
         cursor: pointer;
-        background-color: #29706E;
+        background-color: $dark-button-color;
     }    
 }
