@@ -1,4 +1,4 @@
-import {createNumberSlice, createStringSlice} from "../../Utils";
+import {createNumberSlice, createStringSlice} from "../Utils";
 
 export const [
     electricalCompanyNameSlice,

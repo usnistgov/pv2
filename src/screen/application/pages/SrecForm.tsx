@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {Box} from "@material-ui/core";
-import MaterialHeader from "../MaterialHeader";
+import MaterialHeader from "../components/MaterialHeader";
 
 class SrecForm extends Component {
     render() {

@@ -1,10 +1,10 @@
 import {Component} from "react";
 import {Box} from "@material-ui/core";
-import MaterialHeader from "../MaterialHeader";
+import MaterialHeader from "../components/MaterialHeader";
 import "./ElectricalRateForm.css"
-import FormField from "../FormField";
+import FormField from "../components/FormField";
 import * as Yup from "yup";
-import {RootState} from "../../ApplicationStore";
+import {RootState} from "../ApplicationStore";
 import {connect} from "react-redux";
 import {
     annualConsumptionSlice,
@@ -15,8 +15,8 @@ import {
     netMeteringFeedTariffSlice,
     pvGridConnectionRateSlice
 } from "./ElectricalRateFormReducer";
-import {ReduxGetSet} from "../../Utils";
-import FormSelect from "../FormSelect";
+import {ReduxGetSet} from "../Utils";
+import FormSelect from "../components/FormSelect";
 
 interface StateProps {
     electricalCompanyName: ReduxGetSet<string>,

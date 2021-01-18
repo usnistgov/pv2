@@ -1,13 +1,13 @@
 import {Component} from "react";
 import {Box, Grid, Paper} from "@material-ui/core";
-import MaterialHeader from "../MaterialHeader";
+import MaterialHeader from "../components/MaterialHeader";
 import "./AddressForm.css"
-import FormField from "../FormField";
-import {RootState} from "../../ApplicationStore";
+import FormField from "../components/FormField";
+import {RootState} from "../ApplicationStore";
 import {connect} from "react-redux";
 import {addressSlice, citySlice, stateSlice, zipcodeSlice} from "./AddressFormReducer"
 import * as Yup from 'yup';
-import {ReduxGetSet} from "../../Utils";
+import {ReduxGetSet} from "../Utils";
 
 interface StateProps {
     address: ReduxGetSet<string>,

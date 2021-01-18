@@ -1,10 +1,10 @@
 import React from "react";
 import StepperNav from "./components/StepperNav";
 import StepperPage from "./components/StepperPage";
-import SrecForm from "./components/pages/SrecForm";
-import SolarSystemForm from "./components/pages/SolarSystemForm";
-import ElectricalRateForm from "./components/pages/ElectricalRateForm";
-import AddressForm from "./components/pages/AddressForm";
+import SrecForm from "./pages/SrecForm";
+import SolarSystemForm from "./pages/SolarSystemForm";
+import ElectricalRateForm from "./pages/ElectricalRateForm";
+import AddressForm from "./pages/AddressForm";
 import {Provider} from 'react-redux';
 
 import {Container, createMuiTheme, MuiThemeProvider} from "@material-ui/core";

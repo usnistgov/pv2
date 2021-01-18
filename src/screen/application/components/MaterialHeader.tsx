@@ -2,11 +2,11 @@ import {Component} from "react";
 import {Box} from "@material-ui/core";
 import "./MaterialHeader.css"
 
-interface Props {
+export interface Props {
     text: string;
 }
 
-class MaterialHeader extends Component<Props, never> {
+export default class MaterialHeader extends Component<Props, never> {
     render() {
         return (
             <Box className={"material-header"}>
@@ -15,5 +15,3 @@ class MaterialHeader extends Component<Props, never> {
         );
     }
 }
-
-export default MaterialHeader;
