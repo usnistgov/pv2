@@ -15,7 +15,7 @@ const LandingPage = () => {
         <div className="landing-content"> 
           <h1>PV2</h1>
           <hr />
-          <div>Helping homeowners make economically wise decisions on residential solar PV systems.</div>
+          <div>Present Value of PhotoVoltaics (PV2) is an app that allows homeowners to determine a complete cost of ownership for residential rooftop solar PV systems, helping homeowners make economically wise decisions.</div>
           <hr />
           <div>PV2 uses the E3 API developed at NIST to run an economic analysis of rooftop solar photovoltaics.</div>
           <hr/>
