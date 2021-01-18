@@ -2,18 +2,23 @@ import {Children, Component, ReactElement, ReactNode} from 'react';
 
 import {Box, Button, Grid, Step, StepLabel, Stepper} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react"
-import {mdiArrowLeft, mdiArrowRight} from "@mdi/js";
+import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
 import StepperPage from "./StepperPage";
 import {RootState} from "../ApplicationStore";
 import {connect} from "react-redux";
-import {increment, decrement} from "./StepperNavReducer";
+import {decrement, increment} from "./StepperNavReducer";
 import "./StepperNav.css"
+import {withRouter} from "react-router/";
+import * as H from "history";
 
 /*
  * Property interfaces
  */
 interface ComponentProps {
     children: ReactElement[];
+    history: H.History;
+    location: H.Location;
+    match: any;
 }
 
 interface DispatchProps {
@@ -31,19 +36,21 @@ interface StateProps {
  */
 class StepperNav extends Component<ComponentProps & DispatchProps & StateProps> {
     render(): ReactNode {
+        let firstStep: boolean = this.props.activeStep <= 0;
+        let lastStep: boolean = this.props.activeStep >= this.props.children.length - 1;
+
         return (
             <Box>
                 <Grid className={"grid-container"} container justify={'center'} alignItems={'center'} spacing={0}>
                     <Grid item xs={1}>
                         <Button
-                            disabled={this.props.activeStep === 0}
-                            onClick={this.props.decrement}
+                            onClick={firstStep ? this.props.history.goBack : this.props.decrement}
                             startIcon={
-                                <MdiIcon path={mdiArrowLeft}
+                                <MdiIcon path={firstStep ? mdiClose : mdiArrowLeft}
                                          size={1}/>
                             }
                         >
-                            Back
+                            {firstStep ? "Cancel" : "Next"}
                         </Button>
                     </Grid>
                     <Grid item xs={10}>
@@ -54,14 +61,14 @@ class StepperNav extends Component<ComponentProps & DispatchProps & StateProps> 
                     <Grid item xs={1}>
                         <Button variant="contained"
                                 color="primary"
-                                disabled={this.props.activeStep === this.props.children.length - 1}
-                                onClick={this.props.increment}
+                                onClick={lastStep ? () => {
+                                } : this.props.increment}
                                 endIcon={
-                                    <MdiIcon path={mdiArrowRight}
+                                    <MdiIcon path={lastStep ? mdiCheck : mdiArrowRight}
                                              size={1}/>
                                 }
                         >
-                            Next
+                            {lastStep ? "Finish" : "Next"}
                         </Button>
                     </Grid>
                 </Grid>
@@ -90,4 +97,4 @@ function mapStateToProps(state: RootState): StateProps {
     }
 }
 
-export default connect(mapStateToProps, {increment, decrement})(StepperNav);
+export default connect(mapStateToProps, {increment, decrement})(withRouter(StepperNav));
