@@ -50,7 +50,7 @@ class StepperNav extends Component<ComponentProps & DispatchProps & StateProps> 
                                          size={1}/>
                             }
                         >
-                            {firstStep ? "Cancel" : "Next"}
+                            {firstStep ? "Cancel" : "Back"}
                         </Button>
                     </Grid>
                     <Grid item xs={10}>

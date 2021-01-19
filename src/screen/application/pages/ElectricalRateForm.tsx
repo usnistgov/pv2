@@ -45,7 +45,7 @@ class ElectricalRateForm extends Component<StateProps, never> {
                     <FormField label={"Monthly Flat Rate Charge"}
                                schema={Yup.number().required()}
                                value={this.props.monthlyFlatRateCharge}
-                               endAdornment={"$"}
+                               startAdornment={"$"}
                                type={"number"}/>
                     <FormField label={"Electricity Unit Price"}
                                schema={Yup.number().required()}
