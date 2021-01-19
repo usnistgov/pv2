@@ -1,15 +1,14 @@
-import {Component} from "react";
+import {ReactElement} from "react";
+
 import {Box} from "@material-ui/core";
+
 import MaterialHeader from "../components/MaterialHeader";
 
-class SrecForm extends Component {
-    render() {
-        return (
-            <Box>
-                <MaterialHeader text={"SREC Payments"}/>
-            </Box>
-        );
-    }
-}
 
-export default SrecForm;
+export default function SrecForm(): ReactElement {
+    return (
+        <Box>
+            <MaterialHeader text={"SREC Payments"}/>
+        </Box>
+    );
+}

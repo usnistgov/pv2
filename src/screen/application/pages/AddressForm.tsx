@@ -1,109 +1,71 @@
-import {Component} from "react";
+import {ReactElement} from "react";
+
 import {Box, Grid, Paper} from "@material-ui/core";
-import MaterialHeader from "../components/MaterialHeader";
-import "./AddressForm.css"
-import FormField from "../components/FormField";
-import {RootState} from "../ApplicationStore";
-import {connect} from "react-redux";
-import {addressSlice, citySlice, stateSlice, zipcodeSlice} from "./AddressFormReducer"
 import * as Yup from 'yup';
-import {ReduxGetSet} from "../Utils";
 
-interface StateProps {
-    address: ReduxGetSet<string>,
-    city: ReduxGetSet<string>,
-    state: ReduxGetSet<string>,
-    zipcode: ReduxGetSet<string>,
-}
+import MaterialHeader from "../components/MaterialHeader";
+import FormField from "../components/FormField";
+import {useReduxGetSet, createStringSlice} from "../Utils";
 
-class AddressForm extends Component<StateProps, never> {
-    render() {
-        let query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${this.props.address.get()}, ${this.props.city.get()} ,${this.props.state.get()} ${this.props.zipcode.get()}`;
+import "./AddressForm.css"
 
-        console.log(query);
 
-        return (
-            <Box>
-                <MaterialHeader text={"Address"}/>
-                <Grid className={"address-form-container"} container justify={"center"} spacing={8}>
-                    <Grid item xs={6}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <FormField required
-                                           label={"Address"}
-                                           schema={Yup.string().required()}
-                                           value={this.props.address}/>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormField required
-                                           label={"City"}
-                                           schema={Yup.string().required()}
-                                           value={this.props.city}/>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormField required
-                                           label={"State"}
-                                           schema={Yup.string().required()}
-                                           value={this.props.state}/>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormField required
-                                           label={"Zipcode"}
-                                           schema={Yup.string().required()}
-                                           value={this.props.zipcode}/>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={"map"} elevation={3}>
-                            <iframe title={"Google Address Map"} frameBorder="0" src={query} allowFullScreen/>
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </Box>
-        );
-    }
-}
+// Redux slices
+export const [addressSlice, citySlice, stateSlice, zipcodeSlice] =
+    ['address', 'city', 'state', 'zipcode'].map(createStringSlice)
 
 /*
- * Redux mappings and export
+ * The AddressForm component is the first page of the application form that lets user fill
+ * in their address and displays an embedded iframe of Google Maps with the inputted location.
  */
-function mapStateToProps(state: RootState) {
-    return {
-        address: () => state.address,
-        city: () => state.city,
-        state: () => state.state,
-        zipcode: () => state.zipcode,
-    }
-}
+export default function AddressForm(): ReactElement {
+    // Redux state values
+    const address = useReduxGetSet<string>("address", addressSlice);
+    const city = useReduxGetSet<string>("city", citySlice);
+    const state = useReduxGetSet<string>("state", stateSlice);
+    const zipcode = useReduxGetSet<string>("zipcode", zipcodeSlice);
 
-const mapDispatchToProps = {
-    address: (s: string) => addressSlice.actions.set(s),
-    city: (s: string) => citySlice.actions.set(s),
-    state: (s: string) => stateSlice.actions.set(s),
-    zipcode: (s: string) => zipcodeSlice.actions.set(s),
-}
+    // Google Maps embedded url query
+    const query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${address.get()}, ${city.get()} ,${state.get()} ${zipcode.get()}`;
 
-const mergeProps = (stateProps: any, dispatchProps: any, ownProps: any) => {
-    return {
-        address: {
-            get: stateProps.address,
-            set: dispatchProps.address,
-        },
-        city: {
-            get: stateProps.city,
-            set: dispatchProps.city,
-        },
-        state: {
-            get: stateProps.state,
-            set: dispatchProps.state,
-        },
-        zipcode: {
-            get: stateProps.zipcode,
-            set: dispatchProps.zipcode,
-        },
-        ...ownProps,
-    }
+    return (
+        <Box>
+            <MaterialHeader text={"Address"}/>
+            <Grid className={"address-form-container"} container justify={"center"} spacing={8}>
+                <Grid item xs={6}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <FormField required
+                                       label={"Address"}
+                                       schema={Yup.string().required()}
+                                       value={address}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormField required
+                                       label={"City"}
+                                       schema={Yup.string().required()}
+                                       value={city}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormField required
+                                       label={"State"}
+                                       schema={Yup.string().required()}
+                                       value={state}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormField required
+                                       label={"Zipcode"}
+                                       schema={Yup.string().required()}
+                                       value={zipcode}/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={"map"} elevation={3}>
+                        <iframe title={"Google Address Map"} frameBorder="0" src={query} allowFullScreen/>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Box>
+    );
 }
-
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AddressForm);
