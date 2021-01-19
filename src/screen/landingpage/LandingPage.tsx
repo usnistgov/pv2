@@ -1,5 +1,5 @@
 import React from "react";
-import './LandingPage.scss'
+import './LandingPage.scss';
 import {useHistory} from "react-router-dom";
 import Button from "../../components/Button/Button";
 import LandingImage from '../../assets/images/landing-image.png';
@@ -9,7 +9,7 @@ const LandingPage = () => {
   const history = useHistory();
 
   return (
-    <>
+    <div data-testid="landing-page">
       <Header />
       <div className="landing-page-wrapper">
         <div className="landing-content"> 
@@ -25,7 +25,7 @@ const LandingPage = () => {
           <img src={LandingImage} alt={"landing page"} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
