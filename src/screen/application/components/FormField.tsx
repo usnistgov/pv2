@@ -1,76 +1,82 @@
-import {Component} from "react";
+import {ReactElement, useState} from "react";
+
 import {InputAdornment, TextField} from "@material-ui/core";
 import {InputProps as StandardInputProps} from "@material-ui/core/Input/Input";
+
 import {ReduxGetSet} from "../Utils";
 
-interface ComponentProps<T> {
+
+export interface FormFieldProps<T> {
+    // Label to display in TextField.
     label: string;
+
+    // Yup schema to validate input against.
     schema: any;
+
+    // The redux value to get and set.
     value: ReduxGetSet<T>;
+
+    // Displays required asterisk if true.
     required?: boolean;
+
+    // The type for the input field. Default is text.
     type?: string;
+
+    // Text to display at the beginning of the input field.
     startAdornment?: string;
+
+    // Text ot display at the end of the input field.
     endAdornment?: string;
 }
 
-interface State {
-    error: boolean;
-    message: string[];
-}
+/*
+ * FormField is a convenience wrapper around the Material-UI TextField. It handles
+ * input validation and errors dynamically as the user types, and assigns input
+ * directly to the provided redux store object if valid.
+ */
+export default function FormField<T>(props: FormFieldProps<T>): ReactElement {
+    // Error state
+    const [hasError, setHasError] = useState(false);
+    const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
-class FormField<T> extends Component<ComponentProps<T>, State> {
-    constructor(props: ComponentProps<T>) {
-        super(props);
-
-        this.state = {
-            error: false,
-            message: [],
-        }
-    }
-
-    render() {
-        return (
-            <TextField fullWidth
-                       type={this.props.type}
-                       required={this.props.required}
-                       error={this.state.error}
-                       helperText={this.state.message}
-                       label={this.props.label}
-                       defaultValue={this.props.value.get()}
-                       variant={"filled"}
-                       onChange={(event) => {
-                           this.props.schema.validate(event.target.value)
-                               .finally(() => {
-                                   this.props.value.set(this.props.schema.cast(event.target.value));
-                                   this.setState({
-                                       error: false,
-                                       message: [],
-                                   });
-                               })
-                               .catch((schemaError: { errors: any; }) => {
-                                    this.setState({
-                                        error: true,
-                                        message: schemaError.errors,
-                                    });
-                               });
-                       }}
-                       InputProps={this.getInputProps()}
-            />
-        );
-    }
-
-    getInputProps(): StandardInputProps {
+    /*
+     * Returns the start or end adornments based on the props.
+     */
+    function getInputProps(): StandardInputProps {
         let inputProps: StandardInputProps = {};
 
-        if (this.props.startAdornment !== undefined) {
-            inputProps['startAdornment'] = <InputAdornment position={"start"}>{this.props.startAdornment}</InputAdornment>
+        if (props.startAdornment !== undefined) {
+            inputProps['startAdornment'] = <InputAdornment position={"start"}>{props.startAdornment}</InputAdornment>
         }
-        if (this.props.endAdornment !== undefined) {
-            inputProps['endAdornment'] = <InputAdornment position={"end"}>{this.props.endAdornment}</InputAdornment>
+        if (props.endAdornment !== undefined) {
+            inputProps['endAdornment'] = <InputAdornment position={"end"}>{props.endAdornment}</InputAdornment>
         }
 
         return inputProps;
     }
-}
 
-export default FormField;
+    return (
+        <TextField fullWidth
+                   type={props.type}
+                   required={props.required}
+                   error={hasError}
+                   helperText={errorMessages}
+                   label={props.label}
+                   defaultValue={props.value.get()}
+                   variant={"filled"}
+                   onChange={(event) => {
+                       props.schema.validate(event.target.value)
+                           .finally(() => {
+                               props.value.set(props.schema.cast(event.target.value));
+                               setHasError(false);
+                               setErrorMessages([]);
+                           })
+                           .catch((schemaError: { errors: any; }) => {
+                               setHasError(true);
+                               setErrorMessages(schemaError.errors);
+                           });
+                   }}
+                   InputProps={getInputProps()}
+        />
+    );
+}

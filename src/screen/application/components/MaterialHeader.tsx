@@ -1,17 +1,22 @@
-import {Component} from "react";
+import {ReactElement} from "react";
+
 import {Box} from "@material-ui/core";
+
 import "./MaterialHeader.css"
 
-export interface Props {
+
+export interface MaterialHeaderProps {
+    // The text to be displayed in this header.
     text: string;
 }
 
-export default class MaterialHeader extends Component<Props, never> {
-    render() {
-        return (
-            <Box className={"material-header"}>
-                <h1>{this.props.text}</h1>
-            </Box>
-        );
-    }
+/*
+ * A large header with a colored underline in a material design like way.
+ */
+export default function MaterialHeader({text}: MaterialHeaderProps): ReactElement {
+    return (
+        <Box className={"material-header"}>
+            <h1>{text}</h1>
+        </Box>
+    );
 }

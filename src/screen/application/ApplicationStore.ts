@@ -1,15 +1,15 @@
-import {configureStore, Slice} from "@reduxjs/toolkit";
-import {activeStepSlice} from "./components/StepperNavReducer";
+import {configureStore} from "@reduxjs/toolkit";
 import {addressSlice, citySlice, stateSlice, zipcodeSlice} from "./pages/AddressFormReducer";
 import {
     annualConsumptionSlice,
     electricalCompanyNameSlice,
-    monthlyFlatRateChargeSlice,
     electricUnitPriceSlice,
     excessGenerationUnitPriceSlice,
-    pvGridConnectionRateSlice,
-    netMeteringFeedTariffSlice
+    monthlyFlatRateChargeSlice,
+    netMeteringFeedTariffSlice,
+    pvGridConnectionRateSlice
 } from "./pages/ElectricalRateFormReducer";
+import {activeStepSlice} from "./components/StepperNav";
 
 export const rootStore = configureStore({
     reducer: {
