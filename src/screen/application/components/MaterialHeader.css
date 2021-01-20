@@ -1,0 +1,12 @@
+.material-header {
+  margin: 32px;
+  font-size: 18pt;
+  border-bottom: #66bb6a;
+  border-bottom-style: solid;
+  text-align: center;
+}
+.material-header h1 {
+  margin-bottom: 8px;
+}
+
+/*# sourceMappingURL=MaterialHeader.css.map */
