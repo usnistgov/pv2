@@ -2,7 +2,7 @@ import {ReactElement} from "react";
 
 import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
-import {ReduxGetSet} from "../Utils";
+import {ReduxGetSet} from "../../Utils";
 
 import "./FormSelect.css";
 

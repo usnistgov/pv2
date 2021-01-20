@@ -3,9 +3,9 @@ import {ReactElement} from "react";
 import {Box, Grid, Paper} from "@material-ui/core";
 import * as Yup from 'yup';
 
-import MaterialHeader from "../components/MaterialHeader";
-import FormField from "../components/FormField";
-import {useReduxGetSet, createStringSlice} from "../Utils";
+import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
+import FormField from "../../components/FormField/FormField";
+import {useReduxGetSet, createStringSlice} from "../../Utils";
 
 import "./AddressForm.css"
 

@@ -6,7 +6,7 @@ import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createSlice} from "@reduxjs/toolkit";
-import {RootState} from "../ApplicationStore";
+import {RootState} from "../../ApplicationStore";
 
 import "./StepperNav.css"
 

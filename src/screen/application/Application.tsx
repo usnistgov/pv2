@@ -3,12 +3,12 @@ import React, {ReactElement} from "react";
 import {Provider} from 'react-redux';
 import {Container, createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 
-import StepperNav from "./components/StepperNav";
-import StepperPage from "./components/StepperPage";
-import SrecForm from "./pages/SrecForm";
-import SolarSystemForm from "./pages/SolarSystemForm";
-import ElectricalRateForm from "./pages/ElectricalRateForm";
-import AddressForm from "./pages/AddressForm";
+import StepperNav from "./components/StepperNav/StepperNav";
+import StepperPage from "./components/StepperPage/StepperPage";
+import SrecForm from "./pages/SrecForm/SrecForm";
+import SolarSystemForm from "./pages/SolarSystemForm/SolarSystemForm";
+import ElectricalRateForm from "./pages/ElectricalRateForm/ElectricalRateForm";
+import AddressForm from "./pages/AddressForm/AddressForm";
 import {rootStore} from "./ApplicationStore";
 
 
