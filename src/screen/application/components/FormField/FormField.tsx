@@ -3,7 +3,7 @@ import {ReactElement, useState} from "react";
 import {InputAdornment, TextField} from "@material-ui/core";
 import {InputProps as StandardInputProps} from "@material-ui/core/Input/Input";
 
-import {ReduxGetSet} from "../Utils";
+import {ReduxGetSet} from "../../Utils";
 
 
 export interface FormFieldProps<T> {
