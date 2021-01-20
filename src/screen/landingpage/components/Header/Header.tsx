@@ -1,6 +1,6 @@
 import React from "react";
 import './Header.scss';
-import NISTLogo from '../../assets/images/NIST-logo.jpg';
+import NISTLogo from '../../../../assets/images/NIST-logo.jpg';
 
 const Header = () => {
   return (

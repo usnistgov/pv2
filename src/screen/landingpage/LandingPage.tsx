@@ -1,9 +1,9 @@
 import React from "react";
 import './LandingPage.scss';
 import {useHistory} from "react-router-dom";
-import Button from "../../components/Button/Button";
+import Button from "./components/Button/Button";
 import LandingImage from '../../assets/images/landing-image.png';
-import Header from "../../components/Header/Header";
+import Header from "./components/Header/Header";
 
 const LandingPage = () => {
   const history = useHistory();
