@@ -1,9 +1,15 @@
 $breakpoint-tablet: 768px;
-$button-color: #5CA3A1;
-$dark-button-color: #29706E;
 $off-white: #EFEFEF;
 
-$material-light-green: #13D2C7;
+$primary: #66bb6a;
+$primary-light: #98ee99;
+$primary-dark: #338a3e;
+$primary-contrast: #000000;
+
+$secondary: #1565c0;
+$secondary-light: #5e92f3;
+$secondary-dark: #003c8f;
+$secondary-contrast: #ffffff;
 
 body {
   margin: 0;
@@ -12,8 +18,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  background-color: $off-white;
 }
 
 code {
