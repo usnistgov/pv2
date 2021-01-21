@@ -2,7 +2,6 @@ import React from "react";
 import './LandingPage.scss';
 import {useHistory} from "react-router-dom";
 import Button from "./components/Button/Button";
-import LandingImage from '../../assets/images/landing-image.png';
 import Header from "./components/Header/Header";
 
 const LandingPage = () => {
@@ -22,7 +21,7 @@ const LandingPage = () => {
           <Button text={"Try it out!"} onClick={() => history.push("/application")}/>
         </div>
         <div className="landing-image">
-          <img src={LandingImage} alt={"landing page"} />
+          <img src={""} alt={"landing page"} />
         </div>
       </div>
     </div>
