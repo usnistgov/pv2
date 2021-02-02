@@ -9,6 +9,7 @@ import FormField from "../../components/FormField/FormField";
 import { createNumberSlice, createStringSlice, useReduxGetSet } from "../../Utils";
 import FormSelect from "../../components/FormSelect/FormSelect";
 import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
+import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
 
 // Redux string slices
 export const [
@@ -156,7 +157,7 @@ export default function SolarSystemForm(): ReactElement {
                     endAdornment={"kWh"}
                     type={"number"}/>
                 <CollapseContainer text={"Advanced"}>
-                    <div className={"advanced-box"}>
+                    <AdvancedBox>
                         <FormField
                             label={"Panel Lifetime"}
                             schema={Yup.number().required()}
@@ -175,7 +176,7 @@ export default function SolarSystemForm(): ReactElement {
                             value={degradationRate}
                             endAdornment={"%"}
                             type={"number"}/>
-                    </div>
+                    </AdvancedBox>
                 </CollapseContainer>
             </Box>
             <MaterialHeader text={"Solar PV System Costs"}/>
@@ -199,7 +200,7 @@ export default function SolarSystemForm(): ReactElement {
                     startAdornment={"$"}
                     type={"number"}/>
                 <CollapseContainer text="Advanced">
-                    <div className={"advanced-box"}>
+                    <AdvancedBox>
                         <FormField 
                             label={"Inverter Replacement Costs"}
                             schema={Yup.number().required()}
@@ -212,7 +213,7 @@ export default function SolarSystemForm(): ReactElement {
                             value={annualMaintenanceCosts}
                             startAdornment={"$"}
                             type={"number"}/>
-                    </div>
+                    </AdvancedBox>
                 </CollapseContainer>
             </Box>
             <MaterialHeader text={"Purchasing Details"}/>
@@ -225,7 +226,7 @@ export default function SolarSystemForm(): ReactElement {
                         "No"
                     ]}/>
                 <CollapseContainer text="Advanced">
-                    <div className={"advanced-box"}>
+                    <AdvancedBox>
                         <FormSelect
                             label={"Loan or Cash Purchase"}
                             value={loanOrCash}
@@ -251,13 +252,13 @@ export default function SolarSystemForm(): ReactElement {
                             value={monthlyPayment}
                             startAdornment={"$"}
                             type={"number"}/>
-                    </div>
+                    </AdvancedBox>
                 </CollapseContainer>
             </Box>
             <MaterialHeader text={"Analysis Assumptions"}/>
             <Box className={"solar-system-form-container"}>
                 <CollapseContainer text="Advanced">
-                    <div className={"advanced-box"}>
+                    <AdvancedBox>
                         <FormField 
                             label={"Study Period"}
                             schema={Yup.number().required()}
@@ -283,7 +284,7 @@ export default function SolarSystemForm(): ReactElement {
                                 "Remaining Production Value",
                                 "Linear Depreciation"
                             ]}/>
-                    </div>
+                    </AdvancedBox>
                 </CollapseContainer>
             </Box>
         </Box>
