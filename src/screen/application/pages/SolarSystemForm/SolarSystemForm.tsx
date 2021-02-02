@@ -127,8 +127,9 @@ export default function SolarSystemForm(): ReactElement {
     const generalInflation = useReduxGetSet<number>("generalInflation", generalInflationSlice);
 
     return (
-        <Box>
+        <Box className={"solar-system-page-container"}>
             <MaterialHeader text={"Solar PV System Information"}/>
+            Fill in the system and cost information for the Solar PV quote you received.
             <Box className={"solar-system-form-container"}>
                 <FormField
                     label={"System Panel Brand and Type"}
