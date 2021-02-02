@@ -8,7 +8,7 @@ import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormField from "../../components/FormField/FormField";
 import { createNumberSlice, createStringSlice, useReduxGetSet } from "../../Utils";
 import FormSelect from "../../components/FormSelect/FormSelect";
-import AdvancedHeader from "../../components/AdvancedHeader/AdvancedHeader";
+import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
 
 // Redux string slices
 export const [
@@ -155,27 +155,28 @@ export default function SolarSystemForm(): ReactElement {
                     value={estimatedAnnualProduction}
                     endAdornment={"kWh"}
                     type={"number"}/>
-                <AdvancedHeader/>
-                <div className={"advanced-box"}>
-                    <FormField
-                        label={"Panel Lifetime"}
-                        schema={Yup.number().required()}
-                        value={panelLifetime}
-                        endAdornment={"Years"}
-                        type={"number"}/>
-                    <FormField
-                        label={"Inverter Lifetime"}
-                        schema={Yup.number().required()}
-                        value={inverterLifetime}
-                        endAdornment={"Years"}
-                        type={"number"}/>
-                    <FormField
-                        label={"System Efficiency Degradation Rate (Year-Over-Year %)"}
-                        schema={Yup.number().required()}
-                        value={degradationRate}
-                        endAdornment={"%"}
-                        type={"number"}/>
-                </div>
+                <CollapseContainer text={"Advanced"}>
+                    <div className={"advanced-box"}>
+                        <FormField
+                            label={"Panel Lifetime"}
+                            schema={Yup.number().required()}
+                            value={panelLifetime}
+                            endAdornment={"Years"}
+                            type={"number"}/>
+                        <FormField
+                            label={"Inverter Lifetime"}
+                            schema={Yup.number().required()}
+                            value={inverterLifetime}
+                            endAdornment={"Years"}
+                            type={"number"}/>
+                        <FormField
+                            label={"System Efficiency Degradation Rate (Year-Over-Year %)"}
+                            schema={Yup.number().required()}
+                            value={degradationRate}
+                            endAdornment={"%"}
+                            type={"number"}/>
+                    </div>
+                </CollapseContainer>
             </Box>
             <MaterialHeader text={"Solar PV System Costs"}/>
             <Box className={"solar-system-form-container"}>
@@ -197,21 +198,22 @@ export default function SolarSystemForm(): ReactElement {
                     value={stateOrLocalTaxCreditsOrGrantsOrRebates}
                     startAdornment={"$"}
                     type={"number"}/>
-                <AdvancedHeader/>
-                <div className={"advanced-box"}>
-                    <FormField 
-                        label={"Inverter Replacement Costs"}
-                        schema={Yup.number().required()}
-                        value={inverterReplacementCosts}
-                        startAdornment={"$"}
-                        type={"number"}/>
-                    <FormField 
-                        label={"Annual Maintenance Costs"}
-                        schema={Yup.number().required()}
-                        value={annualMaintenanceCosts}
-                        startAdornment={"$"}
-                        type={"number"}/>
-                </div>
+                <CollapseContainer text="Advanced">
+                    <div className={"advanced-box"}>
+                        <FormField 
+                            label={"Inverter Replacement Costs"}
+                            schema={Yup.number().required()}
+                            value={inverterReplacementCosts}
+                            startAdornment={"$"}
+                            type={"number"}/>
+                        <FormField 
+                            label={"Annual Maintenance Costs"}
+                            schema={Yup.number().required()}
+                            value={annualMaintenanceCosts}
+                            startAdornment={"$"}
+                            type={"number"}/>
+                    </div>
+                </CollapseContainer>
             </Box>
             <MaterialHeader text={"Purchasing Details"}/>
             <Box className={"solar-system-form-container"}>
@@ -222,65 +224,67 @@ export default function SolarSystemForm(): ReactElement {
                         "Yes",
                         "No"
                     ]}/>
-                <AdvancedHeader/>
-                <div className={"advanced-box"}>
-                    <FormSelect
-                        label={"Loan or Cash Purchase"}
-                        value={loanOrCash}
-                        options={[
-                            "Loan",
-                            "Cash"
-                        ]}/>
-                    <FormField 
-                        label={"Loan Down Payment"}
-                        schema={Yup.number().required()}
-                        value={downPayment}
-                        endAdornment={"%"}
-                        type={"number"}/>
-                    <FormField 
-                        label={"Loan Nominal Interest Rate"}
-                        schema={Yup.number().required()}
-                        value={nominalInterestRate}
-                        endAdornment={"%"}
-                        type={"number"}/>
-                    <FormField 
-                        label={"Monthly Loan Payment"}
-                        schema={Yup.number().required()}
-                        value={monthlyPayment}
-                        startAdornment={"$"}
-                        type={"number"}/>
-                </div>
+                <CollapseContainer text="Advanced">
+                    <div className={"advanced-box"}>
+                        <FormSelect
+                            label={"Loan or Cash Purchase"}
+                            value={loanOrCash}
+                            options={[
+                                "Loan",
+                                "Cash"
+                            ]}/>
+                        <FormField 
+                            label={"Loan Down Payment"}
+                            schema={Yup.number().required()}
+                            value={downPayment}
+                            endAdornment={"%"}
+                            type={"number"}/>
+                        <FormField 
+                            label={"Loan Nominal Interest Rate"}
+                            schema={Yup.number().required()}
+                            value={nominalInterestRate}
+                            endAdornment={"%"}
+                            type={"number"}/>
+                        <FormField 
+                            label={"Monthly Loan Payment"}
+                            schema={Yup.number().required()}
+                            value={monthlyPayment}
+                            startAdornment={"$"}
+                            type={"number"}/>
+                    </div>
+                </CollapseContainer>
             </Box>
             <MaterialHeader text={"Analysis Assumptions"}/>
             <Box className={"solar-system-form-container"}>
-                <AdvancedHeader/>
-                <div className={"advanced-box"}>
-                    <FormField 
-                        label={"Study Period"}
-                        schema={Yup.number().required()}
-                        value={studyPeriod}
-                        endAdornment={"Years"}
-                        type={"number"}/>
-                    <FormField 
-                        label={"Real Discount Rate"}
-                        schema={Yup.number().required()}
-                        value={realDiscountRate}
-                        endAdornment={"%"}
-                        type={"number"}/>
-                    <FormField 
-                        label={"General Inflation Rate"}
-                        schema={Yup.number().required()}
-                        value={generalInflation}
-                        endAdornment={"%"}
-                        type={"number"}/>
-                    <FormSelect
-                        label={"Residual Value Approach"}
-                        value={residualValueApproach}
-                        options={[
-                            "Remaining Production Value",
-                            "Linear Depreciation"
-                        ]}/>
-                </div>
+                <CollapseContainer text="Advanced">
+                    <div className={"advanced-box"}>
+                        <FormField 
+                            label={"Study Period"}
+                            schema={Yup.number().required()}
+                            value={studyPeriod}
+                            endAdornment={"Years"}
+                            type={"number"}/>
+                        <FormField 
+                            label={"Real Discount Rate"}
+                            schema={Yup.number().required()}
+                            value={realDiscountRate}
+                            endAdornment={"%"}
+                            type={"number"}/>
+                        <FormField 
+                            label={"General Inflation Rate"}
+                            schema={Yup.number().required()}
+                            value={generalInflation}
+                            endAdornment={"%"}
+                            type={"number"}/>
+                        <FormSelect
+                            label={"Residual Value Approach"}
+                            value={residualValueApproach}
+                            options={[
+                                "Remaining Production Value",
+                                "Linear Depreciation"
+                            ]}/>
+                    </div>
+                </CollapseContainer>
             </Box>
         </Box>
     );
