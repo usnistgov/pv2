@@ -7,6 +7,7 @@ import StepperNav from "./components/StepperNav/StepperNav";
 import StepperPage from "./components/StepperPage/StepperPage";
 import SrecForm from "./pages/SrecForm/SrecForm";
 import SolarSystemForm from "./pages/SolarSystemForm/SolarSystemForm";
+import CostsForm from "./pages/CostsForm/CostsForm";
 import ElectricalRateForm from "./pages/ElectricalRateForm/ElectricalRateForm";
 import AddressForm from "./pages/AddressForm/AddressForm";
 import {rootStore} from "./ApplicationStore";
@@ -46,6 +47,9 @@ export default function Application(): ReactElement {
                         </StepperPage>
                         <StepperPage label={"Solar PV System"}>
                             <SolarSystemForm/>
+                        </StepperPage>
+                        <StepperPage label={"Solar PV Costs"}>
+                            <CostsForm/>
                         </StepperPage>
                         <StepperPage label={"SREC"}>
                             <SrecForm/>
