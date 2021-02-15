@@ -9,15 +9,21 @@ import FormSelect from "../../components/FormSelect/FormSelect";
 import {createNumberSlice, createStringSlice, useReduxGetSet} from "../../Utils";
 
 import "./ElectricalRateForm.css"
+import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
+import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
 
 
 // Redux string slices
 export const [
     electricalCompanyNameSlice,
-    netMeteringFeedTariffSlice
+    netMeteringFeedTariffSlice,
+    viewAnnualEscalationRatesSlice,
+    escalationRatesSameOrDiffSlice
 ] = [
     "electricalCompanyName",
-    "netMeteringFeedTariff"
+    "netMeteringFeedTariff",
+    "viewAnnualEscalationRates",
+    "escalationRatesSameOrDiff"
 ].map(createStringSlice);
 
 // Redux number slices
@@ -47,6 +53,10 @@ export default function ElectricalRateForm(): ReactElement {
     const electricUnitPrice = useReduxGetSet<number>("electricUnitPrice", electricUnitPriceSlice);
     const excessGenerationUnitPrice = useReduxGetSet<number>("excessGenerationUnitPrice", excessGenerationUnitPriceSlice);
     const pvGridConnectionRate = useReduxGetSet<number>("pvGridConnectionRate", pvGridConnectionRateSlice);
+
+    // Advanced
+    const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", viewAnnualEscalationRatesSlice);
+    const escalationRatesSameOrDiff = useReduxGetSet<string>("escalationRatesSameOrDiff", escalationRatesSameOrDiffSlice);
 
     return (
         <Box>
@@ -86,6 +96,22 @@ export default function ElectricalRateForm(): ReactElement {
                            value={pvGridConnectionRate}
                            endAdornment={"$/kWH"}
                            type={"number"}/>
+                <CollapseContainer text={"Advanced"}>
+                    <AdvancedBox>
+                        <FormSelect label={"Do you want to view/edit annual escalation rates?"}
+                            value={viewAnnualEscalationRates}
+                            options={[
+                                "Yes",
+                                "No"
+                            ]}/>
+                        <FormSelect label={"Are escalation rates the same for consumption and production?"}
+                            value={escalationRatesSameOrDiff}
+                            options={[
+                                "Same",
+                                "Different"
+                            ]}/>
+                    </AdvancedBox>
+                </CollapseContainer>
             </Box>
         </Box>
     );
