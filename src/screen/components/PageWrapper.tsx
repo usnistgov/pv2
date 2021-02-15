@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import Script from "react-load-script";
+import Header from "./Header/Header";
 
 interface PageWrapperProps {
 }
@@ -20,6 +21,7 @@ const PageWrapper = (props: PropsWithChildren<PageWrapperProps>) => {
         onLoad={() => undefined}
       />
       <link rel="stylesheet" type="text/css" href={"https://pages.nist.gov/nist-header-footer/css/nist-combined.css"} />
+      <Header />
       {props.children}
     </div>
   );

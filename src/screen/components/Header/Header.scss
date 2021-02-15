@@ -1,0 +1,28 @@
+@import "../../../main.scss";
+
+.header-wrapper {
+  width: 100%;
+
+  hr {
+    margin: 0em;
+    width: 100%;
+    border: 1px solid $primary;
+  }
+
+  .options {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    .menu-option {
+      padding: 0.5em 1em;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline solid black 1px;
+      }
+    }
+  }
+}
