@@ -10,6 +10,7 @@ import SolarSystemForm from "./pages/SolarSystemForm/SolarSystemForm";
 import CostsForm from "./pages/CostsForm/CostsForm";
 import ElectricalRateForm from "./pages/ElectricalRateForm/ElectricalRateForm";
 import AddressForm from "./pages/AddressForm/AddressForm";
+import PageWrapper from "../components/PageWrapper";
 import {rootStore} from "./ApplicationStore";
 
 
@@ -35,28 +36,30 @@ export const theme = createMuiTheme({
  */
 export default function Application(): ReactElement {
     return (
-        <Provider store={rootStore}>
-            <MuiThemeProvider theme={theme}>
-                <Container>
-                    <StepperNav>
-                        <StepperPage label={"Address"}>
-                            <AddressForm/>
-                        </StepperPage>
-                        <StepperPage label={"Electrical Rate"}>
-                            <ElectricalRateForm/>
-                        </StepperPage>
-                        <StepperPage label={"Solar PV System"}>
-                            <SolarSystemForm/>
-                        </StepperPage>
-                        <StepperPage label={"Solar PV Costs"}>
-                            <CostsForm/>
-                        </StepperPage>
-                        <StepperPage label={"SREC"}>
-                            <SrecForm/>
-                        </StepperPage>
-                    </StepperNav>
-                </Container>
-            </MuiThemeProvider>
-        </Provider>
+        <PageWrapper>
+            <Provider store={rootStore}>
+                <MuiThemeProvider theme={theme}>
+                    <Container>
+                        <StepperNav>
+                            <StepperPage label={"Address"}>
+                                <AddressForm/>
+                            </StepperPage>
+                            <StepperPage label={"Electrical Rate"}>
+                                <ElectricalRateForm/>
+                            </StepperPage>
+                            <StepperPage label={"Solar PV System"}>
+                                <SolarSystemForm/>
+                            </StepperPage>
+                            <StepperPage label={"Solar PV Costs"}>
+                                <CostsForm/>
+                            </StepperPage>
+                            <StepperPage label={"SREC"}>
+                                <SrecForm/>
+                            </StepperPage>
+                        </StepperNav>
+                    </Container>
+                </MuiThemeProvider>
+            </Provider>
+        </PageWrapper>
     );
 }
