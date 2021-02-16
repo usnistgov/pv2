@@ -73,6 +73,7 @@ export default function StepperNav({children}: StepperNavProps): ReactElement {
                             <MdiIcon path={isFirstStep ? mdiClose : mdiArrowLeft}
                                      size={1}/>
                         }
+                        data-testid={"back-button"}
                     >
                         {isFirstStep ? "Cancel" : "Back"}
                     </Button>
@@ -91,6 +92,7 @@ export default function StepperNav({children}: StepperNavProps): ReactElement {
                                 <MdiIcon path={isLastStep ? mdiCheck : mdiArrowRight}
                                          size={1}/>
                             }
+                            data-testid={"forward-button"}
                     >
                         {isLastStep ? "Finish" : "Next"}
                     </Button>

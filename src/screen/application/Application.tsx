@@ -39,7 +39,7 @@ export default function Application(): ReactElement {
         <PageWrapper>
             <Provider store={rootStore}>
                 <MuiThemeProvider theme={theme}>
-                    <Container>
+                    <Container data-testid="application-page">
                         <StepperNav>
                             <StepperPage label={"Address"}>
                                 <AddressForm/>
