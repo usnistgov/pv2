@@ -10,7 +10,7 @@ import Application from "./screen/application/Application";
 import {Provider} from "react-redux";
 import {rootStore} from "./screen/application/ApplicationStore";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
-import Results from "./results/Results";
+import Results from "./screen/results/Results";
 
 const theme = createMuiTheme({
     palette: {
