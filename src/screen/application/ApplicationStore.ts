@@ -1,36 +1,16 @@
-import {configureStore} from "@reduxjs/toolkit";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 
-import {activeStepSlice} from "./components/StepperNav/StepperNav";
-import {addressSlice, citySlice, stateSlice, zipcodeSlice} from "./pages/AddressForm/AddressForm";
-import {
-    annualConsumptionSlice,
-    electricalCompanyNameSlice,
-    electricUnitPriceSlice,
-    excessGenerationUnitPriceSlice,
-    monthlyFlatRateChargeSlice,
-    netMeteringFeedTariffSlice,
-    pvGridConnectionRateSlice
-} from "./pages/ElectricalRateForm/ElectricalRateForm";
+/**
+ * Creates a new empty redux store and creates an injectReducer function to add reducers dynamically.
+ */
+export function initializeStore() {
+    const store: any = configureStore({reducer: {}});
 
-export const rootStore = configureStore({
-    reducer: {
-        activeStep: activeStepSlice.reducer,
+    store.asyncReducers = {};
+    store.injectReducer = (key: string, reducer: any) => {
+        store.asyncReducers[key] = reducer;
+        store.replaceReducer(combineReducers({...store.asyncReducers}))
+    };
 
-        // Address Form
-        address: addressSlice.reducer,
-        city: citySlice.reducer,
-        state: stateSlice.reducer,
-        zipcode: zipcodeSlice.reducer,
-
-        //Electrical Rate Information Form
-        electricalCompanyName: electricalCompanyNameSlice.reducer,
-        annualConsumption: annualConsumptionSlice.reducer,
-        monthlyFlatRateCharge: monthlyFlatRateChargeSlice.reducer,
-        electricUnitPrice: electricUnitPriceSlice.reducer,
-        netMeteringFeedTariff: netMeteringFeedTariffSlice.reducer,
-        excessGenerationUnitPrice: excessGenerationUnitPriceSlice.reducer,
-        pvGridConnectionRate: pvGridConnectionRateSlice.reducer,
-    }
-})
-
-export type RootState = ReturnType<typeof rootStore.getState>
+    return store;
+}

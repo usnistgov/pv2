@@ -5,14 +5,10 @@ import * as Yup from 'yup';
 
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormField from "../../components/FormField/FormField";
-import {useReduxGetSet, createStringSlice} from "../../Utils";
+import {useReduxGetSet} from "../../Utils";
 
 import "./AddressForm.css"
 
-
-// Redux slices
-export const [addressSlice, citySlice, stateSlice, zipcodeSlice] =
-    ['address', 'city', 'state', 'zipcode'].map(createStringSlice)
 
 /*
  * The AddressForm component is the first page of the application form that lets user fill
@@ -20,10 +16,10 @@ export const [addressSlice, citySlice, stateSlice, zipcodeSlice] =
  */
 export default function AddressForm(): ReactElement {
     // Redux state values
-    const address = useReduxGetSet<string>("address", addressSlice);
-    const city = useReduxGetSet<string>("city", citySlice);
-    const state = useReduxGetSet<string>("state", stateSlice);
-    const zipcode = useReduxGetSet<string>("zipcode", zipcodeSlice);
+    const address = useReduxGetSet<string>("address", "");
+    const city = useReduxGetSet<string>("city", "");
+    const state = useReduxGetSet<string>("state", "");
+    const zipcode = useReduxGetSet<string>("zipcode", "");
 
     // Google Maps embedded url query
     const query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${address.get()}, ${city.get()} ,${state.get()} ${zipcode.get()}`;

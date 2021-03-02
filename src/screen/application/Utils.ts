@@ -1,7 +1,5 @@
 import {createSlice, Slice} from "@reduxjs/toolkit";
-import {useDispatch, useSelector} from "react-redux";
-
-import {RootState} from "./ApplicationStore";
+import {useDispatch, useSelector, useStore} from "react-redux";
 
 
 /**
@@ -20,20 +18,19 @@ export function createDefaultSlice<T>(name: string, initialValue: T): Slice {
     })
 }
 
-// Convenience function to create default string slices.
-export const createStringSlice = (name: string) => createDefaultSlice(name, "");
-
-// Convenience function to create default number slices.
-export const createNumberSlice = (name: string) => createDefaultSlice(name, 0);
-
 /**
  * React hook to create a ReduxGetSet for the given slice and variable name.
  *
  * @param name The name of the variable in the slice.
- * @param slice The slice to get the actions from.
+ * @param initialValue The initial value of the redux slice.
  */
-export function useReduxGetSet<T>(name: string, slice: Slice): ReduxGetSet<T> {
-    const value = useSelector((state: RootState) => state[name as keyof RootState]);
+export function useReduxGetSet<T>(name: string, initialValue: T): ReduxGetSet<T> {
+    const store: any = useStore();
+    const slice = createDefaultSlice(name, initialValue);
+
+    store.injectReducer(name, slice.reducer)
+
+    const value = useSelector((state: any) => state[name]);
     const dispatch = useDispatch();
 
     return {

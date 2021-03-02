@@ -6,94 +6,35 @@ import * as Yup from "yup";
 
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormField from "../../components/FormField/FormField";
-import { createNumberSlice, createStringSlice, useReduxGetSet } from "../../Utils";
+import {useReduxGetSet} from "../../Utils";
 import FormSelect from "../../components/FormSelect/FormSelect";
 import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
 import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
 
-// Redux string slices
-export const [
-    // PV System Costs
-
-    // Purchasing Details
-    ppaOptionSlice,
-    loanOrCashSlice,
-
-    // Analysis Assumptions
-    residualValueApproachSlice
-] = [
-    // PV System Costs
-
-    // Purchasing Details
-    "ppaOption",
-    "loanOrCash",
-    
-    // Analysis Assumptions
-    "residualValueApproach"
-    
-].map(createStringSlice)
-
-// Redux number slices
-export const [
-    // PV System Costs
-    totalInstallationCostsSlice,
-    federalTaxCreditSlice,
-    stateOrLocalTaxCreditsOrGrantsOrRebatesSlice,
-    inverterReplacementCostsSlice,
-    annualMaintenanceCostsSlice,
-
-    // Purchasing Details
-    downPaymentSlice,
-    nominalInterestRateSlice,
-    monthlyPaymentSlice,
-
-    // Analysis Assumptions
-    studyPeriodSlice,
-    realDiscountRateSlice,
-    generalInflationSlice
-] = [
-    // PV System Costs
-    "totalInstallationCosts",
-    "federalTaxCredit",
-    "stateOrLocalTaxCreditsOrGrantsOrRebates",
-    "inverterReplacementCosts",
-    "annualMaintenanceCosts",
-
-    // Purchasing Details
-    "downPayment",
-    "nominalInterestRate",
-    "monthlyPayment",
-
-    // Analysis Assumptions
-    "studyPeriod",
-    "realDiscountRate",
-    "generalInflation"
-].map(createNumberSlice)
-
 export default function CostsForm(): ReactElement {
     // Redux state objects
     // PV System Costs
-    const totalInstallationCosts = useReduxGetSet<number>("totalInstallationCosts", totalInstallationCostsSlice);
-    const federalTaxCredit = useReduxGetSet<number>("federalTaxCredit", federalTaxCreditSlice);
-    const stateOrLocalTaxCreditsOrGrantsOrRebates = useReduxGetSet<number>("stateOrLocalTaxCreditsOrGrantsOrRebates", stateOrLocalTaxCreditsOrGrantsOrRebatesSlice);
+    const totalInstallationCosts = useReduxGetSet<number>("totalInstallationCosts", 0);
+    const federalTaxCredit = useReduxGetSet<number>("federalTaxCredit", 0);
+    const stateOrLocalTaxCreditsOrGrantsOrRebates = useReduxGetSet<number>("stateOrLocalTaxCreditsOrGrantsOrRebates", 0);
     // Advanced
-    const inverterReplacementCosts = useReduxGetSet<number>("inverterReplacementCosts", inverterReplacementCostsSlice);
-    const annualMaintenanceCosts = useReduxGetSet<number>("annualMaintenanceCosts", annualMaintenanceCostsSlice);
+    const inverterReplacementCosts = useReduxGetSet<number>("inverterReplacementCosts", 0);
+    const annualMaintenanceCosts = useReduxGetSet<number>("annualMaintenanceCosts", 0);
 
     // Purchasing Details
-    const ppaOption = useReduxGetSet<string>("ppaOption", ppaOptionSlice);
+    const ppaOption = useReduxGetSet<string>("ppaOption", "");
     // Advanced
-    const loanOrCash = useReduxGetSet<string>("loanOrCash", loanOrCashSlice);
-    const downPayment = useReduxGetSet<number>("downPayment", downPaymentSlice);
-    const nominalInterestRate = useReduxGetSet<number>("nominalInterestRate", nominalInterestRateSlice);
-    const monthlyPayment = useReduxGetSet<number>("monthlyPayment", monthlyPaymentSlice);
+    const loanOrCash = useReduxGetSet<string>("loanOrCash", "");
+    const downPayment = useReduxGetSet<number>("downPayment", 0);
+    const nominalInterestRate = useReduxGetSet<number>("nominalInterestRate", 0);
+    const monthlyPayment = useReduxGetSet<number>("monthlyPayment", 0);
 
     // Analysis Assumptions
     // Advanced
-    const residualValueApproach = useReduxGetSet<string>("residualValueApproach", residualValueApproachSlice);
-    const studyPeriod = useReduxGetSet<number>("studyPeriod", studyPeriodSlice);
-    const realDiscountRate = useReduxGetSet<number>("realDiscountRate", realDiscountRateSlice);
-    const generalInflation = useReduxGetSet<number>("generalInflation", generalInflationSlice);
+    const residualValueApproach = useReduxGetSet<string>("residualValueApproach", "");
+    const studyPeriod = useReduxGetSet<number>("studyPeriod", 0);
+    const realDiscountRate = useReduxGetSet<number>("realDiscountRate", 0);
+    const generalInflation = useReduxGetSet<number>("generalInflation", 0);
 
     return (
         <Box className={"costs-page-container"}>

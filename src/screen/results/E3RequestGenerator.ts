@@ -1,6 +1,4 @@
-import {RootState} from "../application/ApplicationStore";
-
-export function createE3Request(store: RootState) {
+export function createE3Request(store: any) {
     return [{
         analysisObject: {
             analysisType: "LCC",

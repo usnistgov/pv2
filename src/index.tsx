@@ -7,7 +7,7 @@ import './main.scss';
 import LandingPage from "./screen/landingpage/LandingPage";
 import Application from "./screen/application/Application";
 import {Provider} from "react-redux";
-import {rootStore} from "./screen/application/ApplicationStore";
+import {initializeStore} from "./screen/application/ApplicationStore";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import Results from "./screen/results/Results";
 
@@ -28,8 +28,10 @@ const theme = createMuiTheme({
     }
 })
 
+const store = initializeStore();
+
 ReactDOM.render(
-    <Provider store={rootStore}>
+    <Provider store={store}>
         <MuiThemeProvider theme={theme}>
             <BrowserRouter>
                 <Switch>
