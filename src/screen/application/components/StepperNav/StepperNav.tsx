@@ -33,13 +33,16 @@ const {increment, decrement} = activeStepSlice.actions;
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
     children: ReactElement[];
+
+    // Event handler for when finish button is clicked.
+    onFinish?: () => void;
 }
 
 /*
  * Creates a navigation component that steps between the provided list of child pages with
  * a next and back button.
  */
-export default function StepperNav({children}: StepperNavProps): ReactElement {
+export default function StepperNav({children, onFinish}: StepperNavProps): ReactElement {
     // React-router history object
     const history = useHistory();
 
@@ -85,8 +88,7 @@ export default function StepperNav({children}: StepperNavProps): ReactElement {
                 <Grid item xs={1}>
                     <Button variant="contained"
                             color="primary"
-                            onClick={isLastStep ? () => {
-                            } : () => dispatch(increment())}
+                            onClick={isLastStep ? onFinish : () => dispatch(increment())}
                             endIcon={
                                 <MdiIcon path={isLastStep ? mdiCheck : mdiArrowRight}
                                          size={1}/>
