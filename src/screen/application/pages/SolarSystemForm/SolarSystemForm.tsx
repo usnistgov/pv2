@@ -6,50 +6,22 @@ import * as Yup from "yup";
 
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormField from "../../components/FormField/FormField";
-import { createNumberSlice, createStringSlice, useReduxGetSet } from "../../Utils";
+import {useReduxGetSet} from "../../Utils";
 import FormSelect from "../../components/FormSelect/FormSelect";
 import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
 import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
 
-// Redux string slices
-export const [
-    // PV System Details
-    systemPanelBrandAndTypeSlice,
-    inverterTypeSlice,
-] = [
-    // PV System Details
-    "systemPanelBrandAndType",
-    "inverterType",
-].map(createStringSlice)
-
-// Redux number slices
-export const [
-    // PV System Information
-    totalSystemSizeSlice,
-    estimatedAnnualProductionSlice,
-    panelLifetimeSlice,
-    inverterLifetimeSlice,
-    degradationRateSlice,
-] = [
-     // PV System Information
-    "totalSystemSize",
-    "estimatedAnnualProduction",
-    "panelLifetime",
-    "inverterLifetime",
-    "degradationRate",
-].map(createNumberSlice)
-
 export default function SolarSystemForm(): ReactElement {
     // Redux state objects
     // PV System Information
-    const systemPanelBrandAndType = useReduxGetSet<string>("systemPanelBrandAndType", systemPanelBrandAndTypeSlice);
-    const inverterType = useReduxGetSet<string>("inverterType", inverterTypeSlice);
-    const totalSystemSize = useReduxGetSet<number>("totalSystemSize", totalSystemSizeSlice);
-    const estimatedAnnualProduction = useReduxGetSet<number>("estimatedAnnualProduction", estimatedAnnualProductionSlice);
+    const systemPanelBrandAndType = useReduxGetSet<string>("systemPanelBrandAndType", "");
+    const inverterType = useReduxGetSet<string>("inverterType", "");
+    const totalSystemSize = useReduxGetSet<number>("totalSystemSize", 0);
+    const estimatedAnnualProduction = useReduxGetSet<number>("estimatedAnnualProduction", 0);
     // Advanced
-    const panelLifetime = useReduxGetSet<number>("panelLifetime", panelLifetimeSlice);
-    const inverterLifetime = useReduxGetSet<number>("inverterLifetime", inverterLifetimeSlice);
-    const degradationRate = useReduxGetSet<number>("degradationRate", degradationRateSlice);
+    const panelLifetime = useReduxGetSet<number>("panelLifetime", 0);
+    const inverterLifetime = useReduxGetSet<number>("inverterLifetime", 0);
+    const degradationRate = useReduxGetSet<number>("degradationRate", 0);
 
     return (
         <Box className={"solar-system-page-container"}>

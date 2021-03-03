@@ -1,7 +1,5 @@
-import React, {ReactElement} from "react";
-
-import {Provider} from 'react-redux';
-import {Container, createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import React, {ReactElement, useState} from "react";
+import {Container} from "@material-ui/core";
 
 import StepperNav from "./components/StepperNav/StepperNav";
 import StepperPage from "./components/StepperPage/StepperPage";
@@ -11,55 +9,37 @@ import CostsForm from "./pages/CostsForm/CostsForm";
 import ElectricalRateForm from "./pages/ElectricalRateForm/ElectricalRateForm";
 import AddressForm from "./pages/AddressForm/AddressForm";
 import PageWrapper from "../components/PageWrapper";
-import {rootStore} from "./ApplicationStore";
-
-
-export const theme = createMuiTheme({
-    palette: {
-        primary: {
-            light: '#98ee99',
-            main: '#66bb6a',
-            dark: '#338a3e',
-            contrastText: '#000000',
-        },
-        secondary: {
-            light: '#5e92f3',
-            main: '#1565c0',
-            dark: '#003c8f',
-            contrastText: '#ffffff',
-        }
-    }
-})
+import {Redirect} from "react-router-dom";
 
 /*
  * Wrapper component for the main form application.
  */
 export default function Application(): ReactElement {
+    const [finished, setFinished] = useState(false);
+
     return (
-        <PageWrapper>
-            <Provider store={rootStore}>
-                <MuiThemeProvider theme={theme}>
-                    <Container data-testid="application-page">
-                        <StepperNav>
-                            <StepperPage label={"Address"}>
-                                <AddressForm/>
-                            </StepperPage>
-                            <StepperPage label={"Electrical Rate"}>
-                                <ElectricalRateForm/>
-                            </StepperPage>
-                            <StepperPage label={"Solar PV System"}>
-                                <SolarSystemForm/>
-                            </StepperPage>
-                            <StepperPage label={"Solar PV Costs"}>
-                                <CostsForm/>
-                            </StepperPage>
-                            <StepperPage label={"SREC"}>
-                                <SrecForm/>
-                            </StepperPage>
-                        </StepperNav>
-                    </Container>
-                </MuiThemeProvider>
-            </Provider>
-        </PageWrapper>
+        finished
+            ? <Redirect to={"/results"}/>
+            : <PageWrapper>
+                <Container>
+                    <StepperNav onFinish={() => setFinished(true)}>
+                        <StepperPage label={"Address"}>
+                            <AddressForm/>
+                        </StepperPage>
+                        <StepperPage label={"Electrical Rate"}>
+                            <ElectricalRateForm/>
+                        </StepperPage>
+                        <StepperPage label={"Solar PV System"}>
+                            <SolarSystemForm/>
+                        </StepperPage>
+                        <StepperPage label={"Solar PV Costs"}>
+                            <CostsForm/>
+                        </StepperPage>
+                        <StepperPage label={"SREC"}>
+                            <SrecForm/>
+                        </StepperPage>
+                    </StepperNav>
+                </Container>
+            </PageWrapper>
     );
 }

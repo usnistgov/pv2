@@ -1,51 +1,30 @@
-import {Children, ReactElement} from 'react';
+import {Children, ReactElement, useState} from 'react';
 
 import {Box, Button, Grid, Step, StepLabel, Stepper} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react"
 import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
 import {useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {createSlice} from "@reduxjs/toolkit";
-import {RootState} from "../../ApplicationStore";
 
 import "./StepperNav.css"
-
-
-/*
- * Stores the current page the StepperNav component is displaying.
- */
-export const activeStepSlice = createSlice({
-    name: 'activeStep',
-    initialState: 0,
-    reducers: {
-        increment: state => state + 1,
-        decrement: state => state - 1,
-    }
-})
-
-/*
- * Actions for activeStep:
- * - increment: increase the activeStep by one
- * - decrement: decrease the activeStep by one
- */
-const {increment, decrement} = activeStepSlice.actions;
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
     children: ReactElement[];
+
+    // Event handler for when finish button is clicked.
+    onFinish?: () => void;
 }
 
 /*
  * Creates a navigation component that steps between the provided list of child pages with
  * a next and back button.
  */
-export default function StepperNav({children}: StepperNavProps): ReactElement {
+export default function StepperNav({children, onFinish}: StepperNavProps): ReactElement {
     // React-router history object
     const history = useHistory();
 
     // Redux objects
-    const activeStep = useSelector((state: RootState) => state.activeStep);
-    const dispatch = useDispatch();
+    const [activeStep, setActiveSet] = useState(0);
 
     // Boolean values for view generation
     const isFirstStep: boolean = activeStep <= 0;
@@ -68,7 +47,7 @@ export default function StepperNav({children}: StepperNavProps): ReactElement {
             <Grid className={"grid-container"} container justify={'center'} alignItems={'center'} spacing={0}>
                 <Grid item xs={1}>
                     <Button
-                        onClick={isFirstStep ? history.goBack : () => dispatch(decrement())}
+                        onClick={isFirstStep ? history.goBack : () => setActiveSet(activeStep - 1)}
                         startIcon={
                             <MdiIcon path={isFirstStep ? mdiClose : mdiArrowLeft}
                                      size={1}/>
@@ -86,8 +65,7 @@ export default function StepperNav({children}: StepperNavProps): ReactElement {
                 <Grid item xs={1}>
                     <Button variant="contained"
                             color="primary"
-                            onClick={isLastStep ? () => {
-                            } : () => dispatch(increment())}
+                            onClick={isLastStep ? onFinish : () => setActiveSet(activeStep + 1)}
                             endIcon={
                                 <MdiIcon path={isLastStep ? mdiCheck : mdiArrowRight}
                                          size={1}/>

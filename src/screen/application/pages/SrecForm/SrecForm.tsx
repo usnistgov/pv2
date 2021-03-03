@@ -5,17 +5,10 @@ import {Box} from "@material-ui/core";
 
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../components/FormSelect/FormSelect";
-import { createStringSlice, useReduxGetSet } from "../../Utils";
-
-// Redux string slices
-export const [
-    srecPaymentsSlice
-] = [
-    "srecPayments"
-].map(createStringSlice)
+import {useReduxGetSet} from "../../Utils";
 
 export default function SrecForm(): ReactElement {
-    const srecPayments = useReduxGetSet<string>("srecPayments", srecPaymentsSlice);
+    const srecPayments = useReduxGetSet<string>("srecPayments", "");
 
     return (
         <Box className={"srec-page-container"}>

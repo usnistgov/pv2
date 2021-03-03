@@ -6,57 +6,28 @@ import * as Yup from "yup";
 import FormField from "../../components/FormField/FormField";
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../components/FormSelect/FormSelect";
-import {createNumberSlice, createStringSlice, useReduxGetSet} from "../../Utils";
+import {useReduxGetSet} from "../../Utils";
 
 import "./ElectricalRateForm.css"
 import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
 import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
-
-
-// Redux string slices
-export const [
-    electricalCompanyNameSlice,
-    netMeteringFeedTariffSlice,
-    viewAnnualEscalationRatesSlice,
-    escalationRatesSameOrDiffSlice
-] = [
-    "electricalCompanyName",
-    "netMeteringFeedTariff",
-    "viewAnnualEscalationRates",
-    "escalationRatesSameOrDiff"
-].map(createStringSlice);
-
-// Redux number slices
-export const [
-    annualConsumptionSlice,
-    monthlyFlatRateChargeSlice,
-    electricUnitPriceSlice,
-    excessGenerationUnitPriceSlice,
-    pvGridConnectionRateSlice
-] = [
-    "annualConsumption",
-    "monthlyFlatRateCharge",
-    "electricUnitPrice",
-    "excessGenerationUnitPrice",
-    "pvGridConnectionRate"
-].map(createNumberSlice);
 
 /*
  * Displays the electrical rate form.
  */
 export default function ElectricalRateForm(): ReactElement {
     // Redux state objects
-    const electricalCompanyName = useReduxGetSet<string>("electricalCompanyName", electricalCompanyNameSlice);
-    const netMeteringFeedTariff = useReduxGetSet<string>("netMeteringFeedTariff", netMeteringFeedTariffSlice);
-    const annualConsumption = useReduxGetSet<number>("annualConsumption", annualConsumptionSlice);
-    const monthlyFlatRateCharge = useReduxGetSet<number>("monthlyFlatRateCharge", monthlyFlatRateChargeSlice);
-    const electricUnitPrice = useReduxGetSet<number>("electricUnitPrice", electricUnitPriceSlice);
-    const excessGenerationUnitPrice = useReduxGetSet<number>("excessGenerationUnitPrice", excessGenerationUnitPriceSlice);
-    const pvGridConnectionRate = useReduxGetSet<number>("pvGridConnectionRate", pvGridConnectionRateSlice);
+    const electricalCompanyName = useReduxGetSet<string>("electricalCompanyName", "");
+    const netMeteringFeedTariff = useReduxGetSet<string>("netMeteringFeedTariff", "");
+    const annualConsumption = useReduxGetSet<number>("annualConsumption", 0);
+    const monthlyFlatRateCharge = useReduxGetSet<number>("monthlyFlatRateCharge", 0);
+    const electricUnitPrice = useReduxGetSet<number>("electricUnitPrice", 0);
+    const excessGenerationUnitPrice = useReduxGetSet<number>("excessGenerationUnitPrice", 0);
+    const pvGridConnectionRate = useReduxGetSet<number>("pvGridConnectionRate", 0);
 
     // Advanced
-    const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", viewAnnualEscalationRatesSlice);
-    const escalationRatesSameOrDiff = useReduxGetSet<string>("escalationRatesSameOrDiff", escalationRatesSameOrDiffSlice);
+    const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", "");
+    const escalationRatesSameOrDiff = useReduxGetSet<string>("escalationRatesSameOrDiff", "");
 
     return (
         <Box>

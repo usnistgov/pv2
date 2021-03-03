@@ -3,26 +3,50 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import './main.scss';
-import reportWebVitals from './reportWebVitals';
 
-import LandingPage from "./screen/LandingPage/LandingPage";
+import LandingPage from "./screen/landingpage/LandingPage";
 import Application from "./screen/application/Application";
+import {Provider} from "react-redux";
+import {initializeStore} from "./screen/application/ApplicationStore";
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import Results from "./screen/results/Results";
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            light: '#98ee99',
+            main: '#66bb6a',
+            dark: '#338a3e',
+            contrastText: '#000000',
+        },
+        secondary: {
+            light: '#5e92f3',
+            main: '#1565c0',
+            dark: '#003c8f',
+            contrastText: '#ffffff',
+        }
+    }
+})
+
+const store = initializeStore();
 
 ReactDOM.render(
-    <BrowserRouter>
-        <Switch>
-            <Route path={"/application"}>
-                <Application/>
-            </Route>
-            <Route path={"/"}>
-                <LandingPage/>
-            </Route>
-        </Switch>
-    </BrowserRouter>,
+    <Provider store={store}>
+        <MuiThemeProvider theme={theme}>
+            <BrowserRouter>
+                <Switch>
+                    <Route path={"/results"}>
+                        <Results/>
+                    </Route>
+                    <Route path={"/application"}>
+                        <Application/>
+                    </Route>
+                    <Route path={"/"}>
+                        <LandingPage/>
+                    </Route>
+                </Switch>
+            </BrowserRouter>
+        </MuiThemeProvider>
+    </Provider>,
     document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
