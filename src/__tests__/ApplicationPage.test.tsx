@@ -10,6 +10,7 @@ import FormField from '../screen/application/components/FormField/FormField'
 import ElectricalRateForm from '../screen/application/pages/ElectricalRateForm/ElectricalRateForm'
 import FormSelect from '../screen/application/components/FormSelect/FormSelect'
 import AdvancedBox from '../screen/application/components/AdvancedBox/AdvancedBox'
+import SolarSystemForm from '../screen/application/pages/SolarSystemForm/SolarSystemForm'
 
 console.warn = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -190,3 +191,76 @@ function renderElectricalRateInfo() {
   return mount(<Provider store={store}><ElectricalRateForm /></Provider>)
 }
 
+describe("<SolarSystemForm />", () => {
+  test('Solar System Form same as snapshot', async () => {
+    const wrapper = renderSolarSystemForm()
+    expect(wrapper).toMatchSnapshot()
+  })
+
+  test('Solar System Form has 6 inputs', async () => {
+    const wrapper = renderSolarSystemForm()
+    const formFields = wrapper.find(FormField)
+    expect(formFields).toHaveLength(6)
+  })
+
+  test('Solar System first input is System Panel Brand and Type', async () => {
+    const wrapper = renderSolarSystemForm()
+    const field = wrapper.find(FormField).at(0)
+    expect(field.prop('label')).toEqual('System Panel Brand and Type')
+  })
+
+  test('Solar System second input is Total System Size', async () => {
+    const wrapper = renderSolarSystemForm()
+    const field = wrapper.find(FormField).at(1)
+    expect(field.prop('label')).toEqual('Total System Size')
+  })
+
+  test('Solar System third input is Estimated Annual Production', async () => {
+    const wrapper = renderSolarSystemForm()
+    const field = wrapper.find(FormField).at(2)
+    expect(field.prop('label')).toEqual('Estimated Annual Production')
+  })
+
+  test('Solar System fourth input is Panel Lifetime', async () => {
+    const wrapper = renderSolarSystemForm()
+    const field = wrapper.find(FormField).at(3)
+    expect(field.prop('label')).toEqual('Panel Lifetime')
+  })
+
+  test('Solar System fifth input is Inverter Lifetime', async () => {
+    const wrapper = renderSolarSystemForm()
+    const field = wrapper.find(FormField).at(4)
+    expect(field.prop('label')).toEqual('Inverter Lifetime')
+  })
+
+  test('Solar System sixth input is System Efficiency Degradation Rate (Year-Over-Year %)', async () => {
+    const wrapper = renderSolarSystemForm()
+    const field = wrapper.find(FormField).at(5)
+    expect(field.prop('label')).toEqual('System Efficiency Degradation Rate (Year-Over-Year %)')
+  })
+
+  test('Solar System Form has 1 select', async () => {
+    const wrapper = renderSolarSystemForm()
+    const selects = wrapper.find(FormSelect)
+    expect(selects).toHaveLength(1)
+  })
+
+  test('Solar System third select is Inverter Type', async () => {
+    const wrapper = renderSolarSystemForm()
+    const select = wrapper.find(FormSelect).at(0)
+    expect(select.prop('label')).toEqual('Inverter Type')
+  })
+
+  test('Solar System has 1 advanced box', async () => {
+    const wrapper = renderSolarSystemForm()
+    const box = wrapper.find(AdvancedBox)
+    expect(box).toHaveLength(1)
+  })
+})
+
+function renderSolarSystemForm() {
+  const mockStore = configureStore()
+  const store: any = mockStore({ placeholder: 0 })
+  store.injectReducer = () => { return undefined }
+  return mount(<Provider store={store}><SolarSystemForm /></Provider>)
+}
