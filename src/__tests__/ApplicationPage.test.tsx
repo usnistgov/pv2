@@ -12,6 +12,7 @@ import FormSelect from '../screen/application/components/FormSelect/FormSelect'
 import AdvancedBox from '../screen/application/components/AdvancedBox/AdvancedBox'
 import SolarSystemForm from '../screen/application/pages/SolarSystemForm/SolarSystemForm'
 import CostsForm from '../screen/application/pages/CostsForm/CostsForm'
+import SrecForm from '../screen/application/pages/SrecForm/SrecForm'
 
 console.warn = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -380,4 +381,30 @@ function renderCostsForm() {
   const store: any = mockStore({ placeholder: 0 })
   store.injectReducer = () => { return undefined }
   return mount(<Provider store={store}><CostsForm /></Provider>)
+}
+
+describe("<SrecForm />", () => {
+  test('Srec Form same as snapshot', async () => {
+    const wrapper = renderSrecForm()
+    expect(wrapper).toMatchSnapshot()
+  })
+
+  test('Srec Form has 1 select', async () => {
+    const wrapper = renderSrecForm()
+    const selects = wrapper.find(FormSelect)
+    expect(selects).toHaveLength(1)
+  })
+
+  test('Srec Form select is SREC Payments', async () => {
+    const wrapper = renderSrecForm()
+    const select = wrapper.find(FormSelect).at(0)
+    expect(select.prop('label')).toEqual('SREC Payments')
+  })
+})
+
+function renderSrecForm() {
+  const mockStore = configureStore()
+  const store: any = mockStore({ placeholder: 0 })
+  store.injectReducer = () => { return undefined }
+  return mount(<Provider store={store}><SrecForm /></Provider>)
 }
