@@ -4,7 +4,8 @@ import ApplicationPage from '../screen/application/Application'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import '../setupTests'
-import { mount } from 'enzyme'
+import { mount, shallow } from 'enzyme'
+import StepperNav from '../screen/application/components/StepperNav/StepperNav'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom') as any,
@@ -13,6 +14,13 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn(),
   }),
 }));
+
+describe("<StepperNav />", () => {
+  test('StepperNav containes two buttons', async () => {
+    const wrapper = mount(<StepperNav><div/><div/></StepperNav>)
+    expect(wrapper.find("button")).toHaveLength(2)
+  })
+})
 
 describe("<ApplicationPage />", () => {
   test('application page should have stepper nav', async () => {
