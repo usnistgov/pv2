@@ -7,7 +7,11 @@ import { mount } from 'enzyme'
 import StepperNav from '../screen/application/components/StepperNav/StepperNav'
 import AddressForm from '../screen/application/pages/AddressForm/AddressForm'
 import FormField from '../screen/application/components/FormField/FormField'
+import ElectricalRateForm from '../screen/application/pages/ElectricalRateForm/ElectricalRateForm'
+import FormSelect from '../screen/application/components/FormSelect/FormSelect'
+import AdvancedBox from '../screen/application/components/AdvancedBox/AdvancedBox'
 
+console.warn = jest.fn()
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom') as any,
   __esModule: true,
@@ -44,6 +48,13 @@ describe("<ApplicationPage />", () => {
     expect(wrapper.find(AddressForm)).toHaveLength(1)
   })
 })
+
+function renderApplicationPage() {
+  const mockStore = configureStore()
+  const store: any = mockStore({ placeholder: 0 })
+  store.injectReducer = () => { return undefined }
+  return mount(<Provider store={store}><ApplicationPage /></Provider>)
+}
 
 describe("<AddressForm />", () => {
   test('Address Form same as snapshot', async () => {
@@ -93,9 +104,89 @@ function renderAddressForm() {
   return mount(<Provider store={store}><AddressForm /></Provider>)
 }
 
-function renderApplicationPage() {
+describe("<ElectricalRateForm />", () => {
+  test('Electrical Rate Form same as snapshot', async () => {
+    const wrapper = renderElectricalRateInfo()
+    expect(wrapper).toMatchSnapshot()
+  })
+
+  test('Electrical Rate Form has 6 inputs', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const formFields = wrapper.find(FormField)
+    expect(formFields).toHaveLength(6)
+  })
+
+  test('Electrical Rate first input is Electricity Utility Company', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const field = wrapper.find(FormField).at(0)
+    expect(field.prop('label')).toEqual('Electricity Utility Company')
+  })
+
+  test('Electrical Rate second input is Annual Consumption', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const field = wrapper.find(FormField).at(1)
+    expect(field.prop('label')).toEqual('Annual Consumption')
+  })
+
+  test('Electrical Rate third input is Monthly Flat Rate Charge', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const field = wrapper.find(FormField).at(2)
+    expect(field.prop('label')).toEqual('Monthly Flat Rate Charge')
+  })
+
+  test('Electrical Rate fourth input is Electricity Unit Price', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const field = wrapper.find(FormField).at(3)
+    expect(field.prop('label')).toEqual('Electricity Unit Price')
+  })
+
+  test('Electrical Rate fifth input is Excess Generation / FiT Unit Price', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const field = wrapper.find(FormField).at(4)
+    expect(field.prop('label')).toEqual('Excess Generation / FiT Unit Price')
+  })
+
+  test('Electrical Rate sixth input is PV Grid Connection Rate (Monthly)', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const field = wrapper.find(FormField).at(5)
+    expect(field.prop('label')).toEqual('PV Grid Connection Rate (Monthly)')
+  })
+
+  test('Electrical Rate Form has 3 selects', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const selects = wrapper.find(FormSelect)
+    expect(selects).toHaveLength(3)
+  })
+
+  test('Electrical Rate first select is Net Metering or Feed In Tariff (FiT)', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const select = wrapper.find(FormSelect).at(0)
+    expect(select.prop('label')).toEqual('Net Metering or Feed In Tariff (FiT)')
+  })
+
+  test('Electrical Rate second select is "Do you want to view/edit annual escalation rates?"', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const select = wrapper.find(FormSelect).at(1)
+    expect(select.prop('label')).toEqual('Do you want to view/edit annual escalation rates?')
+  })
+
+  test('Electrical Rate third select is "Are escalation rates the same for consumption and production?"', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const select = wrapper.find(FormSelect).at(2)
+    expect(select.prop('label')).toEqual('Are escalation rates the same for consumption and production?')
+  })
+
+  test('Electrical Rate has 1 advanced box', async () => {
+    const wrapper = renderElectricalRateInfo()
+    const box = wrapper.find(AdvancedBox)
+    expect(box).toHaveLength(1)
+  })
+})
+
+function renderElectricalRateInfo() {
   const mockStore = configureStore()
   const store: any = mockStore({ placeholder: 0 })
   store.injectReducer = () => { return undefined }
-  return mount(<Provider store={store}><ApplicationPage /></Provider>)
+  return mount(<Provider store={store}><ElectricalRateForm /></Provider>)
 }
+
