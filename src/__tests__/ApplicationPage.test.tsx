@@ -16,6 +16,11 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe("<StepperNav />", () => {
+  test('StepperNav containes same as snapshot', async () => {
+    const wrapper = mount(<StepperNav><div/><div/></StepperNav>)
+    expect(wrapper).toMatchSnapshot()
+  })
+
   test('StepperNav containes two buttons', async () => {
     const wrapper = mount(<StepperNav><div/><div/></StepperNav>)
     expect(wrapper.find("button")).toHaveLength(2)
@@ -23,6 +28,11 @@ describe("<StepperNav />", () => {
 })
 
 describe("<ApplicationPage />", () => {
+  test('application page same as snapshot', async () => {
+    const wrapper = renderApplicationPage()
+    expect(wrapper).toMatchSnapshot()
+  })
+
   test('application page should have stepper nav', async () => {
     const wrapper = renderApplicationPage()
     expect(wrapper.find("StepperNav")).toHaveLength(1)

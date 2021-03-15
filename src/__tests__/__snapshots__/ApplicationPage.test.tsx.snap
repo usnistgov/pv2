@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ApplicationPage /> application page same as snapshot 1`] = `ReactWrapper {}`;
+
+exports[`<StepperNav /> StepperNav containes same as snapshot 1`] = `ReactWrapper {}`;

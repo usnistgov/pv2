@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> button same as snapshot 1`] = `ShallowWrapper {}`;
+
+exports[`<LandingPage /> landing page same as snapshot 1`] = `ShallowWrapper {}`;
