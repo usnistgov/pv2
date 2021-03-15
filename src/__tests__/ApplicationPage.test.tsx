@@ -4,6 +4,7 @@ import ApplicationPage from '../screen/application/Application'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import '../setupTests'
+import { mount } from 'enzyme'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom') as any,
@@ -14,26 +15,15 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe("<ApplicationPage />", () => {
-  
-
-  test('application page should have back button that leads to landing page', async () => {
-    const { findByTestId } = renderApplicationPage()
-
-    const applicationPage = await findByTestId("application-page")
-    const backButton = await findByTestId("back-button")
-
-    expect(applicationPage).toContainElement(backButton)
-    // fireEvent.click(backButton)
-
-    //TODO: check if on landing page
+  test('application page should have stepper nav', async () => {
+    const wrapper = renderApplicationPage()
+    expect(wrapper.find("StepperNav")).toHaveLength(1)
   })
-
-  
 })
 
 function renderApplicationPage() {
   const mockStore = configureStore()
   const store: any = mockStore({ placeholder: 0 })
   store.injectReducer = () => { return undefined }
-  return render(<Provider store={store}><ApplicationPage /></Provider>)
+  return mount(<Provider store={store}><ApplicationPage /></Provider>)
 }
