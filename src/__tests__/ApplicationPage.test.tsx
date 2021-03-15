@@ -11,6 +11,7 @@ import ElectricalRateForm from '../screen/application/pages/ElectricalRateForm/E
 import FormSelect from '../screen/application/components/FormSelect/FormSelect'
 import AdvancedBox from '../screen/application/components/AdvancedBox/AdvancedBox'
 import SolarSystemForm from '../screen/application/pages/SolarSystemForm/SolarSystemForm'
+import CostsForm from '../screen/application/pages/CostsForm/CostsForm'
 
 console.warn = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -245,7 +246,7 @@ describe("<SolarSystemForm />", () => {
     expect(selects).toHaveLength(1)
   })
 
-  test('Solar System third select is Inverter Type', async () => {
+  test('Solar System select is Inverter Type', async () => {
     const wrapper = renderSolarSystemForm()
     const select = wrapper.find(FormSelect).at(0)
     expect(select.prop('label')).toEqual('Inverter Type')
@@ -263,4 +264,120 @@ function renderSolarSystemForm() {
   const store: any = mockStore({ placeholder: 0 })
   store.injectReducer = () => { return undefined }
   return mount(<Provider store={store}><SolarSystemForm /></Provider>)
+}
+
+describe("<CostsForm />", () => {
+  test('Costs Form same as snapshot', async () => {
+    const wrapper = renderCostsForm()
+    expect(wrapper).toMatchSnapshot()
+  })
+
+  test('Costs Form has 6 inputs', async () => {
+    const wrapper = renderCostsForm()
+    const formFields = wrapper.find(FormField)
+    expect(formFields).toHaveLength(11)
+  })
+
+  test('Costs Form first input is Total Installation Costs', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(0)
+    expect(field.prop('label')).toEqual('Total Installation Costs')
+  })
+
+  test('Costs Form second input is Federal Tax Credit - 26% of Total Installed Cost', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(1)
+    expect(field.prop('label')).toEqual('Federal Tax Credit - 26% of Total Installed Cost')
+  })
+
+  test('Costs Form third input is State/Local Tax Credits/Grants/Rebates', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(2)
+    expect(field.prop('label')).toEqual('State/Local Tax Credits/Grants/Rebates')
+  })
+
+  test('Costs Form fourth input is Inverter Replacement Costs', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(3)
+    expect(field.prop('label')).toEqual('Inverter Replacement Costs')
+  })
+
+  test('Costs Form fifth input is Annual Maintenance Costs', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(4)
+    expect(field.prop('label')).toEqual('Annual Maintenance Costs')
+  })
+
+  test('Costs Form sixth input is Loan Down Payment', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(5)
+    expect(field.prop('label')).toEqual('Loan Down Payment')
+  })
+
+  test('Costs Form seventh input is Loan Nominal Interest Rate', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(6)
+    expect(field.prop('label')).toEqual('Loan Nominal Interest Rate')
+  })
+
+  test('Costs Form eigth input is Monthly Loan Payment', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(7)
+    expect(field.prop('label')).toEqual('Monthly Loan Payment')
+  })
+
+  test('Costs Form ninth input is Study Period', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(8)
+    expect(field.prop('label')).toEqual('Study Period')
+  })
+
+  test('Costs Form tenth input is Real Discount Rate', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(9)
+    expect(field.prop('label')).toEqual('Real Discount Rate')
+  })
+
+  test('Costs Form eleventh input is General Inflation Rate', async () => {
+    const wrapper = renderCostsForm()
+    const field = wrapper.find(FormField).at(10)
+    expect(field.prop('label')).toEqual('General Inflation Rate')
+  })
+
+  test('Costs Form has 3 selects', async () => {
+    const wrapper = renderCostsForm()
+    const selects = wrapper.find(FormSelect)
+    expect(selects).toHaveLength(3)
+  })
+
+  test('Costs Form first select is Include a Power Purchase Agreement Option?', async () => {
+    const wrapper = renderCostsForm()
+    const select = wrapper.find(FormSelect).at(0)
+    expect(select.prop('label')).toEqual('Include a Power Purchase Agreement Option?')
+  })
+
+  test('Costs Form second select is Loan or Cash Purchase', async () => {
+    const wrapper = renderCostsForm()
+    const select = wrapper.find(FormSelect).at(1)
+    expect(select.prop('label')).toEqual('Loan or Cash Purchase')
+  })
+
+  test('Costs Form third select is Residual Value Approach', async () => {
+    const wrapper = renderCostsForm()
+    const select = wrapper.find(FormSelect).at(2)
+    expect(select.prop('label')).toEqual('Residual Value Approach')
+  })
+
+  test('Costs Form has 3 advanced boxes', async () => {
+    const wrapper = renderCostsForm()
+    const boxes = wrapper.find(AdvancedBox)
+    expect(boxes).toHaveLength(3)
+  })
+})
+
+function renderCostsForm() {
+  const mockStore = configureStore()
+  const store: any = mockStore({ placeholder: 0 })
+  store.injectReducer = () => { return undefined }
+  return mount(<Provider store={store}><CostsForm /></Provider>)
 }

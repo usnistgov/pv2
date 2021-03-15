@@ -4,6 +4,8 @@ exports[`<AddressForm /> Address Form same as snapshot 1`] = `ReactWrapper {}`;
 
 exports[`<ApplicationPage /> application page same as snapshot 1`] = `ReactWrapper {}`;
 
+exports[`<CostsForm /> Costs Form same as snapshot 1`] = `ReactWrapper {}`;
+
 exports[`<ElectricalRateForm /> Electrical Rate Form same as snapshot 1`] = `ReactWrapper {}`;
 
 exports[`<SolarSystemForm /> Solar System Form same as snapshot 1`] = `ReactWrapper {}`;
