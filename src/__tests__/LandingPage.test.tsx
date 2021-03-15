@@ -1,16 +1,20 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import LandingPage from '../screen/LandingPage/LandingPage'
-import '@testing-library/jest-dom'
+import { shallow } from 'enzyme'
+import '../setupTests'
 
 describe("<LandingPage />", () => {
   test('landing page should have button', async () => {
-    const { findByTestId } = renderLandingPage()
+    const wrapper = shallow(<LandingPage />)
+    expect(wrapper.find("Button")).toHaveLength(1)
 
-    const landingPage = await findByTestId("landing-page")
-    const button = await findByTestId("button")
+    // const { findByTestId } = renderLandingPage()
 
-    expect(landingPage).toContainElement(button)
+    // const landingPage = await findByTestId("landing-page")
+    // const button = await findByTestId("button")
+
+    // expect(landingPage).toContainElement(button)
   })
   
   test('landing page should have image', async () => {

@@ -1,7 +1,6 @@
 import React from 'react'
 import { fireEvent, getByTestId, render } from '@testing-library/react'
 import ApplicationPage from '../screen/application/Application'
-import '@testing-library/jest-dom'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 
@@ -27,6 +26,8 @@ describe("<ApplicationPage />", () => {
 
     //TODO: check if on landing page
   })
+
+  
 })
 
 function renderApplicationPage() {
