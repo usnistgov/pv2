@@ -16,6 +16,22 @@ import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
  * Displays the electrical rate form.
  */
 export default function ElectricalRateForm(): ReactElement {
+    // options for select
+    const netMeteringFeedTariffOptions = [
+        "Net Metering Tariff",
+        "Feed in Tariff (Gross Metering)"
+    ]
+
+    const viewAnnualEscalationRatesOptions = [
+        "Yes",
+        "No"
+    ]
+
+    const escalationRatesSameOrDiffOptions = [
+        "Same",
+        "Difference"
+    ]
+
     // Redux state objects
     const electricalCompanyName = useReduxGetSet<string>("electricalCompanyName", "");
     const netMeteringFeedTariff = useReduxGetSet<string>("netMeteringFeedTariff", "");
@@ -53,10 +69,8 @@ export default function ElectricalRateForm(): ReactElement {
                            type={"number"}/>
                 <FormSelect label={"Net Metering or Feed In Tariff (FiT)"}
                             value={netMeteringFeedTariff}
-                            options={[
-                                "Net Metering Tariff",
-                                "Feed in Tariff (Gross Metering)"
-                            ]}/>
+                            options={netMeteringFeedTariffOptions}
+                            />
                 <FormField label={"Excess Generation / FiT Unit Price"}
                            schema={Yup.number().required()}
                            value={excessGenerationUnitPrice}
@@ -71,16 +85,10 @@ export default function ElectricalRateForm(): ReactElement {
                     <AdvancedBox>
                         <FormSelect label={"Do you want to view/edit annual escalation rates?"}
                             value={viewAnnualEscalationRates}
-                            options={[
-                                "Yes",
-                                "No"
-                            ]}/>
+                            options={viewAnnualEscalationRatesOptions}/>
                         <FormSelect label={"Are escalation rates the same for consumption and production?"}
                             value={escalationRatesSameOrDiff}
-                            options={[
-                                "Same",
-                                "Different"
-                            ]}/>
+                            options={escalationRatesSameOrDiffOptions}/>
                     </AdvancedBox>
                 </CollapseContainer>
             </Box>
