@@ -12,6 +12,15 @@ describe("<LandingPage />", () => {
 
     expect(landingPage).toContainElement(button)
   })
+  
+  test('landing page should have image', async () => {
+    const { findByTestId } = renderLandingPage()
+
+    const landingPage = await findByTestId("landing-page")
+    const image = await findByTestId("landing-image")
+
+    expect(landingPage).toContainElement(image)
+  })
 })
 
 function renderLandingPage() {

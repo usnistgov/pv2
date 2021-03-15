@@ -21,25 +21,27 @@ export default function Application(): ReactElement {
         finished
             ? <Redirect to={"/results"}/>
             : <PageWrapper>
-                <Container>
-                    <StepperNav onFinish={() => setFinished(true)}>
-                        <StepperPage label={"Address"}>
-                            <AddressForm/>
-                        </StepperPage>
-                        <StepperPage label={"Electrical Rate"}>
-                            <ElectricalRateForm/>
-                        </StepperPage>
-                        <StepperPage label={"Solar PV System"}>
-                            <SolarSystemForm/>
-                        </StepperPage>
-                        <StepperPage label={"Solar PV Costs"}>
-                            <CostsForm/>
-                        </StepperPage>
-                        <StepperPage label={"SREC"}>
-                            <SrecForm/>
-                        </StepperPage>
-                    </StepperNav>
-                </Container>
+                <div data-testid="application-page">
+                    <Container>
+                        <StepperNav onFinish={() => setFinished(true)}>
+                            <StepperPage label={"Address"}>
+                                <AddressForm/>
+                            </StepperPage>
+                            <StepperPage label={"Electrical Rate"}>
+                                <ElectricalRateForm/>
+                            </StepperPage>
+                            <StepperPage label={"Solar PV System"}>
+                                <SolarSystemForm/>
+                            </StepperPage>
+                            <StepperPage label={"Solar PV Costs"}>
+                                <CostsForm/>
+                            </StepperPage>
+                            <StepperPage label={"SREC"}>
+                                <SrecForm/>
+                            </StepperPage>
+                        </StepperNav>
+                    </Container>
+                </div>
             </PageWrapper>
     );
 }

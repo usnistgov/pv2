@@ -22,7 +22,7 @@ const LandingPage = () => {
             <Button text={"Try it out!"} onClick={() => history.push("/application")}/>
           </div>
           <div className="landing-image">
-            <img src={""} alt={"landing page"} />
+            <img src={""} alt={"landing page"} data-testid="landing-image" />
           </div>
         </div>
       </div>
