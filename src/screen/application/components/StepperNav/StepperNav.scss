@@ -32,17 +32,19 @@
 
     .back-button {
       grid-column: 1;
-      grid-row: 2;
+      grid-row: 1;
+      margin-top: 2em;
     }
   
     .forward-button {
       grid-column: 2;
-      grid-row: 2;
+      grid-row: 1;
+      margin-top: 2em;
     }
 
     .stepper {
       grid-column: 1 / span 2;
-      grid-row: 1;
+      grid-row: 2;
       padding-bottom: 0.5em;
     }
   }
