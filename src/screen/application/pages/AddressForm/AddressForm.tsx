@@ -7,7 +7,7 @@ import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormField from "../../components/FormField/FormField";
 import {useReduxGetSet} from "../../Utils";
 
-import "./AddressForm.css"
+import "./AddressForm.scss"
 
 
 /*
@@ -27,8 +27,8 @@ export default function AddressForm(): ReactElement {
     return (
         <Box>
             <MaterialHeader text={"Address"}/>
-            <Grid className={"address-form-container"} container justify={"center"} spacing={8}>
-                <Grid item xs={6}>
+            <div className={"address-form-container"}>
+                <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <FormField required
@@ -55,13 +55,11 @@ export default function AddressForm(): ReactElement {
                                        value={zipcode}/>
                         </Grid>
                     </Grid>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={"map"} elevation={3}>
-                        <iframe title={"Google Address Map"} frameBorder="0" src={query} allowFullScreen/>
-                    </Paper>
-                </Grid>
-            </Grid>
+                </div>
+                <div className={"map"}>
+                    <iframe title={"Google Address Map"} frameBorder="0" src={query} allowFullScreen/>
+                </div>
+            </div>
         </Box>
     );
 }
