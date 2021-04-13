@@ -1,11 +1,11 @@
 import {Children, ReactElement, useState} from 'react';
 
-import {Box, Button, Grid, Step, StepLabel, Stepper} from "@material-ui/core";
+import {Box, Button, Step, StepLabel, Stepper} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react"
 import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
 import {useHistory} from "react-router-dom";
 
-import "./StepperNav.css"
+import "./StepperNav.scss"
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
@@ -44,38 +44,34 @@ export default function StepperNav({children, onFinish}: StepperNavProps): React
 
     return (
         <Box>
-            <Grid className={"grid-container"} container justify={'center'} alignItems={'center'} spacing={0}>
-                <Grid item xs={1}>
-                    <Button
-                        onClick={isFirstStep ? history.goBack : () => setActiveSet(activeStep - 1)}
-                        startIcon={
-                            <MdiIcon path={isFirstStep ? mdiClose : mdiArrowLeft}
-                                     size={1}/>
+            <div className={"grid-container"}>
+                <Button
+                    className={"back-button"}
+                    onClick={isFirstStep ? history.goBack : () => setActiveSet(activeStep - 1)}
+                    startIcon={
+                        <MdiIcon path={isFirstStep ? mdiClose : mdiArrowLeft}
+                                    size={1}/>
+                    }
+                    data-testid={"back-button"}
+                >
+                    {isFirstStep ? "Cancel" : "Back"}
+                </Button>
+                <Stepper className={"stepper"} activeStep={activeStep} alternativeLabel>
+                    {Children.map(children, createStepLabel)}
+                </Stepper>
+                <Button variant="contained"
+                        className={"forward-button"}
+                        color="primary"
+                        onClick={isLastStep ? onFinish : () => setActiveSet(activeStep + 1)}
+                        endIcon={
+                            <MdiIcon path={isLastStep ? mdiCheck : mdiArrowRight}
+                                        size={1}/>
                         }
-                        data-testid={"back-button"}
-                    >
-                        {isFirstStep ? "Cancel" : "Back"}
-                    </Button>
-                </Grid>
-                <Grid item xs={10}>
-                    <Stepper activeStep={activeStep} alternativeLabel>
-                        {Children.map(children, createStepLabel)}
-                    </Stepper>
-                </Grid>
-                <Grid item xs={1}>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={isLastStep ? onFinish : () => setActiveSet(activeStep + 1)}
-                            endIcon={
-                                <MdiIcon path={isLastStep ? mdiCheck : mdiArrowRight}
-                                         size={1}/>
-                            }
-                            data-testid={"forward-button"}
-                    >
-                        {isLastStep ? "Finish" : "Next"}
-                    </Button>
-                </Grid>
-            </Grid>
+                        data-testid={"forward-button"}
+                >
+                    {isLastStep ? "Finish" : "Next"}
+                </Button>
+            </div>
             {children[activeStep]}
         </Box>
     );

@@ -1,0 +1,49 @@
+@import '../../../../main.scss';
+
+.grid-container {
+  padding-left: 64px;
+  padding-right: 64px;
+  justify-items: center;
+  align-items: center;
+
+  display: grid;
+  grid-template-columns: min-content auto min-content;
+  grid-template-rows: none;
+
+  .back-button {
+    grid-column: 1;
+  }
+
+  .forward-button {
+    grid-column: 3;
+  }
+
+  .stepper {
+    grid-column: 2;
+    width: 100%;
+    padding: 2em 1em;
+  }
+}
+
+@media screen and (max-width: $breakpoint-tablet) {
+  .grid-container {
+    grid-template-rows: 1fr min-content;
+    grid-template-columns: 1fr 1fr;
+
+    .back-button {
+      grid-column: 1;
+      grid-row: 2;
+    }
+  
+    .forward-button {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .stepper {
+      grid-column: 1 / span 2;
+      grid-row: 1;
+      padding-bottom: 0.5em;
+    }
+  }
+}
