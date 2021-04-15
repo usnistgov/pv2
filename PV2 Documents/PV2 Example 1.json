@@ -1,0 +1,921 @@
+E3-formatted Objects
+
+Analysis Details
+
+“analysisObject” : {
+LCC,				#Analysis Type (Hard coded)
+Buildings,			# Project Type (hard coded)
+MeasureSummary,		#ObjectsToReport (hard coded; could be expanded in Phase 2) 
+Study Period,			#Study Period from Analysis Assumptions
+2021,				#Base Date (hard coded – changed each year)
+2021,				#Service Date (hard coded – changed each year)
+Annual,				#Timestep (hard coded)
+Annual EOY,			#Discounting Convention (hard coded)
+Constant,			#Current or Constant Dollars (hard coded)	
+Nominal Interest Rate,		#Interest Rate Nominal from Analysis Assumptions
+Nominal Discount Rate,		#Discount Rate Nominal
+Real Discount Rate,		#Discount Rate Real
+General Inflation Rate,		#Inflation Rate
+Real Discount Rate,		#MARR
+Real Discount Rate,		#ReinvestmentReturnRate
+BLANK,				#IncomeTaxRateFederal (hard coded)
+BLANK,				#IncomeTaxRateStateLocal (hard coded)
+{ST, City, ZIP}			# Location {ST, City, ZIP}
+}
+
+Alternative List
+
+Baseline Alternative - No System
+Alternative Object {
+0, 			#alternativeID – int; hard coded
+No Solar System, 	#alternativeName – string; hardcoded
+{0,1}, 			#alternativeBCNList – List of bcnIDs
+1, 			#baselineBool – boolean
+
+}
+
+Purchase System - could be cash or loan
+Alternative Object {
+1, 			#alternativeID – int; hard coded
+Purchase Solar System, 	#alternativeName – string; hardcoded
+{2,3,4,5,6,7,8,9,10,11},	#alternativeBCNList – List of bcnIDs
+0, 			#baselineBool – boolean
+
+}
+
+PPA - System owned by installer (this alternative is optional - only exists if PPA options is selected)
+Alternative Object {
+2, 			#alternativeID – int; hard coded
+PPA Solar System, 	#alternativeName – string; hardcoded
+{12,13,14,15}, 		#alternativeBCNList – List of bcnIDs
+0, 			#baselineBool – boolean
+
+}
+
+
+Alternative 0
+Status Quo Electricity Consumption
+No other costs
+
+Consumption Costs
+BCN Object {
+0,					# BCN ID
+Electricity Consumption,		#Object Name (hard coded)
+0,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{Escalation Rate Array},			# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+Consumption Rate,			#ValuePerQ
+Annual Consumption,			#Quantity
+Percent Timestep 0,			#QuantityVariabilityRateType
+{1.00},					#QuantityVariabilityRateValues
+Kwh,					#Quantity Unit
+}
+
+Fixed Charges
+BCN Object {
+1,					# BCN ID
+Electricity Demand Charge,		#Object Name (hard coded)
+0,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{0.0},					# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+Demand Charge,			#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+,					#Quantity Unit
+}
+
+Alternative 1 will be Purchase of System
+ 
+Electricity Costs
+Depending on the selection of Net Metering versus Feed in Tariff determines which of the objects below will be created.
+
+If Metering is Gross (Feed In Tariff), then the consumption and production costs can be calculated independently.
+
+Consumption Costs
+BCN Object {
+2,					# BCN ID
+Electricity Consumption,		#Object Name (hard coded)
+1,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{Escalation Rate Array},			# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+Consumption Rate,			#ValuePerQ
+Annual Consumption			#Quantity
+BLANK,					#QuantityVariabilityRateType – No variability assumed
+{BLANK},				#QuantityVariabilityRateValues
+Kwh,					#Quantity Unit
+}
+
+Fixed Charges
+BCN Object {
+3,					# BCN ID
+Electricity Demand Charge,		#Object Name (hard coded)
+1,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{0.0},					# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+Demand Charge,			#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+,					#Quantity Unit
+}
+
+PV Production Value (Negative Costs)
+BCN Object {
+4,					# BCN ID
+Electricity Production,			#Object Name (hard coded)
+1,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{Production Esc Rate Array},		# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+-( Production Rate),			#ValuePerQ
+Annual Production,			#Quantity
+Percent Timestep X-1,			#QuantityVariabilityRateType
+{-0.005},				#QuantityVariabilityRateValues – Constant Rate Assumed
+Kwh,					#Quantity Unit
+}
+
+PV Fixed Costs
+BCN Object {
+5,					# BCN ID
+PV Grid Connection Fee,		#Object Name (hard coded)
+1,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{0.0},					# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+PV Grid Connection Fee,		#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+,					#Quantity Unit
+}
+
+If Metering is Net (Net Metering), then the consumption and production values matter and are dependent. This is much more complicated because there could be positive or negative net consumption depending on the year. For example, a PV system can produce excess electricity initially but will degrade over time and may not fully offset consumption in future years.
+
+Since we assume constant consumption and declining production, the object creation can be broken into 2 scenarios: Year 1 Net Consumption > 0 ; Year 1 Net Consumption < 0 (i.e. excess production)
+
+(Net Consumption)i = (Annual Consumption)i – (Annual Production)i
+
+Create array of net consumption by year
+Split into 2 arrays by year with positive net consumption (Net Annual Consumption) in one and negative net consumption (Net Annual Production) in the other with zero values for years in which that array has no value. These can be used as the arrays for the Q variability and then set initial Q = 1
+(this allows for creating the E3 objects that can use the right price)
+
+If Annual Production < Annual Consumption, then consumption is always greater than production. So each year there is positive consumption (no excess production) – this assumes net metering balanced once a year. So there is only the net annual consumption object.
+
+If Annual Production > Annual Consumption, then consumption is initially less than production. Its possible to have both a consumption object and a production object since prices could be different.
+
+BCN Object {
+2,					# BCN ID
+Electricity Consumption,		#Object Name (hard coded)
+1,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{Escalation Rate Array},			# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+Consumption Rate,			#ValuePerQ
+NC = 1,					#Quantity = 1 then set variability rate = quantity
+Percent Timestep 1,			#QuantityVariabilityRateType
+{NC Array},				#QuantityVariabilityRateValues
+Kwh,					#Quantity Unit
+}
+
+BCN Object {
+3,					# BCN ID
+Electricity Demand Charge,		#Object Name (hard coded)
+1,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{0.0},					# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+Demand Charge,			#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+,					#Quantity Unit
+}
+
+BCN Object {
+4,					# BCN ID
+Electricity Production,			#Object Name (hard coded)
+1,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{Escalation Rate Array},			# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+-(Excess Production Rate),		#ValuePerQ
+NP=1,					#Quantity
+Percent Timestep X-1,			#QuantityVariabilityRateType
+{NP Array},				#QuantityVariabilityRateValues
+Kwh,					#Quantity Unit
+}
+
+BCN Object {
+5,					# BCN ID
+PV Grid Connection Fee,		#Object Name (hard coded)
+1,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{0.0},					# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+PV Grid Connection Fee,		#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+,					#Quantity Unit
+}
+
+
+System Costs
+
+OPTION A - Cash Purchase Solar PV System
+Capital Component: Solar PV system
+Initial purchase price
+Tax credit
+Grants/rebates
+Maintenance costs
+Inverter replacement costs
+Residual Value = f(residual value approach)
+
+BCN Object {
+6,					# BCN ID
+Total Installation Costs,			#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+0,					#DateofOccurrence
+Panel lifetime,				#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+Total Installation Costs,			#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+7,					# BCN ID
+Total Installation Costs Residual Value,	#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+Study Period,				#DateofOccurrence
+,					#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+-(Residual Value),			#ValuePerQ – Includes (system minus inverter) and (inverter)
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+8,					# BCN ID
+Federal Tax Credit,			#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+1,					#DateofOccurrence
+Panel lifetime,				#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+-(Total Installation Costs * 0.26),	#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+9,					# BCN ID
+GrantsRebates,				#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+1,					#DateofOccurrence
+Panel lifetime,				#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+-(Grant/Rebates),			#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+10,					# BCN ID
+Inverter Replacement Cost,			#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+Inverter lifetime,			#DateofOccurrence
+Inverter lifetime,			#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+Inverter Replacement Costs * System Size,	#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+11,					# BCN ID
+Maintenance Costs,			#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Maintenance Costs,			#Tag
+Real,					#NominalOrReal
+NO,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+NO,					#CalculateResidualValue
+YES,					#Recurrence
+1,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+Annual Maintenance Costs * System Size/1000,		#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+OPTION B - Financed Purchase Solar PV System
+Capital Component: Solar PV system
+Down payment
+Tax credit
+Grants/rebates
+Monthly payment
+Maintenance costs
+Inverter replacement costs
+Residual Value = f(residual value approach)
+
+BCN Object {
+6,					# BCN ID
+Down Payment,				#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+0,					#DateofOccurrence
+Panel lifetime,				#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+Down payment,			#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+7,					# BCN ID
+Total Installation Costs Residual Value,	#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+Study Period,				#DateofOccurrence
+,					#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+-(Residual Value),			#ValuePerQ – Includes (system minus inverter) and (inverter)
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+8,					# BCN ID
+Federal Tax Credit,			#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+1,					#DateofOccurrence
+Panel lifetime,				#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+-(Total Installation Costs * 0.26),	#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+15,					# BCN ID
+GrantsRebates,				#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+1,					#DateofOccurrence
+Panel lifetime,				#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+-(Grant/Rebates),			#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+9,					# BCN ID
+Loan Payments,				#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Maintenance Costs,			#Tag
+Nominal,				#NominalOrReal
+NO,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+NO,					#CalculateResidualValue
+YES,					#Recurrence
+1,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+Monthly Payment * 12,			#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+10,					# BCN ID
+Inverter Replacement Cost,		#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+Inverter lifetime,			#DateofOccurrence
+Inverter lifetime,			#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+Inverter Replacement Costs * System Size,	#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+11,					# BCN ID
+Maintenance Costs,			#Object Name
+1,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Maintenance Costs,			#Tag
+Real,					#NominalOrReal
+NO,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+NO,					#CalculateResidualValue
+YES,					#Recurrence
+1,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+Annual Maintenance Costs * System Size/1000,		#ValuePerQ – Based on2020 tax credit value
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+
+Alternative 2 – PPA (Optional)
+Lease to Own Solar PV System
+
+BCN Object {
+Electricity Consumption - Grid,		#Object Name (hard coded)
+12,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{Escalation Rate Array},			# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+Consumption Rate,			#ValuePerQ
+(Annual Consumption) – (Annual Production),	#Quantity
+Percent Timestep 0,			#QuantityVariabilityRateType
+{Grid Q Var Array},			#QuantityVariabilityRateValues
+Kwh,					#Quantity Unit
+}
+
+BCN Object {
+Electricity Demand Charge,		#Object Name (hard coded)
+13,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{0.0},					# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+Demand Charge,			#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+,					#Quantity Unit
+}
+
+BCN Object {
+Electricity Consumption - PPA,		#Object Name (hard coded)
+14,					#AlternativeID
+Cost,					#Type
+Direct,					#SubType
+Electricity,				#Tag
+Constant,				#Current or Constant Dollars
+No,					#Investment
+1,					#DateofOccurrence
+BLANK,					#InvestmentServiceLife
+BLANK,					#CalculateResidualValue
+Yes,					#Recurrence
+1,					#RecurrenceInterval
+Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+{PPA Escalation Rate Array},		# RecurrenceVariabilityRateValues
+Study Period,				#RecurrenceEndDate
+PPA Electricity Rate,			#ValuePerQ
+Annual Production,			#Quantity
+Percent Timestep 0,			#QuantityVariabilityRateType
+{PPA Production Array},			#QuantityVariabilityRateValues
+Kwh,					#Quantity Unit
+}
+
+BCN Object {
+PPA Purchase Price,			#Object Name
+15,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+Contract Length,			#DateofOccurrence
+PPA Contract Length - Panel lifetime,	#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+PPA Purchase Price,			#ValuePerQ
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+BCN Object {
+Residual Value,				#Object Name
+2,					#Alternative ID
+Cost, 					#Type
+Direct,					#SubType
+Investment Costs,			#Tag
+Real,					#NominalOrReal
+YES,					#Investment
+Study Period,				#DateofOccurrence
+,					#InvestmentServiceLife
+NO,					#CalculateResidualValue
+NO,					#Recurrence
+BLANK,					#RecurrenceInterval
+BLANK,					#RecurrenceVariabilityRateType
+{BLANK},				# RecurrenceVariabilityRateValues
+BLANK,					#RecurrenceEndDate
+-(Residual Value),			#ValuePerQ – Includes (system minus inverter) and (inverter)
+1,					#Quantity
+BLANK,					#QuantityVariabilityRateType
+{BLANK},				#QuantityVariabilityRateValues
+BLANK					#Quantity Unit
+}
+
+Communication with E3
+Compile the JSON file using the format below.
+Note: sensitivity and uncertainty objects are not currently being generated by PV2. This will come in Phase 2 once we get the initial design completed and functioning. We will have a meeting to discuss how to incorporate this into the tool.
+JSON Input File Format
+“userInput” :
+[ {
+        	“analysisObject” :
+        	{
+                    	”analysisType”: “string”,
+                    	“projectType”: “string”,
+                    	“objToReport”: “string”,
+                    	“studyPeriod”: int,
+                    	“baseDate”: date,
+                    	“serviceDate”: date,
+                    	“timestepVal”: “string”,
+                    	“timestepComp”: int,
+                    	“outputRealBool”: boolean,
+                    	“interestRate”: float,
+                    	“dRateReal”: float,
+                    	“dRateNom”: float,
+                    	“inflationRate”: float,
+                    	“Marr”: float,
+                    	“reinvestRate”: float,
+                    	“incomeRateFed”: float,
+                    	“incomeRateOther”: float,
+                    	“noAlt”: int,
+                    	“baseAlt”: int,
+                    	“location”: [“string1”,”string2”,…,”stringN”]
+        	},
+        	“alternativeObjects” [WDH(1] : [
+        	{
+                    	objectVariables
+        	},
+        	{
+                    	objectVariables
+        	}
+        	]
+        	“bcnObjects” [WDH(2] : [
+        	{
+                    	objectVariables
+        	},
+        	{
+                    	objectVariables
+        	}
+        	]
+        	“sensitivityObjects” [WDH(3] : [  	# Ignore sensitivity and uncertainty for now.
+        	{
+                    	objectVariables
+        	},
+        	{
+                    	objectVariables
+        	}
+        	]
+        	“scenarioObjects” [WDH(4] : [
+        	{
+                    	objectVariables
+        	},
+        	{
+                    	objectVariables
+        	}
+        	]
+} ]
+
+ [WDH(1]List of all alt objects;  [WDH(2]List of all bcn objects;  [WDH(3]List of all sensitivity objects;  [WDH(4]List of all scenario objects
+
+JSON Output File Format
+“e3Output” :[
+FORTHCOMING. WAITING ON EXAMPLE OUTPUT FILE
+
+]
+
+Output Object Formats
+You will only need to pull a limited number of objects.
+Alternative Summary Format
+AlternativeSummary Objects:[
+{	### No System
+0,	### AlternativeID,
+0,	 ### Total PV Benefits
+totalCosts, ### Total PV Costs
+0, ### Total Investment Cost
+totalCostsNonInv, ### Total Non-Investment Cost
+0, ### NB,
+0,	### NS or Net Profit,
+,	### SIR or Net Profit to Investment Ratio,
+,	### IRR, (optional)
+,	### AIRR,
+,	### SPB,
+,	### DPB,
+0,	### (Total Benefits – Total Investment Costs) / Total Investment Costs
+{X1,…}, ### Total Quantities – sum by tag
+{ },	### Quantities Units
+,	### MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
+{},	### Delta Quantity Array using Tags,
+{}, 	### NS / Quantity Change Array,
+{},	### NS / % Quantity Change Array,
+{},	### NS Elasticity to Quantity Change Array
+},
+{	### Solar PV System Purchase
+1,	### AlternativeID,
+0,	 ### Total PV Benefits
+totalCosts, ### Total PV Costs
+totalCostsIn, ### Total Investment Cost
+totalCostsNonInv, ### Total Non-Investment Cost
+netBenefits, ### NB,
+,	### NS or Net Profit,
+,	### SIR or Net Profit to Investment Ratio,
+,	### IRR, (optional)
+,	### AIRR,
+,	### SPB,
+,	### DPB,
+0,	### (Total Benefits – Total Investment Costs) / Total Investment Costs
+{X1,…}, ### Total Quantities – sum by tag
+{ },	### Quantities Units
+,	### MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
+{},	### Delta Quantity Array using Tags,
+{}, 	### NS / Quantity Change Array,
+{},	### NS / % Quantity Change Array,
+{},	### NS Elasticity to Quantity Change Array
+},
+{	### Only exists if PPA is selected
+2,	### AlternativeID,	
+0,	 ### Total PV Benefits
+totalCosts, ### Total PV Costs
+totalCostsIn, ### Total Investment Cost
+totalCostsNonInv, ### Total Non-Investment Cost
+netBenefits, ### NB,
+,	### NS or Net Profit,
+,	### SIR or Net Profit to Investment Ratio,
+,	### IRR, (optional)
+,	### AIRR,
+,	### SPB,
+,	### DPB,
+0,	### (Total Benefits – Total Investment Costs) / Total Investment Costs
+{X1,…}, ### Total Quantities – sum by tag
+{ },	### Quantities Units
+,	### MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
+{},	### Delta Quantity Array using Tags,
+{}, 	### NS / Quantity Change Array,
+{},	### NS / % Quantity Change Array,
+{},	### NS Elasticity to Quantity Change Array
+}
+]

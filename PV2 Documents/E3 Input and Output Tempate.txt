@@ -1,0 +1,115 @@
+#E3 Object Formats
+
+“userInput” :
+[ {
+	“analysisObject” : 
+	{
+		”analysisType”: “string”,
+		“projectType”: “string”,
+		“objToReport”: list of strings,
+		“studyPeriod”: int,
+		“baseDate”: date,
+		“serviceDate”: date,
+		“timestepVal”: “string”,
+		“timestepComp”: int,
+		“outputRealBool”: boolean,
+		“interestRate”: float,
+		“dRateReal”: float,
+		“dRateNom: float,
+		“inflationRate”: float,
+		“Marr”: float,
+		“reinvestRate”: float,
+		“incomeRateFed”: float,
+		“incomeRateOther”: float,
+		“noAlt”: int,
+		“location”: [“string1”,”string2”,…,”stringN”]
+	},
+	“alternativeObject”  : [
+	{
+	“altID”: int,
+	“altName”: “string”,
+	“altBCNList”: [int1, int2, …, intN],
+	“baselineBool”: boolean
+	},
+	{
+	“altID”: int,
+	“altName”: “string”,
+	“altBCNList”: [int1, int2, …, intN],
+		“baselineBool”: boolean
+	}
+	]
+	“bcnObject”  : [
+	{
+		“bcnID”: int,
+		“altID”: int ,
+		“bcnType”: “string”,
+		“bcnSubType”: “string”,
+		“bcnName”: “string”,
+		“bcnTag”: “string”,
+		“initialOcc”: int,
+		“bcnRealBool”: boolean,
+		“bcnInvestBool”: boolean,
+		“rvBool”: boolean,
+		“recurBool”: boolean,
+		“recurInterval”: int,
+		“recurVarRate”: “string”,
+		“recurVarValue”: [float1, float2, …, floatN] ,
+		“recurEndDate”: int,
+		“valuePerQ”: float,
+		“quant”: float,
+		“quantVarRate”: “string”,
+		“quantVarValue: [float1, float2, …, floatN] ,
+		“quantUnit”: “string”
+	},
+	{
+		“bcnID”: int,
+		“altID”: int ,
+		“bcnType”: “string”,
+		“bcnSubType”: “string”,
+		“bcnName”: “string”,
+		“bcnTag”: “string”,
+		“initialOcc”: int,
+		“bcnRealBool”: boolean,
+		“bcnInvestBool”: boolean,
+		“rvBool”: boolean,
+		“recurBool”: boolean,
+		“recurInterval”: int,
+		“recurVarRate”: “string”,
+		“recurVarValue”: [float1, float2, …, floatN] ,
+		“recurEndDate”: int,
+		“valuePerQ”: float,
+		“quant”: float,
+		“quantVarRate”: “string”,
+		“quantVarValue: [float1, float2, …, floatN] ,
+		“quantUnit”: “string”
+	}
+	]
+	“sensitivityObject”  : [
+	{
+		“globalVarBool”: boolean,
+		“altID”: int ,
+		“bcnID”: int,
+		“varName”: “string”,
+		“diffType”: “string”,
+		“diffVal”: “string”
+	},
+	{
+		“globalVarBool”: boolean,
+		“altID”: int ,
+		“bcnID”: int,
+		“varName”: “string”,
+		“diffType”: “string”,
+		“diffVal”: “string”
+	}
+	]
+	“scenarioObject”  : [
+	{
+		objectVariables
+	},
+	{
+		objectVariables
+	}
+	]
+} ]
+
+

@@ -1,0 +1,567 @@
+
+“userInput” :
+[ {
+
+	# Analysis Details
+
+	“analysisObject” : 
+	{
+		”analysisType”: “LCC”,
+		“projectType”: “Buildings”,
+		“objToReport”: {"MeasureSummary"},
+		“studyPeriod”: 25,
+		“baseDate”: 2021/01/01,
+		“serviceDate”: 2021/01/01,
+		“timestepVal”: “Year”,
+		“timestepComp”: 1,
+		“outputRealBool”: 1,
+		“interestRate”: 0.06,
+		“dRateReal”: 0.06,
+		“dRateNom: 0.0812,
+		“inflationRate”: 0.02,
+		“Marr”: 0.06,
+		“reinvestRate”: 0.06,
+		“incomeRateFed”: null,
+		“incomeRateOther”: null,
+		“noAlt”: 3,
+		“location”: [“MD”,”Silver Spring”,”20910”]	
+	}
+
+	# Alternative List
+	
+	"alternativeObjects": [
+		{
+			“altID”: 0,
+			“altName”: “No Solar System”,
+			“altBCNList”: [0,1],
+			“baselineBool”: 1
+		},
+		{
+			“altID”: 1,
+			“altName”: “Purchase Solar System”,
+			“altBCNList”: [2,3,4,5,6,7,8,9,10],
+			“baselineBool”: 0
+		},
+		{
+			“altID”: 2,
+			“altName”: “PPA Solar System”,
+			“altBCNList”: [11,12,13,14,15,16],
+			“baselineBool”: 0
+		}
+	]
+
+	# BCN Objects for all alternatives
+	bcnObjects : [
+		#Alternative 0 BCNs
+		{
+			“bcnID”: 0,
+			“altID”: 0,
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Consumption”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,
+			“bcnRealBool”: 1,
+			“bcnInvestBool”: 0,
+			“rvBool”: 0,
+			“recurBool”: 1,
+			“recurInterval”: 1,
+			“recurVarRate”: “Percent Delta Timestep X-1”,
+			“recurVarValue”: [0.02] ,
+			“recurEndDate”: 25,
+			“valuePerQ”: 0.126,
+			“quant”: 10000,
+			“quantVarRate”: “Fraction Delta Timestep X 1”,
+			“quantVarValue: [1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00] ,
+			“quantUnit”: “kwh”
+		},
+		{
+			“bcnID”: 1,
+			“altID”: 0,
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Demand Charge”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,
+			“bcnRealBool”: 1,
+			“bcnInvestBool”: 0,
+			“rvBool”: 0,
+			“recurBool”: 1,
+			“recurInterval”: 1,
+			“recurVarRate”: “Percent Delta Timestep X-1”,
+			“recurVarValue”: [0.0],
+			“recurEndDate”: 25,
+			“valuePerQ”: 96.12,
+			“quant”: 1,
+			“quantVarRate”: “Fraction Delta Timestep X 1”,
+			“quantVarValue: [1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00] ,
+			“quantUnit”: null
+		}
+
+		#Alternative 1 will be Purchase of System
+		 
+		#Electricity Costs
+		#Metering is Net (Net Metering). Consumption and production values matter and are dependent. 
+		#There could be positive or negative net consumption depending on the year. 
+		#For example, a PV system can produce excess electricity initially but will degrade over time and may not fully offset consumption in future years.
+		#Since we assume constant consumption and declining production, the object creation can be broken into 2 scenarios: Year 1 Net Consumption > 0 ; Year 1 Net Consumption < 0 (i.e. excess production)
+		#(Net Consumption)i = (Annual Consumption)i – (Annual Production)i
+		#Create array of net consumption by year
+		#Split into 2 arrays by year with positive net consumption (Net Annual Consumption) in one and negative net consumption (Net Annual Production) in the other with zero values for years in which that array has no value. These can be used as the arrays for the Q variability and then set initial Q = 1
+		#(this allows for creating the E3 objects that can use the right price)
+		#If Annual Production < Annual Consumption, then consumption is always greater than production. So each year there is positive consumption (no excess production) – this assumes net metering balanced once a year. So there is only the net annual consumption object.
+		#If Annual Production > Annual Consumption, then consumption is initially less than production. Its possible to have both a consumption object and a production object since prices could be different.
+		#Excess Production occurs in years 1-6; net consumption is positive years 7-25
+		#Net Consumption starts at a very small number and increases a lot on a percentage basis.
+		#We are using an approach to simplify. Set quantity equal to 1 and then have the variability be equal to the quantity.
+
+		BCN Object {
+		2,					# BCN ID
+		Electricity Consumption,		#Object Name (hard coded)
+		1,					#AlternativeID
+		Cost,					#Type
+		Direct,					#SubType
+		Electricity,				#Tag
+		Constant,				#Current or Constant Dollars
+		No,					#Investment
+		7,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		BLANK,					#CalculateResidualValue
+		Yes,					#Recurrence
+		1,					#RecurrenceInterval
+		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		{1.00}, 		# RecurrenceVariabilityRateValues
+		25,				#RecurrenceEndDate
+		0.126,			#ValuePerQ
+		1,					#Set Quantity = 1 and use to make it each to define variability rate = quantity
+		Percent Timestep 1,			#QuantityVariabilityRateType
+		{9,60.5,112,163.5,215,266.5,318,369.5,421,472.5,524,575.5,627,678.5,730,781.5,833,884.5,936}, #QuantityVariabilityRateValues
+		Kwh,					#Quantity Unit
+		}
+
+		BCN Object {
+		3,					# BCN ID
+		Electricity Demand Charge,		#Object Name (hard coded)
+		1,					#AlternativeID
+		Cost,					#Type
+		Direct,					#SubType
+		Electricity,				#Tag
+		Constant,				#Current or Constant Dollars
+		No,					#Investment
+		1,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		BLANK,					#CalculateResidualValue
+		Yes,					#Recurrence
+		1,					#RecurrenceInterval
+		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		{0.0},					# RecurrenceVariabilityRateValues
+		25,				#RecurrenceEndDate
+		96.12,			#ValuePerQ
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		,					#Quantity Unit
+		}
+
+		BCN Object {
+		4,					# BCN ID
+		Electricity Production,			#Object Name (hard coded)
+		1,					#AlternativeID
+		Cost,					#Type
+		Direct,					#SubType
+		Electricity,				#Tag
+		Constant,				#Current or Constant Dollars
+		No,					#Investment
+		1,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		BLANK,					#CalculateResidualValue
+		Yes,					#Recurrence
+		1,					#RecurrenceInterval
+		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		{Escalation Rate Array},			# RecurrenceVariabilityRateValues
+		6,				#RecurrenceEndDate
+		-0.059,		#ValuePerQ
+		300,					#Quantity
+		Percent Timestep X-1,			#QuantityVariabilityRateType
+		{1.00,0.83,0.79,0.74,0.65,0.45},				#QuantityVariabilityRateValues
+		Kwh,					#Quantity Unit
+		}
+
+		BCN Object {
+		5,					# BCN ID
+		PV Grid Connection Fee,		#Object Name (hard coded)
+		1,					#AlternativeID
+		Cost,					#Type
+		Direct,					#SubType
+		Electricity,				#Tag
+		Constant,				#Current or Constant Dollars
+		No,					#Investment
+		1,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		BLANK,					#CalculateResidualValue
+		Yes,					#Recurrence
+		1,					#RecurrenceInterval
+		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		{0.0},					# RecurrenceVariabilityRateValues
+		25,				#RecurrenceEndDate
+		0,		#ValuePerQ
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		,					#Quantity Unit
+		}
+
+
+		#System Costs
+		#Cash Purchase Solar PV System
+		#Capital Component: Solar PV system, Initial purchase price, Tax credit, Grants/rebates, Maintenance costs, Inverter replacement costs, Residual Value = f(residual value approach)
+		# This assumes that we use a linear depreciation approach to residual value.
+
+		BCN Object {
+		6,					# BCN ID
+		Total Installation Costs,			#Object Name
+		1,					#Alternative ID
+		Cost, 					#Type
+		Direct,					#SubType
+		Investment Costs,			#Tag
+		Real,					#NominalOrReal
+		YES,					#Investment
+		0,					#DateofOccurrence
+		25,				#InvestmentServiceLife
+		NO,					#CalculateResidualValue; we are creating a separate object for RV
+		NO,					#Recurrence
+		BLANK,					#RecurrenceInterval
+		BLANK,					#RecurrenceVariabilityRateType
+		{BLANK},				# RecurrenceVariabilityRateValues
+		BLANK,					#RecurrenceEndDate
+		35280,			#ValuePerQ
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		BLANK					#Quantity Unit
+		}
+
+		BCN Object {
+		7,					# BCN ID
+		Total Installation Costs Residual Value,	#Object Name
+		1,					#Alternative ID
+		Cost, 					#Type
+		Direct,					#SubType
+		Investment Costs,			#Tag
+		Real,					#NominalOrReal
+		YES,					#Investment
+		25,				#DateofOccurrence
+		,					#InvestmentServiceLife
+		NO,					#CalculateResidualValue
+		NO,					#Recurrence
+		BLANK,					#RecurrenceInterval
+		BLANK,					#RecurrenceVariabilityRateType
+		{BLANK},				# RecurrenceVariabilityRateValues
+		BLANK,					#RecurrenceEndDate
+		0,			#ValuePerQ – Includes (system minus inverter) and (inverter); RV = 0 because system has 25 year service life
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		BLANK					#Quantity Unit
+		}
+
+		BCN Object {
+		8,					# BCN ID
+		Federal Tax Credit,			#Object Name
+		1,					#Alternative ID
+		Cost, 					#Type
+		Direct,					#SubType
+		Investment Costs,			#Tag
+		Real,					#NominalOrReal
+		YES,					#Investment
+		1,					#DateofOccurrence
+		25,				#InvestmentServiceLife
+		NO,					#CalculateResidualValue
+		NO,					#Recurrence
+		BLANK,					#RecurrenceInterval
+		BLANK,					#RecurrenceVariabilityRateType
+		{BLANK},				# RecurrenceVariabilityRateValues
+		BLANK,					#RecurrenceEndDate
+		-9173,	#ValuePerQ – Based on 2021 tax credit value
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		BLANK					#Quantity Unit
+		}
+
+		BCN Object {
+		9,					# BCN ID
+		GrantsRebates,				#Object Name
+		1,					#Alternative ID
+		Cost, 					#Type
+		Direct,					#SubType
+		Investment Costs,			#Tag
+		Real,					#NominalOrReal
+		YES,					#Investment
+		1,					#DateofOccurrence
+		25,				#InvestmentServiceLife
+		NO,					#CalculateResidualValue
+		NO,					#Recurrence
+		BLANK,					#RecurrenceInterval
+		BLANK,					#RecurrenceVariabilityRateType
+		{BLANK},				# RecurrenceVariabilityRateValues
+		BLANK,					#RecurrenceEndDate
+		-1000,			#ValuePerQ – Based on 2021 MD state rebate program
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		BLANK					#Quantity Unit
+		}
+
+		BCN Object {
+		10,					# BCN ID
+		Maintenance Costs,			#Object Name
+		1,					#Alternative ID
+		Cost, 					#Type
+		Direct,					#SubType
+		Maintenance Costs,			#Tag
+		Real,					#NominalOrReal
+		NO,					#Investment
+		1,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		NO,					#CalculateResidualValue
+		YES,					#Recurrence
+		1,					#RecurrenceInterval
+		BLANK,					#RecurrenceVariabilityRateType
+		{BLANK},				# RecurrenceVariabilityRateValues
+		BLANK,					#RecurrenceEndDate
+		0,		#ValuePerQ – Based on2020 tax credit value
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		BLANK					#Quantity Unit
+		}
+
+
+		#Alternative 2 – PPA / Lease (Optional)
+		#Lease to Own Solar PV System
+		#The costs include Grid Consumption Costs from Net Consumption at a lower price and PV produced consumption at a lower price
+		# Total Consumption is a combination of grid and solar PV based electricity
+		# Instead of having a purchase cost, there are PPA payments for solar PV production
+		# Grid costs are the same as in the purchase case.
+
+		BCN Object {
+		11,					# BCN ID
+		Electricity Consumption - Grid,		#Object Name (hard coded)
+		2,					#AlternativeID
+		Cost,					#Type
+		Direct,					#SubType
+		Electricity,				#Tag
+		Constant,				#Current or Constant Dollars
+		No,					#Investment
+		7,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		BLANK,					#CalculateResidualValue
+		Yes,					#Recurrence
+		1,					#RecurrenceInterval
+		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		{1.00}, 		# RecurrenceVariabilityRateValues
+		25,				#RecurrenceEndDate
+		0.126,			#ValuePerQ
+		1,					#Set Quantity = 1 and use to make it each to define variability rate = quantity
+		Percent Timestep 1,			#QuantityVariabilityRateType
+		{9,60.5,112,163.5,215,266.5,318,369.5,421,472.5,524,575.5,627,678.5,730,781.5,833,884.5,936}, #QuantityVariabilityRateValues
+		Kwh,					#Quantity Unit
+		}
+
+		BCN Object {
+		12,					# BCN ID
+		Electricity Demand Charge - Grid,		#Object Name (hard coded)
+		2,					#AlternativeID
+		Cost,					#Type
+		Direct,					#SubType
+		Electricity,				#Tag
+		Constant,				#Current or Constant Dollars
+		No,					#Investment
+		1,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		BLANK,					#CalculateResidualValue
+		Yes,					#Recurrence
+		1,					#RecurrenceInterval
+		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		{0.0},					# RecurrenceVariabilityRateValues
+		25,				#RecurrenceEndDate
+		96.12,			#ValuePerQ
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		,					#Quantity Unit
+		}
+
+		BCN Object {
+		13,					# BCN ID
+		Electricity Production - Grid,			#Object Name (hard coded)
+		2,					#AlternativeID
+		Cost,					#Type
+		Direct,					#SubType
+		Electricity,				#Tag
+		Constant,				#Current or Constant Dollars
+		No,					#Investment
+		1,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		BLANK,					#CalculateResidualValue
+		Yes,					#Recurrence
+		1,					#RecurrenceInterval
+		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		{Escalation Rate Array},			# RecurrenceVariabilityRateValues
+		6,				#RecurrenceEndDate
+		-0.059,		#ValuePerQ
+		300,					#Quantity
+		Percent Timestep X-1,			#QuantityVariabilityRateType
+		{1.00,0.83,0.79,0.74,0.65,0.45},				#QuantityVariabilityRateValues
+		Kwh,					#Quantity Unit
+		}
+
+		BCN Object {
+		14,					# BCN ID
+		Electricity Consumption - PPA,		#Object Name (hard coded)
+		2,					#AlternativeID
+		Cost,					#Type
+		Direct,					#SubType
+		Electricity,				#Tag
+		Constant,				#Current or Constant Dollars
+		No,					#Investment
+		1,					#DateofOccurrence
+		BLANK,					#InvestmentServiceLife
+		BLANK,					#CalculateResidualValue
+		Yes,					#Recurrence
+		1,					#RecurrenceInterval
+		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		{0.01},		# RecurrenceVariabilityRateValues
+		25,				#RecurrenceEndDate
+		0.10,			#ValuePerQ
+		10300,			#Quantity
+		Percent Timestep 0,			#QuantityVariabilityRateType
+		{0.995,0.990,0.985,0.980,0.975,0.970,0.965,0.960,0.955,0.950,0.945,0.940,0.935,0.930,0.925,0.920,0.915,0.910,0.905,0.900,0.895,0.890,0.885,0.880},	#QuantityVariabilityRateValues
+		Kwh,					#Quantity Unit
+		}
+
+		BCN Object {
+		15,					# BCN ID
+		PPA Purchase Price,			#Object Name
+		2,					#Alternative ID
+		Cost, 					#Type
+		Direct,					#SubType
+		Investment Costs,			#Tag
+		Real,					#NominalOrReal
+		YES,					#Investment
+		25,			#DateofOccurrence
+		25,	#InvestmentServiceLife
+		NO,					#CalculateResidualValue
+		NO,					#Recurrence
+		BLANK,					#RecurrenceInterval
+		BLANK,					#RecurrenceVariabilityRateType
+		{BLANK},				# RecurrenceVariabilityRateValues
+		BLANK,					#RecurrenceEndDate
+		1000,			#ValuePerQ
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		BLANK					#Quantity Unit
+		}
+
+		BCN Object {
+		16,					# BCN ID
+		Residual Value,				#Object Name
+		2,					#Alternative ID
+		Cost, 					#Type
+		Direct,					#SubType
+		Investment Costs,			#Tag
+		Real,					#NominalOrReal
+		YES,					#Investment
+		Study Period,				#DateofOccurrence
+		,					#InvestmentServiceLife
+		NO,					#CalculateResidualValue
+		NO,					#Recurrence
+		BLANK,					#RecurrenceInterval
+		BLANK,					#RecurrenceVariabilityRateType
+		{BLANK},				# RecurrenceVariabilityRateValues
+		BLANK,					#RecurrenceEndDate
+		0,			#ValuePerQ – Includes (system minus inverter) and (inverter); assumed RV = 0 because end of service life
+		1,					#Quantity
+		BLANK,					#QuantityVariabilityRateType
+		{BLANK},				#QuantityVariabilityRateValues
+		BLANK					#Quantity Unit
+		}
+	]
+} ]
+
+# JSON Output File Format
+“e3Output” :[
+AlternativeSummaryObjects:[
+	{	#No System
+	0,	#AlternativeID,
+	0,	 #Total PV Benefits
+	19458.84, #Total PV Costs
+	0, #Total Investment Cost
+	19458.84, #Total Non-Investment Cost
+	0, #NB,
+	0,	#NS or Net Profit,
+	null,	#SIR or Net Profit to Investment Ratio,
+	null,	#IRR, (optional)
+	null,	#AIRR,
+	null,	#SPB,
+	null,	#DPB,
+	null,	#(Total Benefits – Total Investment Costs) / Total Investment Costs
+	{250000}, #Total Quantities – sum by tag
+	{kwh},	#Quantities Units
+	0.06,	#MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
+	{0},	#Delta Quantity Array using Tags,
+	{null}, 	#NS / Quantity Change Array,
+	{null},	#NS / % Quantity Change Array,
+	{null},	#NS Elasticity to Quantity Change Array
+	},
+	
+	{	#Solar PV System Purchase
+	1,	#AlternativeID,
+	0,	 #Total PV Benefits
+	-36740, #Total PV Costs
+	25107, #Total Investment Cost
+	-61847, #Total Non-Investment Cost
+	0, #NB,
+	36740,	#NS or Net Profit,
+	2.46,	#SIR or Net Profit to Investment Ratio,
+	null,	#IRR, (optional)
+	0.0989,	#AIRR,
+	5,	#SPB,
+	6,	#DPB,
+	0,	#(Total Benefits – Total Investment Costs) / Total Investment Costs
+	{X1,…}, #Total Quantities – sum by tag
+	{TBD},	#Quantities Units
+	0.06,	#MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
+	{TBD},	#Delta Quantity Array using Tags,
+	{TBD}, 	#NS / Quantity Change Array,
+	{TBD},	#NS / % Quantity Change Array,
+	{TBD},	#NS Elasticity to Quantity Change Array
+	},
+	
+	{	#PPA / Lease
+	2,	#AlternativeID,	
+	0,	 #Total PV Benefits
+	15012.2, #Total PV Costs
+	0, #Total Investment Cost
+	15012.2, #Total Non-Investment Cost
+	0, #NB,
+	4446.64,	#NS or Net Profit,
+	null,	#SIR or Net Profit to Investment Ratio,
+	null,	#IRR, (optional)
+	null,	#AIRR,
+	1,	#SPB,
+	1,	#DPB,
+	null,	#(Total Benefits – Total Investment Costs) / Total Investment Costs
+	{X1,…}, #Total Quantities – sum by tag
+	{ },	#Quantities Units
+	0.06,	#MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
+	{},	#Delta Quantity Array using Tags,
+	{}, 	#NS / Quantity Change Array,
+	{},	#NS / % Quantity Change Array,
+	{},	#NS Elasticity to Quantity Change Array
+	}
+],
+CASH FLOW OBJECTS TBD
+}]
