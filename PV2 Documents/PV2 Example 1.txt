@@ -1,3 +1,5 @@
+#PV2 Example 1
+#Values are hard coded except those with a variable name comment to the right (e.g. # Study Period).
 
 “userInput” :
 [ {
@@ -9,25 +11,27 @@
 		”analysisType”: “LCC”,
 		“projectType”: “Buildings”,
 		“objToReport”: {"MeasureSummary"},
-		“studyPeriod”: 25,
+		“studyPeriod”: 25,					# Study Period
 		“baseDate”: 2021/01/01,
 		“serviceDate”: 2021/01/01,
 		“timestepVal”: “Year”,
 		“timestepComp”: 1,
 		“outputRealBool”: 1,
-		“interestRate”: 0.06,
-		“dRateReal”: 0.06,
-		“dRateNom: 0.0812,
-		“inflationRate”: 0.02,
-		“Marr”: 0.06,
-		“reinvestRate”: 0.06,
+		“interestRate”: 0.06,				#Nominal Interest Rate
+		“dRateReal”: 0.06,					#Nominal Discount Rate
+		“dRateNom: 0.0812,					#Real Discount Rate
+		“inflationRate”: 0.02,				#General Inflation Rate
+		“Marr”: 0.06,						#Real Discount Rate					
+		“reinvestRate”: 0.06,				#Real Discount Rate
 		“incomeRateFed”: null,
 		“incomeRateOther”: null,
-		“noAlt”: 3,
-		“location”: [“MD”,”Silver Spring”,”20910”]	
+		“noAlt”: 3,							# 3 if PPA is selected; 2 otherwise
+		“location”: [“MD”,”Silver Spring”,”20910”]	#Location: ST, City, ZIP
 	}
 
 	# Alternative List
+	# All values are hard coded.
+	#alternative 2 only exists if PPA is selected
 	
 	"alternativeObjects": [
 		{
@@ -42,7 +46,7 @@
 			“altBCNList”: [2,3,4,5,6,7,8,9,10],
 			“baselineBool”: 0
 		},
-		{
+		{											
 			“altID”: 2,
 			“altName”: “PPA Solar System”,
 			“altBCNList”: [11,12,13,14,15,16],
@@ -67,11 +71,11 @@
 			“recurBool”: 1,
 			“recurInterval”: 1,
 			“recurVarRate”: “Percent Delta Timestep X-1”,
-			“recurVarValue”: [0.02] ,
-			“recurEndDate”: 25,
-			“valuePerQ”: 0.126,
-			“quant”: 10000,
-			“quantVarRate”: “Fraction Delta Timestep X 1”,
+			“recurVarValue”: [0.02] ,						# Escalation Rate List
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 0.126,								# Consumption Rate
+			“quant”: 10000,									# Annual Consumption
+			“quantVarRate”: “Percent Delta Timestep X-1”,	
 			“quantVarValue: [1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00] ,
 			“quantUnit”: “kwh”
 		},
@@ -90,8 +94,8 @@
 			“recurInterval”: 1,
 			“recurVarRate”: “Percent Delta Timestep X-1”,
 			“recurVarValue”: [0.0],
-			“recurEndDate”: 25,
-			“valuePerQ”: 96.12,
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 96.12,								# Demand Charge
 			“quant”: 1,
 			“quantVarRate”: “Fraction Delta Timestep X 1”,
 			“quantVarValue: [1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00] ,
