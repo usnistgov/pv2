@@ -8,7 +8,7 @@
 	{
 		"analysisType": "LCC",
 		"projectType": "Buildings",
-		"objToReport": {"FlowSummary,MeasureSummary"},
+		"objToReport": ["FlowSummary","MeasureSummary"],
 		"studyPeriod": 25,					# Study Period
 		"baseDate": "2021-01-01",
 		"serviceDate": "2021-01-01",
@@ -482,7 +482,7 @@
 
 # JSON Output File Format
 "e3Output" : [
-measureSummary: [
+"measureSummary" : [
 	{
 		"altID": 0,
 		"totalPVBenefits": {},
