@@ -168,10 +168,10 @@
 			"recurVarRate": "percDelta",
 			"recurVarValue": 0.01,							# Escalation Rate List or Constant Value for Excess Production
 			"recurEndDate": 6,								# If net metering, Last year production > consumption
-			"valuePerQ": -0.059,							# Excess Production Rate
-			"quant": 300,									# =(Annual Production)-(Annual Consumption) in Year = initialOcc
+			"valuePerQ": 0.059,								# Excess Production Rate
+			"quant": -300,									# =(Annual Consumption)-(Annual Production) in Year = initialOcc
 			"quantVarRate": "percDelta",	
-			"quantVarValue": [1.00,-0.17,-0.21,-0.26,-0.35,-0.55], #
+			"quantVarValue": [1.00,-0.17,-0.21,-0.26,-0.35,-0.55], #QUESTION: If the value is negative, what is the right variability rate?
 			"quantUnit": "kwh"
 		},
 		{
@@ -486,11 +486,11 @@
 	{
 		"altID": 0,
 		"totalBenefits": {},
-		"totalCosts": 19458.84,
+		"totalCosts": 19458.84,			# Total Present Value Costs
 		"totalCostsInv": 0,
 		"totalCostsNonInv": 19458.84,
 		"netBenefits": {},
-		"netSavings": 0,
+		"netSavings": 0,				# Net Savings
 		"sir": {},
 		"airr": {},
 		"spp": {},
@@ -517,12 +517,12 @@
 		"spp": 5,
 		"dpp": 6,
 		"bcr": {},
-		"quantSum": [250000],
+		"quantSum": [7374],
 		"quantUnits": ["kwh"],
 		"marr": 0.06,
-		"deltaQuant": 0,
-		"nsDeltaQuant": {},
-		"nsPercQuant": {},
+		"deltaQuant": [-242626],		# change in electricity from the grid
+		"nsDeltaQuant": [-0.23],
+		"nsPercQuant": [-579.07],
 		"nsElasticityQuant": {}
 	},
 	{
@@ -538,21 +538,93 @@
 		"spp": 1,
 		"dpp": 1,
 		"bcr": {},
-		"quantSum": [250000],
+		"quantSum": [7374],
 		"quantUnits": ["kwh"],
 		"marr": 0.06,
-		"deltaQuant": {},
+		"deltaQuant": [-242626],		# change in electricity from the grid
 		"nsDeltaQuant": {},
 		"nsPercQuant": {},
 		"nsElasticityQuant": {}
 	}
 ],
-flowSummary: [
+"flowSummary": [
 	{
+	"altID": 0,
+	"baselineBool": true,
+	"sensBool": false,
+	"uncBool": false,
+	"totCostNonDisc": [],
+	"totCostDisc": [],			# Cash Flow for Total Present VAlue Life Cycle Costs
+	"totCostNonDiscInv": [],
+	"totCostDiscInv": [],
+	"totCostNonDiscNonInv": [],
+	"totCostDiscNonInv": [],
+	"totBenefitsNonDisc": [],
+	"totBenefitsDisc": [],
+	"totCostDir": [],
+	"totCostInd": [],
+	"totCostExt": [],
+	"totCostDirDisc": [],
+	"totCostIndDisc": [],
+	"totCostExtDisc": [],
+	"totBenefitsDir": [],
+	"totBenefitsInd": [],
+	"totBenefitsExt": [],
+	"totBenefitsDirDisc": [],
+	"totBenefitsIndDisc": [],
+	"totBenefitsExtDisc": []
 	},
 	{
+	"altID": 1,
+	"baselineBool": false,
+	"sensBool": false,
+	"uncBool": false,
+	"totCostNonDisc": [],
+	"totCostDisc": [],			# Cash Flow for Total Present VAlue Life Cycle Costs
+	"totCostNonDiscInv": [],
+	"totCostDiscInv": [],
+	"totCostNonDiscNonInv": [],
+	"totCostDiscNonInv": [],
+	"totBenefitsNonDisc": [],
+	"totBenefitsDisc": [],
+	"totCostDir": [],
+	"totCostInd": [],
+	"totCostExt": [],
+	"totCostDirDisc": [],
+	"totCostIndDisc": [],
+	"totCostExtDisc": [],
+	"totBenefitsDir": [],
+	"totBenefitsInd": [],
+	"totBenefitsExt": [],
+	"totBenefitsDirDisc": [],
+	"totBenefitsIndDisc": [],
+	"totBenefitsExtDisc": []
 	},
 	{
+	"altID": 2,
+	"baselineBool": false,
+	"sensBool": false,
+	"uncBool": false,
+	"totCostNonDisc": [],
+	"totCostDisc": [],
+	"totCostNonDiscInv": [],
+	"totCostDiscInv": [],
+	"totCostNonDiscNonInv": [],
+	"totCostDiscNonInv": [],
+	"totBenefitsNonDisc": [],
+	"totBenefitsDisc": [],
+	"totCostDir": [],
+	"totCostInd": [],
+	"totCostExt": [],
+	"totCostDirDisc": [],
+	"totCostIndDisc": [],
+	"totCostExtDisc": [],
+	"totBenefitsDir": [],
+	"totBenefitsInd": [],
+	"totBenefitsExt": [],
+	"totBenefitsDirDisc": [],
+	"totBenefitsIndDisc": [],
+	"totBenefitsExtDisc": []
 	}
 ]
 }]
