@@ -1,4 +1,4 @@
-#PV2 Example 1
+#PV2 Example 1 - Net Metering, Cash Purchase, PPA Option, 
 #Values are hard coded except those with a variable name comment to the right (e.g. # Study Period).
 
 “userInput” :
@@ -16,47 +16,47 @@
 		“serviceDate”: 2021/01/01,
 		“timestepVal”: “Year”,
 		“timestepComp”: 1,
-		“outputRealBool”: 1,
+		“outputRealBool”: True,
 		“interestRate”: 0.06,				#Nominal Interest Rate
 		“dRateReal”: 0.06,					#Nominal Discount Rate
 		“dRateNom: 0.0812,					#Real Discount Rate
 		“inflationRate”: 0.02,				#General Inflation Rate
 		“Marr”: 0.06,						#Real Discount Rate					
 		“reinvestRate”: 0.06,				#Real Discount Rate
-		“incomeRateFed”: null,
-		“incomeRateOther”: null,
+		“incomeRateFed”: {},
+		“incomeRateOther”: {},
 		“noAlt”: 3,							# 3 if PPA is selected; 2 otherwise
-		“location”: [“MD”,”Silver Spring”,”20910”]	#Location: ST, City, ZIP
+		“location”: ["United States","","","Maryland","","Silver Spring","20910",""]	#Location: ST, City, ZIP
 	}
 
 	# Alternative List
 	# All values are hard coded.
-	#alternative 2 only exists if PPA is selected
+	# alternative 2 only exists because PPA is selected
 	
 	"alternativeObjects": [
 		{
 			“altID”: 0,
 			“altName”: “No Solar System”,
 			“altBCNList”: [0,1],
-			“baselineBool”: 1
+			“baselineBool”: True
 		},
 		{
 			“altID”: 1,
 			“altName”: “Purchase Solar System”,
 			“altBCNList”: [2,3,4,5,6,7,8,9,10],
-			“baselineBool”: 0
+			“baselineBool”: FALSE
 		},
 		{											
 			“altID”: 2,
 			“altName”: “PPA Solar System”,
 			“altBCNList”: [11,12,13,14,15,16],
-			“baselineBool”: 0
+			“baselineBool”: FALSE
 		}
 	]
 
 	# BCN Objects for all alternatives
 	bcnObjects : [
-		#Alternative 0 BCNs
+		#Alternative 0 BCNs (Baseline - No Solar System)
 		{
 			“bcnID”: 0,
 			“altID”: 0,
@@ -65,18 +65,18 @@
 			“bcnName”: “Electricity Consumption”,
 			“bcnTag”: “Electricity”,
 			“initialOcc”: 1,
-			“bcnRealBool”: 1,
-			“bcnInvestBool”: 0,
-			“rvBool”: 0,
-			“recurBool”: 1,
+			“bcnRealBool”: TRUE,
+			“bcnInvestBool”: FALSE,
+			“rvBool”: FALSE,
+			“recurBool”: TRUE,
 			“recurInterval”: 1,
-			“recurVarRate”: “Percent Delta Timestep X-1”,
-			“recurVarValue”: [0.02] ,						# Escalation Rate List
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.02,							# Escalation Rate List or Constant Value
 			“recurEndDate”: 25,								# Study Period
 			“valuePerQ”: 0.126,								# Consumption Rate
 			“quant”: 10000,									# Annual Consumption
-			“quantVarRate”: “Percent Delta Timestep X-1”,	
-			“quantVarValue: [1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00] ,
+			“quantVarRate”: “percDelta”,	
+			“quantVarValue: 1.00,
 			“quantUnit”: “kwh”
 		},
 		{
@@ -87,23 +87,23 @@
 			“bcnName”: “Electricity Demand Charge”,
 			“bcnTag”: “Electricity”,
 			“initialOcc”: 1,
-			“bcnRealBool”: 1,
-			“bcnInvestBool”: 0,
-			“rvBool”: 0,
-			“recurBool”: 1,
+			“bcnRealBool”: TRUE,
+			“bcnInvestBool”: FALSE,
+			“rvBool”: FALSE,
+			“recurBool”: TRUE,
 			“recurInterval”: 1,
-			“recurVarRate”: “Percent Delta Timestep X-1”,
-			“recurVarValue”: [0.0],
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.0,
 			“recurEndDate”: 25,								# Study Period
 			“valuePerQ”: 96.12,								# Demand Charge
 			“quant”: 1,
-			“quantVarRate”: “Fraction Delta Timestep X 1”,
-			“quantVarValue: [1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00] ,
-			“quantUnit”: null
+			“quantVarRate”: “percDelta”,
+			“quantVarValue: 1.00,
+			“quantUnit”: {} 
 		}
-
-		#Alternative 1 will be Purchase of System
-		 
+		
+		#Alternative 1 BCNs (Purchase of System)
+		
 		#Electricity Costs
 		#Metering is Net (Net Metering). Consumption and production values matter and are dependent. 
 		#There could be positive or negative net consumption depending on the year. 
@@ -118,109 +118,124 @@
 		#Excess Production occurs in years 1-6; net consumption is positive years 7-25
 		#Net Consumption starts at a very small number and increases a lot on a percentage basis.
 		#We are using an approach to simplify. Set quantity equal to 1 and then have the variability be equal to the quantity.
-
-		BCN Object {
-		2,					# BCN ID
-		Electricity Consumption,		#Object Name (hard coded)
-		1,					#AlternativeID
-		Cost,					#Type
-		Direct,					#SubType
-		Electricity,				#Tag
-		Constant,				#Current or Constant Dollars
-		No,					#Investment
-		7,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		BLANK,					#CalculateResidualValue
-		Yes,					#Recurrence
-		1,					#RecurrenceInterval
-		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
-		{1.00}, 		# RecurrenceVariabilityRateValues
-		25,				#RecurrenceEndDate
-		0.126,			#ValuePerQ
-		1,					#Set Quantity = 1 and use to make it each to define variability rate = quantity
-		Percent Timestep 1,			#QuantityVariabilityRateType
-		{9,60.5,112,163.5,215,266.5,318,369.5,421,472.5,524,575.5,627,678.5,730,781.5,833,884.5,936}, #QuantityVariabilityRateValues
-		Kwh,					#Quantity Unit
+		
+		{
+			“bcnID”: 2,
+			“altID”: 1,
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Consumption”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 7,								# Year that consumption > production
+			“bcnRealBool”: TRUE,
+			“bcnInvestBool”: FALSE,
+			“rvBool”: FALSE,
+			“recurBool”: TRUE,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.02,							# Escalation Rate List or Constant Value for Consumption
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 0.126,								# Consumption Rate
+			“quant”: 9,										# =(Annual Consumption)-(Annual Production) in Year = initialOcc
+			“quantVarRate”: “percDelta”,	
+			“quantVarValue: [1.00,5.72,0.85,0.46,0.31,0.24,0.19,0.16,0.14,0.12,0.11,0.10,0.09,0.08,0.07,0.07,0.06,0.06], #Percent change year over year
+			“quantUnit”: “kwh”
+		},
+		{
+			“bcnID”: 3,
+			“altID”: 1,
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Demand Charge”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,
+			“bcnRealBool”: TRUE,
+			“bcnInvestBool”: FALSE,
+			“rvBool”: FALSE,
+			“recurBool”: TRUE,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.0,
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 96.12,								# Demand Charge
+			“quant”: 1,
+			“quantVarRate”: “percDelta”,
+			“quantVarValue: 1.00
+			“quantUnit”: {}
 		}
-
-		BCN Object {
-		3,					# BCN ID
-		Electricity Demand Charge,		#Object Name (hard coded)
-		1,					#AlternativeID
-		Cost,					#Type
-		Direct,					#SubType
-		Electricity,				#Tag
-		Constant,				#Current or Constant Dollars
-		No,					#Investment
-		1,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		BLANK,					#CalculateResidualValue
-		Yes,					#Recurrence
-		1,					#RecurrenceInterval
-		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
-		{0.0},					# RecurrenceVariabilityRateValues
-		25,				#RecurrenceEndDate
-		96.12,			#ValuePerQ
-		1,					#Quantity
-		BLANK,					#QuantityVariabilityRateType
-		{BLANK},				#QuantityVariabilityRateValues
-		,					#Quantity Unit
+		{
+			“bcnID”: 4,
+			“altID”: 1,
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Production”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,								# First year production > consumption
+			“bcnRealBool”: True,
+			“bcnInvestBool”: False,
+			“rvBool”: False,
+			“recurBool”: True,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.01,							# Escalation Rate List or Constant Value for Excess Production
+			“recurEndDate”: 6,								# Last year production > consumption
+			“valuePerQ”: -0.059,							# Excess Production Rate
+			“quant”: 300,									# =(Annual Production)-(Annual Consumption) in Year = initialOcc
+			“quantVarRate”: “percDelta”,	
+			“quantVarValue: [1.00,-0.17,-0.21,-0.26,-0.35,-0.55], #
+			“quantUnit”: “kwh”
+		},
+		{
+			“bcnID”: 5,
+			“altID”: 1,
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “PV Grid Connection Fee”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,
+			“bcnRealBool”: True,
+			“bcnInvestBool”: False,
+			“rvBool”: False,
+			“recurBool”: True,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.0,
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 0.0,								# PV Connection Fee
+			“quant”: 1,
+			“quantVarRate”: “percDelta”,
+			“quantVarValue: 1.00,
+			“quantUnit”: {}
 		}
-
-		BCN Object {
-		4,					# BCN ID
-		Electricity Production,			#Object Name (hard coded)
-		1,					#AlternativeID
-		Cost,					#Type
-		Direct,					#SubType
-		Electricity,				#Tag
-		Constant,				#Current or Constant Dollars
-		No,					#Investment
-		1,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		BLANK,					#CalculateResidualValue
-		Yes,					#Recurrence
-		1,					#RecurrenceInterval
-		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
-		{Escalation Rate Array},			# RecurrenceVariabilityRateValues
-		6,				#RecurrenceEndDate
-		-0.059,		#ValuePerQ
-		300,					#Quantity
-		Percent Timestep X-1,			#QuantityVariabilityRateType
-		{1.00,0.83,0.79,0.74,0.65,0.45},				#QuantityVariabilityRateValues
-		Kwh,					#Quantity Unit
-		}
-
-		BCN Object {
-		5,					# BCN ID
-		PV Grid Connection Fee,		#Object Name (hard coded)
-		1,					#AlternativeID
-		Cost,					#Type
-		Direct,					#SubType
-		Electricity,				#Tag
-		Constant,				#Current or Constant Dollars
-		No,					#Investment
-		1,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		BLANK,					#CalculateResidualValue
-		Yes,					#Recurrence
-		1,					#RecurrenceInterval
-		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
-		{0.0},					# RecurrenceVariabilityRateValues
-		25,				#RecurrenceEndDate
-		0,		#ValuePerQ
-		1,					#Quantity
-		BLANK,					#QuantityVariabilityRateType
-		{BLANK},				#QuantityVariabilityRateValues
-		,					#Quantity Unit
-		}
-
 
 		#System Costs
 		#Cash Purchase Solar PV System
 		#Capital Component: Solar PV system, Initial purchase price, Tax credit, Grants/rebates, Maintenance costs, Inverter replacement costs, Residual Value = f(residual value approach)
 		# This assumes that we use a linear depreciation approach to residual value.
-
+		{
+			“bcnID”: 6,
+			“altID”: 1,
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Total Installation Costs”,
+			“bcnTag”: “Investment Costs”,
+			“initialOcc”: 0,
+			“bcnRealBool”: True,
+			“bcnInvestBool”: True,
+			“rvBool”: False,
+			“recurBool”: False,
+			“recurInterval”: {},
+			“recurVarRate”: {},
+			“recurVarValue”: {},
+			“recurEndDate”: {},								
+			“valuePerQ”: 35280,								# Total Installation Cost
+			“quant”: 1,
+			“quantVarRate”: {},
+			“quantVarValue: {},
+			“quantUnit”: {}
+		}
+		
+		
 		BCN Object {
 		6,					# BCN ID
 		Total Installation Costs,			#Object Name
@@ -363,7 +378,7 @@
 		BLANK,					#CalculateResidualValue
 		Yes,					#Recurrence
 		1,					#RecurrenceInterval
-		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		percDelta,		#RecurrenceVariabilityRateType
 		{1.00}, 		# RecurrenceVariabilityRateValues
 		25,				#RecurrenceEndDate
 		0.126,			#ValuePerQ
@@ -387,7 +402,7 @@
 		BLANK,					#CalculateResidualValue
 		Yes,					#Recurrence
 		1,					#RecurrenceInterval
-		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		percDelta,		#RecurrenceVariabilityRateType
 		{0.0},					# RecurrenceVariabilityRateValues
 		25,				#RecurrenceEndDate
 		96.12,			#ValuePerQ
@@ -411,7 +426,7 @@
 		BLANK,					#CalculateResidualValue
 		Yes,					#Recurrence
 		1,					#RecurrenceInterval
-		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		percDelta,		#RecurrenceVariabilityRateType
 		{Escalation Rate Array},			# RecurrenceVariabilityRateValues
 		6,				#RecurrenceEndDate
 		-0.059,		#ValuePerQ
@@ -435,7 +450,7 @@
 		BLANK,					#CalculateResidualValue
 		Yes,					#Recurrence
 		1,					#RecurrenceInterval
-		Percent Delta Timestep X-1,		#RecurrenceVariabilityRateType
+		percDelta,		#RecurrenceVariabilityRateType
 		{0.01},		# RecurrenceVariabilityRateValues
 		25,				#RecurrenceEndDate
 		0.10,			#ValuePerQ
