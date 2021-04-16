@@ -3,9 +3,7 @@
 
 “userInput” :
 [ {
-
 	# Analysis Details
-
 	“analysisObject” : 
 	{
 		”analysisType”: “LCC”,
@@ -27,11 +25,7 @@
 		“incomeRateOther”: {},
 		“location”: ["United States","","","Maryland","","Silver Spring","20910",""]	#Location: ST, City, ZIP
 	}
-
-	# Alternative List
-	# All values are hard coded.
-	# alternative 2 only exists because PPA is selected
-	
+	# Alternative List; All values are hard coded; alternative 2 only exists because PPA is selected
 	"alternativeObjects": [
 		{
 			“altID”: 0,
@@ -52,8 +46,7 @@
 			“baselineBool”: FALSE
 		}
 	]
-
-	# BCN Objects for all alternatives
+	# BCN Objects for all alternatives; note - duplicate objects could be condensed by adding alternative number to altID List (e.g., demand charges).
 	bcnObjects : [
 		#Alternative 0 BCNs (Baseline - No Solar System)
 		{
@@ -99,12 +92,11 @@
 			“quantVarRate”: “percDelta”,
 			“quantVarValue: 1.00,
 			“quantUnit”: {} 
-		}
+		},
 		
 		#Alternative 1 BCNs (Purchase of System)
 		
-		#Electricity Costs
-		#Metering is Net (Net Metering). Consumption and production values matter and are dependent. 
+		#Electricity Costs; Metering is Net Metering. Consumption and production values matter and are dependent. 
 		#There could be positive or negative net consumption depending on the year. 
 		#For example, a PV system can produce excess electricity initially but will degrade over time and may not fully offset consumption in future years.
 		#Since we assume constant consumption and declining production, the object creation can be broken into 2 scenarios: Year 1 Net Consumption > 0 ; Year 1 Net Consumption < 0 (i.e. excess production)
@@ -117,7 +109,6 @@
 		#Excess Production occurs in years 1-6; net consumption is positive years 7-25
 		#Net Consumption starts at a very small number and increases a lot on a percentage basis.
 		#We are using an approach to simplify. Set quantity equal to 1 and then have the variability be equal to the quantity.
-		
 		{
 			“bcnID”: 2,
 			“altID”: [1],
@@ -161,7 +152,7 @@
 			“quantVarRate”: “percDelta”,
 			“quantVarValue: 1.00
 			“quantUnit”: {}
-		}
+		},
 		{
 			“bcnID”: 4,
 			“altID”: [1],
@@ -205,7 +196,7 @@
 			“quantVarRate”: “percDelta”,
 			“quantVarValue: 1.00,
 			“quantUnit”: {}
-		}
+		},
 
 		#System Costs
 		#Cash Purchase Solar PV System
@@ -232,7 +223,7 @@
 			“quantVarRate”: {},
 			“quantVarValue: {},
 			“quantUnit”: {}
-		}
+		},
 		{
 			“bcnID”: 7,
 			“altID”: [1],
@@ -254,7 +245,7 @@
 			“quantVarRate”: {},
 			“quantVarValue: {},
 			“quantUnit”: {}
-		}
+		},
 		{
 			“bcnID”: 8,
 			“altID”: [1],
@@ -262,7 +253,7 @@
 			“bcnSubType”: “Direct”,
 			“bcnName”: “Federal Tax Credit”,
 			“bcnTag”: “Investment Costs”,
-			“initialOcc”: 1,						
+			“initialOcc”: 0,						
 			“bcnInvestBool”: 25,
 			“bcnLife”: {},
 			“rvBool”: False,
@@ -276,7 +267,7 @@
 			“quantVarRate”: {},
 			“quantVarValue: {},
 			“quantUnit”: {}
-		}
+		},
 		{
 			“bcnID”: 9,
 			“altID”: [1],
@@ -284,7 +275,7 @@
 			“bcnSubType”: “Direct”,
 			“bcnName”: “GrantsRebates”,
 			“bcnTag”: “Investment Costs”,
-			“initialOcc”: 1,						
+			“initialOcc”: 0,						
 			“bcnInvestBool”: True,
 			“bcnLife”: 25,
 			“rvBool”: False,
@@ -298,57 +289,29 @@
 			“quantVarRate”: {},
 			“quantVarValue: {},
 			“quantUnit”: {}
+		},
+		{
+			“bcnID”: 10,
+			“altID”: [1],
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Maintenance Costs”,
+			“bcnTag”: “Maintenance Costs”,
+			“initialOcc”: 1,
+			“bcnInvestBool”: False,
+			“bcnLife”: {},
+			“rvBool”: False,
+			“recurBool”: True,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.0,
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 0.0,								# Maintenance Costs = 0 in this example
+			“quant”: 1,
+			“quantVarRate”: “percDelta”,
+			“quantVarValue: 1.00,
+			“quantUnit”: {}
 		}
-
-
-		BCN Object {
-		9,					# BCN ID
-		GrantsRebates,				#Object Name
-		1,					#Alternative ID
-		Cost, 					#Type
-		Direct,					#SubType
-		Investment Costs,			#Tag
-		Real,					#NominalOrReal
-		YES,					#Investment
-		1,					#DateofOccurrence
-		25,				#InvestmentServiceLife
-		NO,					#CalculateResidualValue
-		NO,					#Recurrence
-		BLANK,					#RecurrenceInterval
-		BLANK,					#RecurrenceVariabilityRateType
-		{BLANK},				# RecurrenceVariabilityRateValues
-		BLANK,					#RecurrenceEndDate
-		-1000,			#ValuePerQ – Based on 2021 MD state rebate program
-		1,					#Quantity
-		BLANK,					#QuantityVariabilityRateType
-		{BLANK},				#QuantityVariabilityRateValues
-		BLANK					#Quantity Unit
-		}
-
-		BCN Object {
-		10,					# BCN ID
-		Maintenance Costs,			#Object Name
-		1,					#Alternative ID
-		Cost, 					#Type
-		Direct,					#SubType
-		Maintenance Costs,			#Tag
-		Real,					#NominalOrReal
-		NO,					#Investment
-		1,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		NO,					#CalculateResidualValue
-		YES,					#Recurrence
-		1,					#RecurrenceInterval
-		BLANK,					#RecurrenceVariabilityRateType
-		{BLANK},				# RecurrenceVariabilityRateValues
-		BLANK,					#RecurrenceEndDate
-		0,		#ValuePerQ – Based on2020 tax credit value
-		1,					#Quantity
-		BLANK,					#QuantityVariabilityRateType
-		{BLANK},				#QuantityVariabilityRateValues
-		BLANK					#Quantity Unit
-		}
-
 
 		#Alternative 2 – PPA / Lease (Optional)
 		#Lease to Own Solar PV System
@@ -357,151 +320,164 @@
 		# Instead of having a purchase cost, there are PPA payments for solar PV production
 		# Grid costs are the same as in the purchase case.
 
-		BCN Object {
-		11,					# BCN ID
-		Electricity Consumption - Grid,		#Object Name (hard coded)
-		2,					#AlternativeID
-		Cost,					#Type
-		Direct,					#SubType
-		Electricity,				#Tag
-		Constant,				#Current or Constant Dollars
-		No,					#Investment
-		7,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		BLANK,					#CalculateResidualValue
-		Yes,					#Recurrence
-		1,					#RecurrenceInterval
-		percDelta,		#RecurrenceVariabilityRateType
-		{1.00}, 		# RecurrenceVariabilityRateValues
-		25,				#RecurrenceEndDate
-		0.126,			#ValuePerQ
-		1,					#Set Quantity = 1 and use to make it each to define variability rate = quantity
-		Percent Timestep 1,			#QuantityVariabilityRateType
-		{9,60.5,112,163.5,215,266.5,318,369.5,421,472.5,524,575.5,627,678.5,730,781.5,833,884.5,936}, #QuantityVariabilityRateValues
-		Kwh,					#Quantity Unit
+		{
+			“bcnID”: 11,
+			“altID”: [2],
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Consumption - Grid”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 7,								# Year that consumption > production
+			“bcnInvestBool”: FALSE,
+			“bcnLife”: {},
+			“rvBool”: FALSE,
+			“recurBool”: TRUE,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.02,							# Escalation Rate List or Constant Value for Consumption
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 0.126,								# Consumption Rate
+			“quant”: 9,										# =(Annual Consumption)-(Annual Production) in Year = initialOcc
+			“quantVarRate”: “percDelta”,	
+			“quantVarValue: [1.00,5.72,0.85,0.46,0.31,0.24,0.19,0.16,0.14,0.12,0.11,0.10,0.09,0.08,0.07,0.07,0.06,0.06], #Percent change year over year
+			“quantUnit”: “kwh”
+		},
+		{
+			“bcnID”: 12,
+			“altID”: [2],
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Demand Charge”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,
+			“bcnInvestBool”: FALSE,
+			“bcnLife”: {},
+			“rvBool”: FALSE,
+			“recurBool”: TRUE,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.0,
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 96.12,								# Demand Charge
+			“quant”: 1,
+			“quantVarRate”: “percDelta”,
+			“quantVarValue: 1.00
+			“quantUnit”: {}
+		},
+		{
+			“bcnID”: 13,
+			“altID”: [1],
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Consumption - PPA”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,								# First year production > consumption
+			“bcnInvestBool”: False,
+			“bcnLife”: {},
+			“rvBool”: False,
+			“recurBool”: True,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.01,							# Escalation Rate List or Constant Value for PPA
+			“recurEndDate”: 25,								# Length of PPA Contract = Study Period in this case
+			“valuePerQ”: 0.10,								# PPA Rate
+			“quant”: 10300,									# = Annual Production
+			“quantVarRate”: “percDelta”,	
+			“quantVarValue: 0.995, 							# 0.05% degradation rate per year
+			“quantUnit”: “kwh”
+		},
+		{
+			“bcnID”: 14,
+			“altID”: [1],
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Electricity Production”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,								# First year production > consumption
+			“bcnInvestBool”: False,
+			“bcnLife”: {},
+			“rvBool”: False,
+			“recurBool”: True,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.01,							# Escalation Rate List or Constant Value for Excess Production
+			“recurEndDate”: 6,								# Last year production > consumption
+			“valuePerQ”: -0.059,							# Excess Production Rate
+			“quant”: 300,									# =(Annual Production)-(Annual Consumption) in Year = initialOcc
+			“quantVarRate”: “percDelta”,	
+			“quantVarValue: [1.00,-0.17,-0.21,-0.26,-0.35,-0.55], #
+			“quantUnit”: “kwh”
+		},
+		{
+			“bcnID”: 15,
+			“altID”: [1],
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “PV Grid Connection Fee”,
+			“bcnTag”: “Electricity”,
+			“initialOcc”: 1,
+			“bcnInvestBool”: False,
+			“bcnLife”: {},
+			“rvBool”: False,
+			“recurBool”: True,
+			“recurInterval”: 1,
+			“recurVarRate”: “percDelta”,
+			“recurVarValue”: 0.0,
+			“recurEndDate”: 25,								# Study Period
+			“valuePerQ”: 0.0,								# PV Connection Fee
+			“quant”: 1,
+			“quantVarRate”: “percDelta”,
+			“quantVarValue: 1.00,
+			“quantUnit”: {}
 		}
-
-		BCN Object {
-		12,					# BCN ID
-		Electricity Demand Charge - Grid,		#Object Name (hard coded)
-		2,					#AlternativeID
-		Cost,					#Type
-		Direct,					#SubType
-		Electricity,				#Tag
-		Constant,				#Current or Constant Dollars
-		No,					#Investment
-		1,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		BLANK,					#CalculateResidualValue
-		Yes,					#Recurrence
-		1,					#RecurrenceInterval
-		percDelta,		#RecurrenceVariabilityRateType
-		{0.0},					# RecurrenceVariabilityRateValues
-		25,				#RecurrenceEndDate
-		96.12,			#ValuePerQ
-		1,					#Quantity
-		BLANK,					#QuantityVariabilityRateType
-		{BLANK},				#QuantityVariabilityRateValues
-		,					#Quantity Unit
-		}
-
-		BCN Object {
-		13,					# BCN ID
-		Electricity Production - Grid,			#Object Name (hard coded)
-		2,					#AlternativeID
-		Cost,					#Type
-		Direct,					#SubType
-		Electricity,				#Tag
-		Constant,				#Current or Constant Dollars
-		No,					#Investment
-		1,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		BLANK,					#CalculateResidualValue
-		Yes,					#Recurrence
-		1,					#RecurrenceInterval
-		percDelta,		#RecurrenceVariabilityRateType
-		{Escalation Rate Array},			# RecurrenceVariabilityRateValues
-		6,				#RecurrenceEndDate
-		-0.059,		#ValuePerQ
-		300,					#Quantity
-		Percent Timestep X-1,			#QuantityVariabilityRateType
-		{1.00,0.83,0.79,0.74,0.65,0.45},				#QuantityVariabilityRateValues
-		Kwh,					#Quantity Unit
-		}
-
-		BCN Object {
-		14,					# BCN ID
-		Electricity Consumption - PPA,		#Object Name (hard coded)
-		2,					#AlternativeID
-		Cost,					#Type
-		Direct,					#SubType
-		Electricity,				#Tag
-		Constant,				#Current or Constant Dollars
-		No,					#Investment
-		1,					#DateofOccurrence
-		BLANK,					#InvestmentServiceLife
-		BLANK,					#CalculateResidualValue
-		Yes,					#Recurrence
-		1,					#RecurrenceInterval
-		percDelta,		#RecurrenceVariabilityRateType
-		{0.01},		# RecurrenceVariabilityRateValues
-		25,				#RecurrenceEndDate
-		0.10,			#ValuePerQ
-		10300,			#Quantity
-		Percent Timestep 0,			#QuantityVariabilityRateType
-		{0.995,0.990,0.985,0.980,0.975,0.970,0.965,0.960,0.955,0.950,0.945,0.940,0.935,0.930,0.925,0.920,0.915,0.910,0.905,0.900,0.895,0.890,0.885,0.880},	#QuantityVariabilityRateValues
-		Kwh,					#Quantity Unit
-		}
-
-		BCN Object {
-		15,					# BCN ID
-		PPA Purchase Price,			#Object Name
-		2,					#Alternative ID
-		Cost, 					#Type
-		Direct,					#SubType
-		Investment Costs,			#Tag
-		Real,					#NominalOrReal
-		YES,					#Investment
-		25,			#DateofOccurrence
-		25,	#InvestmentServiceLife
-		NO,					#CalculateResidualValue
-		NO,					#Recurrence
-		BLANK,					#RecurrenceInterval
-		BLANK,					#RecurrenceVariabilityRateType
-		{BLANK},				# RecurrenceVariabilityRateValues
-		BLANK,					#RecurrenceEndDate
-		1000,			#ValuePerQ
-		1,					#Quantity
-		BLANK,					#QuantityVariabilityRateType
-		{BLANK},				#QuantityVariabilityRateValues
-		BLANK					#Quantity Unit
-		}
-
-		BCN Object {
-		16,					# BCN ID
-		Residual Value,				#Object Name
-		2,					#Alternative ID
-		Cost, 					#Type
-		Direct,					#SubType
-		Investment Costs,			#Tag
-		Real,					#NominalOrReal
-		YES,					#Investment
-		Study Period,				#DateofOccurrence
-		,					#InvestmentServiceLife
-		NO,					#CalculateResidualValue
-		NO,					#Recurrence
-		BLANK,					#RecurrenceInterval
-		BLANK,					#RecurrenceVariabilityRateType
-		{BLANK},				# RecurrenceVariabilityRateValues
-		BLANK,					#RecurrenceEndDate
-		0,			#ValuePerQ – Includes (system minus inverter) and (inverter); assumed RV = 0 because end of service life
-		1,					#Quantity
-		BLANK,					#QuantityVariabilityRateType
-		{BLANK},				#QuantityVariabilityRateValues
-		BLANK					#Quantity Unit
+		{
+			“bcnID”: 16,
+			“altID”: [1],
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Solar PV Residual Value”,
+			“bcnTag”: “Investment Costs”,
+			“initialOcc”: 25,				# Study Period
+			“bcnInvestBool”: True,
+			“bcnLife”: {},
+			“rvBool”: False,
+			“recurBool”: False,
+			“recurInterval”: {},
+			“recurVarRate”: {},
+			“recurVarValue”: {},
+			“recurEndDate”: {},								
+			“valuePerQ”: 0,				# Includes (system minus inverter) and (inverter); RV = 0 because system has 25 year service life
+			“quant”: 1,
+			“quantVarRate”: {},
+			“quantVarValue: {},
+			“quantUnit”: {}
+		},
+		{
+			“bcnID”: 17,
+			“altID”: [1],
+			“bcnType”: “Cost”,
+			“bcnSubType”: “Direct”,
+			“bcnName”: “Solar PV Purchase Price”,
+			“bcnTag”: “Investment Costs”,
+			“initialOcc”: 25,				# Study Period
+			“bcnInvestBool”: True,
+			“bcnLife”: {},
+			“rvBool”: False,
+			“recurBool”: False,
+			“recurInterval”: {},
+			“recurVarRate”: {},
+			“recurVarValue”: {},
+			“recurEndDate”: {},								
+			“valuePerQ”: 0,				# PPA gives the system to the homeowner. Purchase Price = 0
+			“quant”: 1,
+			“quantVarRate”: {},
+			“quantVarValue: {},
+			“quantUnit”: {}
 		}
 	]
 } ]
+
+
 
 # JSON Output File Format
 “e3Output” :[
