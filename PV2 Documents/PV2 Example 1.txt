@@ -108,7 +108,6 @@
 		#If Annual Production > Annual Consumption, then consumption is initially less than production. Its possible to have both a consumption object and a production object since prices could be different.
 		#Excess Production occurs in years 1-6; net consumption is positive years 7-25
 		#Net Consumption starts at a very small number and increases a lot on a percentage basis.
-		#We are using an approach to simplify. Set quantity equal to 1 and then have the variability be equal to the quantity.
 		{
 			“bcnID”: 2,
 			“altID”: [1],
@@ -474,36 +473,38 @@
 			“quantVarValue: {},
 			“quantUnit”: {}
 		}
-	]
+	],
+	“sensitivityObject” : {},
+	“scenarioObject” : {}
 } ]
 
 
 
 # JSON Output File Format
-“e3Output” :[
-AlternativeSummaryObjects:[
-	{	#No System
-	0,	#AlternativeID,
-	0,	 #Total PV Benefits
-	19458.84, #Total PV Costs
-	0, #Total Investment Cost
-	19458.84, #Total Non-Investment Cost
-	0, #NB,
-	0,	#NS or Net Profit,
-	null,	#SIR or Net Profit to Investment Ratio,
-	null,	#IRR, (optional)
-	null,	#AIRR,
-	null,	#SPB,
-	null,	#DPB,
-	null,	#(Total Benefits – Total Investment Costs) / Total Investment Costs
-	{250000}, #Total Quantities – sum by tag
-	{kwh},	#Quantities Units
-	0.06,	#MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
-	{0},	#Delta Quantity Array using Tags,
-	{null}, 	#NS / Quantity Change Array,
-	{null},	#NS / % Quantity Change Array,
-	{null},	#NS Elasticity to Quantity Change Array
-	},
+“e3Output” : [
+measureSummary: [
+	{
+		“altID”: 0,
+		“totalPVBenefits”: {},
+		“totalPVCosts”: 19458.84,
+		“totalInvCosts”: 0,
+		“totalNonInvCosts”: 19458.84,
+		“netBenefits”: {},
+		“netSavings”: 0,
+		“sir”: {},
+		“airr”: {},
+		“spb”: {},
+		“dpb”: {},
+		“bir”: {},
+		“totalQuantities”: {250000},
+		“quantitiesUnits”: {"kwh"},
+		“marr”: 0.06,
+		“deltaQ”: {},
+		“netSavingsPerDeltaQ”: {},
+		“netSavingsPerPctDeltaQ”: {},
+		“netSavingsElasticityToDeltaQ”: {}
+	}
+	
 	
 	{	#Solar PV System Purchase
 	1,	#AlternativeID,
@@ -551,5 +552,12 @@ AlternativeSummaryObjects:[
 	{},	#NS Elasticity to Quantity Change Array
 	}
 ],
-CASH FLOW OBJECTS TBD
+flowSummary: [
+	{
+	},
+	{
+	},
+	{
+	}
+]
 }]
