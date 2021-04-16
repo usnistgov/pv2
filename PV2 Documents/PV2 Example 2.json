@@ -151,8 +151,8 @@
 			"recurVarRate": "percDelta",
 			"recurVarValue": 0.01,							# Escalation Rate List or Constant Value for Excess Production
 			"recurEndDate": 25,								# If feed-in tariff, then its Study Period
-			"valuePerQ": -0.059,							# Excess Production Rate
-			"quant": 10300,									# if feed-in tariff, =(Annual Production)
+			"valuePerQ": 0.059,							# Excess Production Rate
+			"quant": -10300,									# if feed-in tariff, =(Annual Production)
 			"quantVarRate": "percDelta",	
 			"quantVarValue": -0.005, 						# Degradation Rate
 			"quantUnit": "kwh"
