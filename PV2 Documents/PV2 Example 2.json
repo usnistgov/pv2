@@ -1,0 +1,379 @@
+# PV2 Example 2 - Gross Metering, Loan Purchase, No PPA
+# Values are hard coded except those with a variable name comment to the right (e.g. # Study Period).
+
+"userInput" :
+[ {
+	# Analysis Details
+	"analysisObject" : 
+	{
+		"analysisType": "LCC",
+		"projectType": "Buildings",
+		"objToReport": ["FlowSummary","MeasureSummary"],
+		"studyPeriod": 25,					# Study Period
+		"baseDate": "2021-01-01",
+		"serviceDate": "2021-01-01",
+		"timestepVal": "Year",
+		"timestepComp": 1,
+		"outputRealBool": true,
+		"interestRate": 0.06,				#Nominal Interest Rate
+		"dRateReal": 0.06,					#Real Discount Rate
+		"dRateNom": 0.0812,					#Nominal Discount Rate
+		"inflationRate": 0.02,				#General Inflation Rate
+		"Marr": 0.06,						#Real Discount Rate					
+		"reinvestRate": 0.06,				#Real Discount Rate
+		"incomeRateFed": {},
+		"incomeRateOther": {},
+		"location": ["United States","","","Maryland","","Silver Spring","20910",""]	#Location: ST, City, ZIP
+	}
+	# Alternative List; All values are hard coded; alternative 2 only exists because PPA is selected
+	"alternativeObjects": [
+		{
+			"altID": 0,
+			"altName": "No Solar System",
+			"altBCNList": [0,1],
+			"baselineBool": true
+		},
+		{
+			"altID": 1,
+			"altName": "Purchase Solar System",
+			"altBCNList": [2,3,4,5,6,7,8,9,10,11],
+			"baselineBool": false
+		}
+	]
+	# BCN Objects for all alternatives; note - duplicate objects could be condensed by adding alternative number to altID List (e.g., demand charges).
+	bcnObjects : [
+		#Alternative 0 BCNs (Baseline - No Solar System); same as PV2 Example 1
+		{
+			"bcnID": 0,
+			"altID": [0],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Electricity Consumption",
+			"bcnTag": "Electricity",
+			"initialOcc": 1,
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": 0.02,							# Escalation Rate List or Constant Value
+			"recurEndDate": 25,								# Study Period
+			"valuePerQ": 0.126,								# Consumption Rate
+			"quant": 10000,									# Annual Consumption
+			"quantVarRate": "percDelta",	
+			"quantVarValue": 1.00,
+			"quantUnit": "kwh"
+		},
+		{
+			"bcnID": 1,
+			"altID": [0],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Electricity Demand Charge",
+			"bcnTag": "Electricity",
+			"initialOcc": 1,
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": 0.0,
+			"recurEndDate": 25,								# Study Period
+			"valuePerQ": 96.12,								# Demand Charge
+			"quant": 1,
+			"quantVarRate": "percDelta",
+			"quantVarValue": 1.00,
+			"quantUnit": {} 
+		},
+		
+		#Alternative 1 BCNs (Purchase of System with Loan)
+		
+		#Electricity Costs; Metering is Feed-In Tariff. Consumption and production are indepedent. 
+		{
+			"bcnID": 2,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Electricity Consumption",
+			"bcnTag": "Electricity",
+			"initialOcc": 1,								# If Feed-in Tariff, then this is Year 1.
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": 0.02,							# Escalation Rate List or Constant Value for Consumption
+			"recurEndDate": 25,								# Study Period
+			"valuePerQ": 0.126,								# Consumption Rate
+			"quant": 10000,									# If Feed-In Tariff, then this is Annual Consumption
+			"quantVarRate": "percDelta",	
+			"quantVarValue": 1.00,
+			"quantUnit": "kwh"
+		},
+		{
+			"bcnID": 3,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Electricity Demand Charge",
+			"bcnTag": "Electricity",
+			"initialOcc": 1,
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": 0.0,
+			"recurEndDate": 25,								# Study Period
+			"valuePerQ": 96.12,								# Demand Charge
+			"quant": 1,
+			"quantVarRate": "percDelta",
+			"quantVarValue": 1.00
+			"quantUnit": {}
+		},
+		{
+			"bcnID": 4,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Electricity Production",
+			"bcnTag": "Electricity",
+			"initialOcc": 1,								# If Feed-In Tariff, Year 1
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": 0.01,							# Escalation Rate List or Constant Value for Excess Production
+			"recurEndDate": 25,								# If feed-in tariff, then its Study Period
+			"valuePerQ": -0.059,							# Excess Production Rate
+			"quant": 10300,									# if feed-in tariff, =(Annual Production)
+			"quantVarRate": "percDelta",	
+			"quantVarValue": -0.005, 						# Degradation Rate
+			"quantUnit": "kwh"
+		},
+		{
+			"bcnID": 5,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "PV Grid Connection Fee",
+			"bcnTag": "Electricity",
+			"initialOcc": 1,
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": 0.0,
+			"recurEndDate": 25,								# Study Period
+			"valuePerQ": 0.0,								# PV Connection Fee
+			"quant": 1,
+			"quantVarRate": "percDelta",
+			"quantVarValue": 1.00,
+			"quantUnit": {}
+		},
+
+		#System Costs
+		#Loan Purchase Solar PV System (10% down payment). 3% interest rate. Price of system is 5% higher with the loan versus cash.
+		#Capital Component: Down payment, loan payments, Tax credit, Grants/rebates, Maintenance costs, Inverter replacement costs, Residual Value = f(residual value approach)
+		# This assumes that we use a linear depreciation approach to residual value.
+		{
+			"bcnID": 6,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Down Payment",
+			"bcnTag": "Investment Costs",
+			"initialOcc": 0,
+			"bcnInvestBool": true,
+			"bcnLife": 25,
+			"rvBool": false,
+			"recurBool": false,
+			"recurInterval": {},
+			"recurVarRate": {},
+			"recurVarValue": {},
+			"recurEndDate": {},								
+			"valuePerQ": 3704,								# Down Payment
+			"quant": 1,
+			"quantVarRate": {},
+			"quantVarValue": {},
+			"quantUnit": {}
+		},
+		{
+			"bcnID": 7,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Loan Payments",
+			"bcnTag": "Loan Payments",
+			"initialOcc": 1,
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": 0.0,
+			"recurEndDate": 12,								# Length of Loan
+			"valuePerQ": 3311.76,							# Loan Payments
+			"quant": 1,
+			"quantVarRate": "percDelta",
+			"quantVarValue": 1.00,
+			"quantUnit": {}
+		},
+		{
+			"bcnID": 8,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Total Installation Costs Residual Value",
+			"bcnTag": "Investment Costs",
+			"initialOcc": 25,				# Study Period
+			"bcnInvestBool": true,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": false,
+			"recurInterval": {},
+			"recurVarRate": {},
+			"recurVarValue": {},
+			"recurEndDate": {},								
+			"valuePerQ": 0,				# Includes (system minus inverter) and (inverter); RV = 0 because system has 25 year service life
+			"quant": 1,
+			"quantVarRate": {},
+			"quantVarValue": {},
+			"quantUnit": {}
+		},
+		{
+			"bcnID": 9,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Federal Tax Credit",
+			"bcnTag": "Investment Costs",
+			"initialOcc": 0,						
+			"bcnInvestBool": 25,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": false,
+			"recurInterval": {},
+			"recurVarRate": {},
+			"recurVarValue": {},
+			"recurEndDate": {},								
+			"valuePerQ": -9631,				# Federal Tax credit = 0.26 * Total Installation Costs
+			"quant": 1,
+			"quantVarRate": {},
+			"quantVarValue": {},
+			"quantUnit": {}
+		},
+		{
+			"bcnID": 10,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "GrantsRebates",
+			"bcnTag": "Investment Costs",
+			"initialOcc": 0,						
+			"bcnInvestBool": true,
+			"bcnLife": 25,
+			"rvBool": false,
+			"recurBool": false,
+			"recurInterval": {},
+			"recurVarRate": {},
+			"recurVarValue": {},
+			"recurEndDate": {},								
+			"valuePerQ": -1000,				# Federal Tax credit = 0.26 * Total Installation Costs
+			"quant": 1,
+			"quantVarRate": {},
+			"quantVarValue": {},
+			"quantUnit": {}
+		},
+		{
+			"bcnID": 11,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Maintenance Costs",
+			"bcnTag": "Maintenance Costs",
+			"initialOcc": 1,
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": 0.0,
+			"recurEndDate": 25,								# Study Period
+			"valuePerQ": 0.0,								# Maintenance Costs = 0 in this example
+			"quant": 1,
+			"quantVarRate": "percDelta",
+			"quantVarValue": 1.00,
+			"quantUnit": {}
+		}
+	],
+	"sensitivityObject" : {},
+	"scenarioObject" : {}
+} ]
+
+
+
+# JSON Output File Format
+"e3Output" : [
+"measureSummary" : [
+	{
+		"altID": 0,
+		"totalBenefits": {},
+		"totalCosts": 19458.84,
+		"totalCostsInv": 0,
+		"totalCostsNonInv": 19458.84,
+		"netBenefits": {},
+		"netSavings": 0,
+		"sir": {},
+		"airr": {},
+		"spp": {},
+		"dpp": {},
+		"bcr": {},
+		"quantSum": [250000],
+		"quantUnits": ["kwh"],
+		"marr": 0.06,
+		"deltaQuant": {},
+		"nsDeltaQuant": {},
+		"nsPercQuant": {},
+		"nsElasticityQuant": {}
+	}
+	{
+		"altID": 1,
+		"totalBenefits": {},
+		"totalCosts": -30400,
+		"totalCostsInv": 31469,
+		"totalCostsNonInv": -61869,
+		"netBenefits": {},
+		"netSavings": 49858.72,
+		"sir": 1.966,
+		"airr": 0.0891,
+		"spp": 5,
+		"dpp": 6,
+		"bcr": {},
+		"quantSum": [250000],
+		"quantUnits": ["kwh"],
+		"marr": 0.06,
+		"deltaQuant": 0,
+		"nsDeltaQuant": {},
+		"nsPercQuant": {},
+		"nsElasticityQuant": {}
+	}
+],
+flowSummary: [
+	{
+	},
+	{
+	},
+	{
+	}
+]

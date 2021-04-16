@@ -16,8 +16,8 @@
 		"timestepComp": 1,
 		"outputRealBool": true,
 		"interestRate": 0.06,				#Nominal Interest Rate
-		"dRateReal": 0.06,					#Nominal Discount Rate
-		"dRateNom: 0.0812,					#Real Discount Rate
+		"dRateReal": 0.06,					#Real Discount Rate
+		"dRateNom": 0.0812,					#Nominal Discount Rate (calculated from real dicount rate and inflation rate)
 		"inflationRate": 0.02,				#General Inflation Rate
 		"Marr": 0.06,						#Real Discount Rate					
 		"reinvestRate": 0.06,				#Real Discount Rate
@@ -115,7 +115,7 @@
 			"bcnSubType": "Direct",
 			"bcnName": "Electricity Consumption",
 			"bcnTag": "Electricity",
-			"initialOcc": 7,								# Year that consumption > production
+			"initialOcc": 7,								# If net metering, then first year that consumption > production
 			"bcnInvestBool": false,
 			"bcnLife": {},
 			"rvBool": false,
@@ -125,7 +125,7 @@
 			"recurVarValue": 0.02,							# Escalation Rate List or Constant Value for Consumption
 			"recurEndDate": 25,								# Study Period
 			"valuePerQ": 0.126,								# Consumption Rate
-			"quant": 9,										# =(Annual Consumption)-(Annual Production) in Year = initialOcc
+			"quant": 9,										# If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
 			"quantVarRate": "percDelta",	
 			"quantVarValue": [1.00,5.72,0.85,0.46,0.31,0.24,0.19,0.16,0.14,0.12,0.11,0.10,0.09,0.08,0.07,0.07,0.06,0.06], #Percent change year over year
 			"quantUnit": "kwh"
@@ -159,7 +159,7 @@
 			"bcnSubType": "Direct",
 			"bcnName": "Electricity Production",
 			"bcnTag": "Electricity",
-			"initialOcc": 1,								# First year production > consumption
+			"initialOcc": 1,								# If net metering, First year production > consumption
 			"bcnInvestBool": false,
 			"bcnLife": {},
 			"rvBool": false,
@@ -167,7 +167,7 @@
 			"recurInterval": 1,
 			"recurVarRate": "percDelta",
 			"recurVarValue": 0.01,							# Escalation Rate List or Constant Value for Excess Production
-			"recurEndDate": 6,								# Last year production > consumption
+			"recurEndDate": 6,								# If net metering, Last year production > consumption
 			"valuePerQ": -0.059,							# Excess Production Rate
 			"quant": 300,									# =(Annual Production)-(Annual Consumption) in Year = initialOcc
 			"quantVarRate": "percDelta",	
@@ -485,71 +485,66 @@
 "measureSummary" : [
 	{
 		"altID": 0,
-		"totalPVBenefits": {},
-		"totalPVCosts": 19458.84,
-		"totalInvCosts": 0,
-		"totalNonInvCosts": 19458.84,
+		"totalBenefits": {},
+		"totalCosts": 19458.84,
+		"totalCostsInv": 0,
+		"totalCostsNonInv": 19458.84,
 		"netBenefits": {},
 		"netSavings": 0,
 		"sir": {},
 		"airr": {},
-		"spb": {},
-		"dpb": {},
-		"bir": {},
-		"totalQuantities": {250000},
-		"quantitiesUnits": {"kwh"},
+		"spp": {},
+		"dpp": {},
+		"bcr": {},
+		"quantSum": [250000],
+		"quantUnits": ["kwh"],
 		"marr": 0.06,
-		"deltaQ": {},
-		"netSavingsPerDeltaQ": {},
-		"netSavingsPerPctDeltaQ": {},
-		"netSavingsElasticityToDeltaQ": {}
+		"deltaQuant": {},
+		"nsDeltaQuant": {},
+		"nsPercQuant": {},
+		"nsElasticityQuant": {}
 	}
-	
-	
-	{	#Solar PV System Purchase
-	1,	#AlternativeID,
-	0,	 #Total PV Benefits
-	-36740, #Total PV Costs
-	25107, #Total Investment Cost
-	-61847, #Total Non-Investment Cost
-	0, #NB,
-	36740,	#NS or Net Profit,
-	2.46,	#SIR or Net Profit to Investment Ratio,
-	null,	#IRR, (optional)
-	0.0989,	#AIRR,
-	5,	#SPB,
-	6,	#DPB,
-	0,	#(Total Benefits – Total Investment Costs) / Total Investment Costs
-	{X1,…}, #Total Quantities – sum by tag
-	{TBD},	#Quantities Units
-	0.06,	#MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
-	{TBD},	#Delta Quantity Array using Tags,
-	{TBD}, 	#NS / Quantity Change Array,
-	{TBD},	#NS / % Quantity Change Array,
-	{TBD},	#NS Elasticity to Quantity Change Array
+	{
+		"altID": 1,
+		"totalBenefits": {},
+		"totalCosts": -36740,
+		"totalCostsInv": 25107,
+		"totalCostsNonInv": -61847,
+		"netBenefits": {},
+		"netSavings": 56198.84,
+		"sir": 2.238,
+		"airr": 0.0947,
+		"spp": 5,
+		"dpp": 6,
+		"bcr": {},
+		"quantSum": [250000],
+		"quantUnits": ["kwh"],
+		"marr": 0.06,
+		"deltaQuant": 0,
+		"nsDeltaQuant": {},
+		"nsPercQuant": {},
+		"nsElasticityQuant": {}
 	},
-	
-	{	#PPA / Lease
-	2,	#AlternativeID,	
-	0,	 #Total PV Benefits
-	15012.2, #Total PV Costs
-	0, #Total Investment Cost
-	15012.2, #Total Non-Investment Cost
-	0, #NB,
-	4446.64,	#NS or Net Profit,
-	null,	#SIR or Net Profit to Investment Ratio,
-	null,	#IRR, (optional)
-	null,	#AIRR,
-	1,	#SPB,
-	1,	#DPB,
-	null,	#(Total Benefits – Total Investment Costs) / Total Investment Costs
-	{X1,…}, #Total Quantities – sum by tag
-	{ },	#Quantities Units
-	0.06,	#MARR/Hurdle Rate – Comes from Analysis Object (user must supply/calculate)
-	{},	#Delta Quantity Array using Tags,
-	{}, 	#NS / Quantity Change Array,
-	{},	#NS / % Quantity Change Array,
-	{},	#NS Elasticity to Quantity Change Array
+	{
+		"altID": 2,
+		"totalBenefits": {},
+		"totalCosts": 15012.2,
+		"totalCostsInv": 0,
+		"totalCostsNonInv": 15012.2,
+		"netBenefits": {},
+		"netSavings": 4446.64,
+		"sir": {},
+		"airr": {},
+		"spp": 1,
+		"dpp": 1,
+		"bcr": {},
+		"quantSum": [250000],
+		"quantUnits": ["kwh"],
+		"marr": 0.06,
+		"deltaQuant": {},
+		"nsDeltaQuant": {},
+		"nsPercQuant": {},
+		"nsElasticityQuant": {}
 	}
 ],
 flowSummary: [
