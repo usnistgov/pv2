@@ -36,7 +36,7 @@
 		{
 			"altID": 1,
 			"altName": "Purchase Solar System",
-			"altBCNList": [2,3,4,5,6,7,8,9,10,11],
+			"altBCNList": [2,3,4,5,6,7,8,9,10,11,12],
 			"baselineBool": false
 		}
 	]
@@ -57,7 +57,7 @@
 			"recurBool": true,
 			"recurInterval": 1,
 			"recurVarRate": "percDelta",
-			"recurVarValue": 0.02,							# Escalation Rate List or Constant Value
+			"recurVarValue": 0.0,							# Real Escalation Rate (List or Constant Value)
 			"recurEndDate": 25,								# Study Period
 			"valuePerQ": 0.126,								# Consumption Rate
 			"quant": 10000,									# Annual Consumption
@@ -105,7 +105,7 @@
 			"recurBool": true,
 			"recurInterval": 1,
 			"recurVarRate": "percDelta",
-			"recurVarValue": 0.02,							# Escalation Rate List or Constant Value for Consumption
+			"recurVarValue": 0.0,							# Escalation Rate List or Constant Value for Consumption
 			"recurEndDate": 25,								# Study Period
 			"valuePerQ": 0.126,								# Consumption Rate
 			"quant": 10000,									# If Feed-In Tariff, then this is Annual Consumption
@@ -149,7 +149,7 @@
 			"recurBool": true,
 			"recurInterval": 1,
 			"recurVarRate": "percDelta",
-			"recurVarValue": 0.01,							# Escalation Rate List or Constant Value for Excess Production
+			"recurVarValue": 0.0,							# Escalation Rate List or Constant Value for Excess Production
 			"recurEndDate": 25,								# If feed-in tariff, then its Study Period
 			"valuePerQ": 0.059,							# Excess Production Rate
 			"quant": -10300,									# if feed-in tariff, =(Annual Production)
@@ -315,6 +315,28 @@
 			"quantVarRate": "percDelta",
 			"quantVarValue": 1.00,
 			"quantUnit": {}
+		},
+		{
+			"bcnID": 12,
+			"altID": [1],
+			"bcnType": "Cost",
+			"bcnSubType": "Direct",
+			"bcnName": "Solar Renewable Energy Credits",
+			"bcnTag": "SRECs",
+			"initialOcc": 1,								# If net metering, then first year that consumption > production
+			"bcnInvestBool": false,
+			"bcnLife": {},
+			"rvBool": false,
+			"recurBool": true,
+			"recurInterval": 1,
+			"recurVarRate": "percDelta",
+			"recurVarValue": [0.00,0.00,0.00,-0.125,0,0,0,0,0,0],	# Rate of Change for SREC Value
+			"recurEndDate": 10,								# Assumes there is only value for Year 1-10.
+			"valuePerQ": 400,								# Consumption Rate
+			"quant": 10.3,									# Quantity = MWh produced = kwh / 1000										# If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
+			"quantVarRate": "percDelta",	
+			"quantVarValue": -0.005, 						#Percent change year over year for SREC quantity based on total production
+			"quantUnit": "kwh"
 		}
 	],
 	"sensitivityObject" : {},
@@ -324,102 +346,125 @@
 
 
 # JSON Output File Format
-"e3Output" : [
-"measureSummary" : [
-	{
-		"altID": 0,
-		"totalBenefits": {},
-		"totalCosts": 19458.84,
-		"totalCostsInv": 0,
-		"totalCostsNonInv": 19458.84,
-		"netBenefits": {},
-		"netSavings": 0,
-		"sir": {},
-		"airr": {},
-		"spp": {},
-		"dpp": {},
-		"bcr": {},
-		"quantSum": [250000],
-		"quantUnits": ["kwh"],
-		"marr": 0.06,
-		"deltaQuant": {},
-		"nsDeltaQuant": {},
-		"nsPercQuant": {},
-		"nsElasticityQuant": {}
-	}
-	{
-		"altID": 1,
-		"totalBenefits": {},
-		"totalCosts": -40031,
-		"totalCostsInv": 21838,
-		"totalCostsNonInv": -61869,
-		"netBenefits": {},
-		"netSavings": 59490.16,
-		"sir": 1.89,
-		"airr": 0.0873,
-		"spp": 0,
-		"dpp": 0,
-		"bcr": {},
-		"quantSum": [7374],
-		"quantUnits": ["kwh"],
-		"marr": 0.06,
-		"deltaQuant": [-242626],	# change in electricity from the grid
-		"nsDeltaQuant": [-0.21],
-		"nsPercQuant": [-513.74],
-		"nsElasticityQuant": {}
-	}
-],
-"flowSummary": [
-	{
-	"altID": 0,
-	"baselineBool": true,
-	"sensBool": false,
-	"uncBool": false,
-	"totCostNonDisc": [],
-	"totCostDisc": [],				# Cash Flow for Total Present VAlue Life Cycle Costs
-	"totCostNonDiscInv": [],
-	"totCostDiscInv": [],
-	"totCostNonDiscNonInv": [],
-	"totCostDiscNonInv": [],
-	"totBenefitsNonDisc": [],
-	"totBenefitsDisc": [],
-	"totCostDir": [],
-	"totCostInd": [],
-	"totCostExt": [],
-	"totCostDirDisc": [],
-	"totCostIndDisc": [],
-	"totCostExtDisc": [],
-	"totBenefitsDir": [],
-	"totBenefitsInd": [],
-	"totBenefitsExt": [],
-	"totBenefitsDirDisc": [],
-	"totBenefitsIndDisc": [],
-	"totBenefitsExtDisc": []
-	},
-	{
-	"altID": 1,
-	"baselineBool": false,
-	"sensBool": false,
-	"uncBool": false,
-	"totCostNonDisc": [],
-	"totCostDisc": [],				# Cash Flow for Total Present VAlue Life Cycle Costs
-	"totCostNonDiscInv": [],
-	"totCostDiscInv": [],
-	"totCostNonDiscNonInv": [],
-	"totCostDiscNonInv": [],
-	"totBenefitsNonDisc": [],
-	"totBenefitsDisc": [],
-	"totCostDir": [],
-	"totCostInd": [],
-	"totCostExt": [],
-	"totCostDirDisc": [],
-	"totCostIndDisc": [],
-	"totCostExtDisc": [],
-	"totBenefitsDir": [],
-	"totBenefitsInd": [],
-	"totBenefitsExt": [],
-	"totBenefitsDirDisc": [],
-	"totBenefitsIndDisc": [],
-	"totBenefitsExtDisc": []
-	}
-]
+"userInput" :
+[ {
+	"alternativeSummaryObjects" : [
+		{
+			"altID": 0,
+			"totalBenefits": {},
+			"totalCosts": 19458.84,
+			"totalCostsInv": 0,
+			"totalCostsNonInv": 19458.84,
+			"netBenefits": {},
+			"netSavings": 0,
+			"SIR": {},
+			"AIRR": {},
+			"SPP": {},
+			"DPP": {},
+			"BCR": {},
+			"quantSum": [250000],
+			"quantUnits": ["kwh"],
+			"MARR": 0.06,
+			"deltaQuant": {},
+			"nsDeltaQuant": {},
+			"nsPercQuant": {},
+			"nsElasticityQuant": {}
+		},
+		{
+			"altID" : 1,
+			"totalBenefits": {},
+			"totalCosts": -22198,
+			"totalCostsInv": 21838,
+			"totalCostsNonInv": -44036,
+			"netBenefits": {},
+			"netSavings": 41657,
+			"SIR" : 1.32,
+			"AIRR" : 0.072,
+			"SPP" : 1,
+			"DPP" : 1,
+			"BCR" : {},
+			"quantSum" : [7374],
+			"quantUnits" : ["kwh"]
+			"MARR" : 0.06,
+			"deltaQuant": [-242626],		# change in electricity from the grid
+			"nsDeltaQuant": [-0.21],
+			"nsPercQuant": [-513.74],
+			"nsElasticityQuant": {}
+		}
+	],
+	"reqCashFlowObjects" : [
+		{
+			"altID" : 0,
+			"totCostDisc" : [float, float, ..., float],			# Cash Flow for Total Present VAlue Life Cycle Costs
+			"totCostsDiscInv" : [float, float, ..., float],
+			"totCostsNonDiscInv" : [float, float, ..., float],
+			"totBenefitsDisc" : [float, float, ..., float],
+			"totCostsDirDisc" : [float, float, ..., float],
+			"totCostsIndDisc" : [float, float, ..., float],
+			"totCostsExtDisc" : [float, float, ..., float],
+			"totBenefitsDirDisc" : [float, float, ..., float],
+			"totBenefitsIndDisc" : [float, float, ..., float],
+			"totBenefitsExtDisc" : [float, float, ..., float]
+		},
+		{
+			"altID" : 1,
+			"totCostDisc" : [float, float, ..., float],
+			"totCostsDiscInv" : [float, float, ..., float],
+			"totCostsNonDiscInv" : [float, float, ..., float],
+			"totBenefitsDisc" : [float, float, ..., float],
+			"totCostsDirDisc" : [float, float, ..., float],
+			"totCostsIndDisc" : [float, float, ..., float],
+			"totCostsExtDisc" : [float, float, ..., float],
+			"totBenefitsDirDisc" : [float, float, ..., float],
+			"totBenefitsIndDisc" : [float, float, ..., float],
+			"totBenefitsExtDisc" : [float, float, ..., float]
+		},
+		{
+			"altID" : 2,
+			"totCostDisc" : [float, float, ..., float],
+			"totCostsDiscInv" : [float, float, ..., float],
+			"totCostsNonDiscInv" : [float, float, ..., float],
+			"totBenefitsDisc" : [float, float, ..., float],
+			"totCostsDirDisc" : [float, float, ..., float],
+			"totCostsIndDisc" : [float, float, ..., float],
+			"totCostsExtDisc" : [float, float, ..., float],
+			"totBenefitsDirDisc" : [float, float, ..., float],
+			"totBenefitsIndDisc" : [float, float, ..., float],
+			"totBenefitsExtDisc" : [float, float, ..., float]
+		}
+	],
+	"optCashFlowObjects" : [
+		{
+			"altID" : 0,
+			"bcnType" : "string",
+			"bcnSubType" : "string",
+			"tag" : "string",
+			"totTagFlowDisc" : [float, float, ..., float],
+			"totTagQ" : [float, float, ..., float],
+			"quantUnits" : "string"
+		},
+		{
+			"altID" : 1,
+			"bcnType" : "string",
+			"bcnSubType" : "string",
+			"tag" : "string",
+			"totTagFlowDisc" : [float, float, ..., float],
+			"totTagQ" : [float, float, ..., float],
+			"quantUnits" : "string"
+		},
+		{
+			"altID" : 2,
+			"bcnType" : "string",
+			"bcnSubType" : "string",
+			"tag" : "string",
+			"totTagFlowDisc" : [float, float, ..., float],
+			"totTagQ" : [float, float, ..., float],
+			"quantUnits" : "string"
+		}
+	]
+} ]
+
+
+
+	
+
