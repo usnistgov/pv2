@@ -510,9 +510,9 @@
 		{
 			"altID" : 0,
 			"totalBenefits" : {},
-			"totalCosts" : 19459,
+			"totalCosts" : 15791.20,
 			"totalCostsInv" : 0,
-			"totalCostsNonInv" : 19459,
+			"totalCostsNonInv" : 15791.20,
 			"netBenefits" : {},
 			"netSavings" : 0,
 			"SIR" : {},
@@ -532,44 +532,44 @@
 		{
 			"altID" : 1,
 			"totalBenefits": {},
-			"totalCosts": -18929,
+			"totalCosts": 511,
 			"totalCostsInv": 25107,
-			"totalCostsNonInv": -44036,
+			"totalCostsNonInv": -40388,
 			"netBenefits": {},
-			"netSavings": 38388,
-			"SIR" : 1.75,
-			"AIRR" : 0.084,
+			"netSavings": 15280,
+			"SIR" : 1.61,
+			"AIRR" : 0.083,
 			"SPP" : 5,
-			"DPP" : 6,
+			"DPP" : 7,
 			"BCR" : {},
-			"quantSum" : [7374],
+			"quantSum" : [7950],
 			"quantUnits" : ["kwh"]
 			"MARR" : 0.06,
-			"deltaQuant": [-242626],		# change in electricity from the grid
-			"nsDeltaQuant": [-0.23],
-			"nsPercQuant": [-579.07],
-			"nsElasticityQuant": {}
+			"deltaQuant": [-242050],		# change in electricity from the grid
+			"nsDeltaQuant": [-0.06],
+			"nsPercQuant": [-157.82],
+			"nsElasticityQuant": [-0.39]
 		},
 		{
 			"altID" : 2,
 			"totalBenefits": {},
-			"totalCosts": 15012.2,
+			"totalCosts": 11643.9,
 			"totalCostsInv": 0,
-			"totalCostsNonInv": 15012.2,
+			"totalCostsNonInv": 11643.9,
 			"netBenefits": {},
-			"netSavings": 4446.64,
+			"netSavings": 4147.31,
 			"SIR" : {},
 			"AIRR" : {},
-			"SPP" : 1,
-			"DPP" : 1,
+			"SPP" : 0,
+			"DPP" : 0,
 			"BCR" : {},
-			"quantSum" : [7374],
+			"quantSum" : [7950],
 			"quantUnits" : ["kwh"]
 			"MARR" : 0.06,
-			"deltaQuant": [-242626],		# change in electricity from the grid
-			"nsDeltaQuant": {},
-			"nsPercQuant": {},
-			"nsElasticityQuant": {}
+			"deltaQuant": [-242050],		# change in electricity from the grid
+			"nsDeltaQuant": -0.02,
+			"nsPercQuant": -42.84,
+			"nsElasticityQuant": [-0.03]
 		}
 	],
 	"reqCashFlowObjects" : [
