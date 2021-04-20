@@ -573,7 +573,7 @@
 		}
 	],
 	"reqCashFlowObjects" : [
-		{	# Total Cash Flows by Year for each Alternative
+		{	# Total Cash Flows by Year for each Alternative; can be used for displaying yearly costs, savings by year, and cumulative savings over time
 			"altID" : 0,
 			"totCostDisc" : [0,1165.37,1099.41,1037.18,978.47,923.08,870.83,821.54,775.04,731.17,689.78,650.74,613.90,579.15,546.37,515.45,486.27,458.74,432.78,408.28,385.17,363.37,342.80,323.40,305.09,287.82],
 			"totCostsDiscInv" : [float, float, ..., float],
@@ -614,7 +614,7 @@
 		}
 	],
 	"optCashFlowObjects" : [
-		{
+		{	# Cash Flow by year by Tag for each alternative; can be used for stacked bar graphs of cash flows
 			"altID" : 0,
 			"bcnType" : "string",
 			"bcnSubType" : "string",
