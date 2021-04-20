@@ -573,44 +573,44 @@
 		}
 	],
 	"reqCashFlowObjects" : [
-		{
+		{	# Total Cash Flows by Year for each Alternative
 			"altID" : 0,
-			"totCostDisc" : [float, float, ..., float],			# Cash Flow for Total Present VAlue Life Cycle Costs
+			"totCostDisc" : [0,1165.37,1099.41,1037.18,978.47,923.08,870.83,821.54,775.04,731.17,689.78,650.74,613.90,579.15,546.37,515.45,486.27,458.74,432.78,408.28,385.17,363.37,342.80,323.40,305.09,287.82],
 			"totCostsDiscInv" : [float, float, ..., float],
 			"totCostsNonDiscInv" : [float, float, ..., float],
-			"totBenefitsDisc" : [float, float, ..., float],
+			"totBenefitsDisc" : {},
 			"totCostsDirDisc" : [float, float, ..., float],
 			"totCostsIndDisc" : [float, float, ..., float],
 			"totCostsExtDisc" : [float, float, ..., float],
-			"totBenefitsDirDisc" : [float, float, ..., float],
-			"totBenefitsIndDisc" : [float, float, ..., float],
-			"totBenefitsExtDisc" : [float, float, ..., float]
+			"totBenefitsDirDisc" : {},
+			"totBenefitsIndDisc" : {},
+			"totBenefitsExtDisc" : {}
 		},
 		{
 			"altID" : 1,
-			"totCostDisc" : [float, float, ..., float],
+			"totCostDisc" : [25107.20,-3826.95,-3519.57,-3236.76,-2605.33,-2395.55,-2202.55,-2024.62,-1859.19,-1707.09,-1567.25,13.99,16.36,18.42,20.19,21.70,22.98,24.04,24.91,25.60,26.13,26.53,26.79,26.94,26.99,26.94],
 			"totCostsDiscInv" : [float, float, ..., float],
 			"totCostsNonDiscInv" : [float, float, ..., float],
-			"totBenefitsDisc" : [float, float, ..., float],
+			"totBenefitsDisc" : {},
 			"totCostsDirDisc" : [float, float, ..., float],
 			"totCostsIndDisc" : [float, float, ..., float],
 			"totCostsExtDisc" : [float, float, ..., float],
-			"totBenefitsDirDisc" : [float, float, ..., float],
-			"totBenefitsIndDisc" : [float, float, ..., float],
-			"totBenefitsExtDisc" : [float, float, ..., float]
+			"totBenefitsDirDisc" : {},
+			"totBenefitsIndDisc" : {},
+			"totBenefitsExtDisc" : {}
 		},
 		{
 			"altID" : 2,
-			"totCostDisc" : [float, float, ..., float],
+			"totCostDisc" : [0,952.65,885.46,822.99,764.92,710.92,660.71,614.04,570.64,530.30,492.80,457.94,425.53,395.41,367.40,341.37,317.18,294.69,273.79,254.36,236.30,219.52,203.93,189.43,175.97,163.45],
 			"totCostsDiscInv" : [float, float, ..., float],
 			"totCostsNonDiscInv" : [float, float, ..., float],
-			"totBenefitsDisc" : [float, float, ..., float],
+			"totBenefitsDisc" : {},
 			"totCostsDirDisc" : [float, float, ..., float],
 			"totCostsIndDisc" : [float, float, ..., float],
 			"totCostsExtDisc" : [float, float, ..., float],
-			"totBenefitsDirDisc" : [float, float, ..., float],
-			"totBenefitsIndDisc" : [float, float, ..., float],
-			"totBenefitsExtDisc" : [float, float, ..., float]
+			"totBenefitsDirDisc" : {},
+			"totBenefitsIndDisc" : {},
+			"totBenefitsExtDisc" : {}
 		}
 	],
 	"optCashFlowObjects" : [

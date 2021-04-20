@@ -412,26 +412,26 @@
 			"totCostDisc" : [float, float, ..., float],
 			"totCostsDiscInv" : [float, float, ..., float],
 			"totCostsNonDiscInv" : [float, float, ..., float],
-			"totBenefitsDisc" : [float, float, ..., float],
+			"totBenefitsDisc" : {},
 			"totCostsDirDisc" : [float, float, ..., float],
 			"totCostsIndDisc" : [float, float, ..., float],
 			"totCostsExtDisc" : [float, float, ..., float],
-			"totBenefitsDirDisc" : [float, float, ..., float],
-			"totBenefitsIndDisc" : [float, float, ..., float],
-			"totBenefitsExtDisc" : [float, float, ..., float]
+			"totBenefitsDirDisc" : {},
+			"totBenefitsIndDisc" : {},
+			"totBenefitsExtDisc" : {}
 		},
 		{
 			"altID" : 2,
 			"totCostDisc" : [float, float, ..., float],
 			"totCostsDiscInv" : [float, float, ..., float],
 			"totCostsNonDiscInv" : [float, float, ..., float],
-			"totBenefitsDisc" : [float, float, ..., float],
+			"totBenefitsDisc" : {},
 			"totCostsDirDisc" : [float, float, ..., float],
 			"totCostsIndDisc" : [float, float, ..., float],
 			"totCostsExtDisc" : [float, float, ..., float],
-			"totBenefitsDirDisc" : [float, float, ..., float],
-			"totBenefitsIndDisc" : [float, float, ..., float],
-			"totBenefitsExtDisc" : [float, float, ..., float]
+			"totBenefitsDirDisc" : {},
+			"totBenefitsIndDisc" : {},
+			"totBenefitsExtDisc" : {}
 		}
 	],
 	"optCashFlowObjects" : [
