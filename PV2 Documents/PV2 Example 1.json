@@ -127,7 +127,7 @@
 			"valuePerQ": 0.126,								# Consumption Rate
 			"quant": 9,										# If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
 			"quantVarRate": "percDelta",	
-			"quantVarValue": [1.00,5.72,0.85,0.46,0.31,0.24,0.19,0.16,0.14,0.12,0.11,0.10,0.09,0.08,0.07,0.07,0.06,0.06], #Percent change year over year
+			"quantVarValue": [0.00,5.72,0.85,0.46,0.31,0.24,0.19,0.16,0.14,0.12,0.11,0.10,0.09,0.08,0.07,0.07,0.06,0.06], #Percent change year over year
 			"quantUnit": "kwh"
 		},
 		{
@@ -171,7 +171,7 @@
 			"valuePerQ": 0.059,								# Excess Production Rate
 			"quant": -300,									# =(Annual Consumption)-(Annual Production) in Year = initialOcc
 			"quantVarRate": "percDelta",	
-			"quantVarValue": [1.00,-0.17,-0.21,-0.26,-0.35,-0.55], #QUESTION: If the value is negative, what is the right variability rate?
+			"quantVarValue": [0.00,-0.17,-0.21,-0.26,-0.35,-0.55], # A negative quant does not matter, the rate of change is stil negative.
 			"quantUnit": "kwh"
 		},
 		{
@@ -283,7 +283,7 @@
 			"recurVarRate": {},
 			"recurVarValue": {},
 			"recurEndDate": {},								
-			"valuePerQ": -1000,				# Federal Tax credit = 0.26 * Total Installation Costs
+			"valuePerQ": -1000,				# State or Local Grant/Rebate Value
 			"quant": 1,
 			"quantVarRate": {},
 			"quantVarValue": {},
@@ -325,13 +325,13 @@
 			"recurBool": true,
 			"recurInterval": 1,
 			"recurVarRate": "percDelta",
-			"recurVarValue": [0.00,0.00,0.00,-0.125,0,0,0,0,0,0],	# Rate of Change for SREC Value
+			"recurVarValue": [0.00,0.00,0.00,-0.125,0,0,0,0,0,0],	# Rate of Change for SREC Value; calculated based on user input values
 			"recurEndDate": 10,								# Assumes there is only value for Year 1-10.
 			"valuePerQ": 400,								# Consumption Rate
-			"quant": 10.3,									# Quantity = MWh produced = kwh / 1000										# If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
+			"quant": 10.3,									# Quantity = MWh produced = kwh / 1000
 			"quantVarRate": "percDelta",	
 			"quantVarValue": -0.005, 						#Percent change year over year for SREC quantity based on total production
-			"quantUnit": "kwh"
+			"quantUnit": {}
 		},
 
 		#Alternative 2 – PPA / Lease (Optional)
@@ -361,7 +361,7 @@
 			"valuePerQ": 0.126,								# Consumption Rate
 			"quant": 9,										# =(Annual Consumption)-(Annual Production) in Year = initialOcc
 			"quantVarRate": "percDelta",	
-			"quantVarValue": [1.00,5.72,0.85,0.46,0.31,0.24,0.19,0.16,0.14,0.12,0.11,0.10,0.09,0.08,0.07,0.07,0.06,0.06], #Percent change year over year
+			"quantVarValue": [0.00,5.72,0.85,0.46,0.31,0.24,0.19,0.16,0.14,0.12,0.11,0.10,0.09,0.08,0.07,0.07,0.06,0.06], #Percent change year over year
 			"quantUnit": "kwh"
 		},
 		{
@@ -427,7 +427,7 @@
 			"valuePerQ": -0.059,							# Excess Production Rate
 			"quant": 300,									# =(Annual Production)-(Annual Consumption) in Year = initialOcc
 			"quantVarRate": "percDelta",	
-			"quantVarValue": [1.00,-0.17,-0.21,-0.26,-0.35,-0.55], #
+			"quantVarValue": [0.00,-0.17,-0.21,-0.26,-0.35,-0.55], #
 			"quantUnit": "kwh"
 		},
 		{

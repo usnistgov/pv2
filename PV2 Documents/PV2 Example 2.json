@@ -288,7 +288,7 @@
 			"recurVarRate": {},
 			"recurVarValue": {},
 			"recurEndDate": {},								
-			"valuePerQ": -1000,				# Federal Tax credit = 0.26 * Total Installation Costs
+			"valuePerQ": -1000,				# State or Local Grant/Rebate
 			"quant": 1,
 			"quantVarRate": {},
 			"quantVarValue": {},
@@ -336,7 +336,7 @@
 			"quant": 10.3,									# Quantity = MWh produced = kwh / 1000										# If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
 			"quantVarRate": "percDelta",	
 			"quantVarValue": -0.005, 						#Percent change year over year for SREC quantity based on total production
-			"quantUnit": "kwh"
+			"quantUnit": {}
 		}
 	],
 	"sensitivityObject" : {},
