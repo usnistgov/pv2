@@ -324,12 +324,12 @@ export function createE3Request(store: any) {
                 recurInterval: 1,
                 recurVarRate: "percDelta",
                 recurVarValue: [0.00, 0.00, 0.00, -0.125, 0, 0, 0, 0, 0, 0],	// TODO Rate of Change for SREC Value
-                recurEndDate: 10,								// TODO Assumes there is only value for Year 1-10.
-                valuePerQ: store.annualConsumption,				//  Consumption Rate
-                quant: 10.3,									// TODO Quantity = MWh produced = kwh / 1000										//  If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
+                recurEndDate: 10,								// TODO (hard code 25 and list length of 25, and have 0s for filler) Assumes there is only value for Year 1-10.
+                valuePerQ: store.annualConsumption,				// Consumption Rate
+                quant: 10.3,									// TODO (pull value from user -> 10300/1000 check example) Quantity = MWh produced = kwh / 1000	//  If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
                 quantVarRate: "percDelta",
-                quantVarValue: -0.005, 						// TODO Percent change year over year for SREC quantity based on total production
-                quantUnit: "kwh"
+                quantVarValue: -0.005, 						// TODO (degradation rate) Percent change year over year for SREC quantity based on total production
+                quantUnit: ""
             },
 
             // TODO
