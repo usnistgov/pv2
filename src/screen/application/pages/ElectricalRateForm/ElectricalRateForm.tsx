@@ -27,7 +27,7 @@ export default function ElectricalRateForm(): ReactElement {
 
     // Advanced
     const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", "No");
-    const escalationRateSingleValue = useReduxGetSet<number>("escalationRateValue", 0);
+    const escalationRateSingleValue = useReduxGetSet<number>("escalationRateSingleValue", 0);
     const escalationRateMultipleValues = useReduxGetSet<string>("escalationRateMultipleValues", "0 0 0 0 0 0 0 0 0 0"); // default value here?
     const escalationRatesSameOrDiff = useReduxGetSet<string>("escalationRatesSameOrDiff", "");
 
@@ -87,7 +87,7 @@ export default function ElectricalRateForm(): ReactElement {
                         }
                         {viewAnnualEscalationRates.get() === "Yes, multiple values" &&
                             <FormField label={"Escalation Rate - Multiple Values"}
-                                schema={Yup.string()}
+                                schema={Yup.string().matches(/^[0-9\s]*$/, "must be numbers separated by spaces")}
                                 value={escalationRateMultipleValues}
                                 endAdornment={"%"}
                                 type={"string"}/>
