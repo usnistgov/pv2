@@ -4,7 +4,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import './main.scss';
 
-import LandingPage from "./screen/landingpage/LandingPage";
+import LandingPage from "./screen/LandingPage/LandingPage";
 import Application from "./screen/application/Application";
 import {Provider} from "react-redux";
 import {initializeStore} from "./screen/application/ApplicationStore";
