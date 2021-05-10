@@ -26,7 +26,9 @@ export default function ElectricalRateForm(): ReactElement {
     const pvGridConnectionRate = useReduxGetSet<number>("pvGridConnectionRate", 0);
 
     // Advanced
-    const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", "");
+    const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", "No");
+    const escalationRateSingleValue = useReduxGetSet<number>("escalationRateValue", 0);
+    const escalationRateMultipleValues = useReduxGetSet<string>("escalationRateMultipleValues", "0 0 0 0 0 0 0 0 0 0"); // default value here?
     const escalationRatesSameOrDiff = useReduxGetSet<string>("escalationRatesSameOrDiff", "");
 
     return (
@@ -72,9 +74,24 @@ export default function ElectricalRateForm(): ReactElement {
                         <FormSelect label={"Do you want to view/edit annual escalation rates?"}
                             value={viewAnnualEscalationRates}
                             options={[
-                                "Yes",
+                                "Yes, single value",
+                                "Yes, multiple values",
                                 "No"
                             ]}/>
+                        {viewAnnualEscalationRates.get() === "Yes, single value" &&
+                            <FormField label={"Escalation Rate - Single Value"}
+                                schema={Yup.number()}
+                                value={escalationRateSingleValue}
+                                endAdornment={"%"}
+                                type={"number"}/>
+                        }
+                        {viewAnnualEscalationRates.get() === "Yes, multiple values" &&
+                            <FormField label={"Escalation Rate - Multiple Values"}
+                                schema={Yup.string()}
+                                value={escalationRateMultipleValues}
+                                endAdornment={"%"}
+                                type={"string"}/>
+                        }
                         <FormSelect label={"Are escalation rates the same for consumption and production?"}
                             value={escalationRatesSameOrDiff}
                             options={[
