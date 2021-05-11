@@ -24,6 +24,22 @@ export function createE3Request(store: any) {
     const negativeNetConsumption = netConsumption.filter((value) => value < 0);
     const positiveNetConsumption = netConsumption.filter((value) => value > 0);
 
+    let escalationRateOrRates;
+
+    switch(store.viewAnnualEscalationRates) {
+        case "Yes, single value":
+            escalationRateOrRates = store.escalationRateSingleValue;
+            break;
+        case "Yes, multiple values":
+            const valuesAsString = store.escalationRateMultipleValues;
+            const arr = valuesAsString.split(/\s/);
+            arr.map((s: string) => parseFloat(s))
+            escalationRateOrRates = arr;
+            break;
+        default:
+            escalationRateOrRates = null;
+    }
+
     return [{
         analysisObject: {
             analysisType: "LCC",
@@ -296,7 +312,7 @@ export function createE3Request(store: any) {
                 bcnTag: "Maintenance Costs",
                 initialOcc: 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
@@ -307,7 +323,7 @@ export function createE3Request(store: any) {
                 quant: 1,
                 quantVarRate: "percDelta",
                 quantVarValue: 1.00,
-                quantUnit: {}
+                quantUnit: null
             },
             {
                 bcnID: 11,
@@ -316,9 +332,9 @@ export function createE3Request(store: any) {
                 bcnSubType: "Direct",
                 bcnName: "Solar Renewable Energy Credits",
                 bcnTag: "SRECs",
-                initialOcc: 1,								// TODO If net metering, then first year that consumption > production
+                initialOcc: store.netMeteringFeedTariff === NET_METERING ? positiveNetConsumptionStart : 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
@@ -328,7 +344,7 @@ export function createE3Request(store: any) {
                 valuePerQ: store.annualConsumption,				// Consumption Rate
                 quant: 10.3,									// TODO (pull value from user -> 10300/1000 check example) Quantity = MWh produced = kwh / 1000	//  If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
                 quantVarRate: "percDelta",
-                quantVarValue: -0.005, 						// TODO (degradation rate) Percent change year over year for SREC quantity based on total production
+                quantVarValue: -store.degradationRate,
                 quantUnit: ""
             },
 
@@ -347,17 +363,17 @@ export function createE3Request(store: any) {
                 bcnSubType: "Direct",
                 bcnName: "Electricity Consumption - Grid",
                 bcnTag: "Electricity",
-                initialOcc: 7,								// TODO Year that consumption > production
+                initialOcc: positiveNetConsumptionStart,	// Year that consumption > production
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
-                recurVarValue: 0.0,							// TODO Escalation Rate List or Constant Value for Consumption
+                recurVarValue: escalationRateOrRates,		// Escalation Rate List or Constant Value for Consumption
                 recurEndDate: store.studyPeriod,			// Study Period
                 valuePerQ: store.annualConsumption,			// Consumption Rate
-                quant: 9,									// TODO =(Annual Consumption)-(Annual Production) in Year = initialOcc
+                quant: store.annualConsumption - positiveNetConsumption[0],		// =(Annual Consumption)-(Annual Production) in Year = initialOcc
                 quantVarRate: "percDelta",
                 quantVarValue: [1.00, 5.72, 0.85, 0.46, 0.31, 0.24, 0.19, 0.16, 0.14, 0.12, 0.11, 0.10, 0.09, 0.08, 0.07, 0.07, 0.06, 0.06], // TODO Percent change year over year
                 quantUnit: "kwh"
@@ -371,7 +387,7 @@ export function createE3Request(store: any) {
                 bcnTag: "Electricity",
                 initialOcc: 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
@@ -382,7 +398,7 @@ export function createE3Request(store: any) {
                 quant: 1,
                 quantVarRate: "percDelta",
                 quantVarValue: 1.00,
-                quantUnit: {}
+                quantUnit: null
             },
             {
                 bcnID: 14,
@@ -393,12 +409,12 @@ export function createE3Request(store: any) {
                 bcnTag: "Electricity",
                 initialOcc: 1,								// TODO  First year production > consumption
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
-                recurVarValue: 0.0,							// TODO Escalation Rate List or Constant Value for PPA
+                recurVarValue: escalationRateOrRates,		// Escalation Rate List or Constant Value for PPA
                 recurEndDate: store.studyPeriod,			// double check Length of PPA Contract = Study Period in this case
                 valuePerQ: 0.10,							// TODO PPA Rate
                 quant: store.estimatedAnnualProduction,		//  = Annual Production
@@ -415,15 +431,15 @@ export function createE3Request(store: any) {
                 bcnTag: "Electricity",
                 initialOcc: 1,								// TODO First year production > consumption
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
-                recurVarValue: 0.01,							// TODO Escalation Rate List or Constant Value for Excess Production
-                recurEndDate: 6,								// TODO Last year production > consumption
+                recurVarValue: escalationRateOrRates,		// Escalation Rate List or Constant Value for Excess Production
+                recurEndDate: 6,							// TODO Last year production > consumption
                 valuePerQ: -0.059,							// TODO Excess Production Rate
-                quant: 300,									// TODO =(Annual Production)-(Annual Consumption) in Year = initialOcc
+                quant: positiveNetConsumption[0] - store.annualConsumption,		// =(Annual Production)-(Annual Consumption) in Year = initialOcc
                 quantVarRate: "percDelta",
                 quantVarValue: [1.00, -0.17, -0.21, -0.26, -0.35, -0.55],
                 quantUnit: "kwh"
@@ -437,7 +453,7 @@ export function createE3Request(store: any) {
                 bcnTag: "Electricity",
                 initialOcc: 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
@@ -448,7 +464,7 @@ export function createE3Request(store: any) {
                 quant: 1,
                 quantVarRate: "percDelta",
                 quantVarValue: 1.00,
-                quantUnit: {}
+                quantUnit: null
             },
             {
                 bcnID: 17,
@@ -459,18 +475,18 @@ export function createE3Request(store: any) {
                 bcnTag: "Investment Costs",
                 initialOcc: store.studyPeriod,				//  Study Period
                 bcnInvestBool: true,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: false,
-                recurInterval: {},
-                recurVarRate: {},
-                recurVarValue: {},
-                recurEndDate: {},
+                recurInterval: null,
+                recurVarRate: null,
+                recurVarValue: null,
+                recurEndDate: null,
                 valuePerQ: 0,				// TODO Includes (system minus inverter) and (inverter); RV = 0 because system has 25 year service life
                 quant: 1,
-                quantVarRate: {},
-                quantVarValue: {},
-                quantUnit: {}
+                quantVarRate: null,
+                quantVarValue: null,
+                quantUnit: null
             },
             {
                 bcnID: 18,
@@ -481,18 +497,18 @@ export function createE3Request(store: any) {
                 bcnTag: "Investment Costs",
                 initialOcc: store.studyPeriod,		//  Study Period
                 bcnInvestBool: true,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: false,
-                recurInterval: {},
-                recurVarRate: {},
-                recurVarValue: {},
-                recurEndDate: {},
+                recurInterval: null,
+                recurVarRate: null,
+                recurVarValue: null,
+                recurEndDate: null,
                 valuePerQ: 0,				// TODO PPA gives the system to the homeowner. Purchase Price = 0
                 quant: 1,
-                quantVarRate: {},
-                quantVarValue: {},
-                quantUnit: {}
+                quantVarRate: null,
+                quantVarValue: null,
+                quantUnit: null
             }
         ],
         sensitivityObject: {},
