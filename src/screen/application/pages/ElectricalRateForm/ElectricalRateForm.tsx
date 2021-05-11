@@ -87,7 +87,7 @@ export default function ElectricalRateForm(): ReactElement {
                         }
                         {viewAnnualEscalationRates.get() === "Yes, multiple values" &&
                             <FormField label={"Escalation Rate - Multiple Values"}
-                                schema={Yup.string().matches(/^[0-9\s]*$/, "must be numbers separated by spaces")}
+                                schema={Yup.string().matches(/^(-?[0-9]+\s*)*$/, "must be numbers separated by spaces")}
                                 value={escalationRateMultipleValues}
                                 endAdornment={"%"}
                                 type={"string"}/>
