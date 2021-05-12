@@ -1,0 +1,19 @@
+@import "src/main.scss";
+
+.loading-indicator {
+  text-align: center;
+
+  h1 {
+    color: $off-white;
+  }
+}
+
+.results-display {
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+  padding: 1em 2em;
+}
