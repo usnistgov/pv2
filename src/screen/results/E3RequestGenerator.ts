@@ -32,7 +32,7 @@ export function createE3Request(store: any) {
             break;
         case "Yes, multiple values":
             const valuesAsString = store.escalationRateMultipleValues;
-            const arr = valuesAsString.split(/\s/);
+            const arr = valuesAsString.split(/\s*,?\s*/);
             arr.map((s: string) => parseFloat(s))
             escalationRateOrRates = arr;
             break;

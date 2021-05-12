@@ -36,7 +36,7 @@ export default function SrecForm(): ReactElement {
                 }
                 {srecPayments.get() === "Production-based Payments" &&
                     <FormField label={"SREC Payments - Production-based Payments"}
-                        schema={Yup.string().matches(/^(-?[0-9]+\s*)*$/, "must be numbers separated by spaces")}
+                        schema={Yup.string().matches(/^(-?[0-9]+\s*,?\s*)*$/, "must be numbers separated by spaces and/or commas")}
                         value={srecPaymentsProductionBased}
                         startAdornment={"$"}
                         type={"string"}/>
