@@ -24,7 +24,7 @@ export default function ResultCard(props: ResultCardProps): ReactElement {
     const results = props.results;
 
     const style: any = props.isLabels ? {
-      textAlign: "right",
+      textAlign: "left",
       backgroundColor: "none",
     } : {
       textAlign: "right",
