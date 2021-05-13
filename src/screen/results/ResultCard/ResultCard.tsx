@@ -34,7 +34,7 @@ export default function ResultCard(props: ResultCardProps): ReactElement {
     return (
       <div className="result-card" style={style}>
         <div className="result-title">
-          {props.isLabels ? "" : results.altID === 0 ? "Baseline" : "Alternative " + results.altID.toString()}
+          {props.isLabels ? "Summary Results" : results.altID === 0 ? "Baseline" : "Alternative " + results.altID.toString()}
         </div>
         {fieldsToDisplay.map(field => {
           return (

@@ -8,11 +8,21 @@
   }
 }
 
-.results-display {
+.results-wrapper {
+  width: 100%;
   height: 100%;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-template-rows: 1fr;
   box-sizing: border-box;
   padding: 1em 2em;
+
+  .results-display {
+    height: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
 }
+
+
