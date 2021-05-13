@@ -1,6 +1,7 @@
 import {ReactElement, useState} from "react";
 import MaterialHeader from "../application/components/MaterialHeader/MaterialHeader";
 import {Backdrop, Box, CircularProgress} from "@material-ui/core";
+import { CSVLink, CSVDownload } from "react-csv";
 
 import "./results.scss";
 import {useStore} from "react-redux";
@@ -170,18 +171,25 @@ export default function Results(): ReactElement {
 
     return (
         <PageWrapper>
-            {/* TODO LOADING */}
-            {/* <Backdrop open={result === undefined}>
-                <Box className={"loading-indicator"}>
-                    <CircularProgress/>
-                    <h1>Calculating Results</h1>
-                </Box>
-            </Backdrop> */}
-            <MaterialHeader text={"Results"}/>
-            <div className="results-wrapper">
-                <ResultCard results={tableLabels} isLabels={true}/>
-                <div className="results-display">
-                    {exampleResults.map(res => <ResultCard results={res} isLabels={false}/>)}
+            <div className="results-page-wrapper">
+                {/* TODO LOADING */}
+                {/* <Backdrop open={result === undefined}>
+                    <Box className={"loading-indicator"}>
+                        <CircularProgress/>
+                        <h1>Calculating Results</h1>
+                    </Box>
+                </Backdrop> */}
+                <MaterialHeader text={"Results"}/>
+                <div className="results-wrapper">
+                    <ResultCard results={tableLabels} isLabels={true}/>
+                    <div className="results-display">
+                        {exampleResults.map(res => <ResultCard results={res} isLabels={false}/>)}
+                    </div>
+                </div>
+                <div className="download-results">
+                    <CSVLink data={exampleResults} target="_blank">
+                        Download Results
+                    </CSVLink>
                 </div>
             </div>
         </PageWrapper>
