@@ -14,6 +14,9 @@ export default function SrecForm(): ReactElement {
     const srecPaymentsUpFront = useReduxGetSet<number>("srecPaymentsUpFront", 0)
     const srecPaymentsProductionBased = useReduxGetSet<string>("srecPaymentsProductionBased", "0 0 0 0 0");
 
+    // TODO: fetch studyPeriod from redux store
+    const studyPeriod = 25;
+    
     return (
         <Box className={"srec-page-container"}>
             <MaterialHeader text={"SREC Payments"}/>
@@ -28,17 +31,17 @@ export default function SrecForm(): ReactElement {
                         "Production-based Payments",
                     ]}/>
                 {srecPayments.get() === "Up-front Payment" &&
-                    <FormField label={"SREC Payments - Up-front payment"}
+                    <FormField label={"SREC Payments - Up-front Payment"}
                         schema={Yup.number()}
                         value={srecPaymentsUpFront}
-                        startAdornment={"$"}
+                        endAdornment={"$/kWh"}
                         type={"number"}/>
                 }
                 {srecPayments.get() === "Production-based Payments" &&
                     <FormField label={"SREC Payments - Production-based Payments"}
                         schema={Yup.string().matches(/^(-?[0-9]+\s*,?\s*)*$/, "must be numbers separated by spaces and/or commas")}
                         value={srecPaymentsProductionBased}
-                        startAdornment={"$"}
+                        endAdornment={"$/mWh"}
                         type={"string"}/>
                 }
             </Box>

@@ -78,6 +78,7 @@ export default function ElectricalRateForm(): ReactElement {
                                 "Yes, multiple values",
                                 "No"
                             ]}/>
+                        {/* TODO potentially only need "Yes" and no single value option */}
                         {viewAnnualEscalationRates.get() === "Yes, single value" &&
                             <FormField label={"Escalation Rate - Single Value"}
                                 schema={Yup.number()}
