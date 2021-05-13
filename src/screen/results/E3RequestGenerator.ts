@@ -297,7 +297,7 @@ export function createE3Request(store: any) {
                 recurVarRate: {},
                 recurVarValue: {},
                 recurEndDate: {},
-                valuePerQ: store.stateOrLocalTaxCreditsOrGrantsOrRebates,//FIXME: is this supposed to be rebates?
+                valuePerQ: store.stateOrLocalTaxCreditsOrGrantsOrRebates,
                 quant: 1,
                 quantVarRate: {},
                 quantVarValue: {},
