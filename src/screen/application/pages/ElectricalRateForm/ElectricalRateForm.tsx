@@ -8,7 +8,7 @@ import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../components/FormSelect/FormSelect";
 import {useReduxGetSet} from "../../Utils";
 
-import "./ElectricalRateForm.css"
+import "./ElectricalRateForm.scss"
 import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
 import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
 
@@ -27,9 +27,17 @@ export default function ElectricalRateForm(): ReactElement {
 
     // Advanced
     const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", "No");
-    const escalationRateSingleValue = useReduxGetSet<number>("escalationRateSingleValue", 0);
-    const escalationRateMultipleValues = useReduxGetSet<string>("escalationRateMultipleValues", "0 0 0 0 0 0 0 0 0 0"); // default value here?
     const escalationRatesSameOrDiff = useReduxGetSet<string>("escalationRatesSameOrDiff", "");
+
+    // TODO: fetch studyPeriod from redux store, and fetch default values
+    const studyPeriod = 25;
+    const escalationRatesPerYear = [];
+    for (var i = 0; i < studyPeriod; i++) {
+        // TODO: push the default value instead of i, when available
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const escalaationRateForYear = useReduxGetSet<number>("escalationRateYear_" + i, i);
+        escalationRatesPerYear.push(escalaationRateForYear);
+    }
 
     return (
         <Box>
@@ -74,24 +82,21 @@ export default function ElectricalRateForm(): ReactElement {
                         <FormSelect label={"Do you want to view/edit annual escalation rates?"}
                             value={viewAnnualEscalationRates}
                             options={[
-                                "Yes, single value",
-                                "Yes, multiple values",
+                                "Yes",
                                 "No"
                             ]}/>
-                        {/* TODO potentially only need "Yes" and no single value option */}
-                        {viewAnnualEscalationRates.get() === "Yes, single value" &&
-                            <FormField label={"Escalation Rate - Single Value"}
-                                schema={Yup.number()}
-                                value={escalationRateSingleValue}
-                                endAdornment={"%"}
-                                type={"number"}/>
-                        }
-                        {viewAnnualEscalationRates.get() === "Yes, multiple values" &&
-                            <FormField label={"Escalation Rate - Multiple Values"}
-                                schema={Yup.string().matches(/^(-?[0-9]+\s*,?\s*)*$/, "must be numbers separated by spaces and/or commas")}
-                                value={escalationRateMultipleValues}
-                                endAdornment={"%"}
-                                type={"string"}/>
+                        {viewAnnualEscalationRates.get() === "Yes" &&
+                            <div className="rate-two-columns">
+                                {escalationRatesPerYear.map((rate, i) => {
+                                    return (
+                                        <FormField label={"Year " + i}
+                                            schema={Yup.number()}
+                                            value={rate}
+                                            endAdornment={"%"}
+                                            type={"string"}/>
+                                    )
+                                })}
+                            </div>
                         }
                         <FormSelect label={"Are escalation rates the same for consumption and production?"}
                             value={escalationRatesSameOrDiff}

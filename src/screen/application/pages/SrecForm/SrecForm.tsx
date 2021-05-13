@@ -23,7 +23,6 @@ export default function SrecForm(): ReactElement {
         const srecPaymentForYear = useReduxGetSet<number>("srecPaymentsProdBased_" + i, i);
         srecPaymentsPerYear.push(srecPaymentForYear);
     }
-    console.log(srecPaymentsPerYear.length)
     
     return (
         <Box className={"srec-page-container"}>
