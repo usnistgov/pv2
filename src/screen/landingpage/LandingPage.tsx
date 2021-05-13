@@ -1,8 +1,8 @@
 import React from "react";
 import './LandingPage.scss';
 import {useHistory} from "react-router-dom";
-import Button from "./components/Button/Button";
 import PageWrapper from "../components/PageWrapper";
+import Button from "./components/Button/Button";
 
 const LandingPage = () => {
   const history = useHistory();

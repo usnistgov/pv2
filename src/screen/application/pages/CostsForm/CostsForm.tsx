@@ -32,7 +32,7 @@ export default function CostsForm(): ReactElement {
     // Analysis Assumptions
     // Advanced
     const residualValueApproach = useReduxGetSet<string>("residualValueApproach", "");
-    const studyPeriod = useReduxGetSet<number>("studyPeriod", 0);
+    const studyPeriod = useReduxGetSet<number>("studyPeriod", 25);
     const realDiscountRate = useReduxGetSet<number>("realDiscountRate", 0);
     const generalInflation = useReduxGetSet<number>("generalInflation", 0);
 
