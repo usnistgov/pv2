@@ -59,17 +59,5 @@
       "last 1 safari version"
     ]
   },
-<<<<<<< HEAD
   "devDependencies": {}
-=======
-  "devDependencies": {
-    "@storybook/addon-actions": "^6.1.14",
-    "@storybook/addon-essentials": "^6.1.14",
-    "@storybook/addon-links": "^6.1.14",
-    "@storybook/node-logger": "^6.1.14",
-    "@storybook/preset-create-react-app": "^3.1.5",
-    "@storybook/react": "^6.1.14",
-    "@types/react-csv": "^1.1.1"
-  }
->>>>>>> 12149f55bb3d6563ea57dcf84e2543a44093c9b8
 }
