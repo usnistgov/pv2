@@ -14,8 +14,16 @@ export default function SrecForm(): ReactElement {
     const srecPaymentsUpFront = useReduxGetSet<number>("srecPaymentsUpFront", 0)
     const srecPaymentsProductionBased = useReduxGetSet<string>("srecPaymentsProductionBased", "0 0 0 0 0");
 
-    // TODO: fetch studyPeriod from redux store
+    // TODO: fetch studyPeriod from redux store, and fetch default values
     const studyPeriod = 25;
+    const srecPaymentsPerYear = [];
+    for (var i = 0; i < studyPeriod; i++) {
+        // TODO: push the default value instead of i, when available
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const srecPaymentForYear = useReduxGetSet<number>("srecPaymentsProdBased_" + i, i);
+        srecPaymentsPerYear.push(srecPaymentForYear);
+    }
+    console.log(srecPaymentsPerYear.length)
     
     return (
         <Box className={"srec-page-container"}>
@@ -38,11 +46,18 @@ export default function SrecForm(): ReactElement {
                         type={"number"}/>
                 }
                 {srecPayments.get() === "Production-based Payments" &&
-                    <FormField label={"SREC Payments - Production-based Payments"}
-                        schema={Yup.string().matches(/^(-?[0-9]+\s*,?\s*)*$/, "must be numbers separated by spaces and/or commas")}
-                        value={srecPaymentsProductionBased}
-                        endAdornment={"$/mWh"}
-                        type={"string"}/>
+                    <div className="srec-two-columns">
+                        {srecPaymentsPerYear.map((payment, i) => {
+                            return (
+                                <FormField label={"Year " + i}
+                                    schema={Yup.number()}
+                                    value={payment}
+                                    endAdornment={"$/mWh"}
+                                    type={"string"}/>
+                            )
+                        })}
+                    </div>
+                    
                 }
             </Box>
         </Box>
