@@ -32,11 +32,11 @@ export default function ElectricalRateForm(): ReactElement {
     // TODO: fetch studyPeriod from redux store, and fetch default values
     const studyPeriod = 25;
     const escalationRatesPerYear = [];
-    for (var i = 0; i < studyPeriod; i++) {
+    for (let i = 0; i < studyPeriod; i++) {
         // TODO: push the default value instead of i, when available
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const escalaationRateForYear = useReduxGetSet<number>("escalationRateYear_" + i, i);
-        escalationRatesPerYear.push(escalaationRateForYear);
+        const escalationRateForYear = useReduxGetSet<number>("escalationRateYear_" + i, i);
+        escalationRatesPerYear.push(escalationRateForYear);
     }
 
     return (

@@ -3,7 +3,6 @@ const assumptions = {
 }
 
 const NET_METERING = "Net Metering Tariff";
-const FEED_IN_TARIFF = "Feed in Tariff (Gross Metering)";
 
 export function createE3Request(store: any) {
     const now = new Date();

@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
+import '@csstools/normalize.css'
 import './main.scss';
 
-import LandingPage from "./screen/LandingPage/LandingPage";
+import LandingPage from "./screen/landingpage/LandingPage";
 import Application from "./screen/application/Application";
 import {Provider} from "react-redux";
 import {initializeStore} from "./screen/application/ApplicationStore";
