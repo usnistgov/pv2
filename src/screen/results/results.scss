@@ -1,51 +1,21 @@
 @import "src/main.scss";
 
-.results-page-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 1em;
 
-  .loading-indicator {
-    text-align: center;
-  
-    h1 {
-      color: $off-white;
-    }
-  }
-  
-  .results-wrapper {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: min-content auto;
-    grid-template-rows: 1fr;
-    box-sizing: border-box;
-    padding: 1em 2em;
-  
-    .results-display {
-      height: 100%;
-      overflow-x: scroll;
-      overflow-y: hidden;
-      white-space: nowrap;
-    }
-  }
-  
-  .download-results {
-    width: 10em;
-    height: 1em;
-    padding: 0.5em;
-    border-radius: 1em;
-    text-align: center;
-    align-self: center;
-    justify-self: center;
-    background-color: $primary-light;
-    a {
-      color: $primary-contrast;
-      text-decoration: none;
+.loading-indicator {
+  text-align: center;
 
-      &:hover {
-        color: $primary;   
-      }
-    } 
+  h1 {
+    color: $off-white;
+  }
+}
+
+.download-results {
+  margin: 32px auto 64px auto;
+  width: fit-content;
+
+  align-content: center;
+
+  a {
+    text-decoration: none;
   }
 }

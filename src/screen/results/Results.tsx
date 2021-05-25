@@ -1,7 +1,7 @@
 import {ReactElement, useState} from "react";
 import MaterialHeader from "../application/components/MaterialHeader/MaterialHeader";
-import {Backdrop, Box, CircularProgress} from "@material-ui/core";
-import { CSVLink, CSVDownload } from "react-csv";
+import {Backdrop, Box, Button, Container, CircularProgress, Grid} from "@material-ui/core";
+import {CSVLink, CSVDownload} from "react-csv";
 
 import "./results.scss";
 import {useStore} from "react-redux";
@@ -11,64 +11,64 @@ import PageWrapper from "../components/PageWrapper";
 
 const exampleResults = [
     {
-        "altID" : 0,
-        "totalBenefits" : null,
-        "totalCosts" : 15791.20,
-        "totalCostsInv" : 0,
-        "totalCostsNonInv" : 15791.20,
-        "netBenefits" : null,
-        "netSavings" : 0,
-        "SIR" : null,
-        "IRR" : null,
-        "AIRR" : null,
-        "SPP" : null,
-        "DPP" : null,
-        "BCR" : null,
-        "quantSum" : [250000],
-        "quantUnits" : ["kwh"],
-        "MARR" : 0.06,
-        "deltaQuant" : null,
-        "nsDeltaQuant" : null,
-        "nsPercQuant" : null,
+        "altID": 0,
+        "totalBenefits": null,
+        "totalCosts": 15791.20,
+        "totalCostsInv": 0,
+        "totalCostsNonInv": 15791.20,
+        "netBenefits": null,
+        "netSavings": 0,
+        "SIR": null,
+        "IRR": null,
+        "AIRR": null,
+        "SPP": null,
+        "DPP": null,
+        "BCR": null,
+        "quantSum": [250000],
+        "quantUnits": ["kwh"],
+        "MARR": 0.06,
+        "deltaQuant": null,
+        "nsDeltaQuant": null,
+        "nsPercQuant": null,
         "nsElasticityQuant": null
     },
     {
-        "altID" : 1,
+        "altID": 1,
         "totalBenefits": null,
         "totalCosts": 511,
         "totalCostsInv": 25107,
         "totalCostsNonInv": -40388,
         "netBenefits": null,
         "netSavings": 15280,
-        "SIR" : 1.61,
-        "AIRR" : 0.083,
-        "SPP" : 5,
-        "DPP" : 7,
-        "BCR" : null,
-        "quantSum" : [7950],
-        "quantUnits" : ["kwh"],
-        "MARR" : 0.06,
+        "SIR": 1.61,
+        "AIRR": 0.083,
+        "SPP": 5,
+        "DPP": 7,
+        "BCR": null,
+        "quantSum": [7950],
+        "quantUnits": ["kwh"],
+        "MARR": 0.06,
         "deltaQuant": [-242050],
         "nsDeltaQuant": [-0.06],
         "nsPercQuant": [-157.82],
         "nsElasticityQuant": [-0.39]
     },
     {
-        "altID" : 2,
+        "altID": 2,
         "totalBenefits": null,
         "totalCosts": 11643.9,
         "totalCostsInv": 0,
         "totalCostsNonInv": 11643.9,
         "netBenefits": null,
         "netSavings": 4147.31,
-        "SIR" : null,
-        "AIRR" : null,
-        "SPP" : 0,
-        "DPP" : 0,
-        "BCR" : null,
-        "quantSum" : [7950],
-        "quantUnits" : ["kwh"],
-        "MARR" : 0.06,
+        "SIR": null,
+        "AIRR": null,
+        "SPP": 0,
+        "DPP": 0,
+        "BCR": null,
+        "quantSum": [7950],
+        "quantUnits": ["kwh"],
+        "MARR": 0.06,
         "deltaQuant": [-242050],
         "nsDeltaQuant": -0.02,
         "nsPercQuant": -42.84,
@@ -107,7 +107,7 @@ export default function Results(): ReactElement {
 
     return (
         <PageWrapper>
-            <div className="results-page-wrapper">
+            <Container>
                 {/* TODO LOADING */}
                 {/* <Backdrop open={result === undefined}>
                     <Box className={"loading-indicator"}>
@@ -116,18 +116,21 @@ export default function Results(): ReactElement {
                     </Box>
                 </Backdrop> */}
                 <MaterialHeader text={"Results"}/>
-                <div className="results-wrapper">
-                    <ResultCard results={tableLabels} isLabels={true}/>
-                    <div className="results-display">
-                        {exampleResults.map(res => <ResultCard results={res} isLabels={false}/>)}
-                    </div>
-                </div>
-                <div className="download-results">
-                    <CSVLink data={exampleResults} target="_blank">
-                        Download Results
+                <Grid container justify={"center"} spacing={2}>
+                    {exampleResults.map(res => {
+                        return <Grid item>
+                            <ResultCard results={res} isLabels={false}/>
+                        </Grid>
+                    })}
+                </Grid>
+                <div className={"download-results"}>
+                    <CSVLink data={exampleResults}>
+                        <Button variant={"contained"} color={"primary"}>
+                            Download Results
+                        </Button>
                     </CSVLink>
                 </div>
-            </div>
+            </Container>
         </PageWrapper>
     )
 }
