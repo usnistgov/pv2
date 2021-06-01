@@ -1,11 +1,19 @@
 @import "src/main.scss";
 
 
-.loading-indicator {
-  text-align: center;
+.result-loading-backdrop {
+  z-index: 1000 !important;
 
-  h1 {
-    color: $off-white;
+  .loading-indicator {
+    text-align: center;
+
+    h1 {
+      color: $off-white;
+    }
+
+    .cancel-calculation-button {
+      margin-top: 32px;
+    }
   }
 }
 

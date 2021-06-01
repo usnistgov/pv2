@@ -1,12 +1,15 @@
-import {ReactElement, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import MaterialHeader from "../application/components/MaterialHeader/MaterialHeader";
-import {Button, Container, Grid} from "@material-ui/core";
+import {Backdrop, Box, Button, CircularProgress, Grid} from "@material-ui/core";
 import {CSVLink} from "react-csv";
 
 import "./Results.scss";
 import {useStore} from "react-redux";
 import {createE3Request} from "./E3RequestGenerator";
 import ResultCard from "./ResultCard/ResultCard";
+import {Icon as MdiIcon} from "@mdi/react";
+import {mdiClose} from "@mdi/js";
+import {useHistory} from "react-router-dom";
 
 const exampleResults = [
     {
@@ -86,33 +89,48 @@ const tableLabels = {
 
 export default function Results(): ReactElement {
     const store = useStore();
-    const [result, setResult] = useState();
+    const [result, setResult] = useState<undefined | {}>(); //TODO replace with results object
+    const history = useHistory();
 
-    const fetchOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify(createE3Request(store.getState()))
-    }
+    useEffect(() => {
+        const controller = new AbortController();
 
-    // Fetch results from E3
-    const promise = fetch("", fetchOptions)
-        .then((response: Response) => response.json())
-        .then((data: any) => setResult(data));
+        // Generate fetch post request
+        const fetchOptions = {
+            method: "POST",
+            signal: controller.signal,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(createE3Request(store.getState()))
+        }
 
-    console.log(JSON.stringify(createE3Request(store.getState())))
+        // TODO replace with E3 url once that is set up
+        // Fetch results from E3
+        fetch("", fetchOptions)
+            .then((response: Response) => response.json())
+            .then((data: any) => setResult(data));
+
+        // If the component is unmounted, abort the request
+        return () => controller.abort()
+    })
 
     return (
         <>
-            {/* TODO LOADING */}
-            {/* <Backdrop open={result === undefined}>
-                    <Box className={"loading-indicator"}>
-                        <CircularProgress/>
-                        <h1>Calculating Results</h1>
-                    </Box>
-                </Backdrop> */}
+            <Backdrop className={"result-loading-backdrop"} open={result === undefined}>
+                <Box className={"loading-indicator"}>
+                    <CircularProgress/>
+                    <h1>Calculating Results</h1>
+                    <Button className={"cancel-calculation-button"}
+                            variant={"contained"}
+                            color={"secondary"}
+                            startIcon={<MdiIcon path={mdiClose} size={1}/>}
+                            onClick={history.goBack}>
+                        Cancel
+                    </Button>
+                </Box>
+            </Backdrop>
             <MaterialHeader text={"Results"}/>
             <Grid container justify={"center"} spacing={2}>
                 {exampleResults.map(res => {

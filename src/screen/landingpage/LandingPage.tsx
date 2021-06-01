@@ -6,20 +6,17 @@ import Button from "./components/Button/Button";
 const LandingPage = () => {
     const history = useHistory();
 
-    // <link rel="stylesheet" type="text/css"
-    //                   href={"https://pages.nist.gov/nist-header-footer/css/nist-combined.css"}/>
-
     return (
         <div className="landing-page-wrapper">
             <div className="landing-content">
-                <h1>PV2</h1>
+                <h1>PV<sup>2</sup></h1>
                 <hr/>
-                <div>Present Value of PhotoVoltaics (PV2) is an app that allows homeowners to determine a complete
+                <div>Present Value of PhotoVoltaics (PV<sup>2</sup>) is an app that allows homeowners to determine a complete
                     cost of ownership for residential rooftop solar PV systems, helping homeowners make economically
                     wise decisions.
                 </div>
                 <hr/>
-                <div>PV2 uses the E3 API developed at NIST to run an economic analysis of rooftop solar
+                <div>PV<sup>2</sup> uses the E3 API developed at NIST to run an economic analysis of rooftop solar
                     photovoltaics.
                 </div>
                 <hr/>
