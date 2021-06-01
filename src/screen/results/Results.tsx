@@ -3,7 +3,7 @@ import MaterialHeader from "../application/components/MaterialHeader/MaterialHea
 import {Button, Container, Grid} from "@material-ui/core";
 import {CSVLink} from "react-csv";
 
-import "./results.scss";
+import "./Results.scss";
 import {useStore} from "react-redux";
 import {createE3Request} from "./E3RequestGenerator";
 import ResultCard from "./ResultCard/ResultCard";
@@ -105,7 +105,7 @@ export default function Results(): ReactElement {
     console.log(JSON.stringify(createE3Request(store.getState())))
 
     return (
-        <Container>
+        <>
             {/* TODO LOADING */}
             {/* <Backdrop open={result === undefined}>
                     <Box className={"loading-indicator"}>
@@ -128,7 +128,7 @@ export default function Results(): ReactElement {
                     </Button>
                 </CSVLink>
             </div>
-        </Container>
+        </>
     )
 }
 

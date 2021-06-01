@@ -2,7 +2,7 @@ import {ReactElement} from "react";
 
 import {Box} from "@material-ui/core";
 
-import "./MaterialHeader.css"
+import "./MaterialHeader.sass"
 
 
 export interface MaterialHeaderProps {

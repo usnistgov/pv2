@@ -27,7 +27,9 @@ export default function SrecForm(): ReactElement {
     return (
         <Box className={"srec-page-container"}>
             <MaterialHeader text={"SREC Payments"}/>
-            PV^2 allows a user to input dollar values from Solar Renewable Energy Credit (SREC) sales. A homeowner may be able to receive an upfront payment based on the size of the system or payments over time based on production.
+            <div className={"srec-page-text"}>
+                PV^2 allows a user to input dollar values from Solar Renewable Energy Credit (SREC) sales. A homeowner may be able to receive an upfront payment based on the size of the system or payments over time based on production.
+            </div>
 
             <Box className={"srec-form-container"}>
                 <FormSelect

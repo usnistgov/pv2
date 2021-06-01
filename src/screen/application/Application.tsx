@@ -19,24 +19,23 @@ export default function Application(): ReactElement {
     return (
         finished
             ? <Redirect to={"/results"}/>
-            : <Container>
-                <StepperNav onFinish={() => setFinished(true)}>
-                    <StepperPage label={"Address"}>
-                        <AddressForm/>
-                    </StepperPage>
-                    <StepperPage label={"Electrical Rate"}>
-                        <ElectricalRateForm/>
-                    </StepperPage>
-                    <StepperPage label={"Solar PV System"}>
-                        <SolarSystemForm/>
-                    </StepperPage>
-                    <StepperPage label={"Solar PV Costs"}>
-                        <CostsForm/>
-                    </StepperPage>
-                    <StepperPage label={"SREC"}>
-                        <SrecForm/>
-                    </StepperPage>
-                </StepperNav>
-            </Container>
+            :
+            <StepperNav onFinish={() => setFinished(true)}>
+                <StepperPage label={"Address"}>
+                    <AddressForm/>
+                </StepperPage>
+                <StepperPage label={"Electrical Rate"}>
+                    <ElectricalRateForm/>
+                </StepperPage>
+                <StepperPage label={"Solar PV System"}>
+                    <SolarSystemForm/>
+                </StepperPage>
+                <StepperPage label={"Solar PV Costs"}>
+                    <CostsForm/>
+                </StepperPage>
+                <StepperPage label={"SREC"}>
+                    <SrecForm/>
+                </StepperPage>
+            </StepperNav>
     );
 }

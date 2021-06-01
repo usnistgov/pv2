@@ -5,7 +5,7 @@ import {Icon as MdiIcon} from "@mdi/react"
 import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
 import {useHistory} from "react-router-dom";
 
-import "./StepperNav.css"
+import "./StepperNav.sass"
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
