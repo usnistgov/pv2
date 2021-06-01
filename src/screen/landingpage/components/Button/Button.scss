@@ -1,8 +1,8 @@
-@import '../../../../main.scss';
+@use 'src/colors';
 
 .button-wrapper {
-    background-color: $primary;
-    color: $secondary-contrast;
+    background-color: colors.$primary;
+    color: colors.$secondary-contrast;
     
     width: 5em;
     height: min-content;
@@ -15,6 +15,6 @@
 
     &:hover {
         cursor: pointer;
-        background-color: $primary-dark;
+        background-color: colors.$primary-dark;
     }    
 }

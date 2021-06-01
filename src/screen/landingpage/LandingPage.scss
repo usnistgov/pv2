@@ -1,4 +1,4 @@
-@import '../../main.scss';
+@use 'src/colors';
 
 .landing-page-wrapper {
   padding: 8vw 0;
@@ -24,7 +24,7 @@
 
     hr {
       width: 100%;
-      border: 1px solid $primary;
+      border: 1px solid colors.$primary;
     }
   }
 
@@ -44,7 +44,7 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-tablet) {
+@media screen and (max-width: colors.$breakpoint-tablet) {
   .landing-page-wrapper {
     padding: 2em;
 

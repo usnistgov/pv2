@@ -1,5 +1,4 @@
 import React, {ReactElement, useState} from "react";
-import {Container} from "@material-ui/core";
 
 import StepperNav from "./components/StepperNav/StepperNav";
 import StepperPage from "./components/StepperPage/StepperPage";

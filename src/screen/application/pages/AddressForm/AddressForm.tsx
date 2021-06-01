@@ -1,6 +1,6 @@
 import {ReactElement} from "react";
 
-import {Box, Grid, Paper} from "@material-ui/core";
+import {Grid, Paper} from "@material-ui/core";
 import * as Yup from 'yup';
 
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";

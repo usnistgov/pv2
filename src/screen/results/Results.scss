@@ -1,5 +1,4 @@
-@import "src/main.scss";
-
+@use "src/colors";
 
 .result-loading-backdrop {
   z-index: 1000 !important;
@@ -8,7 +7,7 @@
     text-align: center;
 
     h1 {
-      color: $off-white;
+      color: colors.$off-white;
     }
 
     .cancel-calculation-button {

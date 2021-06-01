@@ -1,4 +1,4 @@
-@import "../../../main.scss";
+@use "src/colors";
 
 .header-wrapper {
   width: 100%;
@@ -6,7 +6,7 @@
   hr {
     margin: 0;
     width: 100%;
-    border: 1px solid $primary;
+    border: 1px solid colors.$primary;
   }
 
   .options {

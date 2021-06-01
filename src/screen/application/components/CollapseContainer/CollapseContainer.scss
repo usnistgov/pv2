@@ -1,7 +1,7 @@
-@import "../../../../main.scss";
+@use "src/colors";
 
 .collapse-container {
-  background-color: $off-white;
+  background-color: colors.$off-white;
   text-align: left;
   border-bottom: 1px solid gray;
 

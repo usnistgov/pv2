@@ -1,4 +1,4 @@
-@import "../../../main.scss";
+@use "src/colors";
 
 .result-card {
   width: 21em;
@@ -13,7 +13,7 @@
 
     align-items: center;
 
-    border-bottom: 2px solid $primary-dark;
+    border-bottom: 2px solid colors.$primary-dark;
 
     div {
       margin: 0 auto;
@@ -38,7 +38,7 @@
 
   .result-format {
     padding-top: 5px;
-    border-bottom: 2px solid $primary;
+    border-bottom: 2px solid colors.$primary;
   }
 
   .result-graph {
