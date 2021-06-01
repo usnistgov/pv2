@@ -207,7 +207,7 @@ export default function Results(): ReactElement {
                     <Button variant={"contained"}
                             color={"primary"}
                             startIcon={<MdiIcon path={mdiDownload} size={1}/>}>
-                        Download Results
+                        Download CSV
                     </Button>
                 </CSVLink>
             </div>

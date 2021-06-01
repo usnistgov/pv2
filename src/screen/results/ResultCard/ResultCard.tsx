@@ -62,8 +62,9 @@ export default function ResultCard({alt, cashFlows}: ResultCardProps): ReactElem
                 <div className={"result-graph"}>
                     <ResponsiveLine
                         animate
+                        enableArea
                         enableSlices={"x"}
-                        margin={{top: 0, right: 10, bottom: 10, left: 10}}
+                        margin={{top: 5, right: 5, bottom: 20, left: 40}}
                         data={[{
                             id: "cash flows",
                             data: cashFlows
