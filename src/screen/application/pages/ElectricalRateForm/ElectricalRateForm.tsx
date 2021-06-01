@@ -8,7 +8,7 @@ import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../components/FormSelect/FormSelect";
 import {useReduxGetSet} from "../../Utils";
 
-import "./ElectricalRateForm.css"
+import "./ElectricalRateForm.scss"
 import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
 import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
 
@@ -26,8 +26,18 @@ export default function ElectricalRateForm(): ReactElement {
     const pvGridConnectionRate = useReduxGetSet<number>("pvGridConnectionRate", 0);
 
     // Advanced
-    const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", "");
+    const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates", "No");
     const escalationRatesSameOrDiff = useReduxGetSet<string>("escalationRatesSameOrDiff", "");
+
+    // TODO: fetch studyPeriod from redux store, and fetch default values
+    const studyPeriod = 25;
+    const escalationRatesPerYear = [];
+    for (let i = 0; i < studyPeriod; i++) {
+        // TODO: push the default value instead of i, when available
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const escalationRateForYear = useReduxGetSet<number>("escalationRateYear_" + i, i);
+        escalationRatesPerYear.push(escalationRateForYear);
+    }
 
     return (
         <Box>
@@ -75,6 +85,19 @@ export default function ElectricalRateForm(): ReactElement {
                                 "Yes",
                                 "No"
                             ]}/>
+                        {viewAnnualEscalationRates.get() === "Yes" &&
+                            <div className="rate-two-columns">
+                                {escalationRatesPerYear.map((rate, i) => {
+                                    return (
+                                        <FormField label={"Year " + i}
+                                            schema={Yup.number()}
+                                            value={rate}
+                                            endAdornment={"%"}
+                                            type={"string"}/>
+                                    )
+                                })}
+                            </div>
+                        }
                         <FormSelect label={"Are escalation rates the same for consumption and production?"}
                             value={escalationRatesSameOrDiff}
                             options={[

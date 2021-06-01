@@ -1,5 +1,9 @@
 .srec-page-container {
   text-align: center;
+
+  .srec-page-text {
+    margin: 0 16px;
+  }
 }
 
 .srec-form-container {
@@ -10,5 +14,9 @@
   > div {
     margin-top: 8px;
     margin-bottom: 8px;
+  }
+
+  .srec-two-columns {
+    columns: 2 auto;
   }
 }

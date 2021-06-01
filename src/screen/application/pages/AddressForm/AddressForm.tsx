@@ -25,7 +25,7 @@ export default function AddressForm(): ReactElement {
     const query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${address.get()}, ${city.get()} ,${state.get()} ${zipcode.get()}`;
 
     return (
-        <Box>
+        <>
             <MaterialHeader text={"Address"}/>
             <Grid className={"address-form-container"} container justify={"center"} spacing={8}>
                 <Grid item xs={6}>
@@ -62,6 +62,6 @@ export default function AddressForm(): ReactElement {
                     </Paper>
                 </Grid>
             </Grid>
-        </Box>
+        </>
     );
 }

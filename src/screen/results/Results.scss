@@ -1,0 +1,29 @@
+@import "src/main.scss";
+
+
+.result-loading-backdrop {
+  z-index: 1000 !important;
+
+  .loading-indicator {
+    text-align: center;
+
+    h1 {
+      color: $off-white;
+    }
+
+    .cancel-calculation-button {
+      margin-top: 32px;
+    }
+  }
+}
+
+.download-results {
+  margin: 32px auto 64px auto;
+  width: fit-content;
+
+  align-content: center;
+
+  a {
+    text-decoration: none;
+  }
+}
