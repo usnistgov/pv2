@@ -11,6 +11,7 @@ import {Provider} from "react-redux";
 import {initializeStore} from "./screen/application/ApplicationStore";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import Results from "./screen/results/Results";
+import HeaderWrapper from "./screen/components/HeaderWrapper";
 
 const theme = createMuiTheme({
     palette: {
@@ -37,13 +38,19 @@ ReactDOM.render(
             <BrowserRouter>
                 <Switch>
                     <Route path={"/results"}>
-                        <Results/>
+                        <HeaderWrapper>
+                            <Results/>
+                        </HeaderWrapper>
                     </Route>
                     <Route path={"/application"}>
-                        <Application/>
+                        <HeaderWrapper>
+                            <Application/>
+                        </HeaderWrapper>
                     </Route>
                     <Route path={"/"}>
-                        <LandingPage/>
+                        <HeaderWrapper>
+                            <LandingPage/>
+                        </HeaderWrapper>
                     </Route>
                 </Switch>
             </BrowserRouter>

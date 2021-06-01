@@ -1,13 +1,12 @@
 import {ReactElement, useState} from "react";
 import MaterialHeader from "../application/components/MaterialHeader/MaterialHeader";
-import {Backdrop, Box, Button, Container, CircularProgress, Grid} from "@material-ui/core";
-import {CSVLink, CSVDownload} from "react-csv";
+import {Button, Container, Grid} from "@material-ui/core";
+import {CSVLink} from "react-csv";
 
 import "./results.scss";
 import {useStore} from "react-redux";
 import {createE3Request} from "./E3RequestGenerator";
 import ResultCard from "./ResultCard/ResultCard";
-import PageWrapper from "../components/PageWrapper";
 
 const exampleResults = [
     {
@@ -106,32 +105,30 @@ export default function Results(): ReactElement {
     console.log(JSON.stringify(createE3Request(store.getState())))
 
     return (
-        <PageWrapper>
-            <Container>
-                {/* TODO LOADING */}
-                {/* <Backdrop open={result === undefined}>
+        <Container>
+            {/* TODO LOADING */}
+            {/* <Backdrop open={result === undefined}>
                     <Box className={"loading-indicator"}>
                         <CircularProgress/>
                         <h1>Calculating Results</h1>
                     </Box>
                 </Backdrop> */}
-                <MaterialHeader text={"Results"}/>
-                <Grid container justify={"center"} spacing={2}>
-                    {exampleResults.map(res => {
-                        return <Grid item>
-                            <ResultCard results={res} isLabels={false}/>
-                        </Grid>
-                    })}
-                </Grid>
-                <div className={"download-results"}>
-                    <CSVLink data={exampleResults}>
-                        <Button variant={"contained"} color={"primary"}>
-                            Download Results
-                        </Button>
-                    </CSVLink>
-                </div>
-            </Container>
-        </PageWrapper>
+            <MaterialHeader text={"Results"}/>
+            <Grid container justify={"center"} spacing={2}>
+                {exampleResults.map(res => {
+                    return <Grid item>
+                        <ResultCard results={res} isLabels={false}/>
+                    </Grid>
+                })}
+            </Grid>
+            <div className={"download-results"}>
+                <CSVLink data={exampleResults}>
+                    <Button variant={"contained"} color={"primary"}>
+                        Download Results
+                    </Button>
+                </CSVLink>
+            </div>
+        </Container>
     )
 }
 
