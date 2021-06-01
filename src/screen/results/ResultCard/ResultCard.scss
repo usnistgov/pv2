@@ -1,18 +1,40 @@
 @import "../../../main.scss";
 
 .result-card {
-  width: 18em;
+  width: 21em;
 
   height: 30em;
   display: inline-block;
   box-sizing: border-box;
-  padding: 1em;
-  margin: 0 1em;
   border-radius: 1em;
 
   .result-title {
-    font-size: 1.2em;
+    display: flex;
+    height: 70px;
+
+    align-items: center;
+
     border-bottom: 2px solid $primary-dark;
+
+    div {
+      margin: 0 auto;
+
+      font-size: 20pt;
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+
+  .result-table {
+    margin: 8px;
+    width: 100%;
+
+    font-size: 12pt;
+  }
+
+  .vertical-center {
+    display: flex;
+    align-items: center;
   }
 
   .result-format {

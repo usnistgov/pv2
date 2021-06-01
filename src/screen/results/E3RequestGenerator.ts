@@ -2,6 +2,12 @@ const assumptions = {
     escalationRate: 1.0
 }
 
+export const altLabels = [
+    "No Solar System",
+    "Purchase Solar System",
+    "PPA Solar System",
+]
+
 const NET_METERING = "Net Metering Tariff";
 
 export function createE3Request(store: any) {
@@ -64,19 +70,19 @@ export function createE3Request(store: any) {
         alternativeObject: [
             {
                 altID: 0,
-                altName: "No Solar System",
+                altName: altLabels[0],
                 altBCNList: [0, 1],
                 baselineBool: true,
             },
             {
                 altID: 1,
-                altName: "Purchase Solar System",
+                altName: altLabels[1],
                 altBCNList: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
                 baselineBool: false,
             },
             {
                 altID: 2,
-                altName: "PPA Solar System",
+                altName: altLabels[2],
                 altBCNList: [12, 13, 14, 15],
                 baselineBool: false,
             },
