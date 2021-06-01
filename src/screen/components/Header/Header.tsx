@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import "./Header.scss";
+import "./Header.sass";
 
 const Header = () => {
   const history = useHistory()

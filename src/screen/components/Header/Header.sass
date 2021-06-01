@@ -1,0 +1,24 @@
+@use "src/colors"
+
+.header-wrapper
+  width: 100%
+
+  hr
+    margin: 0
+    width: 100%
+    border: 1px solid colors.$primary
+
+  .options
+    width: 100%
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: flex-start
+
+    .menu-option
+      padding: 0.5em 1em
+      font-weight: 500
+
+      &:hover
+        cursor: pointer
+        text-decoration: underline solid black 1px

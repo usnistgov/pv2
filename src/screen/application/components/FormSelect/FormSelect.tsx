@@ -4,7 +4,7 @@ import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
 import {ReduxGetSet} from "../../Utils";
 
-import "./FormSelect.css";
+import "./FormSelect.sass";
 
 
 export interface FormSelectProps {

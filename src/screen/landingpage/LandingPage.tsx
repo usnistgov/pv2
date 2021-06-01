@@ -1,5 +1,5 @@
 import React from "react";
-import './LandingPage.scss';
+import './LandingPage.sass';
 import {useHistory} from "react-router-dom";
 import Button from "./components/Button/Button";
 

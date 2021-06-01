@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import '@csstools/normalize.css'
-import './main.scss';
+import './main.sass';
 
 import LandingPage from "./screen/landingpage/LandingPage";
 import Application from "./screen/application/Application";

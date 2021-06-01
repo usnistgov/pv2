@@ -1,5 +1,5 @@
 import {ReactElement} from "react";
-import "./CostsForm.scss";
+import "./CostsForm.sass";
 
 import {Box} from "@material-ui/core";
 import * as Yup from "yup";

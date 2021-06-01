@@ -1,5 +1,5 @@
 import {ReactElement} from "react";
-import './SrecForm.scss';
+import './SrecForm.sass';
 
 import {Box} from "@material-ui/core";
 import * as Yup from "yup";

@@ -1,6 +1,6 @@
 import {ReactElement} from "react";
 
-import "./ResultCard.scss";
+import "./ResultCard.sass";
 import {Card, CardContent, Grid} from "@material-ui/core";
 import {altLabels} from "../E3RequestGenerator";
 import {ResponsiveLine} from "@nivo/line";

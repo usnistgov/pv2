@@ -1,0 +1,18 @@
+@use 'src/colors'
+
+.button-wrapper
+  background-color: colors.$primary
+  color: colors.$secondary-contrast
+
+  width: 5em
+  height: min-content
+
+  padding: 0.5em 1em
+  border-radius: 0.5em
+
+  text-align: center
+  font-size: 18px
+
+  &:hover
+    cursor: pointer
+    background-color: colors.$primary-dark

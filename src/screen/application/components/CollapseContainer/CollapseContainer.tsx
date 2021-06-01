@@ -1,7 +1,7 @@
 import {ReactElement, useState} from "react";
 
 import {Box, Collapse} from "@material-ui/core";
-import "./CollapseContainer.scss"
+import "./CollapseContainer.sass"
 import {ArrowDropDown, ArrowDropUp} from "@material-ui/icons"
 
 export interface CollapseContainerProps {

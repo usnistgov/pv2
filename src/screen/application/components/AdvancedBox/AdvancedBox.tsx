@@ -2,7 +2,7 @@ import {PropsWithChildren, ReactElement} from "react";
 
 import {Box} from "@material-ui/core";
 
-import "./AdvancedBox.scss"
+import "./AdvancedBox.sass"
 
 export interface AdvancedBoxProps {
 }

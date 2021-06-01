@@ -8,7 +8,7 @@ import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../components/FormSelect/FormSelect";
 import {useReduxGetSet} from "../../Utils";
 
-import "./ElectricalRateForm.scss"
+import "./ElectricalRateForm.sass"
 import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
 import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
 

@@ -3,7 +3,7 @@ import MaterialHeader from "../application/components/MaterialHeader/MaterialHea
 import {Backdrop, Box, Button, CircularProgress, Grid} from "@material-ui/core";
 import {CSVLink} from "react-csv";
 
-import "./Results.scss";
+import "./Results.sass";
 import {useStore} from "react-redux";
 import {createE3Request} from "./E3RequestGenerator";
 import ResultCard from "./ResultCard/ResultCard";
