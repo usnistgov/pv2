@@ -197,8 +197,8 @@ export default function Results(): ReactElement {
             <MaterialHeader text={"Results"}/>
             <Grid container justify={"center"} spacing={2}>
                 {exampleResults[0].alternativeSummaryObjects.map((res, index) => {
-                    return <Grid item>
-                        <ResultCard alt={res} cashFlows={exampleResults[0].optCashFlowObjects[index]}/>
+                    return <Grid item key={index}>
+                        <ResultCard alt={res} cashFlows={exampleResults[0].reqCashFlowObjects[index].totCostDisc}/>
                     </Grid>
                 })}
             </Grid>

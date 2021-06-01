@@ -3,22 +3,14 @@ import {ReactElement} from "react";
 import "./ResultCard.scss";
 import {Card, CardContent, Grid} from "@material-ui/core";
 import {altLabels} from "../E3RequestGenerator";
+import {ResponsiveLine} from "@nivo/line";
 
 export interface ResultCardProps {
     alt: any;
-    cashFlows: any;
+    cashFlows: number[];
 }
 
-const getField = (results: any, field: string) => {
-    return results[field] !== null ? results[field] : "N/A";
-}
-
-export default function ResultCard({alt}: ResultCardProps): ReactElement {
-    const style: any = {
-        textAlign: "right",
-        backgroundColor: "#98ee99",
-    }
-
+export default function ResultCard({alt, cashFlows}: ResultCardProps): ReactElement {
     function valid(field: any): boolean {
         return field !== null && field !== undefined && typeof field !== 'object';
     }
@@ -68,8 +60,43 @@ export default function ResultCard({alt}: ResultCardProps): ReactElement {
                 </Grid>
 
                 <div className={"result-graph"}>
+                    <ResponsiveLine
+                        animate
+                        enableSlices={"x"}
+                        margin={{top: 0, right: 10, bottom: 10, left: 10}}
+                        data={[{
+                            id: "cash flows",
+                            data: cashFlows
+                                .filter((value, index) => index !== 0)
+                                .map((value, year) => {
+                                return {
+                                    x: year,
+                                    y: value
+                                }
+                            })
+                        }]}
+                        xScale={{type: 'point'}}
+                        yScale={{type: 'linear', min: 'auto', max: 'auto', stacked: true}}
+                        />
+                    {/* TODO: build relevant graphs, and include year by year cash flows
 
-                    {/* TODO: build relevant graphs, and include year by year cash flows */}
+                    axisLeft={{
+                            tickSize: 50,
+                            tickPadding: 5,
+                            tickRotation: 0,
+                            legend: 'dollars',
+                            legendOffset: 0,
+                            legendPosition: 'middle'
+                        }}
+                        axisBottom={{
+                            tickSize: 50,
+                            tickPadding: 5,
+                            tickRotation: 0,
+                            legend: 'year',
+                            legendOffset: 0,
+                            legendPosition: 'middle'
+                        }}
+                    */}
                 </div>
             </CardContent>
         </Card>

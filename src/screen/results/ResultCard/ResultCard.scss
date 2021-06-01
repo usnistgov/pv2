@@ -3,7 +3,6 @@
 .result-card {
   width: 21em;
 
-  height: 30em;
   display: inline-block;
   box-sizing: border-box;
   border-radius: 1em;
@@ -40,5 +39,9 @@
   .result-format {
     padding-top: 5px;
     border-bottom: 2px solid $primary;
+  }
+
+  .result-graph {
+    height: 150px;
   }
 }
