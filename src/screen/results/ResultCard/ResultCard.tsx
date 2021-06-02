@@ -35,28 +35,28 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                         Total Cost
                     </Grid>
                     <Grid item xs={6}>
-                        {valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}
+                        <div>{valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}</div>
                     </Grid>
 
                     <Grid item xs={6}>
                         Net Savings
                     </Grid>
                     <Grid item xs={6}>
-                        {valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}
+                        <div>{valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}</div>
                     </Grid>
 
                     <Grid item xs={6}>
                         AIRR
                     </Grid>
                     <Grid item xs={6}>
-                        {valid(alt.AIRR) ? alt.AIRR : "NA"}
+                        <div>{valid(alt.AIRR) ? alt.AIRR : "NA"}</div>
                     </Grid>
 
                     <Grid item xs={6}>
                         SPP
                     </Grid>
                     <Grid item xs={6}>
-                        {valid(alt.SPP) ? alt.SPP : "NA"}
+                        <div>{valid(alt.SPP) ? alt.SPP : "NA"}</div>
                     </Grid>
 
                     <Grid item xs={6}>
