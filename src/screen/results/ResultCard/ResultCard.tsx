@@ -5,6 +5,13 @@ import {Card, CardContent, Grid} from "@material-ui/core";
 import {altLabels} from "../E3RequestGenerator";
 import {ResponsiveLine} from "@nivo/line";
 
+const currencyFormatter = Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+const numberFormatter = Intl.NumberFormat('en-US', {
+});
+
 export interface ResultCardProps {
     alt: any;
     cashFlows: number[];
@@ -28,14 +35,14 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                         Total Cost
                     </Grid>
                     <Grid item xs={6}>
-                        {valid(alt.totalCosts) ? alt.totalCosts : "NA"}
+                        {valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}
                     </Grid>
 
                     <Grid item xs={6}>
                         Net Savings
                     </Grid>
                     <Grid item xs={6}>
-                        {valid(alt.netSavings) ? alt.netSavings : "NA"}
+                        {valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}
                     </Grid>
 
                     <Grid item xs={6}>
@@ -56,7 +63,7 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                         Electricity Reduction
                     </Grid>
                     <Grid className={"vertical-center"} item xs={6}>
-                        <div>{valid(alt.deltaQuant) ? alt.deltaQuant : "NA"}</div>
+                        <div>{valid(alt.deltaQuant[0]) ? numberFormatter.format(-alt.deltaQuant[0]) : "NA"}</div>
                     </Grid>
                 </Grid>
 
