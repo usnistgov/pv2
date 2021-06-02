@@ -155,6 +155,12 @@ export default function Results(): ReactElement {
     const [result, setResult] = useState<undefined | {}>({}); //TODO replace with results object
     const history = useHistory();
 
+    const graphMax = Math.ceil(exampleResults[0]
+        .reqCashFlowObjects
+        .flatMap((x) => x.totCostDisc.filter((_, index) => index > 0))
+        .map(Math.abs)
+        .reduce((x, y) => Math.max(x, y)) / 100) * 100;
+
     useEffect(() => {
         const controller = new AbortController();
 
@@ -198,7 +204,10 @@ export default function Results(): ReactElement {
             <Grid container justify={"center"} spacing={2}>
                 {exampleResults[0].alternativeSummaryObjects.map((res, index) => {
                     return <Grid item key={index}>
-                        <ResultCard alt={res} cashFlows={exampleResults[0].reqCashFlowObjects[index].totCostDisc}/>
+                        <ResultCard
+                            alt={res}
+                            cashFlows={exampleResults[0].reqCashFlowObjects[index].totCostDisc}
+                            graphMax={graphMax}/>
                     </Grid>
                 })}
             </Grid>

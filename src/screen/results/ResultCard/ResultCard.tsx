@@ -8,9 +8,10 @@ import {ResponsiveLine} from "@nivo/line";
 export interface ResultCardProps {
     alt: any;
     cashFlows: number[];
+    graphMax: number;
 }
 
-export default function ResultCard({alt, cashFlows}: ResultCardProps): ReactElement {
+export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps): ReactElement {
     function valid(field: any): boolean {
         return field !== null && field !== undefined && typeof field !== 'object';
     }
@@ -64,7 +65,7 @@ export default function ResultCard({alt, cashFlows}: ResultCardProps): ReactElem
                         animate
                         enableArea
                         enableSlices={"x"}
-                        margin={{top: 5, right: 5, bottom: 20, left: 40}}
+                        margin={{top: 5, right: 5, bottom: 20, left: 35}}
                         data={[{
                             id: "cash flows",
                             data: cashFlows
@@ -76,28 +77,22 @@ export default function ResultCard({alt, cashFlows}: ResultCardProps): ReactElem
                                 }
                             })
                         }]}
-                        xScale={{type: 'point'}}
-                        yScale={{type: 'linear', min: 'auto', max: 'auto', stacked: true}}
-                        />
-                    {/* TODO: build relevant graphs, and include year by year cash flows
-
-                    axisLeft={{
-                            tickSize: 50,
+                        xScale={{type: 'linear'}}
+                        yScale={{type: 'linear', min: -graphMax, max: graphMax, stacked: true}}
+                        yFormat={">-$,.2f"}
+                        axisLeft={{
+                            tickSize: 0,
                             tickPadding: 5,
-                            tickRotation: 0,
-                            legend: 'dollars',
-                            legendOffset: 0,
-                            legendPosition: 'middle'
                         }}
                         axisBottom={{
-                            tickSize: 50,
+                            tickSize: 0,
                             tickPadding: 5,
-                            tickRotation: 0,
+                            tickValues: 10,
                             legend: 'year',
-                            legendOffset: 0,
-                            legendPosition: 'middle'
+                            legendOffset: -5,
+                            legendPosition: 'middle',
                         }}
-                    */}
+                        />
                 </div>
             </CardContent>
         </Card>
