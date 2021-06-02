@@ -1,17 +1,18 @@
 import React from "react";
 import './LandingPage.sass';
-import {useHistory} from "react-router-dom";
-import Button from "./components/Button/Button";
+import {Link} from "react-router-dom";
+import {Button} from "@material-ui/core";
+import {Icon as MdiIcon} from "@mdi/react";
+import {mdiArrowRight} from "@mdi/js";
 
 const LandingPage = () => {
-    const history = useHistory();
-
     return (
         <div className="landing-page-wrapper">
             <div className="landing-content">
                 <h1>PV<sup>2</sup></h1>
                 <hr/>
-                <div>Present Value of PhotoVoltaics (PV<sup>2</sup>) is an app that allows homeowners to determine a complete
+                <div>Present Value of PhotoVoltaics (PV<sup>2</sup>) is an app that allows homeowners to determine a
+                    complete
                     cost of ownership for residential rooftop solar PV systems, helping homeowners make economically
                     wise decisions.
                 </div>
@@ -20,7 +21,13 @@ const LandingPage = () => {
                     photovoltaics.
                 </div>
                 <hr/>
-                <Button text={"Try it out!"} onClick={() => history.push("/application")}/>
+                <Button component={Link}
+                        to={"/application"}
+                        endIcon={<MdiIcon path={mdiArrowRight} size={1}/>}
+                        variant={"contained"}
+                        color={"primary"}>
+                    Start
+                </Button>
             </div>
             <div className="landing-image">
                 <img src={"/placeholder.jpeg"} alt={"landing page"}/>
