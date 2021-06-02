@@ -17,7 +17,7 @@ async function getEscalationRateList(storeState: string): Promise<object> {
     const regionEscalationRates = await fetch("escalation-rates/region-escalation-rates.json").then(toJson);
     const stateRegionMapping = await fetch("escalation-rates/state-region-mapping.json").then(toJson);
 
-    const state = storeState ?? "Maryland";
+    const state = storeState === "" || !storeState ? "Maryland": storeState;
 
     return regionEscalationRates[
         stateRegionMapping[

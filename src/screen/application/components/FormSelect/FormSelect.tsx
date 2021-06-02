@@ -38,7 +38,7 @@ export default function FormSelect({label, value, options, required}: FormSelect
                     onChange={(event) => {
                         value.set(event.target.value as string)
                     }}>
-                {options.map(option => <MenuItem value={option}>{option}</MenuItem>)}
+                {options.map((option, index) => <MenuItem value={option} key={index}>{option}</MenuItem>)}
             </Select>
         </FormControl>
     );

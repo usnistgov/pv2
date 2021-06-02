@@ -89,11 +89,12 @@ export default function ElectricalRateForm(): ReactElement {
                             <div className="rate-two-columns">
                                 {escalationRatesPerYear.map((rate, i) => {
                                     return (
-                                        <FormField label={"Year " + i}
+                                        <FormField label={`Year ${i}`}
                                             schema={Yup.number()}
                                             value={rate}
                                             endAdornment={"%"}
-                                            type={"string"}/>
+                                            type={"string"}
+                                            key={`Year ${i}`}/>
                                     )
                                 })}
                             </div>
