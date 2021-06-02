@@ -10,6 +10,7 @@ import ResultCard from "./ResultCard/ResultCard";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiClose, mdiDownload} from "@mdi/js";
 import {useHistory} from "react-router-dom";
+import {toJson} from "../../Utils";
 
 const exampleResults = [{
     "alternativeSummaryObjects": [
@@ -166,7 +167,7 @@ function generateCsv(results: any, store: any): any {
         ["Total Costs", ...altObjects.map((x: any) => x.totalCosts).map(validOrNA)],
         ["Net Savings", ...altObjects.map((x: any) => x.netSavings).map(validOrNA)],
         ["AIRR", ...altObjects.map((x: any) => x.AIRR).map(validOrNA)],
-        ["SPP", ...altObjects.map((x: any) => x.SPP). map(validOrNA)],
+        ["SPP", ...altObjects.map((x: any) => x.SPP).map(validOrNA)],
         ["Electricity Reduction", ...altObjects.map((x: any) => -x.deltaQuant[0]).map(validOrNA)],
         [],
         ["Year", "No Solar System", "Purchase Solar System", "PPA Solar System"],
@@ -190,23 +191,26 @@ export default function Results(): ReactElement {
     useEffect(() => {
         const controller = new AbortController();
 
-        // Generate fetch post request
-        const fetchOptions = {
-            method: "POST",
-            signal: controller.signal,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(createE3Request(store.getState()))
-        }
+        createE3Request(store.getState())
+            .then((request) => {
+                // Generate fetch post request
+                const fetchOptions = {
+                    method: "POST",
+                    signal: controller.signal,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(request)
+                }
 
-        // TODO replace with E3 url once that is set up
-        // Fetch results from E3
-        fetch("", fetchOptions)
-            .then((response: Response) => response.json())
-            .then((data: any) => setResult(data));
-
+                // TODO replace with E3 url once that is set up
+                // Fetch results from E3
+                fetch("", fetchOptions)
+                    .then(toJson)
+                    .then(setResult);
+            })
+        
         // If the component is unmounted, abort the request
         return () => controller.abort()
     })

@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import FormField from "../../components/FormField/FormField";
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../components/FormSelect/FormSelect";
-import {useReduxGetSet} from "../../Utils";
+import {useReduxGetSet} from "../../../../Utils";
 
 import "./ElectricalRateForm.sass"
 import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";

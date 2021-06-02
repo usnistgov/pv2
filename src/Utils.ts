@@ -47,3 +47,8 @@ export interface ReduxGetSet<T> {
     set: (arg: T) => void;
     get: () => T;
 }
+
+/*
+ * Helper function that converts a Response into JSON.
+ */
+export const toJson = (response: Response) => response.json();

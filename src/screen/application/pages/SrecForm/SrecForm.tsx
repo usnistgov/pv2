@@ -6,7 +6,7 @@ import * as Yup from "yup";
 
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../components/FormSelect/FormSelect";
-import {useReduxGetSet} from "../../Utils";
+import {useReduxGetSet} from "../../../../Utils";
 import FormField from "../../components/FormField/FormField";
 
 export default function SrecForm(): ReactElement {
@@ -17,7 +17,7 @@ export default function SrecForm(): ReactElement {
     // TODO: fetch studyPeriod from redux store, and fetch default values
     const studyPeriod = 25;
     const srecPaymentsPerYear = [];
-    for (var i = 0; i < studyPeriod; i++) {
+    for (let i = 0; i < studyPeriod; i++) {
         // TODO: push the default value instead of i, when available
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const srecPaymentForYear = useReduxGetSet<number>("srecPaymentsProdBased_" + i, i);

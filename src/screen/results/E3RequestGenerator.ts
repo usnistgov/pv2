@@ -1,3 +1,5 @@
+import {toJson} from "../../Utils";
+
 const assumptions = {
     escalationRate: 1.0
 }
@@ -10,14 +12,28 @@ export const altLabels = [
 
 const NET_METERING = "Net Metering Tariff";
 
-export function createE3Request(store: any) {
+async function getEscalationRateList(storeState: string): Promise<object> {
+    const stateAbbreviations = await fetch("escalation-rates/state-abbreviation.json").then(toJson);
+    const regionEscalationRates = await fetch("escalation-rates/region-escalation-rates.json").then(toJson);
+    const stateRegionMapping = await fetch("escalation-rates/state-region-mapping.json").then(toJson);
+
+    const state = storeState ?? "Maryland";
+
+    return regionEscalationRates[
+        stateRegionMapping[
+            state.length === 2 ? stateAbbreviations[state.toUpperCase()] : state
+            ].Region
+        ]
+}
+
+export async function createE3Request(store: any): Promise<any> {
     const now = new Date();
 
     const nowString = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()}`;
 
     const netConsumption = Array.from(Array(store.studyPeriod).keys())
         .map((_, index, array) => {
-            if (index === 0 )
+            if (index === 0)
                 return 1;
 
             return array[index - 1] * (1.0 - store.degradationRate);
@@ -31,7 +47,7 @@ export function createE3Request(store: any) {
 
     let escalationRateOrRates;
 
-    switch(store.viewAnnualEscalationRates) {
+    switch (store.viewAnnualEscalationRates) {
         case "Yes, single value":
             escalationRateOrRates = store.escalationRateSingleValue;
             break;
@@ -42,7 +58,8 @@ export function createE3Request(store: any) {
             escalationRateOrRates = arr;
             break;
         default:
-            escalationRateOrRates = null;
+            escalationRateOrRates = Object.values(await getEscalationRateList(store.state))
+                .filter((_, index) => index < store.studyPeriod);
     }
 
     return [{
@@ -280,7 +297,7 @@ export function createE3Request(store: any) {
                 recurVarRate: {},
                 recurVarValue: {},
                 recurEndDate: {},
-                valuePerQ: store.federalTaxCredit ,
+                valuePerQ: store.federalTaxCredit,
                 quant: 1,
                 quantVarRate: {},
                 quantVarValue: {},

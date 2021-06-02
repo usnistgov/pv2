@@ -1,0 +1,155 @@
+{
+  "Connecticut": {
+    "Region": "Northeast"
+  },
+  "Maine": {
+    "Region": "Northeast"
+  },
+  "Massachusetts": {
+    "Region": "Northeast"
+  },
+  "New Hampshire": {
+    "Region": "Northeast"
+  },
+  "Rhode Island": {
+    "Region": "Northeast"
+  },
+  "Vermont": {
+    "Region": "Northeast"
+  },
+  "New Jersey": {
+    "Region": "Northeast"
+  },
+  "New York": {
+    "Region": "Northeast"
+  },
+  "Pennsylvania": {
+    "Region": "Northeast"
+  },
+  "Illinois": {
+    "Region": "Midwest"
+  },
+  "Indiana": {
+    "Region": "Midwest"
+  },
+  "Michigan": {
+    "Region": "Midwest"
+  },
+  "Ohio": {
+    "Region": "Midwest"
+  },
+  "Wisconsin": {
+    "Region": "Midwest"
+  },
+  "Iowa": {
+    "Region": "Midwest"
+  },
+  "Kansas": {
+    "Region": "Midwest"
+  },
+  "Minnesota": {
+    "Region": "Midwest"
+  },
+  "Missouri": {
+    "Region": "Midwest"
+  },
+  "Nebraska": {
+    "Region": "Midwest"
+  },
+  "North Dakota": {
+    "Region": "Midwest"
+  },
+  "South Dakota": {
+    "Region": "Midwest"
+  },
+  "Delaware": {
+    "Region": "South"
+  },
+  "District of Columbia": {
+    "Region": "South"
+  },
+  "Florida": {
+    "Region": "South"
+  },
+  "Georgia": {
+    "Region": "South"
+  },
+  "Maryland": {
+    "Region": "South"
+  },
+  "North Carolina": {
+    "Region": "South"
+  },
+  "South Carolina": {
+    "Region": "South"
+  },
+  "Virginia": {
+    "Region": "South"
+  },
+  "West Virginia": {
+    "Region": "South"
+  },
+  "Alabama": {
+    "Region": "South"
+  },
+  "Kentucky": {
+    "Region": "South"
+  },
+  "Mississippi": {
+    "Region": "South"
+  },
+  "Tennessee": {
+    "Region": "South"
+  },
+  "Arkansas": {
+    "Region": "South"
+  },
+  "Louisiana": {
+    "Region": "South"
+  },
+  "Oklahoma": {
+    "Region": "South"
+  },
+  "Texas": {
+    "Region": "South"
+  },
+  "Arizona": {
+    "Region": "West"
+  },
+  "Colorado": {
+    "Region": "West"
+  },
+  "Idaho": {
+    "Region": "West"
+  },
+  "Montana": {
+    "Region": "West"
+  },
+  "Nevada": {
+    "Region": "West"
+  },
+  "New Mexico": {
+    "Region": "West"
+  },
+  "Utah": {
+    "Region": "West"
+  },
+  "Wyoming": {
+    "Region": "West"
+  },
+  "Alaska": {
+    "Region": "West"
+  },
+  "California": {
+    "Region": "West"
+  },
+  "Hawaii": {
+    "Region": "West"
+  },
+  "Oregon": {
+    "Region": "West"
+  },
+  "Washington": {
+    "Region": "West"
+  }
+}
