@@ -238,7 +238,7 @@ export default function Results(): ReactElement {
                 })}
             </Grid>
             <div className={"download-results"}>
-                <CSVLink data={downloadData}>
+                <CSVLink data={downloadData} filename={"PV2 Results.csv"}>
                     <Button variant={"contained"}
                             color={"primary"}
                             startIcon={<MdiIcon path={mdiDownload} size={1}/>}>
