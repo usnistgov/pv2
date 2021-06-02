@@ -1,7 +1,7 @@
 import React, {ReactElement, useState} from "react";
 
-import StepperNav from "./components/StepperNav/StepperNav";
-import StepperPage from "./components/StepperPage/StepperPage";
+import StepperNav from "../components/StepperNav/StepperNav";
+import StepperPage from "../components/StepperPage/StepperPage";
 import SrecForm from "./pages/SrecForm/SrecForm";
 import SolarSystemForm from "./pages/SolarSystemForm/SolarSystemForm";
 import CostsForm from "./pages/CostsForm/CostsForm";

@@ -2,7 +2,7 @@ import React, {ReactElement} from "react";
 
 import "./ResultCard.sass";
 import {Card, CardContent, Grid} from "@material-ui/core";
-import {altLabels} from "../E3RequestGenerator";
+import {altLabels} from "../../application/results/E3RequestGenerator";
 import {ResponsiveLine} from "@nivo/line";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {

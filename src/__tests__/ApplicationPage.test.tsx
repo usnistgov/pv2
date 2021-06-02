@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, getByTestId, render } from '@testing-library/react'
-import ApplicationPage from '../screen/application/Application'
+import ApplicationPage from '../application/Application'
 import '@testing-library/jest-dom'
 
 jest.mock('react-router-dom', () => ({

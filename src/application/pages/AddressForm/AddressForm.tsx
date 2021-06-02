@@ -3,9 +3,9 @@ import {ReactElement} from "react";
 import {Grid, Paper} from "@material-ui/core";
 import * as Yup from 'yup';
 
-import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
-import FormField from "../../components/FormField/FormField";
-import {useReduxGetSet} from "../../../../Utils";
+import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
+import FormField from "../../../components/FormField/FormField";
+import {useReduxGetSet} from "../../../Utils";
 
 import "./AddressForm.sass"
 

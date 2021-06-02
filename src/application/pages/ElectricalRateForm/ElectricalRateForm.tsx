@@ -3,14 +3,14 @@ import {ReactElement} from "react";
 import {Box} from "@material-ui/core";
 import * as Yup from "yup";
 
-import FormField from "../../components/FormField/FormField";
-import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
-import FormSelect from "../../components/FormSelect/FormSelect";
-import {useReduxGetSet} from "../../../../Utils";
+import FormField from "../../../components/FormField/FormField";
+import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
+import FormSelect from "../../../components/FormSelect/FormSelect";
+import {useReduxGetSet} from "../../../Utils";
 
 import "./ElectricalRateForm.sass"
-import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
-import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
+import CollapseContainer from "../../../components/CollapseContainer/CollapseContainer";
+import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
 
 /*
  * Displays the electrical rate form.

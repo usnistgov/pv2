@@ -4,12 +4,12 @@ import "./SolarSystemForm.sass";
 import {Box} from "@material-ui/core";
 import * as Yup from "yup";
 
-import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
-import FormField from "../../components/FormField/FormField";
-import {useReduxGetSet} from "../../../../Utils";
-import FormSelect from "../../components/FormSelect/FormSelect";
-import CollapseContainer from "../../components/CollapseContainer/CollapseContainer";
-import AdvancedBox from "../../components/AdvancedBox/AdvancedBox";
+import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
+import FormField from "../../../components/FormField/FormField";
+import {useReduxGetSet} from "../../../Utils";
+import FormSelect from "../../../components/FormSelect/FormSelect";
+import CollapseContainer from "../../../components/CollapseContainer/CollapseContainer";
+import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
 
 export default function SolarSystemForm(): ReactElement {
     // Redux state objects

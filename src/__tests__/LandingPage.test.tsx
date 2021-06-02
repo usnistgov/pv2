@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import LandingPage from '../screen/LandingPage/LandingPage'
+import LandingPage from '../application/landingpage/LandingPage'
 import '@testing-library/jest-dom'
 
 describe("<LandingPage />", () => {

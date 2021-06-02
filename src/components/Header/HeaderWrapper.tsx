@@ -1,5 +1,5 @@
 import {PropsWithChildren} from "react";
-import Header from "./Header/Header";
+import Header from "./Header";
 import {Container} from "@material-ui/core";
 
 interface PageWrapperProps {

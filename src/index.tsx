@@ -5,13 +5,13 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import '@csstools/normalize.css'
 import './main.sass';
 
-import LandingPage from "./screen/landingpage/LandingPage";
-import Application from "./screen/application/Application";
+import LandingPage from "./application/landingpage/LandingPage";
+import Application from "./application/Application";
 import {Provider} from "react-redux";
-import {initializeStore} from "./screen/application/ApplicationStore";
+import {initializeStore} from "./application/ApplicationStore";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
-import Results from "./screen/results/Results";
-import HeaderWrapper from "./screen/components/HeaderWrapper";
+import Results from "./application/results/Results";
+import HeaderWrapper from "./components/Header/HeaderWrapper";
 
 const theme = createMuiTheme({
     palette: {

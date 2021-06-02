@@ -1,12 +1,12 @@
 import {ReactElement, useEffect, useState} from "react";
-import MaterialHeader from "../application/components/MaterialHeader/MaterialHeader";
+import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import {Backdrop, Box, Button, CircularProgress, Grid} from "@material-ui/core";
 import {CSVLink} from "react-csv";
 
 import "./Results.sass";
 import {useStore} from "react-redux";
 import {createE3Request} from "./E3RequestGenerator";
-import ResultCard from "./ResultCard/ResultCard";
+import ResultCard from "../../components/ResultCard/ResultCard";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiClose, mdiDownload} from "@mdi/js";
 import {useHistory} from "react-router-dom";
