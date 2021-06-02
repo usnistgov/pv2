@@ -20,7 +20,7 @@ export interface ResultCardProps {
 
 export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps): ReactElement {
     function valid(field: any): boolean {
-        return field !== null && field !== undefined && typeof field !== 'object';
+        return field !== null && field !== undefined && typeof field !== 'object'  && !isNaN(field);
     }
 
     return (

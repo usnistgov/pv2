@@ -150,9 +150,35 @@ const exampleResults = [{
     ]
 }]
 
+function valid(field: any): boolean {
+    return field !== null && field !== undefined && typeof field !== 'object' && !isNaN(field);
+}
+
+function validOrNA(field: any): any {
+    return valid(field) ? field : "NA"
+}
+
+function generateCsv(results: any, store: any): any {
+    const altObjects = results.alternativeSummaryObjects;
+    const cashFlowObjects = results.reqCashFlowObjects;
+    return [
+        ["Summary Results", "No Solar System", "Purchase Solar System", "PPA Solar System"],
+        ["Total Costs", ...altObjects.map((x: any) => x.totalCosts).map(validOrNA)],
+        ["Net Savings", ...altObjects.map((x: any) => x.netSavings).map(validOrNA)],
+        ["AIRR", ...altObjects.map((x: any) => x.AIRR).map(validOrNA)],
+        ["SPP", ...altObjects.map((x: any) => x.SPP). map(validOrNA)],
+        ["Electricity Reduction", ...altObjects.map((x: any) => -x.deltaQuant[0]).map(validOrNA)],
+        [],
+        ["Year", "No Solar System", "Purchase Solar System", "PPA Solar System"],
+        ...Array.from(Array(store.getState().studyPeriod).keys())
+            .map((index) => [index, ...cashFlowObjects.map((flow: any) => flow.totCostDisc[index])])
+    ];
+}
+
 export default function Results(): ReactElement {
-    const store = useStore();
+    const store: any = useStore();
     const [result, setResult] = useState<undefined | {}>({}); //TODO replace with results object
+    const [downloadData] = useState(generateCsv(exampleResults[0], store));
     const history = useHistory();
 
     const graphMax = Math.ceil(exampleResults[0]
@@ -212,7 +238,7 @@ export default function Results(): ReactElement {
                 })}
             </Grid>
             <div className={"download-results"}>
-                <CSVLink data={exampleResults}>
+                <CSVLink data={downloadData}>
                     <Button variant={"contained"}
                             color={"primary"}
                             startIcon={<MdiIcon path={mdiDownload} size={1}/>}>
