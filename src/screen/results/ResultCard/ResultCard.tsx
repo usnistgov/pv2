@@ -1,4 +1,4 @@
-import {ReactElement} from "react";
+import React, {ReactElement} from "react";
 
 import "./ResultCard.sass";
 import {Card, CardContent, Grid} from "@material-ui/core";
@@ -68,13 +68,16 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                 </Grid>
 
                 <div className={"result-graph"}>
+                    <div className={"result-graph-title"}>
+                        Cash Flow - Net Present Value
+                    </div>
                     <ResponsiveLine
                         animate
                         enableArea
                         enableSlices={"x"}
                         margin={{top: 5, right: 5, bottom: 20, left: 35}}
                         data={[{
-                            id: "cash flows",
+                            id: "cash flow",
                             data: cashFlows
                                 .filter((value, index) => index !== 0)
                                 .map((value, year) => {
