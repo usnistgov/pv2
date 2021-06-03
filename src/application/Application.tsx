@@ -11,6 +11,7 @@ import SolarSystemForm from "./pages/SolarSystemForm/SolarSystemForm";
 import CostsForm from "./pages/CostsForm/CostsForm";
 import ElectricalRateForm from "./pages/ElectricalRateForm/ElectricalRateForm";
 import AddressForm from "./pages/AddressForm/AddressForm";
+import AnalysisAssumptionsForm from "./pages/AnalysisAssumptionsForm/AnalysisAssumptionsForm";
 
 /*
  * Wrapper component for the main form application. Redirects to results if finished.
@@ -25,6 +26,9 @@ export default function Application(): ReactElement {
             <StepperNav onFinish={() => setFinished(true)}>
                 <StepperPage label={"Address"}>
                     <AddressForm/>
+                </StepperPage>
+                <StepperPage label={"Analysis Assumptions"}>
+                    <AnalysisAssumptionsForm/>
                 </StepperPage>
                 <StepperPage label={"Electrical Rate"}>
                     <ElectricalRateForm/>

@@ -13,7 +13,7 @@ import CollapseContainer from "../../../components/CollapseContainer/CollapseCon
 import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
 
 // Stylesheets
-import "./SolarSystemForm.sass";
+import "../Form.sass";
 
 /**
  * Form for details about the output of the PV system.
@@ -31,10 +31,10 @@ export default function SolarSystemForm(): ReactElement {
     const degradationRate = useReduxGetSet<number>("degradationRate", 0);
 
     return (
-        <Box className={"solar-system-page-container"}>
+        <Box className={"form-page-container"}>
             <MaterialHeader text={"Solar PV System Information"}/>
             Fill in the system information for the Solar PV quote you received.
-            <Box className={"solar-system-form-container"}>
+            <Box className={"form-single-column-container"}>
                 <FormField
                     label={"System Panel Brand and Type"}
                     schema={Yup.string()}

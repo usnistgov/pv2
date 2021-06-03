@@ -13,7 +13,7 @@ import CollapseContainer from "../../../components/CollapseContainer/CollapseCon
 import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
 
 // Stylesheets
-import "./CostsForm.sass";
+import "../Form.sass";
 
 /**
  * Creates a form to input the costs of the PV system.
@@ -36,18 +36,11 @@ export default function CostsForm(): ReactElement {
     const nominalInterestRate = useReduxGetSet<number>("nominalInterestRate", 0);
     const monthlyPayment = useReduxGetSet<number>("monthlyPayment", 0);
 
-    // Analysis Assumptions
-    // Advanced
-    const residualValueApproach = useReduxGetSet<string>("residualValueApproach", "");
-    const studyPeriod = useReduxGetSet<number>("studyPeriod", 25);
-    const realDiscountRate = useReduxGetSet<number>("realDiscountRate", 0);
-    const generalInflation = useReduxGetSet<number>("generalInflation", 0);
-
     return (
-        <Box className={"costs-page-container"}>
+        <Box className={"form-page-container"}>
             <MaterialHeader text={"Solar PV System Costs"}/>
             Fill in the system information for the Solar PV quote you received.
-            <Box className={"costs-form-container"}>
+            <Box className={"form-single-column-container"}>
                 <FormField 
                     label={"Total Installation Costs"}
                     schema={Yup.number().required()}
@@ -84,7 +77,7 @@ export default function CostsForm(): ReactElement {
                 </CollapseContainer>
             </Box>
             <MaterialHeader text={"Purchasing Details"}/>
-            <Box className={"costs-form-container"}>
+            <Box className={"form-single-column-container"}>
                 <FormSelect
                     label={"Include a Power Purchase Agreement Option?"}
                     value={ppaOption}
@@ -119,38 +112,6 @@ export default function CostsForm(): ReactElement {
                             value={monthlyPayment}
                             startAdornment={"$"}
                             type={"number"}/>
-                    </AdvancedBox>
-                </CollapseContainer>
-            </Box>
-            <MaterialHeader text={"Analysis Assumptions"}/>
-            <Box className={"costs-form-container"}>
-                <CollapseContainer text="Advanced">
-                    <AdvancedBox>
-                        <FormField 
-                            label={"Study Period"}
-                            schema={Yup.number().required()}
-                            value={studyPeriod}
-                            endAdornment={"Years"}
-                            type={"number"}/>
-                        <FormField 
-                            label={"Real Discount Rate"}
-                            schema={Yup.number().required()}
-                            value={realDiscountRate}
-                            endAdornment={"%"}
-                            type={"number"}/>
-                        <FormField 
-                            label={"General Inflation Rate"}
-                            schema={Yup.number().required()}
-                            value={generalInflation}
-                            endAdornment={"%"}
-                            type={"number"}/>
-                        <FormSelect
-                            label={"Residual Value Approach"}
-                            value={residualValueApproach}
-                            options={[
-                                "Remaining Production Value",
-                                "Linear Depreciation"
-                            ]}/>
                     </AdvancedBox>
                 </CollapseContainer>
             </Box>

@@ -13,7 +13,7 @@ import CollapseContainer from "../../../components/CollapseContainer/CollapseCon
 import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
 
 // Stylesheets
-import "./ElectricalRateForm.sass"
+import "../Form.sass";
 
 /*
  * Displays the electrical rate form.
@@ -43,9 +43,9 @@ export default function ElectricalRateForm(): ReactElement {
     }
 
     return (
-        <Box>
+        <Box className={"form-page-container"}>
             <MaterialHeader text={"Electrical Rate Information"}/>
-            <Box className={"electrical-form-container"}>
+            <Box className={"form-single-column-container"}>
                 <FormField label={"Electricity Utility Company"}
                            schema={Yup.string()}
                            value={electricalCompanyName}/>
@@ -89,7 +89,7 @@ export default function ElectricalRateForm(): ReactElement {
                                 "No"
                             ]}/>
                         {viewAnnualEscalationRates.get() === "Yes" &&
-                            <div className="rate-two-columns">
+                            <div className="form-two-column-container">
                                 {escalationRatesPerYear.map((rate, i) => {
                                     return (
                                         <FormField label={`Year ${i}`}

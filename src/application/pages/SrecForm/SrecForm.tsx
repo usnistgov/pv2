@@ -11,7 +11,7 @@ import {useReduxGetSet} from "../../../Utils";
 import FormField from "../../../components/FormField/FormField";
 
 // Stylesheets
-import './SrecForm.sass';
+import "../Form.sass";
 
 /**
  * Form for SREC details.
@@ -32,13 +32,13 @@ export default function SrecForm(): ReactElement {
     }
     
     return (
-        <Box className={"srec-page-container"}>
+        <Box className={"form-page-container"}>
             <MaterialHeader text={"SREC Payments"}/>
-            <div className={"srec-page-text"}>
+            <div className={"form-page-text"}>
                 PV^2 allows a user to input dollar values from Solar Renewable Energy Credit (SREC) sales. A homeowner may be able to receive an upfront payment based on the size of the system or payments over time based on production.
             </div>
 
-            <Box className={"srec-form-container"}>
+            <Box className={"form-single-column-container"}>
                 <FormSelect
                     label={"SREC Payments"}
                     value={srecPayments}
@@ -54,7 +54,7 @@ export default function SrecForm(): ReactElement {
                         type={"number"}/>
                 }
                 {srecPayments.get() === "Production-based Payments" &&
-                    <div className="srec-two-columns">
+                    <div className="form-two-column-container">
                         {srecPaymentsPerYear.map((payment, i) => {
                             return (
                                 <FormField label={"Year " + i}
