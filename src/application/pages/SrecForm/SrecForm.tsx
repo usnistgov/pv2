@@ -31,16 +31,6 @@ export default function SrecForm(): ReactElement {
         srecPaymentsProductionBased.set(Array(store.getState().studyPeriod).fill(0));
     }, [store]);
 
-    /*// TODO: fetch studyPeriod from redux store, and fetch default values
-    const studyPeriod = 25;
-    const srecPaymentsPerYear = [];
-    for (let i = 0; i < studyPeriod; i++) {
-        // TODO: push the default value instead of i, when available
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const srecPaymentForYear = useReduxGetSet<number>("srecPaymentsProdBased_" + i, i);
-        srecPaymentsPerYear.push(srecPaymentForYear);
-    }*/
-
     return (
         <Box className={"form-page-container"}>
             <MaterialHeader text={"SREC Payments"}/>

@@ -8,23 +8,10 @@ export const altLabels = [
     "No Solar System",
     "Purchase Solar System",
     "PPA Solar System",
-]
+];
 
 const NET_METERING = "Net Metering Tariff";
-
-async function getEscalationRateList(storeState: string): Promise<object> {
-    const stateAbbreviations = await fetch("escalation-rates/state-abbreviation.json").then(toJson);
-    const regionEscalationRates = await fetch("escalation-rates/region-escalation-rates.json").then(toJson);
-    const stateRegionMapping = await fetch("escalation-rates/state-region-mapping.json").then(toJson);
-
-    const state = storeState === "" || !storeState ? "Maryland": storeState;
-
-    return regionEscalationRates[
-        stateRegionMapping[
-            state.length === 2 ? stateAbbreviations[state.toUpperCase()] : state
-            ].Region
-        ]
-}
+const CASH = "Cash";
 
 export async function createE3Request(store: any): Promise<any> {
     const now = new Date();
@@ -58,15 +45,14 @@ export async function createE3Request(store: any): Promise<any> {
             escalationRateOrRates = arr;
             break;
         default:
-            escalationRateOrRates = Object.values(await getEscalationRateList(store.state))
-                .filter((_, index) => index < store.studyPeriod);
+            escalationRateOrRates = store.escalationRateForYear;
     }
 
     return [{
         analysisObject: {
             analysisType: "LCC",
             projectType: "Buildings",
-            objToReport: "MeasureSummary",
+            objToReport: ["FlowSummary","MeasureSummary"],
             studyPeriod: store.studyPeriod,
             baseDate: nowString,
             serviceDate: nowString,
@@ -81,7 +67,7 @@ export async function createE3Request(store: any): Promise<any> {
             reinvestRate: store.realDiscountRate,
             incomeRateFed: {},
             incomeRateOther: {},
-            noAlt: 1,
+            //noAlt: 1,
             location: [store.address, store.city, store.state, store.zipcode]
         },
         alternativeObject: [
@@ -100,7 +86,7 @@ export async function createE3Request(store: any): Promise<any> {
             {
                 altID: 2,
                 altName: altLabels[2],
-                altBCNList: [12, 13, 14, 15],
+                altBCNList: [12, 13, 14, 15, 16, 17, 18],
                 baselineBool: false,
             },
         ],
@@ -114,12 +100,12 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnTag: "Electricity",
                 initialOcc: 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
-                recurVarValue: [assumptions.escalationRate],
+                recurVarValue: escalationRateOrRates,
                 recurEndDate: store.studyPeriod,
                 valuePerQ: store.pvGridConnectionRate,
                 quant: store.annualConsumption,
@@ -136,18 +122,18 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnTag: "Electricity",
                 initialOcc: 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
                 recurVarValue: 0.0,
                 recurEndDate: store.studyPeriod,
-                valuePerQ: store.monthlyFlatRateCharge,
+                valuePerQ: store.monthlyFlatRateCharge * 12, // Multiply monthly rate to get yearly rate
                 quant: 1,
                 quantVarRate: "percDelta",
                 quantVarValue: 1.0,
-                quantUnit: {}
+                quantUnit: null
             },
             {
                 bcnID: 2,
@@ -158,17 +144,17 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnTag: "Electricity",
                 initialOcc: store.netMeteringFeedTariff === NET_METERING ? positiveNetConsumptionStart : 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
-                recurVarValue: 0.0,						// TODO: this may not exist yet Escalation Rate List or Constant Value for Consumption
+                recurVarValue: escalationRateOrRates,
                 recurEndDate: store.studyPeriod,		// Study Period
                 valuePerQ: store.annualConsumption,     // Consumption Rate
-                quant: store.annualConsumption - positiveNetConsumption[0],	// If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc
+                quant: store.annualConsumption - positiveNetConsumption[0],	// If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc FIXME
                 quantVarRate: "percDelta",
-                quantVarValue: [1.00, ...positiveNetConsumption], //Percent change year over year
+                quantVarValue: [1.00, ...positiveNetConsumption], //Percent change year over year FIXME
                 quantUnit: "kwh"
             },
             {
@@ -180,18 +166,18 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnTag: "Electricity",
                 initialOcc: 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
                 recurVarValue: 0.0,
                 recurEndDate: store.studyPeriod,	// Study Period
-                valuePerQ: store.monthlyFlatRateCharge,	// Demand Charge
+                valuePerQ: store.monthlyFlatRateCharge * 12, // Multiply monthly charge to get yearly charge
                 quant: 1,
                 quantVarRate: "percDelta",
                 quantVarValue: 1.00,
-                quantUnit: {}
+                quantUnit: null
             },
             {
                 bcnID: 4,
@@ -200,14 +186,14 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnSubType: "Direct",
                 bcnName: "Electricity Production",
                 bcnTag: "Electricity",
-                initialOcc: 1,								//# If net metering, First year production > consumption
+                initialOcc: store.netMeteringFeedTariff === NET_METERING ? positiveNetConsumptionStart : 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
-                recurVarValue: 0.0,	// TODO: does not exist yet Escalation Rate List or Constant Value for Excess Production
+                recurVarValue: escalationRateOrRates,
                 recurEndDate: positiveNetConsumptionStart === 1 ? 1 : positiveNetConsumptionStart - 1,//# If net metering, Last year production > consumption
                 valuePerQ: 0.059,						//# Excess Production Rate
                 quant: negativeNetConsumption[0],		//# =(Annual Consumption)-(Annual Production) in Year = initialOcc
@@ -224,7 +210,7 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnTag: "Electricity",
                 initialOcc: 1,
                 bcnInvestBool: false,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: true,
                 recurInterval: 1,
@@ -235,7 +221,7 @@ export async function createE3Request(store: any): Promise<any> {
                 quant: 1,
                 quantVarRate: "percDelta",
                 quantVarValue: 1.00,
-                quantUnit: {}
+                quantUnit: null
             },
             {
                 bcnID: 6,
@@ -249,15 +235,15 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnLife: 25,
                 rvBool: false,
                 recurBool: false,
-                recurInterval: {},
-                recurVarRate: {},
-                recurVarValue: {},
-                recurEndDate: {},
-                valuePerQ: store.totalInstallationCosts,
+                recurInterval: null,
+                recurVarRate: null,
+                recurVarValue: null,
+                recurEndDate: null,
+                valuePerQ: store.loanOrCash === CASH ? store.totalInstallationCosts : store.downPayment,
                 quant: 1,
-                quantVarRate: {},
-                quantVarValue: {},
-                quantUnit: {}
+                quantVarRate: null,
+                quantVarValue: null,
+                quantUnit: null
             },
             {
                 bcnID: 7,
@@ -266,20 +252,20 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnSubType: "Direct",
                 bcnName: "Total Installation Costs Residual Value",
                 bcnTag: "Investment Costs",
-                initialOcc: store.studyPeriod,	// Study Period
+                initialOcc: store.studyPeriod,	// Study Period FIXME
                 bcnInvestBool: true,
-                bcnLife: {},
+                bcnLife: null,
                 rvBool: false,
                 recurBool: false,
-                recurInterval: {},
-                recurVarRate: {},
-                recurVarValue: {},
-                recurEndDate: {},
-                valuePerQ: 0,				// Includes (system minus inverter) and (inverter); RV = 0 because system has 25 year service life
+                recurInterval: null,
+                recurVarRate: null,
+                recurVarValue: null,
+                recurEndDate: store.loanOrCash === CASH ? null : store.downPayment, // FIXME
+                valuePerQ: store.monthlyPayment, // FIXME
                 quant: 1,
-                quantVarRate: {},
-                quantVarValue: {},
-                quantUnit: {}
+                quantVarRate: null,
+                quantVarValue: null,
+                quantUnit: null
             },
             {
                 bcnID: 8,
@@ -288,20 +274,20 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnSubType: "Direct",
                 bcnName: "Federal Tax Credit",
                 bcnTag: "Investment Costs",
-                initialOcc: 0,
-                bcnInvestBool: 25,
-                bcnLife: {},
+                initialOcc: store.studyPeriod, //FIXME
+                bcnInvestBool: 0,
+                bcnLife: null,
                 rvBool: false,
                 recurBool: false,
-                recurInterval: {},
-                recurVarRate: {},
-                recurVarValue: {},
-                recurEndDate: {},
+                recurInterval: null,
+                recurVarRate: null,
+                recurVarValue: null,
+                recurEndDate: null,
                 valuePerQ: store.federalTaxCredit,
                 quant: 1,
-                quantVarRate: {},
-                quantVarValue: {},
-                quantUnit: {}
+                quantVarRate: null,
+                quantVarValue: null,
+                quantUnit: null
             },
             {
                 bcnID: 9,
@@ -315,15 +301,15 @@ export async function createE3Request(store: any): Promise<any> {
                 bcnLife: 25,
                 rvBool: false,
                 recurBool: false,
-                recurInterval: {},
-                recurVarRate: {},
-                recurVarValue: {},
-                recurEndDate: {},
+                recurInterval: null,
+                recurVarRate: null,
+                recurVarValue: null,
+                recurEndDate: null,
                 valuePerQ: store.stateOrLocalTaxCreditsOrGrantsOrRebates,
                 quant: 1,
-                quantVarRate: {},
-                quantVarValue: {},
-                quantUnit: {}
+                quantVarRate: null,
+                quantVarValue: null,
+                quantUnit: null
             },
             {
                 bcnID: 10,
@@ -361,7 +347,7 @@ export async function createE3Request(store: any): Promise<any> {
                 recurBool: true,
                 recurInterval: 1,
                 recurVarRate: "percDelta",
-                recurVarValue: [0.00, 0.00, 0.00, -0.125, 0, 0, 0, 0, 0, 0],	// TODO Rate of Change for SREC Value
+                recurVarValue: store.srecPaymentsProductionBased,
                 recurEndDate: 10,								// TODO (hard code 25 and list length of 25, and have 0s for filler) Assumes there is only value for Year 1-10.
                 valuePerQ: store.annualConsumption,				// Consumption Rate
                 quant: 10.3,									// TODO (pull value from user -> 10300/1000 check example) Quantity = MWh produced = kwh / 1000	//  If Feed-In Tariff, =(Annual Consumption)-(Annual Production) in Year = initialOcc

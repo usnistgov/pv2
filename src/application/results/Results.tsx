@@ -223,6 +223,8 @@ export default function Results(): ReactElement {
 
         createE3Request(store.getState())
             .then((request) => {
+                console.log(request);
+
                 // Generate fetch post request
                 const fetchOptions = {
                     method: "POST",
