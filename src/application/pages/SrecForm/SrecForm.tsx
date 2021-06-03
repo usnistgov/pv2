@@ -48,7 +48,7 @@ export default function SrecForm(): ReactElement {
                     ]}/>
                 {srecPayments.get() === "Up-front Payment" &&
                     <FormField label={"SREC Payments - Up-front Payment"}
-                        schema={Yup.number()}
+                        schema={Yup.number().min(0)}
                         value={srecPaymentsUpFront}
                         endAdornment={"$/kWh"}
                         type={"number"}/>
@@ -58,7 +58,7 @@ export default function SrecForm(): ReactElement {
                         {srecPaymentsPerYear.map((payment, i) => {
                             return (
                                 <FormField label={"Year " + i}
-                                    schema={Yup.number()}
+                                    schema={Yup.number().min(0)}
                                     value={payment}
                                     endAdornment={"$/mWh"}
                                     type={"string"}/>

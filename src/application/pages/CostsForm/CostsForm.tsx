@@ -63,13 +63,13 @@ export default function CostsForm(): ReactElement {
                     <AdvancedBox>
                         <FormField 
                             label={"Inverter Replacement Costs"}
-                            schema={Yup.number().required()}
+                            schema={Yup.number().required().moreThan(0)}
                             value={inverterReplacementCosts}
                             startAdornment={"$"}
                             type={"number"}/>
                         <FormField 
                             label={"Annual Maintenance Costs"}
-                            schema={Yup.number().required()}
+                            schema={Yup.number().required().moreThan(0)}
                             value={annualMaintenanceCosts}
                             startAdornment={"$"}
                             type={"number"}/>
@@ -96,19 +96,19 @@ export default function CostsForm(): ReactElement {
                             ]}/>
                         <FormField 
                             label={"Loan Down Payment"}
-                            schema={Yup.number().required()}
+                            schema={Yup.number().required().max(100).min(0)}
                             value={downPayment}
                             endAdornment={"%"}
                             type={"number"}/>
                         <FormField 
                             label={"Loan Nominal Interest Rate"}
-                            schema={Yup.number().required()}
+                            schema={Yup.number().required().max(100).min(0)}
                             value={nominalInterestRate}
                             endAdornment={"%"}
                             type={"number"}/>
                         <FormField 
                             label={"Monthly Loan Payment"}
-                            schema={Yup.number().required()}
+                            schema={Yup.number().required().moreThan(0)}
                             value={monthlyPayment}
                             startAdornment={"$"}
                             type={"number"}/>

@@ -121,7 +121,7 @@ export default function ElectricalRateForm(): ReactElement {
 
                                     return (
                                         <FormField label={`Year ${i + 1}`}
-                                                   schema={Yup.number()}
+                                                   schema={Yup.number().max(1.0).min(-1.0)}
                                                    value={getSet}
                                                    endAdornment={"%"}
                                                    type={"string"}

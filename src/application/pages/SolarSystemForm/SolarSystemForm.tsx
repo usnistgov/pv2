@@ -63,19 +63,19 @@ export default function SolarSystemForm(): ReactElement {
                     <AdvancedBox>
                         <FormField
                             label={"Panel Lifetime"}
-                            schema={Yup.number().required()}
+                            schema={Yup.number().required().max(40).min(1)}
                             value={panelLifetime}
                             endAdornment={"Years"}
                             type={"number"}/>
                         <FormField
                             label={"Inverter Lifetime"}
-                            schema={Yup.number().required()}
+                            schema={Yup.number().required().max(40).min(1)}
                             value={inverterLifetime}
                             endAdornment={"Years"}
                             type={"number"}/>
                         <FormField
                             label={"System Efficiency Degradation Rate (Year-Over-Year %)"}
-                            schema={Yup.number().required()}
+                            schema={Yup.number().required().max(100).min(0)}
                             value={degradationRate}
                             endAdornment={"%"}
                             type={"number"}/>
