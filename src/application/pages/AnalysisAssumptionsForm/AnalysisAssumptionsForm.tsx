@@ -7,8 +7,6 @@ import * as Yup from "yup";
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import FormField from "../../../components/FormField/FormField";
-import CollapseContainer from "../../../components/CollapseContainer/CollapseContainer";
-import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
 import FormSelect from "../../../components/FormSelect/FormSelect";
 import {useReduxGetSet} from "../../../Utils";
 
