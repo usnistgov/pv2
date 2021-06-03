@@ -1,9 +1,12 @@
 import {ReactElement} from "react";
 
+// Library Imports
 import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
+// User Imports
 import {ReduxGetSet} from "../../Utils";
 
+// Stylesheets
 import "./FormSelect.sass";
 
 

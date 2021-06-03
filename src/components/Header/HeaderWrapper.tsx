@@ -1,11 +1,15 @@
-import {PropsWithChildren} from "react";
-import Header from "./Header";
+import {PropsWithChildren, ReactElement} from "react";
+
+// Library Imports
 import {Container} from "@material-ui/core";
 
-interface PageWrapperProps {
-}
+// User Imports
+import Header from "./Header";
 
-const HeaderWrapper = (props: PropsWithChildren<PageWrapperProps>) => {
+/**
+ * Component for wrapping the main page content with the header component.
+ */
+export default function  HeaderWrapper(props: PropsWithChildren<{}>): ReactElement {
     return (
         <Container maxWidth="lg">
             <Header/>
@@ -13,5 +17,3 @@ const HeaderWrapper = (props: PropsWithChildren<PageWrapperProps>) => {
         </Container>
     );
 }
-
-export default HeaderWrapper;

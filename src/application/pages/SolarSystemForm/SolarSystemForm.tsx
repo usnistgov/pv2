@@ -1,9 +1,10 @@
 import {ReactElement} from "react";
-import "./SolarSystemForm.sass";
 
+// Library Imports
 import {Box} from "@material-ui/core";
 import * as Yup from "yup";
 
+// User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import FormField from "../../../components/FormField/FormField";
 import {useReduxGetSet} from "../../../Utils";
@@ -11,6 +12,12 @@ import FormSelect from "../../../components/FormSelect/FormSelect";
 import CollapseContainer from "../../../components/CollapseContainer/CollapseContainer";
 import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
 
+// Stylesheets
+import "./SolarSystemForm.sass";
+
+/**
+ * Form for details about the output of the PV system.
+ */
 export default function SolarSystemForm(): ReactElement {
     // Redux state objects
     // PV System Information

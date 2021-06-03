@@ -1,14 +1,21 @@
 import {ReactElement} from "react";
-import './SrecForm.sass';
 
+// Library Imports
 import {Box} from "@material-ui/core";
 import * as Yup from "yup";
 
+// User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../../components/FormSelect/FormSelect";
 import {useReduxGetSet} from "../../../Utils";
 import FormField from "../../../components/FormField/FormField";
 
+// Stylesheets
+import './SrecForm.sass';
+
+/**
+ * Form for SREC details.
+ */
 export default function SrecForm(): ReactElement {
     const srecPayments = useReduxGetSet<string>("srecPayments", "");
     const srecPaymentsUpFront = useReduxGetSet<number>("srecPaymentsUpFront", 0)

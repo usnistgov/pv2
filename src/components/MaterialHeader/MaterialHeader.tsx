@@ -1,9 +1,10 @@
 import {ReactElement} from "react";
 
+// User Imports
 import {Box} from "@material-ui/core";
 
+// Stylesheets
 import "./MaterialHeader.sass"
-
 
 export interface MaterialHeaderProps {
     // The text to be displayed in this header.

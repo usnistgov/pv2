@@ -1,8 +1,10 @@
 import {ReactElement, useState} from "react";
 
+// Library Imports
 import {InputAdornment, TextField} from "@material-ui/core";
 import {InputProps as StandardInputProps} from "@material-ui/core/Input/Input";
 
+// User Imports
 import {ReduxGetSet} from "../../Utils";
 
 

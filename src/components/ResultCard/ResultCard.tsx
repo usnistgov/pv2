@@ -1,28 +1,37 @@
 import React, {ReactElement} from "react";
 
-import "./ResultCard.sass";
+// Library Imports
 import {Card, CardContent, Grid} from "@material-ui/core";
-import {altLabels} from "../../application/results/E3RequestGenerator";
 import {ResponsiveLine} from "@nivo/line";
+
+// User Imports
+import {altLabels} from "../../application/results/E3RequestGenerator";
+import {valid} from "../../application/results/Results";
+
+// Stylesheets
+import "./ResultCard.sass";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
-const numberFormatter = Intl.NumberFormat('en-US', {
-});
+const numberFormatter = Intl.NumberFormat('en-US', {});
 
 export interface ResultCardProps {
+    // The alternative objects
     alt: any;
+
+    // The cashflow array
     cashFlows: number[];
+
+    // The maximum absolute number to display on graph scale
     graphMax: number;
 }
 
+/**
+ * Creates a card that displays the given E3 results.
+ */
 export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps): ReactElement {
-    function valid(field: any): boolean {
-        return field !== null && field !== undefined && typeof field !== 'object'  && !isNaN(field);
-    }
-
     return (
         <Card>
             <CardContent className={"result-card"}>
@@ -81,11 +90,11 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                             data: cashFlows
                                 .filter((value, index) => index !== 0)
                                 .map((value, year) => {
-                                return {
-                                    x: year,
-                                    y: value
-                                }
-                            })
+                                    return {
+                                        x: year,
+                                        y: value
+                                    }
+                                })
                         }]}
                         xScale={{type: 'linear'}}
                         yScale={{type: 'linear', min: -graphMax, max: graphMax, stacked: true}}
@@ -102,7 +111,7 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                             legendOffset: -5,
                             legendPosition: 'middle',
                         }}
-                        />
+                    />
                 </div>
             </CardContent>
         </Card>

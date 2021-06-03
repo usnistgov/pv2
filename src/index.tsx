@@ -1,18 +1,23 @@
 import React from 'react';
+
+// Library Imports
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Provider} from "react-redux";
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 
-import '@csstools/normalize.css'
-import './main.sass';
-
+// User Imports
 import LandingPage from "./application/landingpage/LandingPage";
 import Application from "./application/Application";
-import {Provider} from "react-redux";
 import {initializeStore} from "./application/ApplicationStore";
-import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import Results from "./application/results/Results";
 import HeaderWrapper from "./components/Header/HeaderWrapper";
 
+// Stylesheets
+import '@csstools/normalize.css'
+import './main.sass';
+
+// Material UI theme definition
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -30,8 +35,10 @@ const theme = createMuiTheme({
     }
 })
 
+// Create Redux store
 const store = initializeStore();
 
+// Render main application
 ReactDOM.render(
     <Provider store={store}>
         <MuiThemeProvider theme={theme}>

@@ -1,32 +1,36 @@
-import {ReactElement, useState} from "react";
+import React, {ReactElement, useState} from "react";
 
+// Library Imports
 import {Box, Collapse} from "@material-ui/core";
-import "./CollapseContainer.sass"
 import {ArrowDropDown, ArrowDropUp} from "@material-ui/icons"
 
+//Stylesheets
+import "./CollapseContainer.sass"
+
 export interface CollapseContainerProps {
-  text: string
+    // The label to display
+    text: string
 }
 
 /*
  * A collapsable container
  */
 export default function CollapseContainer(props: React.PropsWithChildren<CollapseContainerProps>): ReactElement {
-  const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false)
 
-  const handleOnClick = () => {
-    setOpen((prev) => !prev)
-  }
+    const handleOnClick = () => {
+        setOpen((prev) => !prev)
+    }
 
-  return (
-    <Box className={"collapse-container"}>
-      <div className="collapse-container-text" onClick={handleOnClick}>
-        <div>{props.text}</div>
-        {open ? <ArrowDropUp/> : <ArrowDropDown/>}
-      </div>
-      <Collapse in={open}>
-        {props.children}
-      </Collapse>
-    </Box>
-  );
+    return (
+        <Box className={"collapse-container"}>
+            <div className="collapse-container-text" onClick={handleOnClick}>
+                <div>{props.text}</div>
+                {open ? <ArrowDropUp/> : <ArrowDropDown/>}
+            </div>
+            <Collapse in={open}>
+                {props.children}
+            </Collapse>
+        </Box>
+    );
 }

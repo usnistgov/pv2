@@ -1,16 +1,21 @@
-import {ReactElement, useEffect, useState} from "react";
-import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
+import React, {ReactElement, useEffect, useState} from "react";
+
+// Library imports
 import {Backdrop, Box, Button, CircularProgress, Grid} from "@material-ui/core";
 import {CSVLink} from "react-csv";
-
-import "./Results.sass";
 import {useStore} from "react-redux";
 import {createE3Request} from "./E3RequestGenerator";
-import ResultCard from "../../components/ResultCard/ResultCard";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiClose, mdiDownload} from "@mdi/js";
 import {useHistory} from "react-router-dom";
+
+// User Imports
+import ResultCard from "../../components/ResultCard/ResultCard";
+import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import {toJson} from "../../Utils";
+
+// Stylesheets
+import "./Results.sass";
 
 const exampleResults = [{
     "alternativeSummaryObjects": [
@@ -151,15 +156,33 @@ const exampleResults = [{
     ]
 }]
 
-function valid(field: any): boolean {
-    return field !== null && field !== undefined && typeof field !== 'object' && !isNaN(field);
+/**
+ * Checks if a value is valid, in other words is not null, undefined, etc.
+ *
+ * @param value the value to check for validity.
+ * @returns true if the field is valid, false otherwise.
+ */
+export function valid(value: any): boolean {
+    return value !== null && value !== undefined && typeof value !== 'object' && !isNaN(value);
 }
 
-function validOrNA(field: any): any {
-    return valid(field) ? field : "NA"
+/**
+ * Checks a value is valid and if so returns that value, otherwise it returns the string "NA".
+ *
+ * @param value the value to check.
+ * @returns the value if it is valid, otherwise the string "NA".
+ */
+function validOrNA(value: any): any {
+    return valid(value) ? value : "NA"
 }
 
-function generateCsv(results: any, store: any): any {
+/**
+ * Generates CSV data for the given results and study period.
+ *
+ * @param results The JSON results obtained from E3.
+ * @param studyPeriod The study period defined in the redux store.
+ */
+function generateCsv(results: any, studyPeriod: number): any {
     const altObjects = results.alternativeSummaryObjects;
     const cashFlowObjects = results.reqCashFlowObjects;
     return [
@@ -171,23 +194,30 @@ function generateCsv(results: any, store: any): any {
         ["Electricity Reduction", ...altObjects.map((x: any) => -x.deltaQuant[0]).map(validOrNA)],
         [],
         ["Year", "No Solar System", "Purchase Solar System", "PPA Solar System"],
-        ...Array.from(Array(store.getState().studyPeriod).keys())
+        ...Array.from(Array(studyPeriod).keys())
             .map((index) => [index, ...cashFlowObjects.map((flow: any) => flow.totCostDisc[index])])
     ];
 }
 
+/**
+ * This page requests calculations from the E3 API and displays the results. Results are shown in side-by-side
+ * card form with some data and graphs. Finally the user can download a CSV file containing the E3 results. This
+ * component takes not props since all necessary information for the E3 request is obtained from the redux store.
+ */
 export default function Results(): ReactElement {
     const store: any = useStore();
     const [result, setResult] = useState<undefined | {}>({}); //TODO replace with results object
-    const [downloadData] = useState(generateCsv(exampleResults[0], store));
+    const [downloadData] = useState(generateCsv(exampleResults[0], store.getState().studyPeriod));
     const history = useHistory();
 
+    // Generates the maximum absolute value for the graphs so they have the same scale.
     const graphMax = Math.ceil(exampleResults[0]
         .reqCashFlowObjects
         .flatMap((x) => x.totCostDisc.filter((_, index) => index > 0))
         .map(Math.abs)
         .reduce((x, y) => Math.max(x, y)) / 100) * 100;
 
+    // Fetches results from E3 API
     useEffect(() => {
         const controller = new AbortController();
 

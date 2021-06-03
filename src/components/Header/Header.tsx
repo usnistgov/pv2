@@ -1,7 +1,15 @@
+import {ReactElement} from "react";
+
+// Library Imports
 import {Link} from "react-router-dom";
+
+// Stylesheets
 import "./Header.sass";
 
-const Header = () => {
+/**
+ * Component for displaying a header with link options.
+ */
+export default function Header(): ReactElement {
     return (
         <div className="header-wrapper">
             <div className="options">
@@ -19,5 +27,3 @@ const Header = () => {
         </div>
     );
 }
-
-export default Header;

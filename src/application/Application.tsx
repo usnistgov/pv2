@@ -1,5 +1,9 @@
 import React, {ReactElement, useState} from "react";
 
+// Library Imports
+import {Redirect} from "react-router-dom";
+
+// User Imports
 import StepperNav from "../components/StepperNav/StepperNav";
 import StepperPage from "../components/StepperPage/StepperPage";
 import SrecForm from "./pages/SrecForm/SrecForm";
@@ -7,10 +11,9 @@ import SolarSystemForm from "./pages/SolarSystemForm/SolarSystemForm";
 import CostsForm from "./pages/CostsForm/CostsForm";
 import ElectricalRateForm from "./pages/ElectricalRateForm/ElectricalRateForm";
 import AddressForm from "./pages/AddressForm/AddressForm";
-import {Redirect} from "react-router-dom";
 
 /*
- * Wrapper component for the main form application.
+ * Wrapper component for the main form application. Redirects to results if finished.
  */
 export default function Application(): ReactElement {
     const [finished, setFinished] = useState(false);
