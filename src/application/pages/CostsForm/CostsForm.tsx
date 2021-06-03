@@ -41,19 +41,19 @@ export default function CostsForm(): ReactElement {
             <MaterialHeader text={"Solar PV System Costs"}/>
             Fill in the system information for the Solar PV quote you received.
             <Box className={"form-single-column-container"}>
-                <FormField 
+                <FormField
                     label={"Total Installation Costs"}
                     schema={Yup.number().required()}
                     value={totalInstallationCosts}
                     startAdornment={"$"}
                     type={"number"}/>
-                <FormField 
+                <FormField
                     label={"Federal Tax Credit - 26% of Total Installed Cost"}
                     schema={Yup.number().required()}
                     value={federalTaxCredit}
                     startAdornment={"$"}
                     type={"number"}/>
-                <FormField 
+                <FormField
                     label={"State/Local Tax Credits/Grants/Rebates"}
                     schema={Yup.number().required()}
                     value={stateOrLocalTaxCreditsOrGrantsOrRebates}
@@ -61,13 +61,13 @@ export default function CostsForm(): ReactElement {
                     type={"number"}/>
                 <CollapseContainer text="Advanced">
                     <AdvancedBox>
-                        <FormField 
+                        <FormField
                             label={"Inverter Replacement Costs"}
                             schema={Yup.number().required().moreThan(0)}
                             value={inverterReplacementCosts}
                             startAdornment={"$"}
                             type={"number"}/>
-                        <FormField 
+                        <FormField
                             label={"Annual Maintenance Costs"}
                             schema={Yup.number().required().moreThan(0)}
                             value={annualMaintenanceCosts}
@@ -94,24 +94,28 @@ export default function CostsForm(): ReactElement {
                                 "Loan",
                                 "Cash"
                             ]}/>
-                        <FormField 
-                            label={"Loan Down Payment"}
-                            schema={Yup.number().required().max(100).min(0)}
-                            value={downPayment}
-                            endAdornment={"%"}
-                            type={"number"}/>
-                        <FormField 
-                            label={"Loan Nominal Interest Rate"}
-                            schema={Yup.number().required().max(100).min(0)}
-                            value={nominalInterestRate}
-                            endAdornment={"%"}
-                            type={"number"}/>
-                        <FormField 
-                            label={"Monthly Loan Payment"}
-                            schema={Yup.number().required().moreThan(0)}
-                            value={monthlyPayment}
-                            startAdornment={"$"}
-                            type={"number"}/>
+                        {loanOrCash.get() === "Loan" &&
+                        <>
+                            <FormField
+                                label={"Loan Down Payment"}
+                                schema={Yup.number().required().max(100).min(0)}
+                                value={downPayment}
+                                endAdornment={"%"}
+                                type={"number"}/>
+                            <FormField
+                                label={"Loan Nominal Interest Rate"}
+                                schema={Yup.number().required().max(100).min(0)}
+                                value={nominalInterestRate}
+                                endAdornment={"%"}
+                                type={"number"}/>
+                            <FormField
+                                label={"Monthly Loan Payment"}
+                                schema={Yup.number().required().moreThan(0)}
+                                value={monthlyPayment}
+                                startAdornment={"$"}
+                                type={"number"}/>
+                        </>
+                        }
                     </AdvancedBox>
                 </CollapseContainer>
             </Box>

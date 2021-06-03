@@ -1,13 +1,14 @@
-import {ReactElement} from "react";
+import {ReactElement, useEffect} from "react";
 
 // Library Imports
 import {Box} from "@material-ui/core";
 import * as Yup from "yup";
+import {useStore} from "react-redux";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../../components/FormSelect/FormSelect";
-import {useReduxGetSet} from "../../../Utils";
+import {take, useReduxGetSet} from "../../../Utils";
 import FormField from "../../../components/FormField/FormField";
 
 // Stylesheets
@@ -17,11 +18,20 @@ import "../Form.sass";
  * Form for SREC details.
  */
 export default function SrecForm(): ReactElement {
+    const store = useStore();
+
     const srecPayments = useReduxGetSet<string>("srecPayments", "");
     const srecPaymentsUpFront = useReduxGetSet<number>("srecPaymentsUpFront", 0)
-    const srecPaymentsProductionBased = useReduxGetSet<string>("srecPaymentsProductionBased", "0 0 0 0 0");
+    const srecPaymentsProductionBased = useReduxGetSet<number[]>(
+        "srecPaymentsProductionBased",
+        []
+    );
 
-    // TODO: fetch studyPeriod from redux store, and fetch default values
+    useEffect(() => {
+        srecPaymentsProductionBased.set(Array(store.getState().studyPeriod).fill(0));
+    }, [store]);
+
+    /*// TODO: fetch studyPeriod from redux store, and fetch default values
     const studyPeriod = 25;
     const srecPaymentsPerYear = [];
     for (let i = 0; i < studyPeriod; i++) {
@@ -29,13 +39,15 @@ export default function SrecForm(): ReactElement {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const srecPaymentForYear = useReduxGetSet<number>("srecPaymentsProdBased_" + i, i);
         srecPaymentsPerYear.push(srecPaymentForYear);
-    }
-    
+    }*/
+
     return (
         <Box className={"form-page-container"}>
             <MaterialHeader text={"SREC Payments"}/>
             <div className={"form-page-text"}>
-                PV^2 allows a user to input dollar values from Solar Renewable Energy Credit (SREC) sales. A homeowner may be able to receive an upfront payment based on the size of the system or payments over time based on production.
+                PV^2 allows a user to input dollar values from Solar Renewable Energy Credit (SREC) sales. A homeowner
+                may be able to receive an upfront payment based on the size of the system or payments over time based on
+                production.
             </div>
 
             <Box className={"form-single-column-container"}>
@@ -47,25 +59,36 @@ export default function SrecForm(): ReactElement {
                         "Production-based Payments",
                     ]}/>
                 {srecPayments.get() === "Up-front Payment" &&
-                    <FormField label={"SREC Payments - Up-front Payment"}
-                        schema={Yup.number().min(0)}
-                        value={srecPaymentsUpFront}
-                        endAdornment={"$/kWh"}
-                        type={"number"}/>
+                <FormField label={"SREC Payments - Up-front Payment"}
+                           schema={Yup.number().min(0)}
+                           value={srecPaymentsUpFront}
+                           endAdornment={"$/kWh"}
+                           type={"number"}/>
                 }
                 {srecPayments.get() === "Production-based Payments" &&
-                    <div className="form-two-column-container">
-                        {srecPaymentsPerYear.map((payment, i) => {
+                <div className="form-two-column-container">
+                    {srecPaymentsProductionBased.get()
+                        .map((payment, i) => {
+                            let getSet = {
+                                get: () => srecPaymentsProductionBased.get()[i],
+                                set: (value: number) => {
+                                    let result = [...srecPaymentsProductionBased.get()];
+                                    result[i] = value;
+                                    srecPaymentsProductionBased.set(result);
+                                },
+                            }
+
                             return (
-                                <FormField label={"Year " + i}
+                                <FormField
+                                    label={`Year ${i + 1}`}
                                     schema={Yup.number().min(0)}
-                                    value={payment}
+                                    value={getSet}
                                     endAdornment={"$/mWh"}
-                                    type={"string"}/>
+                                    type={"string"}
+                                    key={i + 1}/>
                             )
                         })}
-                    </div>
-                    
+                </div>
                 }
             </Box>
         </Box>
