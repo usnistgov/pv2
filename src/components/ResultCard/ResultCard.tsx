@@ -2,7 +2,7 @@ import React, {ReactElement, useState} from "react";
 
 // Library Imports
 import {Card, CardContent, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
-import {ResponsiveLine} from "@nivo/line";
+import {ResponsiveLine, Serie} from "@nivo/line";
 
 // User Imports
 import {altLabels} from "../../application/results/E3RequestGenerator";
@@ -27,20 +27,20 @@ export interface ResultCardProps {
     // The alternative objects
     alt: any;
 
-    // The cashflow array
-    cashFlows: number[];
-
     // The maximum absolute number to display on graph scale
     graphMax: number;
 
     // Current graph option getset
     graphOption: ReduxGetSet<GraphOption>;
+
+    // Data to display in the graph
+    graphData: Serie;
 }
 
 /**
  * Creates a card that displays the given E3 results.
  */
-export default function ResultCard({alt, cashFlows, graphMax, graphOption}: ResultCardProps): ReactElement {
+export default function ResultCard({alt, graphMax, graphOption, graphData}: ResultCardProps): ReactElement {
     return (
         <Card>
             <CardContent className={"result-card"}>
@@ -86,32 +86,26 @@ export default function ResultCard({alt, cashFlows, graphMax, graphOption}: Resu
                 </Grid>
 
                 <div className={"result-graph"}>
-                    <FormControl>
-                        <Select
-                            id={"graph-option-select"}
-                            value={graphOption.get()}
-                            onChange={(event) => {
-                                graphOption.set(event.target.value as GraphOption);
-                            }}>
-                            <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
-                            <MenuItem value={GraphOption.SAVINGS}>Savings</MenuItem>
-                            <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Savings</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <div className={"result-graph-title"}>
+                        <FormControl className={"result-graph-title"}>
+                            <Select
+                                id={"graph-option-select"}
+                                value={graphOption.get()}
+                                onChange={(event) => {
+                                    graphOption.set(event.target.value as GraphOption);
+                                }}>
+                                <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
+                                <MenuItem value={GraphOption.SAVINGS}>Savings</MenuItem>
+                                <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Savings</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
                     <ResponsiveLine
                         animate
                         enableArea
                         enableSlices={"x"}
                         margin={{top: 5, right: 5, bottom: 20, left: 35}}
-                        data={[{
-                            id: "cash flow",
-                            data: cashFlows.map((value, year) => {
-                                return {
-                                    x: year,
-                                    y: value
-                                }
-                            })
-                        }]}
+                        data={[graphData]}
                         xScale={{type: 'linear'}}
                         yScale={{type: 'linear', min: -graphMax, max: graphMax, stacked: true}}
                         yFormat={">-$,.2f"}

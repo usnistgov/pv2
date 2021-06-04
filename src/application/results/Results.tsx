@@ -31,20 +31,31 @@ interface ResultsProps {
 export default function Results({result, downloadData}: ResultsProps): ReactElement {
     const graphOption = useReduxGetSet("graphOption", GraphOption.NET_VALUE);
 
-    function getSkeletons(): ReactElement {
-        return (
-            <>
+    let graphMax = 0;
 
-            </>
-        );
-    }
+    const graphData = !result ? null : result[0].reqCashFlowObjects
+        .map((cashFlowObject: any) => {
+            return {
+                id: "cash flow",
+                data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
+                    graphMax = Math.max(graphMax, value);
+
+                    return {
+                        x: year,
+                        y: value
+                    }
+                })
+            }
+        })
+
+    graphMax = graphMax / 100 * 100;
 
     // Generates the maximum absolute value for the graphs so they have the same scale.
-    const graphMax = !result ? 100 : Math.ceil(result[0]
+    /*const graphMax = !result ? 100 : Math.ceil(result[0]
         .reqCashFlowObjects
         .flatMap((x: any) => x.totCostDisc)
         .map(Math.abs)
-        .reduce((x: number, y: number) => Math.max(x, y)) / 100) * 100;
+        .reduce((x: number, y: number) => Math.max(x, y)) / 100) * 100;*/
 
     return (
         <>
@@ -54,7 +65,7 @@ export default function Results({result, downloadData}: ResultsProps): ReactElem
                     return <Grid item key={index}>
                         <ResultCard
                             alt={res}
-                            cashFlows={result[0].reqCashFlowObjects[index].totCostDisc}
+                            graphData={graphData[index]}
                             graphMax={graphMax}
                             graphOption={graphOption}/>
                     </Grid>
