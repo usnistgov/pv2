@@ -93,7 +93,6 @@ export default function CostsForm(): ReactElement {
                             "Loan",
                             "Cash"
                         ]}/>
-
                     {loanOrCash.get() === "Loan" &&
                     <>
                         <FormField

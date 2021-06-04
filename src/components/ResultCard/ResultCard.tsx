@@ -1,12 +1,13 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, useState} from "react";
 
 // Library Imports
-import {Card, CardContent, Grid} from "@material-ui/core";
+import {Card, CardContent, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
 import {ResponsiveLine} from "@nivo/line";
 
 // User Imports
 import {altLabels} from "../../application/results/E3RequestGenerator";
-import {valid} from "../../application/results/Results";
+import {GraphOption, valid} from "../../application/results/ResultData";
+import {ReduxGetSet} from "../../Utils";
 
 // Stylesheets
 import "./ResultCard.sass";
@@ -16,6 +17,11 @@ const currencyFormatter = Intl.NumberFormat('en-US', {
     currency: 'USD',
 });
 const numberFormatter = Intl.NumberFormat('en-US', {});
+const graphAxisFormatter = Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    notation: 'compact',
+})
 
 export interface ResultCardProps {
     // The alternative objects
@@ -26,12 +32,15 @@ export interface ResultCardProps {
 
     // The maximum absolute number to display on graph scale
     graphMax: number;
+
+    // Current graph option getset
+    graphOption: ReduxGetSet<GraphOption>;
 }
 
 /**
  * Creates a card that displays the given E3 results.
  */
-export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps): ReactElement {
+export default function ResultCard({alt, cashFlows, graphMax, graphOption}: ResultCardProps): ReactElement {
     return (
         <Card>
             <CardContent className={"result-card"}>
@@ -77,9 +86,18 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                 </Grid>
 
                 <div className={"result-graph"}>
-                    <div className={"result-graph-title"}>
-                        Cash Flow - Net Present Value
-                    </div>
+                    <FormControl>
+                        <Select
+                            id={"graph-option-select"}
+                            value={graphOption.get()}
+                            onChange={(event) => {
+                                graphOption.set(event.target.value as GraphOption);
+                            }}>
+                            <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
+                            <MenuItem value={GraphOption.SAVINGS}>Savings</MenuItem>
+                            <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Savings</MenuItem>
+                        </Select>
+                    </FormControl>
                     <ResponsiveLine
                         animate
                         enableArea
@@ -87,14 +105,12 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                         margin={{top: 5, right: 5, bottom: 20, left: 35}}
                         data={[{
                             id: "cash flow",
-                            data: cashFlows
-                                .filter((value, index) => index !== 0)
-                                .map((value, year) => {
-                                    return {
-                                        x: year,
-                                        y: value
-                                    }
-                                })
+                            data: cashFlows.map((value, year) => {
+                                return {
+                                    x: year,
+                                    y: value
+                                }
+                            })
                         }]}
                         xScale={{type: 'linear'}}
                         yScale={{type: 'linear', min: -graphMax, max: graphMax, stacked: true}}
@@ -102,6 +118,7 @@ export default function ResultCard({alt, cashFlows, graphMax}: ResultCardProps):
                         axisLeft={{
                             tickSize: 0,
                             tickPadding: 5,
+                            format: graphAxisFormatter.format,
                         }}
                         axisBottom={{
                             tickSize: 0,

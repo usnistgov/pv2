@@ -10,7 +10,7 @@ import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import LandingPage from "./application/landingpage/LandingPage";
 import Application from "./application/Application";
 import {initializeStore} from "./application/ApplicationStore";
-import Results from "./application/results/Results";
+import ResultData from "./application/results/ResultData";
 import HeaderWrapper from "./components/Header/HeaderWrapper";
 
 // Stylesheets
@@ -46,7 +46,7 @@ ReactDOM.render(
                 <Switch>
                     <Route path={"/results"}>
                         <HeaderWrapper>
-                            <Results/>
+                            <ResultData/>
                         </HeaderWrapper>
                     </Route>
                     <Route path={"/application"}>
