@@ -29,7 +29,7 @@ export default function CostsForm(): ReactElement {
     const annualMaintenanceCosts = useReduxGetSet<number>("annualMaintenanceCosts", 0);
 
     // Purchasing Details
-    const ppaOption = useReduxGetSet<string>("ppaOption", "");
+    const ppaOption = useReduxGetSet<string>("ppaOption", "No");
     // Advanced
     const loanOrCash = useReduxGetSet<string>("loanOrCash", "");
     const downPayment = useReduxGetSet<number>("downPayment", 0);
@@ -85,39 +85,39 @@ export default function CostsForm(): ReactElement {
                         "Yes",
                         "No"
                     ]}/>
-                <CollapseContainer text="Advanced">
-                    <AdvancedBox>
-                        <FormSelect
-                            label={"Loan or Cash Purchase"}
-                            value={loanOrCash}
-                            options={[
-                                "Loan",
-                                "Cash"
-                            ]}/>
-                        {loanOrCash.get() === "Loan" &&
-                        <>
-                            <FormField
-                                label={"Loan Down Payment"}
-                                schema={Yup.number().required().max(100).min(0)}
-                                value={downPayment}
-                                endAdornment={"%"}
-                                type={"number"}/>
-                            <FormField
-                                label={"Loan Nominal Interest Rate"}
-                                schema={Yup.number().required().max(100).min(0)}
-                                value={nominalInterestRate}
-                                endAdornment={"%"}
-                                type={"number"}/>
-                            <FormField
-                                label={"Monthly Loan Payment"}
-                                schema={Yup.number().required().moreThan(0)}
-                                value={monthlyPayment}
-                                startAdornment={"$"}
-                                type={"number"}/>
-                        </>
-                        }
-                    </AdvancedBox>
-                </CollapseContainer>
+                {ppaOption.get() === "Yes" && <>
+                    <FormSelect
+                        label={"Loan or Cash Purchase"}
+                        value={loanOrCash}
+                        options={[
+                            "Loan",
+                            "Cash"
+                        ]}/>
+
+                    {loanOrCash.get() === "Loan" &&
+                    <>
+                        <FormField
+                            label={"Loan Down Payment"}
+                            schema={Yup.number().required().max(100).min(0)}
+                            value={downPayment}
+                            endAdornment={"%"}
+                            type={"number"}/>
+                        <FormField
+                            label={"Loan Nominal Interest Rate"}
+                            schema={Yup.number().required().max(100).min(0)}
+                            value={nominalInterestRate}
+                            endAdornment={"%"}
+                            type={"number"}/>
+                        <FormField
+                            label={"Monthly Loan Payment"}
+                            schema={Yup.number().required().moreThan(0)}
+                            value={monthlyPayment}
+                            startAdornment={"$"}
+                            type={"number"}/>
+                    </>
+                    }
+                </>
+                }
             </Box>
         </Box>
     );
