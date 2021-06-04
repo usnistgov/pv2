@@ -193,10 +193,11 @@ function generateCsv(results: any, studyPeriod: number): any {
         ["Electricity Reduction", ...altObjects.map((x: any) => -x.deltaQuant[0]).map(validOrNA)],
         [],
         ["Year", "No Solar System", "Purchase Solar System", "PPA Solar System"],
-        ...Array.from(Array(studyPeriod).keys())
+        ...Array.from(Array(studyPeriod + 1).keys())
             .map((index) => [index, ...cashFlowObjects.map((flow: any) => flow.totCostDisc[index])])
     ];
 }
+
 
 export default function ResultData() {
     const history = useHistory();
