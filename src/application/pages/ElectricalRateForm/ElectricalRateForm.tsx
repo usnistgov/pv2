@@ -107,35 +107,37 @@ export default function ElectricalRateForm(): ReactElement {
                                         "No"
                                     ]}/>
                         {viewAnnualEscalationRates.get() === "Yes" &&
-                        <div className="form-two-column-container">
-                            {escalationRateForYear.get()
-                                .map((rate, i) => {
-                                    const getSet = {
-                                        get: () => escalationRateForYear.get()[i],
-                                        set: (value: number) => {
-                                            let result = [...escalationRateForYear.get()];
-                                            result[i] = value;
-                                            escalationRateForYear.set(result);
+                        <>
+                            <div className="form-two-column-container">
+                                {escalationRateForYear.get()
+                                    .map((rate, i) => {
+                                        const getSet = {
+                                            get: () => escalationRateForYear.get()[i],
+                                            set: (value: number) => {
+                                                let result = [...escalationRateForYear.get()];
+                                                result[i] = value;
+                                                escalationRateForYear.set(result);
+                                            }
                                         }
-                                    }
 
-                                    return (
-                                        <FormField label={`Year ${i + 1}`}
-                                                   schema={Yup.number().max(1.0).min(-1.0)}
-                                                   value={getSet}
-                                                   endAdornment={"%"}
-                                                   type={"string"}
-                                                   key={`Year ${i + 1}`}/>
-                                    )
-                                })}
-                        </div>
+                                        return (
+                                            <FormField label={`Year ${i + 1}`}
+                                                       schema={Yup.number().max(1.0).min(-1.0)}
+                                                       value={getSet}
+                                                       endAdornment={"%"}
+                                                       type={"string"}
+                                                       key={`Year ${i + 1}`}/>
+                                        )
+                                    })}
+                            </div>
+                            <FormSelect label={"Are escalation rates the same for consumption and production?"}
+                                        value={escalationRatesSameOrDiff}
+                                        options={[
+                                            "Same",
+                                            "Different"
+                                        ]}/>
+                        </>
                         }
-                        <FormSelect label={"Are escalation rates the same for consumption and production?"}
-                                    value={escalationRatesSameOrDiff}
-                                    options={[
-                                        "Same",
-                                        "Different"
-                                    ]}/>
                     </AdvancedBox>
                 </CollapseContainer>
             </Box>
