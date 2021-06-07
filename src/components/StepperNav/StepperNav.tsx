@@ -45,7 +45,7 @@ export default function StepperNav({children, onFinish}: StepperNavProps): React
     }
 
     return (
-        <Box>
+        <>
             <Grid className={"grid-container"} container justify={'center'} alignItems={'center'} spacing={0}>
                 <Grid item xs={1}>
                     <Button
@@ -79,6 +79,6 @@ export default function StepperNav({children, onFinish}: StepperNavProps): React
                 </Grid>
             </Grid>
             {children[activeStep]}
-        </Box>
+        </>
     );
 }
