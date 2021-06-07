@@ -7,6 +7,7 @@ import {CSVLink} from "react-csv";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiDownload} from "@mdi/js";
 import {Data} from "react-csv/components/CommonPropTypes";
+import {Serie} from "@nivo/line";
 
 // User Imports
 import ResultCard from "../../components/ResultCard/ResultCard";
@@ -23,6 +24,84 @@ interface ResultsProps {
     downloadData: Data;
 }
 
+interface GraphData {
+    graphData: Serie,
+    graphMax: number
+}
+
+/**
+ * Generates graph data for the given graph options and result object.
+ *
+ * @param graphOption
+ * @param result
+ */
+function getGraphData(graphOption: GraphOption, result: any): GraphData {
+    let graphMax = 0;
+    let data: Serie = {id: "", data: []};
+
+    if(!result) return {graphData: data, graphMax: 0};
+
+    switch (graphOption) {
+        case GraphOption.NET_VALUE:
+            data = result[0].reqCashFlowObjects
+                .map((cashFlowObject: any) => {
+                    return {
+                        id: "",
+                        data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
+                            graphMax = Math.max(graphMax, Math.abs(value));
+
+                            return {
+                                x: year,
+                                y: value
+                            }
+                        })
+                    }
+                });
+
+            return {graphData: data, graphMax: graphMax};
+        case GraphOption.SAVINGS:
+            data = result[0].reqCashFlowObjects
+                .map((cashFlowObject: any, index: number, array: any) => {
+                    return {
+                        id: "",
+                        data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
+                            let saving = value - array[0].totCostDisc[year];
+
+                            graphMax = Math.max(graphMax, Math.abs(saving));
+
+                            return {
+                                x: year,
+                                y: saving
+                            }
+                        })
+                    }
+                });
+
+            return {graphData: data, graphMax: graphMax};
+        case GraphOption.CUMULATIVE:
+            let accumulator = 0;
+            data = result[0].reqCashFlowObjects
+                .map((cashFlowObject: any, index: number, array: any) => {
+                    return {
+                        id: "",
+                        data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
+                            let cumulativeSaving = accumulator + (value -  array[0].totCostDisc[year]);
+                            accumulator = cumulativeSaving;
+
+                            graphMax = Math.max(graphMax, Math.abs(cumulativeSaving));
+
+                            return {
+                                x: year,
+                                y: cumulativeSaving
+                            }
+                        })
+                    }
+                });
+
+            return {graphData: data, graphMax: graphMax};
+    }
+}
+
 /**
  * This page requests calculations from the E3 API and displays the results. Results are shown in side-by-side
  * card form with some data and graphs. Finally the user can download a CSV file containing the E3 results. This
@@ -30,32 +109,7 @@ interface ResultsProps {
  */
 export default function Results({result, downloadData}: ResultsProps): ReactElement {
     const graphOption = useReduxGetSet("graphOption", GraphOption.NET_VALUE);
-
-    let graphMax = 0;
-
-    const graphData = !result ? null : result[0].reqCashFlowObjects
-        .map((cashFlowObject: any) => {
-            return {
-                id: "cash flow",
-                data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
-                    graphMax = Math.max(graphMax, value);
-
-                    return {
-                        x: year,
-                        y: value
-                    }
-                })
-            }
-        })
-
-    graphMax = graphMax / 100 * 100;
-
-    // Generates the maximum absolute value for the graphs so they have the same scale.
-    /*const graphMax = !result ? 100 : Math.ceil(result[0]
-        .reqCashFlowObjects
-        .flatMap((x: any) => x.totCostDisc)
-        .map(Math.abs)
-        .reduce((x: number, y: number) => Math.max(x, y)) / 100) * 100;*/
+    let graphData =  getGraphData(graphOption.get(), result);
 
     return (
         <>
@@ -65,8 +119,8 @@ export default function Results({result, downloadData}: ResultsProps): ReactElem
                     return <Grid item key={index}>
                         <ResultCard
                             alt={res}
-                            graphData={graphData[index]}
-                            graphMax={graphMax}
+                            graphData={graphData.graphData[index]}
+                            graphMax={graphData.graphMax}
                             graphOption={graphOption}/>
                     </Grid>
                 }) : Array.from({length: 3}).map((_, index) => {
