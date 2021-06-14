@@ -108,7 +108,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
  * component takes not props since all necessary information for the E3 request is obtained from the redux store.
  */
 export default function Results({result, downloadData}: ResultsProps): ReactElement {
-    const graphOption = useReduxGetSet("graphOption", GraphOption.NET_VALUE);
+    const graphOption = useReduxGetSet<GraphOption>("graphOption");
     let graphData =  getGraphData(graphOption.get(), result);
 
     return (

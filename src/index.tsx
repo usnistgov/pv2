@@ -9,7 +9,7 @@ import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 // User Imports
 import LandingPage from "./application/landingpage/LandingPage";
 import Application from "./application/Application";
-import {initializeStore} from "./application/ApplicationStore";
+import {store} from "./application/ApplicationStore";
 import ResultData from "./application/results/ResultData";
 import HeaderWrapper from "./components/Header/HeaderWrapper";
 
@@ -34,9 +34,6 @@ const theme = createMuiTheme({
         },
     }
 })
-
-// Create Redux store
-const store = initializeStore();
 
 // Render main application
 ReactDOM.render(

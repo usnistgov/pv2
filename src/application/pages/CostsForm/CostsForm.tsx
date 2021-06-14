@@ -21,20 +21,20 @@ import "../Form.sass";
 export default function CostsForm(): ReactElement {
     // Redux state objects
     // PV System Costs
-    const totalInstallationCosts = useReduxGetSet<number>("totalInstallationCosts", 0);
-    const federalTaxCredit = useReduxGetSet<number>("federalTaxCredit", 0);
-    const stateOrLocalTaxCreditsOrGrantsOrRebates = useReduxGetSet<number>("stateOrLocalTaxCreditsOrGrantsOrRebates", 0);
+    const totalInstallationCosts = useReduxGetSet<number>("totalInstallationCosts");
+    const federalTaxCredit = useReduxGetSet<number>("federalTaxCredit");
+    const stateOrLocalTaxCreditsOrGrantsOrRebates = useReduxGetSet<number>("stateOrLocalTaxCreditsOrGrantsOrRebates");
     // Advanced
-    const inverterReplacementCosts = useReduxGetSet<number>("inverterReplacementCosts", 0);
-    const annualMaintenanceCosts = useReduxGetSet<number>("annualMaintenanceCosts", 0);
+    const inverterReplacementCosts = useReduxGetSet<number>("inverterReplacementCosts");
+    const annualMaintenanceCosts = useReduxGetSet<number>("annualMaintenanceCosts");
 
     // Purchasing Details
-    const ppaOption = useReduxGetSet<string>("ppaOption", "No");
+    const ppaOption = useReduxGetSet<string>("ppaOption");
     // Advanced
-    const loanOrCash = useReduxGetSet<string>("loanOrCash", "");
-    const downPayment = useReduxGetSet<number>("downPayment", 0);
-    const nominalInterestRate = useReduxGetSet<number>("nominalInterestRate", 0);
-    const monthlyPayment = useReduxGetSet<number>("monthlyPayment", 0);
+    const loanOrCash = useReduxGetSet<string>("loanOrCash");
+    const downPayment = useReduxGetSet<number>("downPayment");
+    const nominalInterestRate = useReduxGetSet<number>("nominalInterestRate");
+    const monthlyPayment = useReduxGetSet<number>("monthlyPayment");
 
     return (
         <Box className={"form-page-container"}>

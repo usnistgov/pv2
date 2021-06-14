@@ -4,6 +4,7 @@ import {ReactElement} from "react";
 import {Grid, Paper} from "@material-ui/core";
 import * as Yup from 'yup';
 
+
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import FormField from "../../../components/FormField/FormField";
@@ -12,17 +13,21 @@ import {useReduxGetSet} from "../../../Utils";
 // Stylesheets
 import "./AddressForm.sass"
 
-
 /*
  * The AddressForm component is the first page of the application form that lets user fill
  * in their address and displays an embedded iframe of Google Maps with the inputted location.
  */
 export default function AddressForm(): ReactElement {
     // Redux state values
-    const address = useReduxGetSet<string>("address", "");
-    const city = useReduxGetSet<string>("city", "");
-    const state = useReduxGetSet<string>("state", "");
-    const zipcode = useReduxGetSet<string>("zipcode", "");
+    //const address = useReduxGetSet<string>("address", "");
+    //const city = useReduxGetSet<string>("city", "");
+    //const state = useReduxGetSet<string>("state", "");
+    //const zipcode = useReduxGetSet<string>("zipcode", "");
+
+    const address = useReduxGetSet("address");//useSelector((store: RootState) => store.address);
+    const city = useReduxGetSet("city");//useSelector((store: RootState) => store.city);
+    const state = useReduxGetSet("state");//useSelector((store: RootState) => store.state);
+    const zipcode = useReduxGetSet("zipcode");//useSelector((store: RootState) => store.zipcode);
 
     // Google Maps embedded url query
     const query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${address.get()}, ${city.get()} ,${state.get()} ${zipcode.get()}`;

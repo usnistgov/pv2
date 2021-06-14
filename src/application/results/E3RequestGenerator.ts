@@ -1,9 +1,3 @@
-import {toJson} from "../../Utils";
-
-const assumptions = {
-    escalationRate: 1.0
-}
-
 export const altLabels = [
     "No Solar System",
     "Purchase Solar System",

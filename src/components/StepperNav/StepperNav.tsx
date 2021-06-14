@@ -1,7 +1,7 @@
 import {Children, ReactElement, useState} from 'react';
 
 // Library Imports
-import {Box, Button, Grid, Step, StepLabel, Stepper} from "@material-ui/core";
+import {Button, Grid, Step, StepLabel, Stepper} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react"
 import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
 import {useHistory} from "react-router-dom";

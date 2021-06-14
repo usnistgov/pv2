@@ -1,41 +1,19 @@
-import {createSlice, Slice} from "@reduxjs/toolkit";
-import {useDispatch, useSelector, useStore} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {actions, RootState} from "./application/ApplicationStore";
 
-
-/**
- * Creates a slice with the given name, value and a setter.
- *
- * @param name The name of the variable.
- * @param initialValue The initial value of the variable.
- */
-export function createDefaultSlice<T>(name: string, initialValue: T): Slice {
-    return createSlice({
-        name: name,
-        initialState: initialValue,
-        reducers: {
-            set: (state, action) => action.payload
-        }
-    })
-}
 
 /**
  * React hook to create a ReduxGetSet for the given slice and variable name.
  *
  * @param name The name of the variable in the slice.
- * @param initialValue The initial value of the redux slice.
  */
-export function useReduxGetSet<T>(name: string, initialValue: T): ReduxGetSet<T> {
-    const store: any = useStore();
-    const slice = createDefaultSlice(name, initialValue);
-
-    store.injectReducer(name, slice.reducer)
-
-    const value = useSelector((state: any) => state[name]);
+export function useReduxGetSet<T>(name: string): ReduxGetSet<T> {
+    const selector = useSelector((store: RootState) => store[name]);
     const dispatch = useDispatch();
 
     return {
-        set: (arg: T) => dispatch(slice.actions.set(arg)),
-        get: () => value,
+        set: (arg: T) => dispatch((actions as any)[name].set(arg)),
+        get: () => selector,
     }
 }
 

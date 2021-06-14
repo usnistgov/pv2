@@ -15,10 +15,10 @@ import "../Form.sass";
 
 export default function AnalysisAssumptionsForm(): ReactElement {
     // Analysis Assumptions
-    const residualValueApproach = useReduxGetSet<string>("residualValueApproach", "Linear Depreciation");
-    const studyPeriod = useReduxGetSet<number>("studyPeriod", 25);
-    const realDiscountRate = useReduxGetSet<number>("realDiscountRate", 20);
-    const generalInflation = useReduxGetSet<number>("generalInflation", 10);
+    const residualValueApproach = useReduxGetSet<string>("residualValueApproach");
+    const studyPeriod = useReduxGetSet<number>("studyPeriod");
+    const realDiscountRate = useReduxGetSet<number>("realDiscountRate");
+    const generalInflation = useReduxGetSet<number>("generalInflation");
 
     return (
         <Box className={"form-page-container"}>

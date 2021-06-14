@@ -21,14 +21,14 @@ import "../Form.sass";
 export default function SolarSystemForm(): ReactElement {
     // Redux state objects
     // PV System Information
-    const systemPanelBrandAndType = useReduxGetSet<string>("systemPanelBrandAndType", "");
-    const inverterType = useReduxGetSet<string>("inverterType", "");
-    const totalSystemSize = useReduxGetSet<number>("totalSystemSize", 0);
-    const estimatedAnnualProduction = useReduxGetSet<number>("estimatedAnnualProduction", 0);
+    const systemPanelBrandAndType = useReduxGetSet<string>("systemPanelBrandAndType");
+    const inverterType = useReduxGetSet<string>("inverterType");
+    const totalSystemSize = useReduxGetSet<number>("totalSystemSize");
+    const estimatedAnnualProduction = useReduxGetSet<number>("estimatedAnnualProduction");
     // Advanced
-    const panelLifetime = useReduxGetSet<number>("panelLifetime", 0);
-    const inverterLifetime = useReduxGetSet<number>("inverterLifetime", 0);
-    const degradationRate = useReduxGetSet<number>("degradationRate", 0);
+    const panelLifetime = useReduxGetSet<number>("panelLifetime");
+    const inverterLifetime = useReduxGetSet<number>("inverterLifetime");
+    const degradationRate = useReduxGetSet<number>("degradationRate");
 
     return (
         <Box className={"form-page-container"}>

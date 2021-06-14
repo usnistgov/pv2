@@ -8,7 +8,7 @@ import {useStore} from "react-redux";
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import FormSelect from "../../../components/FormSelect/FormSelect";
-import {take, useReduxGetSet} from "../../../Utils";
+import {useReduxGetSet} from "../../../Utils";
 import FormField from "../../../components/FormField/FormField";
 
 // Stylesheets
@@ -20,12 +20,9 @@ import "../Form.sass";
 export default function SrecForm(): ReactElement {
     const store = useStore();
 
-    const srecPayments = useReduxGetSet<string>("srecPayments", "");
-    const srecPaymentsUpFront = useReduxGetSet<number>("srecPaymentsUpFront", 0)
-    const srecPaymentsProductionBased = useReduxGetSet<number[]>(
-        "srecPaymentsProductionBased",
-        []
-    );
+    const srecPayments = useReduxGetSet<string>("srecPayments");
+    const srecPaymentsUpFront = useReduxGetSet<number>("srecPaymentsUpFront")
+    const srecPaymentsProductionBased = useReduxGetSet<number[]>("srecPaymentsProductionBased");
 
     useEffect(() => {
         srecPaymentsProductionBased.set(Array(store.getState().studyPeriod).fill(0));
