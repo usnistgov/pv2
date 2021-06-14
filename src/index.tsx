@@ -40,23 +40,13 @@ ReactDOM.render(
     <Provider store={store}>
         <MuiThemeProvider theme={theme}>
             <BrowserRouter>
-                <Switch>
-                    <Route path={"/results"}>
-                        <HeaderWrapper>
-                            <ResultData/>
-                        </HeaderWrapper>
-                    </Route>
-                    <Route path={"/application"}>
-                        <HeaderWrapper>
-                            <Application/>
-                        </HeaderWrapper>
-                    </Route>
-                    <Route path={"/"}>
-                        <HeaderWrapper>
-                            <LandingPage/>
-                        </HeaderWrapper>
-                    </Route>
-                </Switch>
+                <HeaderWrapper>
+                    <Switch>
+                        <Route path={"/results"}><ResultData/></Route>
+                        <Route path={"/application"}><Application/></Route>
+                        <Route path={"/"}><LandingPage/></Route>
+                    </Switch>
+                </HeaderWrapper>
             </BrowserRouter>
         </MuiThemeProvider>
     </Provider>,

@@ -1,7 +1,7 @@
 import React, {ReactElement, useState} from "react";
 
 // Library Imports
-import {Grid, InputAdornment, TextField, Tooltip} from "@material-ui/core";
+import {InputAdornment, TextField, Tooltip} from "@material-ui/core";
 import {InputProps as StandardInputProps} from "@material-ui/core/Input/Input";
 import {mdiInformation} from "@mdi/js";
 import {Icon as MdiIcon} from "@mdi/react";
