@@ -19,15 +19,10 @@ import "./AddressForm.sass"
  */
 export default function AddressForm(): ReactElement {
     // Redux state values
-    //const address = useReduxGetSet<string>("address", "");
-    //const city = useReduxGetSet<string>("city", "");
-    //const state = useReduxGetSet<string>("state", "");
-    //const zipcode = useReduxGetSet<string>("zipcode", "");
-
-    const address = useReduxGetSet("address");//useSelector((store: RootState) => store.address);
-    const city = useReduxGetSet("city");//useSelector((store: RootState) => store.city);
-    const state = useReduxGetSet("state");//useSelector((store: RootState) => store.state);
-    const zipcode = useReduxGetSet("zipcode");//useSelector((store: RootState) => store.zipcode);
+    const address = useReduxGetSet("address");
+    const city = useReduxGetSet("city");
+    const state = useReduxGetSet("state");
+    const zipcode = useReduxGetSet("zipcode");
 
     // Google Maps embedded url query
     const query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${address.get()}, ${city.get()} ,${state.get()} ${zipcode.get()}`;
