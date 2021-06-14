@@ -39,6 +39,8 @@ export default function SrecForm(): ReactElement {
 
             <Box className={"form-single-column-container"}>
                 <FormSelect
+                    tooltip={"Solar Renewable Energy Credit"}
+                    info={"A Solar Renewable Energy Credit (SREC) is …"}
                     label={"SREC Payments"}
                     value={srecPayments}
                     options={[
@@ -46,11 +48,17 @@ export default function SrecForm(): ReactElement {
                         "Production-based Payments",
                     ]}/>
                 {srecPayments.get() === "Up-front Payment" &&
-                <FormField label={"SREC Payments - Up-front Payment"}
-                           schema={Yup.number().min(0)}
-                           value={srecPaymentsUpFront}
-                           endAdornment={"$/kWh"}
-                           type={"number"}/>
+                <FormField
+                    tooltip={"Sell the rights to the SRECs upfront or get paid over time based on production"}
+                    info={
+                        "Choose how the homeowner wants to get paid for their SRECs: upfront lump sum based on " +
+                        "capacity or over time based on production"
+                    }
+                    label={"SREC Payments - Up-front Payment"}
+                    schema={Yup.number().min(0)}
+                    value={srecPaymentsUpFront}
+                    endAdornment={"$/kWh"}
+                    type={"number"}/>
                 }
                 {srecPayments.get() === "Production-based Payments" &&
                 <div className="form-two-column-container">

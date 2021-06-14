@@ -1,7 +1,7 @@
 import React, {ReactElement} from "react";
 
 // Library Imports
-import {Card, CardContent, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
+import {Card, CardContent, FormControl, Grid, MenuItem, Select, Tooltip} from "@material-ui/core";
 import {ResponsiveLine, Serie} from "@nivo/line";
 
 // User Imports
@@ -11,6 +11,8 @@ import {ReduxGetSet} from "../../Utils";
 
 // Stylesheets
 import "./ResultCard.sass";
+import {Icon as MdiIcon} from "@mdi/react";
+import {mdiInformation} from "@mdi/js";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -49,39 +51,74 @@ export default function ResultCard({alt, graphMax, graphOption, graphData}: Resu
                 </div>
 
                 <Grid className={"result-table"} container spacing={2}>
-                    <Grid item xs={6}>
-                        Total Cost
+                    <Grid item xs={5}>
+                        <Tooltip title={"Total Net Present Value Costs"}>
+                            <div>Total Cost</div>
+                        </Tooltip>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <div>{valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}</div>
                     </Grid>
-
-                    <Grid item xs={6}>
-                        Net Savings
+                    <Grid item xs={1}>
+                        <Tooltip title={"Test"} >
+                            <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
+                        </Tooltip>
                     </Grid>
-                    <Grid item xs={6}>
+
+                    <Grid item xs={5}>
+                        <Tooltip title={"Net Present Value Savings relative to No Solar System"}>
+                            <div>Net Savings</div>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item xs={5}>
                         <div>{valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}</div>
                     </Grid>
-
-                    <Grid item xs={6}>
-                        AIRR
+                    <Grid item xs={1}>
+                        <Tooltip title={"Test"} >
+                            <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
+                        </Tooltip>
                     </Grid>
-                    <Grid item xs={6}>
+
+                    <Grid item xs={5}>
+                        <Tooltip title={"Adjusted Internal Rate of Return (AIRR) on Investment"}>
+                            <div>AIRR</div>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item xs={5}>
                         <div>{valid(alt.AIRR) ? alt.AIRR : "NA"}</div>
                     </Grid>
-
-                    <Grid item xs={6}>
-                        SPP
+                    <Grid item xs={1}>
+                        <Tooltip title={"Test"} >
+                            <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
+                        </Tooltip>
                     </Grid>
-                    <Grid item xs={6}>
+
+                    <Grid item xs={5}>
+                        <Tooltip title={"Simple Payback Period (SPP)"}>
+                            <div>SPP</div>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item xs={5}>
                         <div>{valid(alt.SPP) ? alt.SPP : "NA"}</div>
                     </Grid>
-
-                    <Grid item xs={6}>
-                        Electricity Reduction
+                    <Grid item xs={1}>
+                        <Tooltip title={"Test"} >
+                            <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
+                        </Tooltip>
                     </Grid>
-                    <Grid className={"vertical-center"} item xs={6}>
+
+                    <Grid item xs={5}>
+                        <Tooltip title={"Electricity reduction relative to No Solar System (kWh)"}>
+                            <div>Electricity Reduction</div>
+                        </Tooltip>
+                    </Grid>
+                    <Grid className={"vertical-center"} item xs={5}>
                         <div>{valid(alt.deltaQuant[0]) ? numberFormatter.format(-alt.deltaQuant[0]) : "NA"}</div>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Tooltip title={"Test"} >
+                            <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
+                        </Tooltip>
                     </Grid>
                 </Grid>
 

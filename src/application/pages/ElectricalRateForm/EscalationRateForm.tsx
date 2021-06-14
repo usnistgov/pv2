@@ -73,23 +73,31 @@ export default function EscalationRateForm(): ReactElement {
     return (
         <CollapseContainer text={"Advanced"}>
             <AdvancedBox>
-                <FormSelect label={"Do you want to view/edit annual escalation rates?"}
-                            value={viewAnnualEscalationRates}
-                            options={[
-                                "Yes",
-                                "No"
-                            ]}/>
+                <FormSelect
+                    tooltip={"Annual escalation rates for electricity prices"}
+                    info={
+                        "Annual escalation rates for electricity prices. The default values are based on EIA " +
+                        "projections for each Census Region and published in the Annual Supplement to NIST Handbook " +
+                        "135 (add hyperlink)."
+                    }
+                    label={"Do you want to view/edit annual escalation rates?"}
+                    value={viewAnnualEscalationRates}
+                    options={[
+                        "Yes",
+                        "No"
+                    ]}/>
                 {viewAnnualEscalationRates.get() === "Yes" &&
                 <>
                     <div className="form-two-column-container">
                         {createFields(escalationRateForYear.get())}
                     </div>
-                    <FormSelect label={"Are escalation rates the same for consumption and production?"}
-                                value={escalationRatesSameOrDiff}
-                                options={[
-                                    "Same",
-                                    "Different"
-                                ]}/>
+                    <FormSelect
+                        label={"Are escalation rates the same for consumption and production?"}
+                        value={escalationRatesSameOrDiff}
+                        options={[
+                            "Same",
+                            "Different"
+                        ]}/>
                     {escalationRatesSameOrDiff.get() === "Different" &&
                     <div className="form-two-column-container">
                         {createFields(productionEscalationRateForYear.get())}

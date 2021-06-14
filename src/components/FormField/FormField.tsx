@@ -1,12 +1,16 @@
-import {ReactElement, useState} from "react";
+import React, {ReactElement, useState} from "react";
 
 // Library Imports
-import {InputAdornment, TextField} from "@material-ui/core";
+import {Grid, InputAdornment, TextField, Tooltip} from "@material-ui/core";
 import {InputProps as StandardInputProps} from "@material-ui/core/Input/Input";
+import {mdiInformation} from "@mdi/js";
+import {Icon as MdiIcon} from "@mdi/react";
 
 // User Imports
 import {ReduxGetSet} from "../../Utils";
 
+// Stylesheets
+import "../Info.sass";
 
 export interface FormFieldProps<T> {
     // Label to display in TextField.
@@ -29,6 +33,12 @@ export interface FormFieldProps<T> {
 
     // Text ot display at the end of the input field.
     endAdornment?: string;
+
+    // Text to display in tooltip
+    tooltip?: string;
+
+    // Information icon text
+    info?: string;
 }
 
 /*
@@ -57,7 +67,7 @@ export default function FormField<T>(props: FormFieldProps<T>): ReactElement {
         return inputProps;
     }
 
-    return (
+    const field = (
         <TextField fullWidth
                    type={props.type}
                    required={props.required}
@@ -80,5 +90,17 @@ export default function FormField<T>(props: FormFieldProps<T>): ReactElement {
                    }}
                    InputProps={getInputProps()}
         />
+    );
+
+    const withTooltip = props.tooltip ? <Tooltip title={props.tooltip}>{field}</Tooltip> : field;
+
+    return (props.info ?
+            <div className={"with-icon"}>
+                {withTooltip}
+                <Tooltip title={props.info} >
+                    <MdiIcon className={"icon"} path={mdiInformation} size={1.2} color={'#898989'}/>
+                </Tooltip>
+            </div>
+            : withTooltip
     );
 }
