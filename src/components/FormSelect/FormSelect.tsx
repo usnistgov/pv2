@@ -1,10 +1,11 @@
 import React, {ReactElement} from "react";
 
 // Library Imports
-import {FormControl, FormHelperText, InputLabel, MenuItem, Select, Tooltip} from "@material-ui/core";
+import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
 // User Imports
 import {ReduxGetSet} from "../../Utils";
+import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 
 // Stylesheets
 import "./FormSelect.sass";
@@ -13,7 +14,6 @@ import {mdiInformation} from "@mdi/js";
 
 // Stylesheets
 import "../Info.sass";
-import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 
 export interface FormSelectProps {
     // Label to display in the input field.

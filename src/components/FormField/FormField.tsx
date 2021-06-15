@@ -1,17 +1,17 @@
 import React, {ReactElement, useState} from "react";
 
 // Library Imports
-import {InputAdornment, TextField, Tooltip} from "@material-ui/core";
+import {InputAdornment, TextField} from "@material-ui/core";
 import {InputProps as StandardInputProps} from "@material-ui/core/Input/Input";
 import {mdiInformation} from "@mdi/js";
 import {Icon as MdiIcon} from "@mdi/react";
 
 // User Imports
 import {ReduxGetSet} from "../../Utils";
+import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 
 // Stylesheets
 import "../Info.sass";
-import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 
 export interface FormFieldProps<T> {
     // Label to display in TextField.

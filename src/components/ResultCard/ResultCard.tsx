@@ -1,7 +1,7 @@
 import React, {ReactElement} from "react";
 
 // Library Imports
-import {Card, CardContent, FormControl, Grid, MenuItem, Select, Tooltip} from "@material-ui/core";
+import {Card, CardContent, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
 import {ResponsiveLine, Serie} from "@nivo/line";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiInformation} from "@mdi/js";
@@ -10,6 +10,7 @@ import {mdiInformation} from "@mdi/js";
 import {altLabels} from "../../application/results/E3RequestGenerator";
 import {GraphOption, valid} from "../../application/results/ResultData";
 import {ReduxGetSet} from "../../Utils";
+import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 
 // Stylesheets
 import "./ResultCard.sass";
@@ -52,79 +53,79 @@ export default function ResultCard({alt, graphMax, graphOption, graphData}: Resu
 
                 <Grid className={"result-table"} container spacing={2}>
                     <Grid item xs={5}>
-                        <Tooltip title={"Total Net Present Value Costs"}>
+                        <Pv2Tooltip text={"Total Net Present Value Costs"}>
                             <div>Total Cost</div>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
                     <Grid item xs={5}>
                         <div>{valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={"Total Net Present Value Costs"} >
+                        <Pv2Tooltip text={"Total Net Present Value Costs"} >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
 
                     <Grid item xs={5}>
-                        <Tooltip title={"Net Present Value Savings relative to No Solar System"}>
+                        <Pv2Tooltip text={"Net Present Value Savings relative to No Solar System"}>
                             <div>Net Savings</div>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
                     <Grid item xs={5}>
                         <div>{valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={"Net Present Value Savings relative to No Solar System"} >
+                        <Pv2Tooltip text={"Net Present Value Savings relative to No Solar System"} >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
 
                     <Grid item xs={5}>
-                        <Tooltip title={"Adjusted Internal Rate of Return (AIRR) on Investment"}>
+                        <Pv2Tooltip text={"Adjusted Internal Rate of Return (AIRR) on Investment"}>
                             <div>AIRR</div>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
                     <Grid item xs={5}>
                         <div>{valid(alt.AIRR) ? alt.AIRR : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={
+                        <Pv2Tooltip text={
                             "Adjusted Internal Rate of Return (AIRR) on Investment. This is a measure of return on " +
                             "investment that accounts for reinvestment of the annual savings"
                         } >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
 
                     <Grid item xs={5}>
-                        <Tooltip title={"Simple Payback Period (SPP)"}>
+                        <Pv2Tooltip text={"Simple Payback Period (SPP)"}>
                             <div>SPP</div>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
                     <Grid item xs={5}>
                         <div>{valid(alt.SPP) ? alt.SPP : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={
+                        <Pv2Tooltip text={
                             "Simple Payback Period (SPP) is the number of years it takes for cost savings to offset " +
                             "the initial investment costs"
                         } >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
 
                     <Grid item xs={5}>
-                        <Tooltip title={"Electricity reduction relative to No Solar System (kWh)"}>
+                        <Pv2Tooltip text={"Electricity reduction relative to No Solar System (kWh)"}>
                             <div>Electricity Reduction</div>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
                     <Grid className={"vertical-center"} item xs={5}>
                         <div>{valid(alt.deltaQuant[0]) ? numberFormatter.format(-alt.deltaQuant[0]) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={"Electricity reduction relative to No Solar System"} >
+                        <Pv2Tooltip text={"Electricity reduction relative to No Solar System"} >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                        </Tooltip>
+                        </Pv2Tooltip>
                     </Grid>
                 </Grid>
 
