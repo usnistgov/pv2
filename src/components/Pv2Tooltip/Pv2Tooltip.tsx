@@ -10,7 +10,7 @@ interface Pv2TooltipProps {
 
 export default function Pv2Tooltip({text, children}: PropsWithChildren<Pv2TooltipProps>): ReactElement {
     return (
-        <Tooltip title={<div className={"tooltip"}>{text}</div>}>
+        <Tooltip title={<div className={"tooltip"}>{text}</div>} arrow>
             {children as ReactElement}
         </Tooltip>
     );
