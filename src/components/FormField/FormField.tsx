@@ -97,7 +97,7 @@ export default function FormField<T>(props: FormFieldProps<T>): ReactElement {
     return (props.info ?
             <div className={"with-icon"}>
                 {withTooltip}
-                <Tooltip title={props.info} >
+                <Tooltip title={props.info}>
                     <MdiIcon className={"icon"} path={mdiInformation} size={1.2} color={'#898989'}/>
                 </Tooltip>
             </div>

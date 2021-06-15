@@ -3,6 +3,8 @@ import React, {ReactElement} from "react";
 // Library Imports
 import {Card, CardContent, FormControl, Grid, MenuItem, Select, Tooltip} from "@material-ui/core";
 import {ResponsiveLine, Serie} from "@nivo/line";
+import {Icon as MdiIcon} from "@mdi/react";
+import {mdiInformation} from "@mdi/js";
 
 // User Imports
 import {altLabels} from "../../application/results/E3RequestGenerator";
@@ -11,8 +13,6 @@ import {ReduxGetSet} from "../../Utils";
 
 // Stylesheets
 import "./ResultCard.sass";
-import {Icon as MdiIcon} from "@mdi/react";
-import {mdiInformation} from "@mdi/js";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -60,7 +60,7 @@ export default function ResultCard({alt, graphMax, graphOption, graphData}: Resu
                         <div>{valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={"Test"} >
+                        <Tooltip title={"Total Net Present Value Costs"} >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Tooltip>
                     </Grid>
@@ -74,7 +74,7 @@ export default function ResultCard({alt, graphMax, graphOption, graphData}: Resu
                         <div>{valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={"Test"} >
+                        <Tooltip title={"Net Present Value Savings relative to No Solar System"} >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Tooltip>
                     </Grid>
@@ -88,7 +88,10 @@ export default function ResultCard({alt, graphMax, graphOption, graphData}: Resu
                         <div>{valid(alt.AIRR) ? alt.AIRR : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={"Test"} >
+                        <Tooltip title={
+                            "Adjusted Internal Rate of Return (AIRR) on Investment. This is a measure of return on " +
+                            "investment that accounts for reinvestment of the annual savings"
+                        } >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Tooltip>
                     </Grid>
@@ -102,7 +105,10 @@ export default function ResultCard({alt, graphMax, graphOption, graphData}: Resu
                         <div>{valid(alt.SPP) ? alt.SPP : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={"Test"} >
+                        <Tooltip title={
+                            "Simple Payback Period (SPP) is the number of years it takes for cost savings to offset " +
+                            "the initial investment costs"
+                        } >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Tooltip>
                     </Grid>
@@ -116,7 +122,7 @@ export default function ResultCard({alt, graphMax, graphOption, graphData}: Resu
                         <div>{valid(alt.deltaQuant[0]) ? numberFormatter.format(-alt.deltaQuant[0]) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Tooltip title={"Test"} >
+                        <Tooltip title={"Electricity reduction relative to No Solar System"} >
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Tooltip>
                     </Grid>
