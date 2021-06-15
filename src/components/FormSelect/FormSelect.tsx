@@ -13,6 +13,7 @@ import {mdiInformation} from "@mdi/js";
 
 // Stylesheets
 import "../Info.sass";
+import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 
 export interface FormSelectProps {
     // Label to display in the input field.
@@ -28,10 +29,10 @@ export interface FormSelectProps {
     required?: boolean;
 
     // Text to display as a tooltip
-    tooltip?: string;
+    tooltip?: string | ReactElement;
 
     // Information icon text
-    info?: string;
+    info?: string | ReactElement;
 }
 
 /*
@@ -56,14 +57,14 @@ export default function FormSelect({label, value, options, required, tooltip, in
         </FormControl>
     );
 
-    const withTooltip = tooltip ? <Tooltip title={tooltip}>{field}</Tooltip> : field;
+    const withTooltip = tooltip ? <Pv2Tooltip text={tooltip}>{field}</Pv2Tooltip> : field;
 
     return (info ?
             <div className={"with-icon"}>
                 {withTooltip}
-                <Tooltip title={info}>
+                <Pv2Tooltip text={info}>
                     <MdiIcon className={"icon"} path={mdiInformation} size={1.2} color={'#898989'}/>
-                </Tooltip>
+                </Pv2Tooltip>
             </div>
             : withTooltip
     );

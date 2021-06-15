@@ -11,6 +11,7 @@ import {ReduxGetSet} from "../../Utils";
 
 // Stylesheets
 import "../Info.sass";
+import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 
 export interface FormFieldProps<T> {
     // Label to display in TextField.
@@ -35,10 +36,10 @@ export interface FormFieldProps<T> {
     endAdornment?: string;
 
     // Text to display in tooltip
-    tooltip?: string;
+    tooltip?: string | ReactElement;
 
     // Information icon text
-    info?: string;
+    info?: string | ReactElement;
 }
 
 /*
@@ -92,14 +93,14 @@ export default function FormField<T>(props: FormFieldProps<T>): ReactElement {
         />
     );
 
-    const withTooltip = props.tooltip ? <Tooltip title={props.tooltip}>{field}</Tooltip> : field;
+    const withTooltip = props.tooltip ? <Pv2Tooltip text={props.tooltip}>{field}</Pv2Tooltip> : field;
 
     return (props.info ?
             <div className={"with-icon"}>
                 {withTooltip}
-                <Tooltip title={props.info}>
+                <Pv2Tooltip text={props.info}>
                     <MdiIcon className={"icon"} path={mdiInformation} size={1.2} color={'#898989'}/>
-                </Tooltip>
+                </Pv2Tooltip>
             </div>
             : withTooltip
     );

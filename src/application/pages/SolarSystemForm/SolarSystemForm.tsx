@@ -43,10 +43,7 @@ export default function SolarSystemForm(): ReactElement {
                     value={systemPanelBrandAndType}/>
                 <FormSelect
                     tooltip={"Type of inverter"}
-                    info={"Inverter type can be:\n" +
-                    "Microinverter\n" +
-                    "String\n" +
-                    "String with Optimizers"}
+                    info={<div>Inverter type can be:<br/>Microinverter<br/>String<br/>String with Optimizers</div>}
                     label={"Inverter Type"}
                     value={inverterType}
                     options={[
