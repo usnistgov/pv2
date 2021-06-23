@@ -37,7 +37,7 @@ export default function LandingPage(): ReactElement {
                 </Button>
             </div>
             <div className="landing-image">
-                <img src={"/placeholder.jpeg"} alt={"landing page"}/>
+                <img src={"/images/house.jpg"} alt={"landing page"}/>
             </div>
         </div>
     );
