@@ -62,7 +62,7 @@
 			"valuePerQ": 0.126,								# Consumption Rate
 			"quant": 10000,									# Annual Consumption
 			"quantVarRate": "percDelta",	
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": "kwh"
 		},
 		{
@@ -84,7 +84,7 @@
 			"valuePerQ": 96.12,								# Demand Charge
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": {} 
 		},
 		
@@ -110,7 +110,7 @@
 			"valuePerQ": 0.126,								# Consumption Rate
 			"quant": 10000,									# If Feed-In Tariff, then this is Annual Consumption
 			"quantVarRate": "percDelta",	
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": "kwh"
 		},
 		{
@@ -132,7 +132,7 @@
 			"valuePerQ": 96.12,								# Demand Charge
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00
+			"quantVarValue": 0.00
 			"quantUnit": {}
 		},
 		{
@@ -176,7 +176,7 @@
 			"valuePerQ": 0.0,								# PV Connection Fee
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": {}
 		},
 
@@ -225,7 +225,7 @@
 			"valuePerQ": 3311.76,							# Loan Payments
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": {}
 		},
 		{
@@ -313,7 +313,7 @@
 			"valuePerQ": 0.0,								# Maintenance Costs = 0 in this example
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": {}
 		},
 		{
