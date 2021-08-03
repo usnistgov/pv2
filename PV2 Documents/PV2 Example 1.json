@@ -68,7 +68,7 @@
 			"valuePerQ": 0.126,								# Consumption Rate
 			"quant": 10000,									# Annual Consumption
 			"quantVarRate": "percDelta",	
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": "kwh"
 		},
 		{
@@ -90,7 +90,7 @@
 			"valuePerQ": 96.12,								# Demand Charge
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": {} 
 		},
 		
@@ -149,7 +149,7 @@
 			"valuePerQ": 96.12,								# Demand Charge
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00
+			"quantVarValue": 0.00
 			"quantUnit": {}
 		},
 		{
@@ -193,7 +193,7 @@
 			"valuePerQ": 0.0,								# PV Connection Fee
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": {}
 		},
 
@@ -308,7 +308,7 @@
 			"valuePerQ": 0.0,								# Maintenance Costs = 0 in this example
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": {}
 		}
 		{
@@ -383,7 +383,7 @@
 			"valuePerQ": 96.12,								# Demand Charge
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00
+			"quantVarValue": 0.00
 			"quantUnit": {}
 		},
 		{
@@ -405,7 +405,7 @@
 			"valuePerQ": 0.10,								# PPA Rate
 			"quant": 10300,									# = Annual Production
 			"quantVarRate": "percDelta",	
-			"quantVarValue": 0.995, 							# 0.05% degradation rate per year
+			"quantVarValue": -0.005, 							# 0.05% degradation rate per year
 			"quantUnit": "kwh"
 		},
 		{
@@ -449,7 +449,7 @@
 			"valuePerQ": 0.0,								# PV Connection Fee
 			"quant": 1,
 			"quantVarRate": "percDelta",
-			"quantVarValue": 1.00,
+			"quantVarValue": 0.00,
 			"quantUnit": {}
 		}
 		{
