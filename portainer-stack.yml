@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  web:
+    image: dockreg.el.nist.gov/pv2/web
+    expose:
+      - 5000
+    networks:
+      - default
+      - traefik_net
+    volumes:
+      - django_static:/usr/src/app/public
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_net"
+        - "traefik.http.routers.pv2_router_http.rule=Host(`pv2test.el.nist.gov`)"
+        - "traefik.http.routers.pv2_router_http.entrypoints=web"
+        - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.pv2_router_http.middlewares=https_redirect"
+        - "traefik.http.routers.pv2_router_https.rule=Host(`pv2test.el.nist.gov`)"
+        - "traefik.http.routers.pv2_router_https.entrypoints=websecure"
+        - "traefik.http.routers.pv2_router_https.tls"
+        - "traefik.http.services.pv2_service.loadbalancer.server.port=5000"
+
+volumes:
+  django_static:
+    driver_opts:
+      type: none
+      device: /DATA/pv2/django_static
+      o: bind
+
+networks:
+  traefik_net:
+    external: true
