@@ -46,7 +46,7 @@ export default function ElectricalRateForm(): ReactElement {
                     label={"Annual Consumption"}
                     schema={Yup.number().required()}
                     value={annualConsumption}
-                    endAdornment={"kWH"}
+                    endAdornment={"kWh"}
                     type={"number"}/>
                 <FormField
                     tooltip={"Demand charge is a fixed costs for having an account"}
@@ -66,7 +66,7 @@ export default function ElectricalRateForm(): ReactElement {
                     label={"Electricity Unit Price"}
                     schema={Yup.number().required()}
                     value={electricUnitPrice}
-                    endAdornment={"$/kWH"}
+                    endAdornment={"$/kWh"}
                     type={"number"}/>
                 <FormSelect
                     tooltip={"Net metering for Gross metering (i.e., feed in tariff)"}
@@ -92,7 +92,7 @@ export default function ElectricalRateForm(): ReactElement {
                     label={"Excess Generation / FiT Unit Price"}
                     schema={Yup.number().required()}
                     value={excessGenerationUnitPrice}
-                    endAdornment={"$/kWH"}
+                    endAdornment={"$/kWh"}
                     type={"number"}/>
                 <FormField
                     tooltip={"Annual charge for connecting a solar PV system to the grid"}
@@ -104,7 +104,7 @@ export default function ElectricalRateForm(): ReactElement {
                     label={"PV Grid Connection Rate (Monthly)"}
                     schema={Yup.number().required()}
                     value={pvGridConnectionRate}
-                    endAdornment={"$/kWH"}
+                    endAdornment={"$/kWh"}
                     type={"number"}/>
                 <EscalationRateForm/>
             </Box>
