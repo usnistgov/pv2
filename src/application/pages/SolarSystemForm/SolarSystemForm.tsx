@@ -21,7 +21,7 @@ import "../Form.sass";
 export default function SolarSystemForm(): ReactElement {
     // Redux state objects
     // PV System Information
-    const systemPanelBrandAndType = useReduxGetSet<string>("systemPanelBrandAndType");
+    const panelEfficiency = useReduxGetSet<string>("panelEfficiency");
     const inverterType = useReduxGetSet<string>("inverterType");
     const totalSystemSize = useReduxGetSet<number>("totalSystemSize");
     const estimatedAnnualProduction = useReduxGetSet<number>("estimatedAnnualProduction");
@@ -37,10 +37,11 @@ export default function SolarSystemForm(): ReactElement {
             <Box className={"form-single-column-container"}>
                 <FormField
                     tooltip={"Input panel information"}
-                    info={"Panel Brand/Type is currently used for informational purposes."}
-                    label={"System Panel Brand and Type"}
-                    schema={Yup.string()}
-                    value={systemPanelBrandAndType}/>
+                    info={"Panel Efficiency."}
+                    label={"Panel Efficiency"}
+                    schema={Yup.number().max(100).min(0)}
+                    endAdornment={"%"}
+                    value={panelEfficiency}/>
                 <FormSelect
                     tooltip={"Type of inverter"}
                     info={<div>Inverter type can be:<br/>Microinverter<br/>String<br/>String with Optimizers</div>}

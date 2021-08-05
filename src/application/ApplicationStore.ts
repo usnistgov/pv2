@@ -136,7 +136,7 @@ const slices: CreateSliceOptions[] = [
         }
     },
     {
-        name: "systemPanelBrandAndType",
+        name: "panelEfficiency",
         initialState: "",
         reducers: {
             set: setter
