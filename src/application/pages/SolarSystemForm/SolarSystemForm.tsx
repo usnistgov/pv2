@@ -37,8 +37,8 @@ export default function SolarSystemForm(): ReactElement {
             <Box className={"form-single-column-container"}>
                 <FormField
                     tooltip={"Input panel information"}
-                    info={"Panel Efficiency."}
-                    label={"Panel Efficiency"}
+                    info={"Solar Panel Rate Efficiency."}
+                    label={"Solar Panel Rate Efficiency"}
                     schema={Yup.number().max(100).min(0)}
                     endAdornment={"%"}
                     value={panelEfficiency}/>

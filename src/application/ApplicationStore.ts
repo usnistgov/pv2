@@ -46,14 +46,14 @@ const slices: CreateSliceOptions[] = [
     },
     {
         name: "realDiscountRate",
-        initialState: 20,
+        initialState: 3,
         reducers: {
             set: setter
         }
     },
     {
         name: "generalInflation",
-        initialState: 10,
+        initialState: 2.3,
         reducers: {
             set: setter
         }
@@ -165,21 +165,21 @@ const slices: CreateSliceOptions[] = [
     },
     {
         name: "panelLifetime",
-        initialState: 0,
+        initialState: 25,
         reducers: {
             set: setter,
         }
     },
     {
         name: "inverterLifetime",
-        initialState: 0,
+        initialState: 15,
         reducers: {
             set: setter
         }
     },
     {
         name: "degradationRate",
-        initialState: 0,
+        initialState: 0.05,
         reducers: {
             set: setter
         }

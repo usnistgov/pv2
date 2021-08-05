@@ -56,10 +56,7 @@ export default function AnalysisAssumptionsForm(): ReactElement {
                     "Note: If the study period and the service life of the solar PC system are the same, the residual value will be zero."}
                     label={"Residual Value Approach"}
                     value={residualValueApproach}
-                    options={[
-                        "Remaining Production Value",
-                        "Linear Depreciation"
-                    ]}/>
+                    options={["Linear Depreciation"]}/>
             </Box>
         </Box>
     );
