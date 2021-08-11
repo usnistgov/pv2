@@ -1,71 +1,42 @@
-import {ReactElement, useEffect} from "react";
+import React, {useContext} from "react";
 
 // Library Imports
 import * as Yup from "yup";
-import {useSelector} from "react-redux";
+import {observer} from "mobx-react-lite";
+import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
 // User Imports
 import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
-import FormSelect from "../../../components/FormSelect/FormSelect";
-import FormField from "../../../components/FormField/FormField";
-import {RootState} from "../../ApplicationStore";
 import CollapseContainer from "../../../components/CollapseContainer/CollapseContainer";
-import {take, toJson, useReduxGetSet} from "../../../Utils";
+import {Store} from "../../ApplicationStore";
+import ValidatedTextField from "../../../components/ValidatedTextField";
+import {
+    ESCALATION_RATES_SAME_OR_DIFF_LABEL,
+    ESCALATION_RATES_SAME_OR_DIFF_OPTIONS,
+    VIEW_ANNUAL_ESCALATION_RATES_INFO,
+    VIEW_ANNUAL_ESCALATION_RATES_LABEL,
+    VIEW_ANNUAL_ESCALATION_RATES_OPTIONS,
+    VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP
+} from "../../../Strings";
+import {percentAdornment} from "../../../components/Adornments";
+import Info from "../../../components/Info";
 
-const defaultState = "Maryland";
-
-async function getEscalationRateList(storeState: string): Promise<Array<number>> {
-    const stateAbbreviations = await fetch("escalation-rates/state-abbreviation.json").then(toJson);
-    const regionEscalationRates = await fetch("escalation-rates/region-escalation-rates.json").then(toJson);
-    const stateRegionMapping = await fetch("escalation-rates/state-region-mapping.json").then(toJson);
-
-    const state = storeState === "" || !storeState ? defaultState : storeState;
-
-    return regionEscalationRates[
-        stateRegionMapping[
-            state.length === 2 ? stateAbbreviations[state.toUpperCase()] : state
-            ].Region
-        ]
-}
-
-export default function EscalationRateForm(): ReactElement {
-    const state = useSelector((store: RootState) => store.state);
-    const studyPeriod = useSelector((store: RootState) => store.studyPeriod);
-
-    const viewAnnualEscalationRates = useReduxGetSet<string>("viewAnnualEscalationRates");
-    const escalationRatesSameOrDiff = useReduxGetSet<string>("escalationRatesSameOrDiff");
-
-    const escalationRateForYear = useReduxGetSet<number[]>("escalationRateForYear");
-    const productionEscalationRateForYear = useReduxGetSet<number[]>("productionEscalationRateForYear");
-
-    useEffect(() => {
-        getEscalationRateList(state)
-            .then(Object.values)
-            .then(take(studyPeriod))
-            .then((result) => {
-                productionEscalationRateForYear.set(result);
-                escalationRateForYear.set(result);
-            });
-    }, [])
+const EscalationRateForm = observer(() => {
+    const store = useContext(Store).escalationRateFormStore;
 
     function createFields(values: number[]): JSX.Element[] {
         return values.map((rate, i) => {
-            const getSet = {
-                get: () => escalationRateForYear.get()[i],
-                set: (value: number) => {
-                    let result = [...escalationRateForYear.get()];
-                    result[i] = value;
-                    escalationRateForYear.set(result);
-                }
-            }
-
             return (
-                <FormField label={`Year ${i + 1}`}
-                           schema={Yup.number().max(1.0).min(-1.0)}
-                           value={getSet}
-                           endAdornment={"%"}
-                           type={"string"}
-                           key={`Year ${i + 1}`}/>
+                <ValidatedTextField fullWidth
+                                    required
+                                    label={`Year ${i + 1}`}
+                                    key={`Year ${i + 1}`}
+                                    defaultValue={values[i]}
+                                    variant={"filled"}
+                                    schema={Yup.number().max(1.0).min(-1.0)}
+                                    onValidate={(value) => values[i] = value}
+                                    InputProps={percentAdornment}
+                                    type={"number"}/>
             )
         })
     }
@@ -73,34 +44,48 @@ export default function EscalationRateForm(): ReactElement {
     return (
         <CollapseContainer text={"Advanced"}>
             <AdvancedBox>
-                <FormSelect
-                    tooltip={"Annual escalation rates for electricity prices"}
-                    info={
-                        "Annual escalation rates for electricity prices. The default values are based on EIA " +
-                        "projections for each Census Region and published in the Annual Supplement to NIST Handbook " +
-                        "135 (add hyperlink)."
-                    }
-                    label={"Do you want to view/edit annual escalation rates?"}
-                    value={viewAnnualEscalationRates}
-                    options={[
-                        "Yes",
-                        "No"
-                    ]}/>
-                {viewAnnualEscalationRates.get() === "Yes" &&
+                <Info tooltip={VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP} info={VIEW_ANNUAL_ESCALATION_RATES_INFO}>
+                    <FormControl fullWidth variant={"filled"}>
+                        <InputLabel id={VIEW_ANNUAL_ESCALATION_RATES_LABEL}>{VIEW_ANNUAL_ESCALATION_RATES_LABEL}</InputLabel>
+                        <Select className={"form-select-left-align"}
+                                fullWidth
+                                labelId={VIEW_ANNUAL_ESCALATION_RATES_LABEL}
+                                value={store.viewAnnualEscalationRates}
+                                onChange={(event) => {
+                                    store.viewAnnualEscalationRates = event.target.value as string
+                                }}>
+                            {
+                                VIEW_ANNUAL_ESCALATION_RATES_OPTIONS.map((option, index) =>
+                                    <MenuItem value={option} key={index}>{option}</MenuItem>
+                                )
+                            }
+                        </Select>
+                    </FormControl>
+                </Info>
+                {store.viewAnnualEscalationRates === VIEW_ANNUAL_ESCALATION_RATES_OPTIONS[0] &&
                 <>
                     <div className="form-two-column-container">
-                        {createFields(escalationRateForYear.get())}
+                        {createFields(store.escalationRateForYear)}
                     </div>
-                    <FormSelect
-                        label={"Are escalation rates the same for consumption and production?"}
-                        value={escalationRatesSameOrDiff}
-                        options={[
-                            "Same",
-                            "Different"
-                        ]}/>
-                    {escalationRatesSameOrDiff.get() === "Different" &&
+                    <FormControl fullWidth variant={"filled"}>
+                        <InputLabel id={ESCALATION_RATES_SAME_OR_DIFF_LABEL}>{ESCALATION_RATES_SAME_OR_DIFF_LABEL}</InputLabel>
+                        <Select className={"form-select-left-align"}
+                                fullWidth
+                                labelId={ESCALATION_RATES_SAME_OR_DIFF_LABEL}
+                                value={store.escalationRatesSameOrDiff}
+                                onChange={(event) => {
+                                    store.escalationRatesSameOrDiff = event.target.value as string
+                                }}>
+                            {
+                                ESCALATION_RATES_SAME_OR_DIFF_OPTIONS.map((option, index) =>
+                                    <MenuItem value={option} key={index}>{option}</MenuItem>
+                                )
+                            }
+                        </Select>
+                    </FormControl>
+                    {store.escalationRatesSameOrDiff === ESCALATION_RATES_SAME_OR_DIFF_OPTIONS[1] &&
                     <div className="form-two-column-container">
-                        {createFields(productionEscalationRateForYear.get())}
+                        {createFields(store.productionEscalationRateForYear)}
                     </div>
                     }
                 </>
@@ -108,4 +93,6 @@ export default function EscalationRateForm(): ReactElement {
             </AdvancedBox>
         </CollapseContainer>
     );
-}
+});
+
+export default EscalationRateForm;

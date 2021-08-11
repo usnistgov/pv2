@@ -1,4 +1,4 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, useContext} from "react";
 
 // Library imports
 import {Button, Grid} from "@material-ui/core";
@@ -12,11 +12,12 @@ import {Serie} from "@nivo/line";
 // User Imports
 import ResultCard from "../../components/ResultCard/ResultCard";
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
-import {useReduxGetSet} from "../../Utils";
 import {GraphOption} from "./ResultData";
 
 // Stylesheets
 import "./Results.sass";
+import {observer} from "mobx-react-lite";
+import {Store} from "../ApplicationStore";
 
 interface ResultsProps {
     result: any;
@@ -107,9 +108,10 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
  * card form with some data and graphs. Finally the user can download a CSV file containing the E3 results. This
  * component takes not props since all necessary information for the E3 request is obtained from the redux store.
  */
-export default function Results({result, downloadData}: ResultsProps): ReactElement {
-    const graphOption = useReduxGetSet<GraphOption>("graphOption");
-    let graphData =  getGraphData(graphOption.get(), result);
+const Results = observer(({result, downloadData}: ResultsProps) => {
+    const uiStore = useContext(Store).resultUiStore;
+
+    let graphData =  getGraphData(uiStore.graphOption, result);
 
     return (
         <>
@@ -120,8 +122,7 @@ export default function Results({result, downloadData}: ResultsProps): ReactElem
                         <ResultCard
                             alt={res}
                             graphData={graphData.graphData[index]}
-                            graphMax={graphData.graphMax}
-                            graphOption={graphOption}/>
+                            graphMax={graphData.graphMax}/>
                     </Grid>
                 }) : Array.from({length: 3}).map((_, index) => {
                         return <Grid item key={index}>
@@ -141,5 +142,6 @@ export default function Results({result, downloadData}: ResultsProps): ReactElem
             </div>
         </>
     )
-}
+});
 
+export default Results;

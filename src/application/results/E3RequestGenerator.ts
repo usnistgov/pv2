@@ -1,3 +1,5 @@
+import {ApplicationStore} from "../ApplicationStore";
+
 export const altLabels = [
     "No Solar System",
     "Purchase Solar System",
@@ -7,10 +9,12 @@ export const altLabels = [
 const NET_METERING = "Net Metering Tariff";
 const CASH = "Cash";
 
-export async function createE3Request(store: any): Promise<any> {
+export async function createE3Request(store: ApplicationStore): Promise<any> {
     const now = new Date();
 
-    const nowString = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()}`;
+    return {};
+
+    /*const nowString = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()}`;
 
     const netConsumption = Array.from(Array(store.studyPeriod).keys())
         .map((_, index, array) => {
@@ -34,7 +38,7 @@ export async function createE3Request(store: any): Promise<any> {
             break;
         case "Yes, multiple values":
             const valuesAsString = store.escalationRateMultipleValues;
-            const arr = valuesAsString.split(/\s*,?\s*/);
+            const arr = valuesAsString.split(/\s*,?\s*!/);
             arr.map((s: string) => parseFloat(s))
             escalationRateOrRates = arr;
             break;
@@ -515,6 +519,6 @@ export async function createE3Request(store: any): Promise<any> {
         ],
         sensitivityObject: {},
         scenarioObject: {},
-    }];
+    }];*/
 }
 

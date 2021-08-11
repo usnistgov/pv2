@@ -1,4 +1,4 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, useContext} from "react";
 
 // Library Imports
 import {Card, CardContent, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
@@ -9,11 +9,11 @@ import {mdiInformation} from "@mdi/js";
 // User Imports
 import {altLabels} from "../../application/results/E3RequestGenerator";
 import {GraphOption, valid} from "../../application/results/ResultData";
-import {ReduxGetSet} from "../../Utils";
 import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 
 // Stylesheets
 import "./ResultCard.sass";
+import {Store} from "../../application/ApplicationStore";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -33,9 +33,6 @@ export interface ResultCardProps {
     // The maximum absolute number to display on graph scale
     graphMax: number;
 
-    // Current graph option getset
-    graphOption: ReduxGetSet<GraphOption>;
-
     // Data to display in the graph
     graphData: Serie;
 }
@@ -43,9 +40,11 @@ export interface ResultCardProps {
 /**
  * Creates a card that displays the given E3 results.
  */
-export default function ResultCard({alt, graphMax, graphOption, graphData}: ResultCardProps): ReactElement {
+export default function ResultCard({alt, graphMax, graphData}: ResultCardProps): ReactElement {
+    const uiStore = useContext(Store).resultUiStore;
+
     return (
-        <Card>
+       <Card>
             <CardContent className={"result-card"}>
                 <div className="result-title">
                     <div>{altLabels[alt.altID]}</div>
@@ -134,9 +133,9 @@ export default function ResultCard({alt, graphMax, graphOption, graphData}: Resu
                         <FormControl className={"result-graph-title"}>
                             <Select
                                 id={"graph-option-select"}
-                                value={graphOption.get()}
+                                value={uiStore.graphOption}
                                 onChange={(event) => {
-                                    graphOption.set(event.target.value as GraphOption);
+                                    uiStore.graphOption = event.target.value as GraphOption;
                                 }}>
                                 <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
                                 <MenuItem value={GraphOption.SAVINGS}>Savings</MenuItem>

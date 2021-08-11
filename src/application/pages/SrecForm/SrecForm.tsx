@@ -1,15 +1,25 @@
-import {ReactElement, useEffect} from "react";
+import React, {ReactElement, useContext} from "react";
 
 // Library Imports
-import {Box} from "@material-ui/core";
+import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import * as Yup from "yup";
-import {useStore} from "react-redux";
+import {observer} from "mobx-react-lite";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
-import FormSelect from "../../../components/FormSelect/FormSelect";
-import {useReduxGetSet} from "../../../Utils";
-import FormField from "../../../components/FormField/FormField";
+import Info from "../../../components/Info";
+import {
+    SREC_PAYMENTS_INFO,
+    SREC_PAYMENTS_LABEL,
+    SREC_PAYMENTS_OPTIONS,
+    SREC_PAYMENTS_TOOLTIP,
+    SREC_PAYMENTS_UP_FRONT_INFO,
+    SREC_PAYMENTS_UP_FRONT_LABEL,
+    SREC_PAYMENTS_UP_FRONT_TOOLTIP
+} from "../../../Strings";
+import {Store} from "../../ApplicationStore";
+import ValidatedTextField from "../../../components/ValidatedTextField";
+import {dollarPerKWHAdornment} from "../../../components/Adornments";
 
 // Stylesheets
 import "../Form.sass";
@@ -17,16 +27,8 @@ import "../Form.sass";
 /**
  * Form for SREC details.
  */
-export default function SrecForm(): ReactElement {
-    const store = useStore();
-
-    const srecPayments = useReduxGetSet<string>("srecPayments");
-    const srecPaymentsUpFront = useReduxGetSet<number>("srecPaymentsUpFront")
-    const srecPaymentsProductionBased = useReduxGetSet<number[]>("srecPaymentsProductionBased");
-
-    useEffect(() => {
-        srecPaymentsProductionBased.set(Array(store.getState().studyPeriod).fill(0));
-    }, [store]);
+const SrecForm = observer(() => {
+    const store = useContext(Store).srecFormStore;
 
     return (
         <Box className={"form-page-container"}>
@@ -38,49 +40,54 @@ export default function SrecForm(): ReactElement {
             </div>
 
             <Box className={"form-single-column-container"}>
-                <FormSelect
-                    tooltip={"Solar Renewable Energy Credit"}
-                    info={"A Solar Renewable Energy Credit (SREC) is …"}
-                    label={"SREC Payments"}
-                    value={srecPayments}
-                    options={[
-                        "Up-front Payment",
-                        "Production-based Payments",
-                    ]}/>
-                {srecPayments.get() === "Up-front Payment" &&
-                <FormField
-                    tooltip={"Sell the rights to the SRECs upfront or get paid over time based on production"}
-                    info={
-                        "Choose how the homeowner wants to get paid for their SRECs: upfront lump sum based on " +
-                        "capacity or over time based on production"
-                    }
-                    label={"SREC Payments - Up-front Payment"}
-                    schema={Yup.number().min(0)}
-                    value={srecPaymentsUpFront}
-                    endAdornment={"$/kWh"}
-                    type={"number"}/>
-                }
-                {srecPayments.get() === "Production-based Payments" &&
-                <div className="form-two-column-container">
-                    {srecPaymentsProductionBased.get()
-                        .map((payment, i) => {
-                            let getSet = {
-                                get: () => srecPaymentsProductionBased.get()[i],
-                                set: (value: number) => {
-                                    let result = [...srecPaymentsProductionBased.get()];
-                                    result[i] = value;
-                                    srecPaymentsProductionBased.set(result);
-                                },
+                <Info tooltip={SREC_PAYMENTS_TOOLTIP} info={SREC_PAYMENTS_INFO}>
+                    <FormControl fullWidth variant={"filled"}>
+                        <InputLabel id={SREC_PAYMENTS_LABEL}>{SREC_PAYMENTS_LABEL}</InputLabel>
+                        <Select className={"form-select-left-align"}
+                                fullWidth
+                                labelId={SREC_PAYMENTS_LABEL}
+                                value={store.srecPayments}
+                                onChange={(event) => {
+                                    store.srecPayments = event.target.value as string
+                                }}>
+                            {
+                                SREC_PAYMENTS_OPTIONS.map((option, index) =>
+                                    <MenuItem value={option} key={index}>{option}</MenuItem>
+                                )
                             }
-
+                        </Select>
+                    </FormControl>
+                </Info>
+                {store.srecPayments === SREC_PAYMENTS_OPTIONS[0] &&
+                <Info tooltip={SREC_PAYMENTS_UP_FRONT_TOOLTIP} info={SREC_PAYMENTS_UP_FRONT_INFO}>
+                    <ValidatedTextField fullWidth
+                                        variant={"filled"}
+                                        label={SREC_PAYMENTS_UP_FRONT_LABEL}
+                                        defaultValue={store.srecPaymentsUpFront}
+                                        schema={Yup.number().min(0)}
+                                        onValidate={(value) => {
+                                            store.srecPaymentsUpFront = value
+                                        }}
+                                        InputProps={dollarPerKWHAdornment}
+                                        type={"number"}/>
+                </Info>
+                }
+                {store.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
+                <div className="form-two-column-container">
+                    {store.srecPaymentsProductionBased
+                        .map((payment, i) => {
                             return (
-                                <FormField
-                                    label={`Year ${i + 1}`}
-                                    schema={Yup.number().min(0)}
-                                    value={getSet}
-                                    endAdornment={"$/mWh"}
-                                    type={"string"}
-                                    key={i + 1}/>
+                                <ValidatedTextField fullWidth
+                                                    variant={"filled"}
+                                                    label={`Year ${i + 1}`}
+                                                    key={i + 1}
+                                                    defaultValue={store.srecPaymentsProductionBased[i]}
+                                                    schema={Yup.number().min(0)}
+                                                    onValidate={(value) => {
+                                                        store.srecPaymentsProductionBased[i] = value
+                                                    }}
+                                                    InputProps={dollarPerKWHAdornment}
+                                                    type={"number"}/>
                             )
                         })}
                 </div>
@@ -88,4 +95,6 @@ export default function SrecForm(): ReactElement {
             </Box>
         </Box>
     );
-}
+});
+
+export default SrecForm;

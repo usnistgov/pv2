@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 // Library Imports
-import {useStore} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {Backdrop, Box, Button, CircularProgress} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react";
@@ -11,6 +10,7 @@ import {mdiClose} from "@mdi/js";
 import {toJson} from "../../Utils";
 import {createE3Request} from "./E3RequestGenerator";
 import Results from "./Results";
+import {Store} from "../ApplicationStore";
 
 const exampleResults = [{
     "alternativeSummaryObjects": [
@@ -200,16 +200,17 @@ function generateCsv(results: any, studyPeriod: number): any {
 
 
 export default function ResultData() {
+    const store = useContext(Store);
+
     const history = useHistory();
-    const store = useStore();
     const [result, setResult] = useState<undefined | {}>(exampleResults); //TODO replace with results object
-    const [downloadData] = useState(generateCsv(exampleResults[0], store.getState().studyPeriod));
+    const [downloadData] = useState(generateCsv(exampleResults[0], store.analysisAssumptionsFormStore.studyPeriod));
 
     // Fetches results from E3 API
     useEffect(() => {
         const controller = new AbortController();
 
-        createE3Request(store.getState())
+        createE3Request(store)
             .then((request) => {
                 // Generate fetch post request
                 const fetchOptions = {

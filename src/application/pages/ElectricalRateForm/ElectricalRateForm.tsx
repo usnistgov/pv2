@@ -1,113 +1,148 @@
-import {ReactElement} from "react";
+import React, {ReactElement, useContext} from "react";
 
 // Library Imports
-import {Box} from "@material-ui/core";
+import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import * as Yup from "yup";
+import {observer} from "mobx-react-lite";
 
 // User Imports
-import FormField from "../../../components/FormField/FormField";
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
-import FormSelect from "../../../components/FormSelect/FormSelect";
-import {useReduxGetSet} from "../../../Utils";
+import Info from "../../../components/Info";
+import {Store} from "../../ApplicationStore";
+import ValidatedTextField from "../../../components/ValidatedTextField";
+import {
+    ANNUAL_CONSUMPTION_INFO,
+    ANNUAL_CONSUMPTION_LABEL,
+    ANNUAL_CONSUMPTION_TOOLTIP,
+    ELECTRICAL_COMPANY_NAME_INFO,
+    ELECTRICAL_COMPANY_NAME_LABEL,
+    ELECTRICAL_COMPANY_NAME_TOOLTIP,
+    ELECTRICAL_UNIT_PRICE_INFO,
+    ELECTRICAL_UNIT_PRICE_LABEL,
+    ELECTRICAL_UNIT_PRICE_TOOLTIP,
+    EXCESS_GENERATION_UNIT_PRICE_INFO,
+    EXCESS_GENERATION_UNIT_PRICE_LABEL,
+    EXCESS_GENERATION_UNIT_PRICE_TOOLTIP,
+    FLAT_RATE_CHARGE_INFO,
+    FLAT_RATE_CHARGE_LABEL,
+    FLAT_RATE_CHARGE_TOOLTIP,
+    NET_METERING_FEED_TARIFF_INFO,
+    NET_METERING_FEED_TARIFF_LABEL,
+    NET_METERING_FEED_TARIFF_OPTIONS,
+    NET_METERING_FEED_TARIFF_TOOLTIP,
+    PV_GRID_CONNECTION_RATE_INFO,
+    PV_GRID_CONNECTION_RATE_LABEL,
+    PV_GRID_CONNECTION_RATE_TOOLTIP
+} from "../../../Strings";
+import {dollarAdornment, dollarPerKWHAdornment, kWhAdornment} from "../../../components/Adornments";
+import EscalationRateForm from "./EscalationRateForm";
 
 // Stylesheets
 import "../Form.sass";
-import EscalationRateForm from "./EscalationRateForm";
 
 /*
  * Displays the electrical rate form.
  */
-export default function ElectricalRateForm(): ReactElement {
-    // Redux state objects
-    const electricalCompanyName = useReduxGetSet<string>("electricalCompanyName");
-    const netMeteringFeedTariff = useReduxGetSet<string>("netMeteringFeedTariff");
-    const annualConsumption = useReduxGetSet<number>("annualConsumption");
-    const monthlyFlatRateCharge = useReduxGetSet<number>("monthlyFlatRateCharge");
-    const electricUnitPrice = useReduxGetSet<number>("electricUnitPrice");
-    const excessGenerationUnitPrice = useReduxGetSet<number>("excessGenerationUnitPrice");
-    const pvGridConnectionRate = useReduxGetSet<number>("pvGridConnectionRate");
+const ElectricalRateForm = observer(() => {
+    const store = useContext(Store).electricalCostFormStore;
 
     return (
         <Box className={"form-page-container"}>
             <MaterialHeader text={"Electrical Rate Information"}/>
             <Box className={"form-single-column-container"}>
-                <FormField
-                    tooltip={"Electricity Provider Name"}
-                    info={"Electricity Provider Name. For informational purposes only."}
-                    label={"Electricity Utility Company"}
-                    schema={Yup.string()}
-                    value={electricalCompanyName}/>
-                <FormField
-                    tooltip={"Annual consumption of the household"}
-                    info={
-                        "Annual consumption of the household. Can use previous year’s bills or obtain consumption " +
-                        "data from the users online account at the electricity provider."
-                    }
-                    label={"Annual Consumption"}
-                    schema={Yup.number().required()}
-                    value={annualConsumption}
-                    endAdornment={"kWh"}
-                    type={"number"}/>
-                <FormField
-                    tooltip={"Demand charge is a fixed costs for having an account"}
-                    info={"Demand charge is a fixed cost for having an account. Can find this value from monthly bills"}
-                    label={"Monthly Flat Rate Charge"}
-                    schema={Yup.number().required()}
-                    value={monthlyFlatRateCharge}
-                    startAdornment={"$"}
-                    type={"number"}/>
-                <FormField
-                    tooltip={"Price per unit of electricity consumed ($/kWh)"}
-                    info={
-                        "Cost per unit of electricity consumed ($/kWh). This is the sum of all costs associated with " +
-                        "a unit of electricity, such as generation, transmission, and distribution charges, taxes, " +
-                        "fees, environmental fund payments."
-                    }
-                    label={"Electricity Unit Price"}
-                    schema={Yup.number().required()}
-                    value={electricUnitPrice}
-                    endAdornment={"$/kWh"}
-                    type={"number"}/>
-                <FormSelect
-                    tooltip={"Net metering for Gross metering (i.e., feed in tariff)"}
-                    info={
-                        "Net metering means that the homeowner is charged (or paid) for the net difference in " +
-                        "electricity consumption and electricity production. Typically, the price paid for excess " +
-                        "consumption is different than the price paid to the homeowner for excess production.\n" +
-                        "Gross metering (i.e., feed in tariff) means that the homeowner is paid for all production " +
-                        "and is charged for all consumption, typically at different rates."
-                    }
-                    label={"Net Metering or Feed In Tariff (FiT)"}
-                    value={netMeteringFeedTariff}
-                    options={[
-                        "Net Metering Tariff",
-                        "Feed in Tariff (Gross Metering)"
-                    ]}/>
-                <FormField
-                    tooltip={"Price per unit of electricity produced ($/kWh)"}
-                    info={
-                        "Price per unit of electricity produced ($/kWh), which is typically different than the " +
-                        "consumption price."
-                    }
-                    label={"Excess Generation / FiT Unit Price"}
-                    schema={Yup.number().required()}
-                    value={excessGenerationUnitPrice}
-                    endAdornment={"$/kWh"}
-                    type={"number"}/>
-                <FormField
-                    tooltip={"Annual charge for connecting a solar PV system to the grid"}
-                    info={
-                        "Annual escalation rates for electricity prices. The default values are based on EIA " +
-                        "projections for each Census Region and published in the Annual Supplement to NIST Handbook " +
-                        "135 (add hyperlink)."
-                    }
-                    label={"PV Grid Connection Rate (Monthly)"}
-                    schema={Yup.number().required()}
-                    value={pvGridConnectionRate}
-                    endAdornment={"$/kWh"}
-                    type={"number"}/>
+                <Info tooltip={ELECTRICAL_COMPANY_NAME_TOOLTIP} info={ELECTRICAL_COMPANY_NAME_INFO}>
+                    <ValidatedTextField fullWidth
+                                        variant={"filled"}
+                                        label={ELECTRICAL_COMPANY_NAME_LABEL}
+                                        defaultValue={store.electricalCompanyName}
+                                        schema={Yup.string()}
+                                        onValidate={(value) => {
+                                            store.electricalCompanyName = value
+                                        }}/>
+                </Info>
+                <Info tooltip={ANNUAL_CONSUMPTION_TOOLTIP} info={ANNUAL_CONSUMPTION_INFO}>
+                    <ValidatedTextField fullWidth
+                                        variant={"filled"}
+                                        label={ANNUAL_CONSUMPTION_LABEL}
+                                        defaultValue={store.annualConsumption}
+                                        schema={Yup.number().required()}
+                                        onValidate={(value) => {
+                                            store.annualConsumption = value
+                                        }}
+                                        InputProps={kWhAdornment}
+                                        type={"number"}/>
+                </Info>
+                <Info tooltip={FLAT_RATE_CHARGE_TOOLTIP} info={FLAT_RATE_CHARGE_INFO}>
+                    <ValidatedTextField fullWidth
+                                        variant={"filled"}
+                                        label={FLAT_RATE_CHARGE_LABEL}
+                                        defaultValue={store.monthlyFlatRateCharge}
+                                        schema={Yup.number().required()}
+                                        onValidate={(value) => {
+                                            store.monthlyFlatRateCharge = value
+                                        }}
+                                        InputProps={dollarAdornment}
+                                        type={"number"}/>
+                </Info>
+                <Info tooltip={ELECTRICAL_UNIT_PRICE_TOOLTIP} info={ELECTRICAL_UNIT_PRICE_INFO}>
+                    <ValidatedTextField fullWidth
+                                        variant={"filled"}
+                                        label={ELECTRICAL_UNIT_PRICE_LABEL}
+                                        defaultValue={store.electricUnitPrice}
+                                        schema={Yup.number().required()}
+                                        onValidate={(value) => {
+                                            store.electricUnitPrice = value
+                                        }}
+                                        InputProps={dollarPerKWHAdornment}
+                                        type={"number"}/>
+                </Info>
+                <Info tooltip={NET_METERING_FEED_TARIFF_TOOLTIP} info={NET_METERING_FEED_TARIFF_INFO}>
+                    <FormControl fullWidth variant={"filled"}>
+                        <InputLabel id={NET_METERING_FEED_TARIFF_LABEL}>{NET_METERING_FEED_TARIFF_LABEL}</InputLabel>
+                        <Select className={"form-select-left-align"}
+                                fullWidth
+                                labelId={NET_METERING_FEED_TARIFF_LABEL}
+                                value={store.netMeteringFeedTariff}
+                                onChange={(event) => {
+                                    store.netMeteringFeedTariff = event.target.value as string
+                                }}>
+                            {
+                                NET_METERING_FEED_TARIFF_OPTIONS.map((option, index) =>
+                                    <MenuItem value={option} key={index}>{option}</MenuItem>
+                                )
+                            }
+                        </Select>
+                    </FormControl>
+                </Info>
+                <Info tooltip={EXCESS_GENERATION_UNIT_PRICE_TOOLTIP} info={EXCESS_GENERATION_UNIT_PRICE_INFO}>
+                    <ValidatedTextField fullWidth
+                                        variant={"filled"}
+                                        label={EXCESS_GENERATION_UNIT_PRICE_LABEL}
+                                        defaultValue={store.excessGenerationUnitPrice}
+                                        schema={Yup.number().required()}
+                                        onValidate={(value) => {
+                                            store.excessGenerationUnitPrice = value
+                                        }}
+                                        InputProps={dollarPerKWHAdornment}
+                                        type={"number"}/>
+                </Info>
+                <Info tooltip={PV_GRID_CONNECTION_RATE_TOOLTIP} info={PV_GRID_CONNECTION_RATE_INFO}>
+                    <ValidatedTextField fullWidth
+                                        variant={"filled"}
+                                        label={PV_GRID_CONNECTION_RATE_LABEL}
+                                        defaultValue={store.pvGridConnectionRate}
+                                        schema={Yup.number().required()}
+                                        onValidate={(value) => {
+                                            store.pvGridConnectionRate = value
+                                        }}
+                                        InputProps={dollarPerKWHAdornment}
+                                        type={"number"}/>
+                </Info>
+
                 <EscalationRateForm/>
             </Box>
         </Box>
     );
-}
+});
+
+export default ElectricalRateForm;

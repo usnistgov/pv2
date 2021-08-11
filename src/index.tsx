@@ -3,19 +3,19 @@ import React from 'react';
 // Library Imports
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {Provider} from "react-redux";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 
 // User Imports
 import LandingPage from "./application/landingpage/LandingPage";
 import Application from "./application/Application";
-import {store} from "./application/ApplicationStore";
+import {Store, store} from "./application/ApplicationStore";
 import ResultData from "./application/results/ResultData";
 import HeaderWrapper from "./components/Header/HeaderWrapper";
 
 // Stylesheets
 import '@csstools/normalize.css'
 import './main.sass';
+import "./components/Info.sass"
 
 // Material UI theme definition
 const theme = createMuiTheme({
@@ -33,22 +33,22 @@ const theme = createMuiTheme({
             contrastText: '#ffffff',
         },
     }
-})
+});
 
 // Render main application
 ReactDOM.render(
-    <Provider store={store}>
-        <MuiThemeProvider theme={theme}>
-            <BrowserRouter>
-                <HeaderWrapper>
-                    <Switch>
-                        <Route path={"/results"}><ResultData/></Route>
+    <MuiThemeProvider theme={theme}>
+        <BrowserRouter>
+            <HeaderWrapper>
+                <Switch>
+                    <Route exact path={"/"}><LandingPage/></Route>
+                    <Store.Provider value={store}>
                         <Route path={"/application"}><Application/></Route>
-                        <Route path={"/"}><LandingPage/></Route>
-                    </Switch>
-                </HeaderWrapper>
-            </BrowserRouter>
-        </MuiThemeProvider>
-    </Provider>,
+                        <Route path={"/results"}><ResultData/></Route>
+                    </Store.Provider>
+                </Switch>
+            </HeaderWrapper>
+        </BrowserRouter>
+    </MuiThemeProvider>,
     document.getElementById('root')
 );
