@@ -166,6 +166,26 @@ export const PPA_OPTIONS = [
     "No"
 ];
 
+export const PPA_CONTRACT_LENGTH_LABEL = "PPA Contract Length";
+export const PPA_CONTRACT_LENGTH_TOOLTIP = "Length of PPA/Lease Contract";
+export const PPA_CONTRACT_LENGTH_INFO = "Length of PPA/Lease Contract. 40 years or less.";
+
+export const PPA_ELECTRICITY_RATE_LABEL = "PPA Electricity Rate";
+export const PPA_ELECTRICITY_RATE_TOOLTIP = "Price of electricity produced by solar PV system";
+export const PPA_ELECTRICITY_RATE_INFO = "Price of electricity produced by solar PV system. Typically this price is " +
+    "less than price paid to electricity provider.";
+
+export const PPA_ESCALATION_RATE_LABEL = "PPA Escalation Rate (constant)";
+export const PPA_ESCALATION_RATE_TOOLTIP = "Rate at which the price of electricity from solar PV system increases " +
+    "year-over-year";
+export const PPA_ESCALATION_RATE_INFO = "Rate at which the price of electricity from solar PV system increases " +
+    "year-over-year.";
+
+export const PPA_PURCHASE_PRICE_LABEL = "PPA Purchase Price";
+export const PPA_PURCHASE_PRICE_TOOLTIP = "Cost to purchase system at the end of the contract";
+export const PPA_PURCHASE_PRICE_INFO = "Cost to purchase system at the end of the contract. If purchased, all " +
+    "production from the PV system after the end of the contract is owned by the homeowner";
+
 export const LOAN_OR_CASH_LABEL = "Loan or Cash Purchase";
 export const LOAN_OR_CASH_TOOLTIP = "Purchasing upfront (“cash”) or through financing (loan).";
 export const LOAN_OR_CASH_INFO = "Choose between purchasing upfront (“cash”) or through financing (loan).";

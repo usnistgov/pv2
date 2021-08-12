@@ -8,6 +8,7 @@ import {useHistory} from "react-router-dom";
 
 // Stylesheets
 import "./StepperNav.sass"
+import {observer} from "mobx-react-lite";
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
@@ -21,7 +22,7 @@ export interface StepperNavProps {
  * Creates a navigation component that steps between the provided list of child pages with
  * a next and back button.
  */
-export default function StepperNav({children, onFinish}: StepperNavProps): ReactElement {
+const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
     // React-router history object
     const history = useHistory();
 
@@ -73,6 +74,7 @@ export default function StepperNav({children, onFinish}: StepperNavProps): React
                                          size={1}/>
                             }
                             data-testid={"forward-button"}
+                            disabled={!children[activeStep].props.isDone?.()}
                     >
                         {isLastStep ? "Finish" : "Next"}
                     </Button>
@@ -81,4 +83,6 @@ export default function StepperNav({children, onFinish}: StepperNavProps): React
             {children[activeStep]}
         </>
     );
-}
+});
+
+export default StepperNav;

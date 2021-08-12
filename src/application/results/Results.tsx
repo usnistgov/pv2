@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext} from "react";
+import React, {useContext} from "react";
 
 // Library imports
 import {Button, Grid} from "@material-ui/core";

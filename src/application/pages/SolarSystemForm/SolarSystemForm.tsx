@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext} from "react";
+import React, {useContext} from "react";
 
 // Library Imports
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
@@ -13,8 +13,10 @@ import Info from "../../../components/Info";
 import {
     ANNUAL_PRODUCTION_INFO,
     ANNUAL_PRODUCTION_LABEL,
-    ANNUAL_PRODUCTION_TOOLTIP, DEGRADATION_RATE_INFO,
-    DEGRADATION_RATE_LABEL, DEGRADATION_RATE_TOOLTIP,
+    ANNUAL_PRODUCTION_TOOLTIP,
+    DEGRADATION_RATE_INFO,
+    DEGRADATION_RATE_LABEL,
+    DEGRADATION_RATE_TOOLTIP,
     INVERTER_LIFETIME_INFO,
     INVERTER_LIFETIME_LABEL,
     INVERTER_LIFETIME_TOOLTIP,
@@ -32,7 +34,7 @@ import {
     TOTAL_SYSTEM_SIZE_TOOLTIP
 } from "../../../Strings";
 import ValidatedTextField from "../../../components/ValidatedTextField";
-import {endAdornment, kWhAdornment, percentAdornment, yearAdornment} from "../../../components/Adornments";
+import Adornment, {endAdornment} from "../../../components/Adornments";
 import {Store} from "../../ApplicationStore";
 
 // Stylesheets
@@ -58,7 +60,7 @@ const SolarSystemForm = observer(() => {
                                         onValidate={(value) => {
                                             store.panelEfficiency = value
                                         }}
-                                        InputProps={percentAdornment}
+                                        InputProps={Adornment.PERCENT}
                                         type={"number"}/>
                 </Info>
                 <Info tooltip={INVERTER_TYPE_TOOLTIP} info={INVERTER_TYPE_INFO}>
@@ -100,7 +102,7 @@ const SolarSystemForm = observer(() => {
                                         onValidate={(value) => {
                                             store.estimatedAnnualProduction = value
                                         }}
-                                        InputProps={kWhAdornment}
+                                        InputProps={Adornment.KWH}
                                         type={"number"}/>
                 </Info>
                 <CollapseContainer text={"Advanced"}>
@@ -114,7 +116,7 @@ const SolarSystemForm = observer(() => {
                                                 onValidate={(value) => {
                                                     store.panelLifetime = value
                                                 }}
-                                                InputProps={yearAdornment}
+                                                InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
                         <Info tooltip={INVERTER_LIFETIME_TOOLTIP} info={INVERTER_LIFETIME_INFO}>
@@ -126,7 +128,7 @@ const SolarSystemForm = observer(() => {
                                                 onValidate={(value) => {
                                                     store.inverterLifetime = value
                                                 }}
-                                                InputProps={yearAdornment}
+                                                InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
                          <Info tooltip={DEGRADATION_RATE_TOOLTIP} info={DEGRADATION_RATE_INFO}>
@@ -138,7 +140,7 @@ const SolarSystemForm = observer(() => {
                                                 onValidate={(value) => {
                                                     store.degradationRate = value
                                                 }}
-                                                InputProps={percentAdornment}
+                                                InputProps={Adornment.PERCENT}
                                                 type={"number"}/>
                         </Info>
                     </AdvancedBox>

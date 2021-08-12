@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext} from "react";
+import React, {useContext} from "react";
 
 // Library Imports
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
@@ -34,7 +34,7 @@ import {
     PV_GRID_CONNECTION_RATE_LABEL,
     PV_GRID_CONNECTION_RATE_TOOLTIP
 } from "../../../Strings";
-import {dollarAdornment, dollarPerKWHAdornment, kWhAdornment} from "../../../components/Adornments";
+import Adornment from "../../../components/Adornments";
 import EscalationRateForm from "./EscalationRateForm";
 
 // Stylesheets
@@ -62,6 +62,7 @@ const ElectricalRateForm = observer(() => {
                 </Info>
                 <Info tooltip={ANNUAL_CONSUMPTION_TOOLTIP} info={ANNUAL_CONSUMPTION_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={ANNUAL_CONSUMPTION_LABEL}
                                         defaultValue={store.annualConsumption}
@@ -69,11 +70,12 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.annualConsumption = value
                                         }}
-                                        InputProps={kWhAdornment}
+                                        InputProps={Adornment.KWH}
                                         type={"number"}/>
                 </Info>
                 <Info tooltip={FLAT_RATE_CHARGE_TOOLTIP} info={FLAT_RATE_CHARGE_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={FLAT_RATE_CHARGE_LABEL}
                                         defaultValue={store.monthlyFlatRateCharge}
@@ -81,11 +83,12 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.monthlyFlatRateCharge = value
                                         }}
-                                        InputProps={dollarAdornment}
+                                        InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
                 <Info tooltip={ELECTRICAL_UNIT_PRICE_TOOLTIP} info={ELECTRICAL_UNIT_PRICE_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={ELECTRICAL_UNIT_PRICE_LABEL}
                                         defaultValue={store.electricUnitPrice}
@@ -93,7 +96,7 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.electricUnitPrice = value
                                         }}
-                                        InputProps={dollarPerKWHAdornment}
+                                        InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
                 <Info tooltip={NET_METERING_FEED_TARIFF_TOOLTIP} info={NET_METERING_FEED_TARIFF_INFO}>
@@ -116,6 +119,7 @@ const ElectricalRateForm = observer(() => {
                 </Info>
                 <Info tooltip={EXCESS_GENERATION_UNIT_PRICE_TOOLTIP} info={EXCESS_GENERATION_UNIT_PRICE_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={EXCESS_GENERATION_UNIT_PRICE_LABEL}
                                         defaultValue={store.excessGenerationUnitPrice}
@@ -123,11 +127,12 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.excessGenerationUnitPrice = value
                                         }}
-                                        InputProps={dollarPerKWHAdornment}
+                                        InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
                 <Info tooltip={PV_GRID_CONNECTION_RATE_TOOLTIP} info={PV_GRID_CONNECTION_RATE_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={PV_GRID_CONNECTION_RATE_LABEL}
                                         defaultValue={store.pvGridConnectionRate}
@@ -135,7 +140,7 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.pvGridConnectionRate = value
                                         }}
-                                        InputProps={dollarPerKWHAdornment}
+                                        InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
 

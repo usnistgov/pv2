@@ -1,8 +1,9 @@
-import React, {ReactElement, useContext} from "react";
+import React, {useContext} from "react";
 
 // Library Imports
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import * as Yup from "yup";
+import {observer} from "mobx-react-lite";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
@@ -24,11 +25,10 @@ import {
 import {Store} from "../../ApplicationStore";
 import ValidatedTextField from "../../../components/ValidatedTextField";
 import Info from "../../../components/Info";
+import Adornment from "../../../components/Adornments";
 
 // Stylesheets
 import "../Form.sass";
-import {percentAdornment, yearAdornment} from "../../../components/Adornments";
-import {observer} from "mobx-react-lite";
 
 const AnalysisAssumptionsForm = observer(() => {
     const store = useContext(Store).analysisAssumptionsFormStore;
@@ -45,7 +45,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         schema={Yup.number().required().max(40).min(1)}
                         defaultValue={store.studyPeriod}
                         onValidate={(value: number) => store.studyPeriod = value}
-                        InputProps={yearAdornment}
+                        InputProps={Adornment.YEAR}
                         type={"number"}/>
                 </Info>
                 <Info tooltip={REAL_DISCOUNT_RATE_TOOLTIP} info={REAL_DISCOUNT_RATE_INFO}>
@@ -56,7 +56,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         schema={Yup.number().required().max(100).min(0)}
                         defaultValue={store.realDiscountRate}
                         onValidate={(value: number) => store.realDiscountRate = value}
-                        InputProps={percentAdornment}
+                        InputProps={Adornment.PERCENT}
                         type={"number"}/>
                 </Info>
                 <Info tooltip={GENERAL_INFLATION_TOOLTIP} info={GENERAL_INFLATION_INFO}>
@@ -67,7 +67,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         schema={Yup.number().required().max(100).min(0)}
                         defaultValue={store.generalInflation}
                         onValidate={(value: number) => store.generalInflation = value}
-                        InputProps={percentAdornment}
+                        InputProps={Adornment.PERCENT}
                         type={"number"}/>
                 </Info>
                 <Info tooltip={RESIDUAL_VALUE_APPROACH_TOOLTIP} info={RESIDUAL_VALUE_APPROACH_INFO}>
@@ -88,6 +88,8 @@ const AnalysisAssumptionsForm = observer(() => {
                         </Select>
                     </FormControl>
                 </Info>
+
+                {/* TODO: Add environmental dropdown */}
             </Box>
         </Box>
     );

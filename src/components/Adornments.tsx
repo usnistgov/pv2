@@ -13,8 +13,13 @@ export function startAdornment(content: string) {
     return createAdornment("start", content);
 }
 
-export const kWhAdornment = endAdornment("kWh");
-export const percentAdornment = endAdornment("%");
-export const dollarAdornment = startAdornment("$");
-export const dollarPerKWHAdornment = endAdornment("$/kWh");
-export const yearAdornment = endAdornment("Years");
+const Adornment = {
+    KWH: endAdornment("kWh"),
+    PERCENT: endAdornment("%"),
+    DOLLAR: startAdornment("$"),
+    DOLLAR_PER_KWH: endAdornment("$/kWh"),
+    DOLLAR_PER_MWH: endAdornment("$/MWh"),
+    YEAR: endAdornment("Years"),
+}
+
+export default Adornment;

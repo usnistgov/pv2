@@ -5,8 +5,15 @@ export interface StepperPageProps {
     // The label for this StepperPage to be displayed in the StepperNav component.
     label: string;
 
+    // Function to designate when the page is complete and the user can move on to the next.
+    isDone?: () => boolean;
+
     // The component to display as the main page content.
     children: ReactElement;
+}
+
+StepperPage.defaultProps = {
+    isDone: () => true
 }
 
 /*

@@ -1,10 +1,7 @@
 import {observer} from "mobx-react-lite";
 import {TextFieldProps} from "@material-ui/core/TextField/TextField";
-import React, {ReactElement, useState} from "react";
+import React, {useState} from "react";
 import {TextField} from "@material-ui/core";
-import Pv2Tooltip from "./Pv2Tooltip/Pv2Tooltip";
-import {Icon as MdiIcon} from "@mdi/react";
-import {mdiInformation} from "@mdi/js";
 
 interface ValidatedTextFieldProps {
     // Function that runs when input has been validated.

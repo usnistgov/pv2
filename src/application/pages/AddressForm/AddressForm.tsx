@@ -4,6 +4,7 @@ import React, {useContext} from "react";
 import {Grid, Paper} from "@material-ui/core";
 import * as Yup from "yup";
 import {observer} from "mobx-react-lite";
+import {action} from "mobx";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
@@ -24,7 +25,8 @@ const AddressForm = observer(() => {
 
     // Google Maps embedded url query
     // TODO replace this with real key
-    const query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${store.address}, ${store.city}, ${store.state} ${store.zipcode}`;
+    const wholeMap = !(store.address || store.city || store.state || store.zipcode) ? "&center=39.8097343,-98.5556199&zoom=3" : "";
+    const query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${store.address}, ${store.city}, ${store.state} ${store.zipcode}${wholeMap}`;
 
     return (
         <>
@@ -35,34 +37,31 @@ const AddressForm = observer(() => {
                         <Grid item xs={12}>
                             <Info tooltip={ADDRESS_FORM_TOOLTIP}>
                                 <ValidatedTextField fullWidth
-                                                    required
                                                     label={ADDRESS_LABEL}
                                                     defaultValue={store.address}
                                                     variant={"filled"}
-                                                    schema={Yup.string().required()}
-                                                    onValidate={(value) => store.address = value}/>
+                                                    schema={Yup.string()}
+                                                    onValidate={action((value) => store.address = value)}/>
                             </Info>
                         </Grid>
                         <Grid item xs={12}>
                             <Info tooltip={ADDRESS_FORM_TOOLTIP}>
                                 <ValidatedTextField fullWidth
-                                                    required
                                                     label={CITY_LABEL}
-                                                    defaultValue={store.address}
+                                                    defaultValue={store.city}
                                                     variant={"filled"}
-                                                    schema={Yup.string().required()}
-                                                    onValidate={(value) => store.city = value}/>
+                                                    schema={Yup.string()}
+                                                    onValidate={action((value) => store.city = value)}/>
                             </Info>
                         </Grid>
                         <Grid item xs={12}>
                             <Info tooltip={ADDRESS_FORM_TOOLTIP}>
                                 <ValidatedTextField fullWidth
-                                                    required
                                                     label={STATE_LABEL}
-                                                    defaultValue={store.address}
+                                                    defaultValue={store.state}
                                                     variant={"filled"}
                                                     schema={Yup.string().required()}
-                                                    onValidate={(value) => store.state = value}/>
+                                                    onValidate={action((value) => store.state = value)}/>
                             </Info>
                         </Grid>
                         <Grid item xs={12}>
@@ -70,10 +69,12 @@ const AddressForm = observer(() => {
                                 <ValidatedTextField fullWidth
                                                     required
                                                     label={ZIPCODE_LABEL}
-                                                    defaultValue={store.address}
+                                                    defaultValue={store.zipcode}
                                                     variant={"filled"}
-                                                    schema={Yup.string().required()}
-                                                    onValidate={(value) => store.zipcode = value}/>
+                                                    schema={Yup.string()}
+                                                    onValidate={action(
+                                                        (value) => store.zipcode = value.padStart(5, "0")
+                                                    )}/>
                             </Info>
                         </Grid>
                     </Grid>

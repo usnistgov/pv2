@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext} from "react";
+import React, {useContext} from "react";
 
 // Library Imports
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
@@ -19,7 +19,7 @@ import {
 } from "../../../Strings";
 import {Store} from "../../ApplicationStore";
 import ValidatedTextField from "../../../components/ValidatedTextField";
-import {dollarPerKWHAdornment} from "../../../components/Adornments";
+import Adornment from "../../../components/Adornments";
 
 // Stylesheets
 import "../Form.sass";
@@ -68,7 +68,7 @@ const SrecForm = observer(() => {
                                         onValidate={(value) => {
                                             store.srecPaymentsUpFront = value
                                         }}
-                                        InputProps={dollarPerKWHAdornment}
+                                        InputProps={Adornment.DOLLAR_PER_MWH}
                                         type={"number"}/>
                 </Info>
                 }
@@ -86,7 +86,7 @@ const SrecForm = observer(() => {
                                                     onValidate={(value) => {
                                                         store.srecPaymentsProductionBased[i] = value
                                                     }}
-                                                    InputProps={dollarPerKWHAdornment}
+                                                    InputProps={Adornment.DOLLAR_PER_MWH}
                                                     type={"number"}/>
                             )
                         })}

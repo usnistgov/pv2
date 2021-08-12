@@ -1,4 +1,4 @@
-import React, {ReactElement, useState} from "react";
+import React, {useContext, useState} from "react";
 
 // Library Imports
 import {Redirect} from "react-router-dom";
@@ -12,11 +12,14 @@ import CostsForm from "./pages/CostsForm/CostsForm";
 import ElectricalRateForm from "./pages/ElectricalRateForm/ElectricalRateForm";
 import AddressForm from "./pages/AddressForm/AddressForm";
 import AnalysisAssumptionsForm from "./pages/AnalysisAssumptionsForm/AnalysisAssumptionsForm";
+import {Store} from "./ApplicationStore";
+import {observer} from "mobx-react-lite";
 
 /*
  * Wrapper component for the main form application. Redirects to results if finished.
  */
-export default function Application(): ReactElement {
+const Application = observer(() => {
+    const store = useContext(Store);
     const [finished, setFinished] = useState(false);
 
     return (
@@ -24,24 +27,26 @@ export default function Application(): ReactElement {
             ? <Redirect to={"/results"}/>
             :
             <StepperNav onFinish={() => setFinished(true)}>
-                <StepperPage label={"Address"}>
+                <StepperPage label={"Address"} isDone={() => store.addressFormStore.isDone}>
                     <AddressForm/>
                 </StepperPage>
                 <StepperPage label={"Analysis Assumptions"}>
                     <AnalysisAssumptionsForm/>
                 </StepperPage>
-                <StepperPage label={"Electrical Rate"}>
+                <StepperPage label={"Electrical Rate"} isDone={() => store.electricalCostFormStore.isDone}>
                     <ElectricalRateForm/>
                 </StepperPage>
-                <StepperPage label={"Solar PV System"}>
+                <StepperPage label={"Solar PV System"} isDone={() => store.solarSystemFormStore.isDone}>
                     <SolarSystemForm/>
                 </StepperPage>
-                <StepperPage label={"Solar PV Costs"}>
+                <StepperPage label={"Solar PV Costs"} isDone={() => store.costsFormStore.isDone}>
                     <CostsForm/>
                 </StepperPage>
-                <StepperPage label={"SREC"}>
+                <StepperPage label={"SREC"} isDone={() => store.srecFormStore.isDone}>
                     <SrecForm/>
                 </StepperPage>
             </StepperNav>
     );
-}
+});
+
+export default Application;

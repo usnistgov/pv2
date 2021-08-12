@@ -1,14 +1,18 @@
-import {configureStore, createSlice, CreateSliceOptions, PayloadAction} from "@reduxjs/toolkit";
 import {GraphOption} from "./results/ResultData";
-import {makeAutoObservable, reaction} from "mobx";
+import {autorun, makeAutoObservable, reaction} from "mobx";
 import React from "react";
 import {
     ESCALATION_RATES_SAME_OR_DIFF_OPTIONS,
-    INVERTER_TYPE_OPTIONS, LOAN_OR_CASH_OPTIONS,
-    NET_METERING_FEED_TARIFF_OPTIONS, PPA_OPTIONS,
-    RESIDUAL_VALUE_APPROACH_OPTIONS, SREC_PAYMENTS_OPTIONS, VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
+    INVERTER_TYPE_OPTIONS,
+    LOAN_OR_CASH_OPTIONS,
+    NET_METERING_FEED_TARIFF_OPTIONS,
+    PPA_OPTIONS,
+    RESIDUAL_VALUE_APPROACH_OPTIONS,
+    SREC_PAYMENTS_OPTIONS,
+    VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
 } from "../Strings";
-import {take, toJson} from "../Utils";
+import {fetchMap, take} from "../Utils";
+import Config from "../Config";
 
 /**
  * Main application store. Contains all sub-stores that contain form data.
@@ -49,8 +53,12 @@ export class AddressFormStore {
     zipcode = "";
 
     constructor(rootStore: ApplicationStore) {
-        makeAutoObservable(this, { rootStore: false });
+        makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
+    }
+
+    get isDone(): boolean {
+        return this.state !== "" && this.state.length >= 2;
     }
 }
 
@@ -63,7 +71,7 @@ export class AnalysisAssumptionsFormStore {
     residualValueApproach = RESIDUAL_VALUE_APPROACH_OPTIONS[0];
 
     constructor(rootStore: ApplicationStore) {
-        makeAutoObservable(this, { rootStore: false });
+        makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore
     }
 }
@@ -73,15 +81,23 @@ export class ElectricalCostFormStore {
 
     electricalCompanyName = "";
     netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
-    annualConsumption = 0;
-    monthlyFlatRateCharge = 0;
-    electricUnitPrice = 0;
-    excessGenerationUnitPrice = 0;
-    pvGridConnectionRate = 0;
+    annualConsumption = undefined;
+    monthlyFlatRateCharge = undefined;
+    electricUnitPrice = undefined;
+    excessGenerationUnitPrice = undefined;
+    pvGridConnectionRate = undefined;
 
     constructor(rootStore: ApplicationStore) {
-        makeAutoObservable(this, { rootStore: false });
+        makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
+    }
+
+    get isDone(): boolean {
+        return this.annualConsumption !== undefined &&
+            this.monthlyFlatRateCharge !== undefined &&
+            this.electricUnitPrice !== undefined &&
+            this.excessGenerationUnitPrice !== undefined &&
+            this.pvGridConnectionRate !== undefined;
     }
 }
 
@@ -94,7 +110,7 @@ export class EscalationRateFormStore {
     productionEscalationRateForYear: number[] = [];
 
     constructor(rootStore: ApplicationStore) {
-        makeAutoObservable(this, { rootStore: false });
+        makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
     }
 }
@@ -102,18 +118,28 @@ export class EscalationRateFormStore {
 export class SolarSystemFormStore {
     rootStore: ApplicationStore;
 
-    panelEfficiency = 0;
+    panelEfficiency = undefined;
     inverterType = INVERTER_TYPE_OPTIONS[0];
-    totalSystemSize = 0;
-    estimatedAnnualProduction = 0;
+    totalSystemSize = undefined;
+    estimatedAnnualProduction = undefined;
     // Advanced
-    panelLifetime = 0;
-    inverterLifetime = 0;
-    degradationRate = 0;
+    panelLifetime = 25;
+    inverterLifetime = 15;
+    degradationRate = 0.05;
 
     constructor(rootStore: ApplicationStore) {
-        makeAutoObservable(this, { rootStore: false});
+        makeAutoObservable(this, {rootStore: false});
+
         this.rootStore = rootStore;
+        if (this.inverterType === INVERTER_TYPE_OPTIONS[2]) {
+            this.inverterLifetime = this.panelLifetime;
+        }
+    }
+
+    get isDone(): boolean {
+        return this.panelEfficiency !== undefined &&
+            this.totalSystemSize !== undefined &&
+            this.estimatedAnnualProduction !== undefined;
     }
 }
 
@@ -121,28 +147,53 @@ export class CostsFormStore {
     rootStore: ApplicationStore;
 
     // Standard options
-    totalInstallationCosts = 0;
-    stateOrLocalTaxCreditsOrGrantsOrRebates = 0;
+    totalInstallationCosts = undefined;
+    stateOrLocalTaxCreditsOrGrantsOrRebates = undefined;
     // Advanced
-    inverterReplacementCosts = 0;
-    annualMaintenanceCosts = 0;
+    inverterReplacementCosts = undefined;
+    annualMaintenanceCosts = undefined;
 
     // PPA Options
     ppaOption = PPA_OPTIONS[1];
+    ppaContractLength = undefined;
+    ppaElectricityRate = undefined;
+    ppaEscalationRate = undefined;
+    ppaPurchasePrice = undefined;
     //Advanced
     loanOrCash = LOAN_OR_CASH_OPTIONS[1];
-    downPayment = 0;
-    nominalInterestRate = 0;
-    monthlyPayment = 0;
+    downPayment = undefined;
+    nominalInterestRate = undefined;
+    monthlyPayment = undefined;
 
 
     constructor(rootStore: ApplicationStore) {
-        makeAutoObservable(this, { rootStore: false });
+        makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
     }
 
-    get federalTaxCredit() {
-        return this.totalInstallationCosts * 0.26 // TODO: replace this with a config variable
+    get federalTaxCredit(): string {
+        return ((this.totalInstallationCosts ?? 0) * Config.FEDERAL_TAX_CREDIT).toFixed(2);
+    }
+
+    get isDone(): boolean {
+        return (
+                this.totalInstallationCosts !== undefined &&
+                this.stateOrLocalTaxCreditsOrGrantsOrRebates !== undefined
+            ) &&
+            (
+                this.loanOrCash === LOAN_OR_CASH_OPTIONS[1] || (
+                    this.nominalInterestRate !== undefined &&
+                    this.downPayment !== undefined &&
+                    this.monthlyPayment !== undefined
+                )
+            ) && (
+                this.ppaOption === PPA_OPTIONS[1] || (
+                    this.ppaContractLength !== undefined &&
+                    this.ppaElectricityRate !== undefined &&
+                    this.ppaEscalationRate !== undefined &&
+                    this.ppaPurchasePrice !== undefined
+                )
+            )
     }
 }
 
@@ -150,14 +201,25 @@ export class SrecFormStore {
     rootStore: ApplicationStore;
 
     srecPayments = SREC_PAYMENTS_OPTIONS[0];
-    srecPaymentsUpFront = 0;
+    srecPaymentsUpFront = undefined;
     srecPaymentsProductionBased: number[] = [];
 
     constructor(rootStore: ApplicationStore) {
-        makeAutoObservable(this, { rootStore: false });
+        makeAutoObservable(this, {rootStore: false});
 
         this.rootStore = rootStore;
-        this.srecPaymentsProductionBased =  Array(rootStore.analysisAssumptionsFormStore.studyPeriod).fill(0);
+        this.srecPaymentsProductionBased = Array(rootStore.analysisAssumptionsFormStore.studyPeriod)
+            .fill(undefined);
+    }
+
+    get isDone(): boolean {
+        return (
+            this.srecPayments === SREC_PAYMENTS_OPTIONS[0] &&
+            this.srecPaymentsUpFront !== undefined
+        ) || (
+            this.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
+            this.srecPaymentsProductionBased.every((value) => value !== undefined)
+        )
     }
 }
 
@@ -167,59 +229,69 @@ export class ResultUiStore {
     graphOption: GraphOption = GraphOption.NET_VALUE;
 
     constructor(rootStore: ApplicationStore) {
-        makeAutoObservable(this, { rootStore: false });
+        makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
     }
 }
 
 export const Store = React.createContext(new ApplicationStore());
-
 export const store = new ApplicationStore();
 
 reaction(() => store.analysisAssumptionsFormStore.studyPeriod, (value) => {
     store.srecFormStore.srecPaymentsProductionBased = Array(value).fill(0);
 });
 
-reaction(() => store.addressFormStore.state, (value: string) => {
-    if(value.length < 2)
+
+const stateIdToName = fetchMap<string, string>(
+    "escalation-rates/state-abbreviation.json",
+    (input, json) => {
+        if (input.length < 2)
+            return "";
+
+        const state = input === "" || !input ? "MD" : input;
+        return state.length === 2 ? json[state.toUpperCase()] : state
+    }
+);
+
+const stateToRegion = fetchMap<string, string>(
+    "escalation-rates/state-region-mapping.json",
+    (state, json) => {
+        if (!state || !json[state])
+            return "";
+
+        return json[state];
+    }
+);
+
+const regionToEscalationRateList = fetchMap<string, number[]>(
+    "escalation-rates/region-escalation-rates.json",
+    (region, json) => {
+        if (!region)
+            return [];
+
+        return Object.values(json[region]);
+    }
+);
+
+const zipToState = fetchMap<string, string>(
+    "data/zip-state-mapping.json",
+    (zipcode, json) => json[zipcode.padStart(5, "0")]
+);
+
+autorun(() => {
+    const zipcode = store.addressFormStore.zipcode;
+    const state = store.addressFormStore.state;
+
+    if (!zipcode || state.length < 2)
         return;
 
-    async function sanitizeState(input: string): Promise<string> {
-        if(input.length < 2)
-            return "";
+    let region = zipcode ? zipToState(zipcode) : stateIdToName(state);
 
-        const stateAbbreviations = await fetch("escalation-rates/state-abbreviation.json").then(toJson);
-        const state = input === "" || !input ? "MD" : input;
-
-        return state.length === 2 ? stateAbbreviations[state.toUpperCase()] : state
-    }
-
-    async function getRegion(state: string): Promise<string> {
-        if(!state)
-            return "";
-
-        const stateRegionMapping = await fetch("escalation-rates/state-region-mapping.json").then(toJson);
-
-        if(!stateRegionMapping[state])
-            return "";
-
-        return stateRegionMapping[state].Region
-    }
-
-    async function getEscalationRateList(region: string): Promise<Array<number>> {
-        if(!region)
-            return []
-
-        const regionEscalationRates = await fetch("escalation-rates/region-escalation-rates.json").then(toJson);
-        return Object.values(regionEscalationRates[region])
-    }
-
-    sanitizeState(value)
-        .then(getRegion)
-        .then(getEscalationRateList)
+    region.then(stateToRegion)
+        .then(regionToEscalationRateList)
         .then(take(store.analysisAssumptionsFormStore.studyPeriod))
         .then((result) => {
             store.escalationRateFormStore.productionEscalationRateForYear = result;
             store.escalationRateFormStore.escalationRateForYear = result;
         });
-})
+});

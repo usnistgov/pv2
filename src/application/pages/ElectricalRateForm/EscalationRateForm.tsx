@@ -18,7 +18,7 @@ import {
     VIEW_ANNUAL_ESCALATION_RATES_OPTIONS,
     VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP
 } from "../../../Strings";
-import {percentAdornment} from "../../../components/Adornments";
+import Adornment from "../../../components/Adornments";
 import Info from "../../../components/Info";
 
 const EscalationRateForm = observer(() => {
@@ -35,7 +35,7 @@ const EscalationRateForm = observer(() => {
                                     variant={"filled"}
                                     schema={Yup.number().max(1.0).min(-1.0)}
                                     onValidate={(value) => values[i] = value}
-                                    InputProps={percentAdornment}
+                                    InputProps={Adornment.PERCENT}
                                     type={"number"}/>
             )
         })

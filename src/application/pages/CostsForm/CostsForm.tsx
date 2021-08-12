@@ -17,9 +17,6 @@ import {
     FEDERAL_TAX_CREDIT_INFO,
     FEDERAL_TAX_CREDIT_LABEL,
     FEDERAL_TAX_CREDIT_TOOLTIP,
-    FLAT_RATE_CHARGE_INFO,
-    FLAT_RATE_CHARGE_LABEL,
-    FLAT_RATE_CHARGE_TOOLTIP,
     INVERTER_REPLACEMENT_COSTS_INFO,
     INVERTER_REPLACEMENT_COSTS_LABEL,
     INVERTER_REPLACEMENT_COSTS_TOOLTIP,
@@ -29,18 +26,29 @@ import {
     LOAN_OR_CASH_INFO,
     LOAN_OR_CASH_LABEL,
     LOAN_OR_CASH_OPTIONS,
-    LOAN_OR_CASH_TOOLTIP, MONTHLY_PAYMENT_INFO, MONTHLY_PAYMENT_LABEL, MONTHLY_PAYMENT_TOOLTIP,
-    NET_METERING_FEED_TARIFF_INFO,
-    NET_METERING_FEED_TARIFF_LABEL,
-    NET_METERING_FEED_TARIFF_OPTIONS,
-    NET_METERING_FEED_TARIFF_TOOLTIP,
+    LOAN_OR_CASH_TOOLTIP,
+    MONTHLY_PAYMENT_INFO,
+    MONTHLY_PAYMENT_LABEL,
+    MONTHLY_PAYMENT_TOOLTIP,
     NOMINAL_INTEREST_RATE_INFO,
     NOMINAL_INTEREST_RATE_LABEL,
     NOMINAL_INTEREST_RATE_TOOLTIP,
+    PPA_CONTRACT_LENGTH_INFO,
+    PPA_CONTRACT_LENGTH_LABEL,
+    PPA_CONTRACT_LENGTH_TOOLTIP,
+    PPA_ELECTRICITY_RATE_INFO,
+    PPA_ELECTRICITY_RATE_LABEL,
+    PPA_ELECTRICITY_RATE_TOOLTIP,
+    PPA_ESCALATION_RATE_INFO,
+    PPA_ESCALATION_RATE_LABEL,
+    PPA_ESCALATION_RATE_TOOLTIP,
     PPA_OPTION_INFO,
     PPA_OPTION_LABEL,
     PPA_OPTION_TOOLTIP,
     PPA_OPTIONS,
+    PPA_PURCHASE_PRICE_INFO,
+    PPA_PURCHASE_PRICE_LABEL,
+    PPA_PURCHASE_PRICE_TOOLTIP,
     TAX_CRED_OR_REBATE_INFO,
     TAX_CRED_OR_REBATE_LABEL,
     TAX_CRED_OR_REBATE_TOOLTIP,
@@ -50,7 +58,7 @@ import {
 } from "../../../Strings";
 import Info from "../../../components/Info";
 import ValidatedTextField from "../../../components/ValidatedTextField";
-import {dollarAdornment, percentAdornment} from "../../../components/Adornments";
+import Adornment from "../../../components/Adornments";
 
 // Stylesheets
 import "../Form.sass";
@@ -68,6 +76,7 @@ const CostsForm = observer(() => {
             <Box className={"form-single-column-container"}>
                 <Info tooltip={TOTAL_INSTALLATION_COSTS_TOOLTIP} info={TOTAL_INSTALLATION_COSTS_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={TOTAL_INSTALLATION_COSTS_LABEL}
                                         defaultValue={store.totalInstallationCosts}
@@ -75,7 +84,7 @@ const CostsForm = observer(() => {
                                         onValidate={(value) => {
                                             store.totalInstallationCosts = value
                                         }}
-                                        InputProps={dollarAdornment}
+                                        InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
                 <Info tooltip={FEDERAL_TAX_CREDIT_TOOLTIP} info={FEDERAL_TAX_CREDIT_INFO}>
@@ -84,13 +93,14 @@ const CostsForm = observer(() => {
                                label={FEDERAL_TAX_CREDIT_LABEL}
                                value={store.federalTaxCredit}
                                InputProps={{
-                                   ...dollarAdornment,
+                                   ...Adornment.DOLLAR,
                                    readOnly: true
                                }}
                                type={"number"}/>
                 </Info>
                 <Info tooltip={TAX_CRED_OR_REBATE_TOOLTIP} info={TAX_CRED_OR_REBATE_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={TAX_CRED_OR_REBATE_LABEL}
                                         defaultValue={store.stateOrLocalTaxCreditsOrGrantsOrRebates}
@@ -98,7 +108,7 @@ const CostsForm = observer(() => {
                                         onValidate={(value) => {
                                             store.stateOrLocalTaxCreditsOrGrantsOrRebates = value
                                         }}
-                                        InputProps={dollarAdornment}
+                                        InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
                 <CollapseContainer text="Advanced">
@@ -112,10 +122,10 @@ const CostsForm = observer(() => {
                                                 onValidate={(value) => {
                                                     store.inverterReplacementCosts = value
                                                 }}
-                                                InputProps={dollarAdornment}
+                                                InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
-                         <Info tooltip={ANNUAL_MAINTENANCE_COSTS_TOOLTIP} info={ANNUAL_MAINTENANCE_COSTS_INFO}>
+                        <Info tooltip={ANNUAL_MAINTENANCE_COSTS_TOOLTIP} info={ANNUAL_MAINTENANCE_COSTS_INFO}>
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={ANNUAL_MAINTENANCE_COSTS_LABEL}
@@ -124,7 +134,7 @@ const CostsForm = observer(() => {
                                                 onValidate={(value) => {
                                                     store.annualMaintenanceCosts = value
                                                 }}
-                                                InputProps={dollarAdornment}
+                                                InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
                     </AdvancedBox>
@@ -151,7 +161,58 @@ const CostsForm = observer(() => {
                     </FormControl>
                 </Info>
                 {store.ppaOption === PPA_OPTIONS[0] && <>
-
+                    <Info tooltip={PPA_CONTRACT_LENGTH_TOOLTIP} info={PPA_CONTRACT_LENGTH_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={PPA_CONTRACT_LENGTH_LABEL}
+                                            defaultValue={store.ppaContractLength}
+                                            schema={Yup.number().required().max(40).min(1)}
+                                            onValidate={(value) => {
+                                                store.ppaContractLength = value
+                                            }}
+                                            InputProps={Adornment.YEAR}
+                                            type={"number"}/>
+                    </Info>
+                    <Info tooltip={PPA_ELECTRICITY_RATE_TOOLTIP} info={PPA_ELECTRICITY_RATE_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={PPA_ELECTRICITY_RATE_LABEL}
+                                            defaultValue={store.ppaElectricityRate}
+                                            schema={Yup.number().required()}
+                                            onValidate={(value) => {
+                                                store.ppaElectricityRate = value
+                                            }}
+                                            InputProps={Adornment.DOLLAR}
+                                            type={"number"}/>
+                    </Info>
+                    <Info tooltip={PPA_ESCALATION_RATE_TOOLTIP} info={PPA_ESCALATION_RATE_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={PPA_ESCALATION_RATE_LABEL}
+                                            defaultValue={store.ppaEscalationRate}
+                                            schema={Yup.number().required()}
+                                            onValidate={(value) => {
+                                                store.ppaEscalationRate = value
+                                            }}
+                                            InputProps={Adornment.PERCENT}
+                                            type={"number"}/>
+                    </Info>
+                    <Info tooltip={PPA_PURCHASE_PRICE_TOOLTIP} info={PPA_PURCHASE_PRICE_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={PPA_PURCHASE_PRICE_LABEL}
+                                            defaultValue={store.ppaPurchasePrice}
+                                            schema={Yup.number().required()}
+                                            onValidate={(value) => {
+                                                store.ppaPurchasePrice = value
+                                            }}
+                                            InputProps={Adornment.DOLLAR}
+                                            type={"number"}/>
+                    </Info>
                 </>
                 }
 
@@ -177,6 +238,7 @@ const CostsForm = observer(() => {
                 <>
                     <Info tooltip={LOAN_DOWN_PAYMENT_TOOLTIP} info={LOAN_DOWN_PAYMENT_INFO}>
                         <ValidatedTextField fullWidth
+                                            required
                                             variant={"filled"}
                                             label={LOAN_DOWN_PAYMENT_LABEL}
                                             defaultValue={store.downPayment}
@@ -184,11 +246,12 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.downPayment = value
                                             }}
-                                            InputProps={percentAdornment}
+                                            InputProps={Adornment.PERCENT}
                                             type={"number"}/>
                     </Info>
                     <Info tooltip={NOMINAL_INTEREST_RATE_TOOLTIP} info={NOMINAL_INTEREST_RATE_INFO}>
                         <ValidatedTextField fullWidth
+                                            required
                                             variant={"filled"}
                                             label={NOMINAL_INTEREST_RATE_LABEL}
                                             defaultValue={store.downPayment}
@@ -196,11 +259,12 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.downPayment = value
                                             }}
-                                            InputProps={percentAdornment}
+                                            InputProps={Adornment.PERCENT}
                                             type={"number"}/>
                     </Info>
                     <Info tooltip={MONTHLY_PAYMENT_TOOLTIP} info={MONTHLY_PAYMENT_INFO}>
                         <ValidatedTextField fullWidth
+                                            required
                                             variant={"filled"}
                                             label={MONTHLY_PAYMENT_LABEL}
                                             defaultValue={store.monthlyPayment}
@@ -208,7 +272,7 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.monthlyPayment = value
                                             }}
-                                            InputProps={percentAdornment}
+                                            InputProps={Adornment.PERCENT}
                                             type={"number"}/>
                     </Info>
                 </>
