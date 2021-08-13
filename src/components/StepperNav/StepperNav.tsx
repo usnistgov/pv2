@@ -1,4 +1,4 @@
-import {Children, ReactElement, useState} from 'react';
+import {Children, ReactElement, useContext, useState} from 'react';
 
 // Library Imports
 import {Button, Grid, Step, StepLabel, Stepper} from "@material-ui/core";
@@ -9,6 +9,8 @@ import {useHistory} from "react-router-dom";
 // Stylesheets
 import "./StepperNav.sass"
 import {observer} from "mobx-react-lite";
+import {Store} from "../../application/ApplicationStore";
+import {autorun} from "mobx";
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
@@ -23,15 +25,14 @@ export interface StepperNavProps {
  * a next and back button.
  */
 const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
+    const store = useContext(Store).formUiStore;
+
     // React-router history object
     const history = useHistory();
 
-    // Redux objects
-    const [activeStep, setActiveSet] = useState(0);
-
     // Boolean values for view generation
-    const isFirstStep: boolean = activeStep <= 0;
-    const isLastStep: boolean = activeStep >= children.length - 1;
+    const isFirstStep: boolean = store.current <= 0;
+    const isLastStep: boolean = store.current >= children.length - 1;
 
     /*
      * Creates a label from the StepperPage component that is passed in.
@@ -50,7 +51,7 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
             <Grid className={"grid-container"} container justify={'center'} alignItems={'center'} spacing={0}>
                 <Grid item xs={1}>
                     <Button
-                        onClick={isFirstStep ? history.goBack : () => setActiveSet(activeStep - 1)}
+                        onClick={isFirstStep ? history.goBack : () => store.previous()}
                         startIcon={
                             <MdiIcon path={isFirstStep ? mdiClose : mdiArrowLeft}
                                      size={1}/>
@@ -61,26 +62,26 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
                     </Button>
                 </Grid>
                 <Grid item xs={10}>
-                    <Stepper activeStep={activeStep} alternativeLabel>
+                    <Stepper activeStep={store.current} alternativeLabel>
                         {Children.map(children, createStepLabel)}
                     </Stepper>
                 </Grid>
                 <Grid item xs={1}>
                     <Button variant="contained"
                             color="primary"
-                            onClick={isLastStep ? onFinish : () => setActiveSet(activeStep + 1)}
+                            onClick={isLastStep ? onFinish : () => store.next()}
                             endIcon={
                                 <MdiIcon path={isLastStep ? mdiCheck : mdiArrowRight}
                                          size={1}/>
                             }
                             data-testid={"forward-button"}
-                            disabled={!children[activeStep].props.isDone?.()}
+                            disabled={!children[store.current].props.isDone?.()}
                     >
                         {isLastStep ? "Finish" : "Next"}
                     </Button>
                 </Grid>
             </Grid>
-            {children[activeStep]}
+            {children[store.current]}
         </>
     );
 });

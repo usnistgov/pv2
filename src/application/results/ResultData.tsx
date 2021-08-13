@@ -203,40 +203,43 @@ export default function ResultData() {
     const store = useContext(Store);
 
     const history = useHistory();
-    const [result, setResult] = useState<undefined | {}>(exampleResults); //TODO replace with results object
     const [downloadData] = useState(generateCsv(exampleResults[0], store.analysisAssumptionsFormStore.studyPeriod));
+
+    store.resultUiStore.resultCache = exampleResults;
 
     // Fetches results from E3 API
     useEffect(() => {
         const controller = new AbortController();
 
-        createE3Request(store)
-            .then((request) => {
-                // Generate fetch post request
-                const fetchOptions = {
-                    method: "POST",
-                    signal: controller.signal,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify(request)
-                }
+        if (!store.resultUiStore.resultCache) {
+            createE3Request(store)
+                .then((request) => {
+                    // Generate fetch post request
+                    const fetchOptions = {
+                        method: "POST",
+                        signal: controller.signal,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify(request)
+                    }
 
-                // TODO replace with E3 url once that is set up
-                // Fetch results from E3
-                fetch("", fetchOptions)
-                    .then(toJson)
-                    .then(setResult);
-            })
+                    // TODO replace with E3 url once that is set up
+                    // Fetch results from E3
+                    fetch("", fetchOptions)
+                        .then(toJson)
+                        .then((result) => store.resultUiStore.resultCache = result);
+                })
+        }
 
         // If the component is unmounted, abort the request
         return () => controller.abort()
-    })
+    });
 
     return (
         <>
-            <Backdrop className={"result-loading-backdrop"} open={result === undefined}>
+            <Backdrop className={"result-loading-backdrop"} open={store.resultUiStore.resultCache === undefined}>
                 <Box className={"loading-indicator"}>
                     <CircularProgress/>
                     <h1>Calculating Results</h1>
@@ -249,7 +252,7 @@ export default function ResultData() {
                     </Button>
                 </Box>
             </Backdrop>
-            <Results result={result} downloadData={downloadData}/>
+            <Results result={store.resultUiStore.resultCache} downloadData={downloadData}/>
         </>
     );
 }

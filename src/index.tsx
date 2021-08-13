@@ -38,17 +38,17 @@ const theme = createMuiTheme({
 // Render main application
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
+        <Store.Provider value={store}>
         <BrowserRouter>
             <HeaderWrapper>
                 <Switch>
                     <Route exact path={"/"}><LandingPage/></Route>
-                    <Store.Provider value={store}>
-                        <Route path={"/application"}><Application/></Route>
-                        <Route path={"/results"}><ResultData/></Route>
-                    </Store.Provider>
+                    <Route path={"/application"}><Application/></Route>
+                    <Route path={"/results"}><ResultData/></Route>
                 </Switch>
             </HeaderWrapper>
         </BrowserRouter>
+        </Store.Provider>
     </MuiThemeProvider>,
     document.getElementById('root')
 );

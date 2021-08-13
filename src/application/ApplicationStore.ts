@@ -26,6 +26,7 @@ export class ApplicationStore {
     costsFormStore: CostsFormStore;
     srecFormStore: SrecFormStore;
 
+    formUiStore: FormUiStore;
     resultUiStore: ResultUiStore;
 
     constructor() {
@@ -37,6 +38,7 @@ export class ApplicationStore {
         this.costsFormStore = new CostsFormStore(this);
         this.srecFormStore = new SrecFormStore(this);
 
+        this.formUiStore = new FormUiStore(this);
         this.resultUiStore = new ResultUiStore(this);
     }
 }
@@ -227,10 +229,31 @@ export class ResultUiStore {
     rootStore: ApplicationStore;
 
     graphOption: GraphOption = GraphOption.NET_VALUE;
+    shouldCalculate = true;
+    resultCache: any = null;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
+    }
+}
+
+export class FormUiStore {
+    rootStore: ApplicationStore;
+
+    current = 0;
+
+    constructor(rootStore: ApplicationStore) {
+        makeAutoObservable(this, {rootStore: false});
+        this.rootStore = rootStore;
+    }
+
+    next() {
+        this.current = this.current + 1;
+    }
+
+    previous() {
+        this.current = this.current - 1;
     }
 }
 
