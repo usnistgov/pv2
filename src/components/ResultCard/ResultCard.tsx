@@ -44,7 +44,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
     const uiStore = useContext(Store).resultUiStore;
 
     return (
-       <Card>
+        <Card>
             <CardContent className={"result-card"}>
                 <div className="result-title">
                     <div>{altLabels[alt.altID]}</div>
@@ -60,7 +60,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
                         <div>{valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Pv2Tooltip text={"Total Net Present Value Costs"} >
+                        <Pv2Tooltip text={"Total Net Present Value Costs"}>
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Pv2Tooltip>
                     </Grid>
@@ -74,7 +74,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
                         <div>{valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Pv2Tooltip text={"Net Present Value Savings relative to No Solar System"} >
+                        <Pv2Tooltip text={"Net Present Value Savings relative to No Solar System"}>
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Pv2Tooltip>
                     </Grid>
@@ -91,7 +91,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
                         <Pv2Tooltip text={
                             "Adjusted Internal Rate of Return (AIRR) on Investment. This is a measure of return on " +
                             "investment that accounts for reinvestment of the annual savings"
-                        } >
+                        }>
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Pv2Tooltip>
                     </Grid>
@@ -108,7 +108,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
                         <Pv2Tooltip text={
                             "Simple Payback Period (SPP) is the number of years it takes for cost savings to offset " +
                             "the initial investment costs"
-                        } >
+                        }>
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Pv2Tooltip>
                     </Grid>
@@ -122,7 +122,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
                         <div>{valid(alt.deltaQuant[0]) ? numberFormatter.format(-alt.deltaQuant[0]) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
-                        <Pv2Tooltip text={"Electricity reduction relative to No Solar System"} >
+                        <Pv2Tooltip text={"Electricity reduction relative to No Solar System"}>
                             <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
                         </Pv2Tooltip>
                     </Grid>
@@ -172,3 +172,51 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
     )
 }
 
+export function ResultGraphCard({graphMax, graphData}: any) {
+    const uiStore = useContext(Store).resultUiStore;
+
+    return (<Card>
+        <CardContent>
+            <div className={"result-graph"}>
+                <div className={"result-graph-title"}>
+                    <FormControl className={"result-graph-title"}>
+                        <Select
+                            id={"graph-option-select"}
+                            value={uiStore.graphOption}
+                            onChange={(event) => {
+                                uiStore.graphOption = event.target.value as GraphOption;
+                            }}>
+                            <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
+                            <MenuItem value={GraphOption.SAVINGS}>Savings</MenuItem>
+                            <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Savings</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+                <ResponsiveLine
+                    animate
+                    enableArea
+                    enableSlices={"x"}
+                    margin={{top: 5, right: 5, bottom: 20, left: 35}}
+                    data={[graphData]}
+                    xScale={{type: 'linear'}}
+                    yScale={{type: 'linear', min: -graphMax, max: graphMax, stacked: true}}
+                    yFormat={">-$,.2f"}
+                    axisLeft={{
+                        tickSize: 0,
+                        tickPadding: 5,
+                        format: graphAxisFormatter.format,
+                    }}
+                    axisBottom={{
+                        tickSize: 0,
+                        tickPadding: 5,
+                        tickValues: 10,
+                        legend: 'year',
+                        legendOffset: -5,
+                        legendPosition: 'middle',
+                    }}
+                />
+            </div>
+        </CardContent>
+    </Card>
+    )
+}

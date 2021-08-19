@@ -11,7 +11,7 @@ import {Serie} from "@nivo/line";
 import {observer} from "mobx-react-lite";
 
 // User Imports
-import ResultCard from "../../components/ResultCard/ResultCard";
+import ResultCard, {ResultGraphCard} from "../../components/ResultCard/ResultCard";
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import {GraphOption} from "./ResultData";
 import {Store} from "../ApplicationStore";
@@ -129,6 +129,9 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
                         return <Grid item key={index}>
                             <ResultCard
                                 alt={res}
+                                graphData={graphData.graphData[index]}
+                                graphMax={graphData.graphMax}/>
+                            <ResultGraphCard
                                 graphData={graphData.graphData[index]}
                                 graphMax={graphData.graphMax}/>
                         </Grid>
