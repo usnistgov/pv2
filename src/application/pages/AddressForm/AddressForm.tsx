@@ -57,6 +57,7 @@ const AddressForm = observer(() => {
                         <Grid item xs={12}>
                             <Info tooltip={ADDRESS_FORM_TOOLTIP}>
                                 <ValidatedTextField fullWidth
+                                                    required
                                                     label={STATE_LABEL}
                                                     defaultValue={store.state}
                                                     variant={"filled"}
@@ -67,7 +68,6 @@ const AddressForm = observer(() => {
                         <Grid item xs={12}>
                             <Info tooltip={ADDRESS_FORM_TOOLTIP}>
                                 <ValidatedTextField fullWidth
-                                                    required
                                                     label={ZIPCODE_LABEL}
                                                     defaultValue={store.zipcode}
                                                     variant={"filled"}
