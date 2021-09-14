@@ -2,7 +2,16 @@ import React, {useContext, useEffect, useState} from "react";
 
 // Library Imports
 import {useHistory} from "react-router-dom";
-import {Backdrop, Box, Button, CircularProgress} from "@material-ui/core";
+import {
+    Backdrop,
+    Box,
+    Button,
+    CircularProgress,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle
+} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiClose} from "@mdi/js";
 
@@ -11,6 +20,7 @@ import {toJson} from "../../Utils";
 import {createE3Request} from "./E3RequestGenerator";
 import Results from "./Results";
 import {Store} from "../ApplicationStore";
+import {observer} from "mobx-react-lite";
 
 const exampleResults = [{
     "alternativeSummaryObjects": [
@@ -198,14 +208,38 @@ function generateCsv(results: any, studyPeriod: number): any {
     ];
 }
 
+class FetchError extends Error {
+    response: Response;
 
-export default function ResultData() {
+    constructor(message: string, response: Response) {
+        super(message);
+        this.response = response;
+    }
+}
+
+const ResultData = observer(() => {
     const store = useContext(Store);
 
     const history = useHistory();
     const [downloadData] = useState(generateCsv(exampleResults[0], store.analysisAssumptionsFormStore.studyPeriod));
 
-    store.resultUiStore.resultCache = exampleResults;
+    const [showErrorDialog, setShowErrorDialog] = useState(false);
+    const [error, setError] = useState<FetchError | null>(null);
+    const [showErrorDetails, setShowErrorDetails] = useState(false);
+    const [errorDetails, setErrorDetails] = useState<string | null>(null);
+
+    function showError(e: FetchError) {
+        setError(e);
+        e.response.json()
+            .then((e) => {
+                console.log(e);
+                return e;
+            })
+            .then(setErrorDetails);
+        setShowErrorDialog(true);
+    }
+
+    //store.resultUiStore.resultCache = exampleResults;
 
     // Fetches results from E3 API
     useEffect(() => {
@@ -214,8 +248,10 @@ export default function ResultData() {
         if (!store.resultUiStore.resultCache) {
             createE3Request(store)
                 .then((request) => {
+                    console.log(request);
+
                     // Generate fetch post request
-                    const fetchOptions = {
+                    const fetchOptions: RequestInit = {
                         method: "POST",
                         signal: controller.signal,
                         headers: {
@@ -227,19 +263,49 @@ export default function ResultData() {
 
                     // TODO replace with E3 url once that is set up
                     // Fetch results from E3
-                    fetch("", fetchOptions)
+                    fetch("http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S", fetchOptions)
+                        .then((response) => {
+                            if (response.ok)
+                                return response;
+
+                            throw new FetchError("E3 fetch failed", response);
+                        })
                         .then(toJson)
-                        .then((result) => store.resultUiStore.resultCache = result);
-                })
+                        .then((result) => {
+                            console.log(result);
+                            return result;
+                        })
+                        .then((result) => store.resultUiStore.resultCache = result)
+                        .catch(showError);
+                });
         }
 
         // If the component is unmounted, abort the request
         return () => controller.abort()
-    });
+    }, []);
 
     return (
         <>
-            <Backdrop className={"result-loading-backdrop"} open={store.resultUiStore.resultCache === undefined}>
+            <Dialog open={showErrorDialog} onClose={() => setShowErrorDialog(false)}>
+                <DialogTitle>An error has occurred</DialogTitle>
+                <DialogContent>
+                    <div>
+                        {`${error?.response.status} ${error?.response.statusText}`}
+                    </div>
+                    {showErrorDetails && errorDetails && <code>
+                        {JSON.stringify(errorDetails)}
+                    </code>}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowErrorDetails(!showErrorDetails)} color={"primary"}>
+                        Show Details
+                    </Button>
+                    <Button onClick={() => setShowErrorDialog(false)} color={"primary"}>
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Backdrop className={"result-loading-backdrop"} open={store.resultUiStore.resultCache === null}>
                 <Box className={"loading-indicator"}>
                     <CircularProgress/>
                     <h1>Calculating Results</h1>
@@ -252,7 +318,9 @@ export default function ResultData() {
                     </Button>
                 </Box>
             </Backdrop>
-            <Results result={store.resultUiStore.resultCache} downloadData={downloadData}/>
+            <Results downloadData={downloadData}/>
         </>
     );
-}
+});
+
+export default ResultData;

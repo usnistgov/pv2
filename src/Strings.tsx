@@ -68,7 +68,7 @@ export const EXCESS_GENERATION_UNIT_PRICE_TOOLTIP = "Price per unit of electrici
 export const EXCESS_GENERATION_UNIT_PRICE_INFO = "Price per unit of electricity produced ($/kWh), which is typically " +
     "different than the consumption price.";
 
-export const PV_GRID_CONNECTION_RATE_LABEL = "PV Grid Connection Rate (Monthly)";
+export const PV_GRID_CONNECTION_RATE_LABEL = "PV Grid Connection Rate (Annual)";
 export const PV_GRID_CONNECTION_RATE_TOOLTIP = "Annual charge for connecting a solar PV system to the grid";
 export const PV_GRID_CONNECTION_RATE_INFO =  "Annual escalation rates for electricity prices. The default values are " +
     "based on EIA projections for each Census Region and published in the Annual Supplement to NIST Handbook 135 " +

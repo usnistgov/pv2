@@ -21,8 +21,6 @@ import "./Results.sass";
 import {Redirect, useHistory} from "react-router-dom";
 
 interface ResultsProps {
-    result: any;
-
     downloadData: Data;
 }
 
@@ -45,7 +43,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
 
     switch (graphOption) {
         case GraphOption.NET_VALUE:
-            data = result[0].reqCashFlowObjects
+            data = result.reqCashFlowObjects
                 .map((cashFlowObject: any) => {
                     return {
                         id: "",
@@ -62,7 +60,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
 
             return {graphData: data, graphMax: graphMax};
         case GraphOption.SAVINGS:
-            data = result[0].reqCashFlowObjects
+            data = result.reqCashFlowObjects
                 .map((cashFlowObject: any, index: number, array: any) => {
                     return {
                         id: "",
@@ -82,7 +80,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
             return {graphData: data, graphMax: graphMax};
         case GraphOption.CUMULATIVE:
             let accumulator = 0;
-            data = result[0].reqCashFlowObjects
+            data = result.reqCashFlowObjects
                 .map((cashFlowObject: any, index: number, array: any) => {
                     return {
                         id: "",
@@ -109,11 +107,15 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
  * card form with some data and graphs. Finally the user can download a CSV file containing the E3 results. This
  * component takes not props since all necessary information for the E3 request is obtained from the redux store.
  */
-const Results = observer(({result, downloadData}: ResultsProps) => {
+const Results = observer(({downloadData}: ResultsProps) => {
     const uiStore = useContext(Store).resultUiStore;
     const [redirect, setRedirect] = useState(false);
 
+    const result = uiStore.resultCache;
+
     let graphData = getGraphData(uiStore.graphOption, result);
+
+    console.log(result?.reqCashFlowObjects);
 
     return (redirect ? <Redirect to={"/application"}/> :
             <>
@@ -125,7 +127,7 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
                     <MaterialHeader text={"Results"}/>
                 </div>
                 <Grid container justify={"center"} spacing={2}>
-                    {result ? result[0].alternativeSummaryObjects.map((res: any, index: number) => {
+                    {result ? result.alternativeSummaryObjects.map((res: any, index: number) => {
                         return <Grid item key={index}>
                             <ResultCard
                                 alt={res}

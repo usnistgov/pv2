@@ -211,7 +211,7 @@ export class SrecFormStore {
 
         this.rootStore = rootStore;
         this.srecPaymentsProductionBased = Array(rootStore.analysisAssumptionsFormStore.studyPeriod)
-            .fill(undefined);
+            .fill(0);
     }
 
     get isDone(): boolean {
