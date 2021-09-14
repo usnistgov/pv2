@@ -139,6 +139,8 @@ export class SolarSystemFormStore {
     }
 
     get isDone(): boolean {
+        console.log(this.panelEfficiency);
+
         return this.panelEfficiency !== undefined &&
             this.totalSystemSize !== undefined &&
             this.estimatedAnnualProduction !== undefined;

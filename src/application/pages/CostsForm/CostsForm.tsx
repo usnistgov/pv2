@@ -84,6 +84,7 @@ const CostsForm = observer(() => {
                                         onValidate={(value) => {
                                             store.totalInstallationCosts = value
                                         }}
+                                        onError={() => store.totalInstallationCosts = undefined}
                                         InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
@@ -108,6 +109,7 @@ const CostsForm = observer(() => {
                                         onValidate={(value) => {
                                             store.stateOrLocalTaxCreditsOrGrantsOrRebates = value
                                         }}
+                                        onError={() => store.stateOrLocalTaxCreditsOrGrantsOrRebates = undefined}
                                         InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
@@ -122,6 +124,7 @@ const CostsForm = observer(() => {
                                                 onValidate={(value) => {
                                                     store.inverterReplacementCosts = value
                                                 }}
+                                                onError={() => store.inverterReplacementCosts = undefined}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -134,6 +137,7 @@ const CostsForm = observer(() => {
                                                 onValidate={(value) => {
                                                     store.annualMaintenanceCosts = value
                                                 }}
+                                                onError={() => store.annualMaintenanceCosts = undefined}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -171,6 +175,7 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.ppaContractLength = value
                                             }}
+                                            onError={() => store.ppaContractLength = undefined}
                                             InputProps={Adornment.YEAR}
                                             type={"number"}/>
                     </Info>
@@ -184,6 +189,7 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.ppaElectricityRate = value
                                             }}
+                                            onError={() => store.ppaElectricityRate = undefined}
                                             InputProps={Adornment.DOLLAR}
                                             type={"number"}/>
                     </Info>
@@ -197,6 +203,7 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.ppaEscalationRate = value
                                             }}
+                                            onError={() => store.ppaEscalationRate = undefined}
                                             InputProps={Adornment.PERCENT}
                                             type={"number"}/>
                     </Info>
@@ -210,6 +217,7 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.ppaPurchasePrice = value
                                             }}
+                                            onError={() => store.ppaPurchasePrice = undefined}
                                             InputProps={Adornment.DOLLAR}
                                             type={"number"}/>
                     </Info>
@@ -246,6 +254,7 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.downPayment = value
                                             }}
+                                            onError={() => store.downPayment = undefined}
                                             InputProps={Adornment.PERCENT}
                                             type={"number"}/>
                     </Info>
@@ -254,11 +263,12 @@ const CostsForm = observer(() => {
                                             required
                                             variant={"filled"}
                                             label={NOMINAL_INTEREST_RATE_LABEL}
-                                            defaultValue={store.downPayment}
+                                            defaultValue={store.nominalInterestRate}
                                             schema={Yup.number().required().max(100).min(0)}
                                             onValidate={(value) => {
-                                                store.downPayment = value
+                                                store.nominalInterestRate = value
                                             }}
+                                            onError={() => store.nominalInterestRate = undefined}
                                             InputProps={Adornment.PERCENT}
                                             type={"number"}/>
                     </Info>
@@ -272,6 +282,7 @@ const CostsForm = observer(() => {
                                             onValidate={(value) => {
                                                 store.monthlyPayment = value
                                             }}
+                                            onError={() => store.monthlyPayment = undefined}
                                             InputProps={Adornment.PERCENT}
                                             type={"number"}/>
                     </Info>

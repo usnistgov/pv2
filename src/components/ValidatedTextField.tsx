@@ -9,6 +9,9 @@ interface ValidatedTextFieldProps {
 
     // Yup schema to validate input against.
     schema: any;
+
+    // Callback for when an error occurs during validation.
+    onError?: () => void;
 }
 
 const ValidatedTextField = observer(({
@@ -16,6 +19,7 @@ const ValidatedTextField = observer(({
                                          helperText,
                                          onChange,
                                          onValidate,
+                                         onError,
                                          schema,
                                          ...props
                                      }: ValidatedTextFieldProps & TextFieldProps, ref) => {
@@ -28,7 +32,10 @@ const ValidatedTextField = observer(({
                 onValidate(schema.cast(value));
                 setErrorMessages(null);
             })
-            .catch((schemaError: { errors: any; }) => setErrorMessages(schemaError.errors));
+            .catch((schemaError: { errors: any; }) => {
+                onError?.();
+                setErrorMessages(schemaError.errors)
+            });
     };
 
     return <TextField inputRef={ref}

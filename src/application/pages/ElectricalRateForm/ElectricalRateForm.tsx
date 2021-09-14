@@ -70,6 +70,7 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.annualConsumption = value
                                         }}
+                                        onError={() => store.annualConsumption = undefined}
                                         InputProps={Adornment.KWH}
                                         type={"number"}/>
                 </Info>
@@ -83,6 +84,7 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.monthlyFlatRateCharge = value
                                         }}
+                                        onError={() => store.monthlyFlatRateCharge = undefined}
                                         InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
@@ -96,6 +98,7 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.electricUnitPrice = value
                                         }}
+                                        onError={() => store.electricUnitPrice = undefined}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
@@ -127,6 +130,7 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.excessGenerationUnitPrice = value
                                         }}
+                                        onError={() => store.excessGenerationUnitPrice = undefined}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
@@ -140,6 +144,7 @@ const ElectricalRateForm = observer(() => {
                                         onValidate={(value) => {
                                             store.pvGridConnectionRate = value
                                         }}
+                                        onError={() => store.pvGridConnectionRate = undefined}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>

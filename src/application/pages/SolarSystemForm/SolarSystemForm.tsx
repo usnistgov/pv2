@@ -53,6 +53,7 @@ const SolarSystemForm = observer(() => {
             <Box className={"form-single-column-container"}>
                 <Info tooltip={PANEL_EFFICIENCY_TOOLTIP} info={PANEL_EFFICIENCY_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={PANEL_EFFICIENCY_LABEL}
                                         defaultValue={store.panelEfficiency}
@@ -60,6 +61,7 @@ const SolarSystemForm = observer(() => {
                                         onValidate={(value) => {
                                             store.panelEfficiency = value
                                         }}
+                                        onError={() => store.panelEfficiency = undefined}
                                         InputProps={Adornment.PERCENT}
                                         type={"number"}/>
                 </Info>
@@ -83,6 +85,7 @@ const SolarSystemForm = observer(() => {
                 </Info>
                 <Info tooltip={TOTAL_SYSTEM_SIZE_TOOLTIP}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={TOTAL_SYSTEM_SIZE_LABEL}
                                         defaultValue={store.totalSystemSize}
@@ -90,11 +93,13 @@ const SolarSystemForm = observer(() => {
                                         onValidate={(value) => {
                                             store.totalSystemSize = value
                                         }}
+                                        onError={() => store.totalSystemSize = undefined}
                                         InputProps={endAdornment("Watts")}
                                         type={"number"}/>
                 </Info>
                 <Info tooltip={ANNUAL_PRODUCTION_TOOLTIP} info={ANNUAL_PRODUCTION_INFO}>
                     <ValidatedTextField fullWidth
+                                        required
                                         variant={"filled"}
                                         label={ANNUAL_PRODUCTION_LABEL}
                                         defaultValue={store.estimatedAnnualProduction}
@@ -102,6 +107,7 @@ const SolarSystemForm = observer(() => {
                                         onValidate={(value) => {
                                             store.estimatedAnnualProduction = value
                                         }}
+                                        onError={() => store.estimatedAnnualProduction = undefined}
                                         InputProps={Adornment.KWH}
                                         type={"number"}/>
                 </Info>

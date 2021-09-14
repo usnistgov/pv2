@@ -68,6 +68,7 @@ const SrecForm = observer(() => {
                                         onValidate={(value) => {
                                             store.srecPaymentsUpFront = value
                                         }}
+                                        onError={() => store.srecPaymentsUpFront = undefined}
                                         InputProps={Adornment.DOLLAR_PER_MWH}
                                         type={"number"}/>
                 </Info>
@@ -86,6 +87,7 @@ const SrecForm = observer(() => {
                                                     onValidate={(value) => {
                                                         store.srecPaymentsProductionBased[i] = value
                                                     }}
+                                                    onError={() => store.srecPaymentsProductionBased[i] = 0}
                                                     InputProps={Adornment.DOLLAR_PER_MWH}
                                                     type={"number"}/>
                             )
