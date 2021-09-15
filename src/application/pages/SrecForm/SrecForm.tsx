@@ -58,22 +58,21 @@ const SrecForm = observer(() => {
                         </Select>
                     </FormControl>
                 </Info>
-                {store.srecPayments === SREC_PAYMENTS_OPTIONS[0] &&
+                {store.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
                 <Info tooltip={SREC_PAYMENTS_UP_FRONT_TOOLTIP} info={SREC_PAYMENTS_UP_FRONT_INFO}>
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
                                         label={SREC_PAYMENTS_UP_FRONT_LABEL}
                                         defaultValue={store.srecPaymentsUpFront}
-                                        schema={Yup.number().min(0)}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={(value) => {
                                             store.srecPaymentsUpFront = value
                                         }}
-                                        onError={() => store.srecPaymentsUpFront = undefined}
-                                        InputProps={Adornment.DOLLAR_PER_MWH}
+                                        InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
                 }
-                {store.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
+                {store.srecPayments === SREC_PAYMENTS_OPTIONS[2] &&
                 <div className="form-two-column-container">
                     {store.srecPaymentsProductionBased
                         .map((payment, i) => {
@@ -83,7 +82,7 @@ const SrecForm = observer(() => {
                                                     label={`Year ${i + 1}`}
                                                     key={i + 1}
                                                     defaultValue={store.srecPaymentsProductionBased[i]}
-                                                    schema={Yup.number().min(0)}
+                                                    schema={Yup.number().required().min(0)}
                                                     onValidate={(value) => {
                                                         store.srecPaymentsProductionBased[i] = value
                                                     }}

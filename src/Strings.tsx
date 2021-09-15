@@ -211,6 +211,7 @@ export const SREC_PAYMENTS_LABEL = "SREC Payments";
 export const SREC_PAYMENTS_TOOLTIP = "Solar Renewable Energy Credit";
 export const SREC_PAYMENTS_INFO = "A Solar Renewable Energy Credit (SREC) is …";
 export const SREC_PAYMENTS_OPTIONS = [
+    "None",
     "Up-front Payment",
     "Production-based Payments",
 ];
