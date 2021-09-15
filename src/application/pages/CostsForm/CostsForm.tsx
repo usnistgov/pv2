@@ -120,11 +120,10 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={INVERTER_REPLACEMENT_COSTS_LABEL}
                                                 defaultValue={store.inverterReplacementCosts}
-                                                schema={Yup.number().required().moreThan(0)}
+                                                schema={Yup.number().required().min(0)}
                                                 onValidate={(value) => {
                                                     store.inverterReplacementCosts = value
                                                 }}
-                                                onError={() => store.inverterReplacementCosts = undefined}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -133,11 +132,10 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={ANNUAL_MAINTENANCE_COSTS_LABEL}
                                                 defaultValue={store.annualMaintenanceCosts}
-                                                schema={Yup.number().required().moreThan(0)}
+                                                schema={Yup.number().required().min(0)}
                                                 onValidate={(value) => {
                                                     store.annualMaintenanceCosts = value
                                                 }}
-                                                onError={() => store.annualMaintenanceCosts = undefined}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>

@@ -183,8 +183,8 @@ export class CostsFormStore {
     totalInstallationCosts = undefined;
     stateOrLocalTaxCreditsOrGrantsOrRebates = undefined;
     // Advanced
-    inverterReplacementCosts = undefined;
-    annualMaintenanceCosts = undefined;
+    inverterReplacementCosts = 0;
+    annualMaintenanceCosts = 0;
 
     // PPA Options
     ppaOption = PPA_OPTIONS[1];
