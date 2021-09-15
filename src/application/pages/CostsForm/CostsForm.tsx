@@ -142,7 +142,7 @@ const CostsForm = observer(() => {
                     </AdvancedBox>
                 </CollapseContainer>
             </Box>
-            <MaterialHeader text={"Purchasing Details"}/>
+            <MaterialHeader text={"PPA Purchasing Option"}/>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={PPA_OPTION_TOOLTIP} info={PPA_OPTION_INFO}>
                     <FormControl fullWidth variant={"filled"}>
@@ -221,7 +221,9 @@ const CostsForm = observer(() => {
                     </Info>
                 </>
                 }
-
+            </Box>
+            <MaterialHeader text={"Cash or Loan Option"}/>
+            <Box className={"form-single-column-container"}>
                 <Info tooltip={LOAN_OR_CASH_TOOLTIP} info={LOAN_OR_CASH_INFO}>
                     <FormControl fullWidth variant={"filled"}>
                         <InputLabel id={LOAN_OR_CASH_LABEL}>{LOAN_OR_CASH_LABEL}</InputLabel>
