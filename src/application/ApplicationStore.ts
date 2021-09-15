@@ -126,24 +126,53 @@ export class SolarSystemFormStore {
     estimatedAnnualProduction = undefined;
     // Advanced
     panelLifetime = 25;
-    inverterLifetime = 15;
+    inverterLifetime: number = 15;
     degradationRate = 0.05;
+
+    lifetimeDefault: boolean = true;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
 
         this.rootStore = rootStore;
-        if (this.inverterType === INVERTER_TYPE_OPTIONS[2]) {
-            this.inverterLifetime = this.panelLifetime;
-        }
     }
 
     get isDone(): boolean {
-        console.log(this.panelEfficiency);
-
         return this.panelEfficiency !== undefined &&
             this.totalSystemSize !== undefined &&
             this.estimatedAnnualProduction !== undefined;
+    }
+
+    get inverterLifetimeOrDefault() {
+        if(!this.lifetimeDefault) {
+            return this.inverterLifetime;
+        }
+
+        switch (this.inverterType) {
+            case INVERTER_TYPE_OPTIONS[0]:
+            case INVERTER_TYPE_OPTIONS[1]:
+                return 15;
+
+            case INVERTER_TYPE_OPTIONS[2]:
+                return this.panelLifetime;
+
+            default:
+                return 0;
+        }
+    }
+
+    set inverterLifetimeOrDefault(value) {
+        this.lifetimeDefault = false;
+        this.inverterLifetime = value;
+    }
+
+    get inverterOption() {
+        return this.inverterType
+    }
+
+    set inverterOption(option) {
+        this.lifetimeDefault = true;
+        this.inverterType = option;
     }
 }
 
@@ -265,7 +294,6 @@ export const store = new ApplicationStore();
 reaction(() => store.analysisAssumptionsFormStore.studyPeriod, (value) => {
     store.srecFormStore.srecPaymentsProductionBased = Array(value).fill(0);
 });
-
 
 const stateIdToName = fetchMap<string, string>(
     "escalation-rates/state-abbreviation.json",

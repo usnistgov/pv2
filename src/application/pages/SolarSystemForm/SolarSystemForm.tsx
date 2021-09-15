@@ -71,9 +71,9 @@ const SolarSystemForm = observer(() => {
                         <Select className={"form-select-left-align"}
                                 fullWidth
                                 labelId={INVERTER_TYPE_LABEL}
-                                value={store.inverterType}
+                                value={store.inverterOption}
                                 onChange={(event) => {
-                                    store.inverterType = event.target.value as string
+                                    store.inverterOption = event.target.value as string
                                 }}>
                             {
                                 INVERTER_TYPE_OPTIONS.map((option, index) =>
@@ -129,10 +129,10 @@ const SolarSystemForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={INVERTER_LIFETIME_LABEL}
-                                                defaultValue={store.inverterLifetime}
+                                                value={store.inverterLifetimeOrDefault}
                                                 schema={Yup.number().required().max(40).min(1)}
                                                 onValidate={(value) => {
-                                                    store.inverterLifetime = value
+                                                    store.inverterLifetimeOrDefault = value
                                                 }}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
