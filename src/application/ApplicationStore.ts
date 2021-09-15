@@ -197,6 +197,7 @@ export class CostsFormStore {
     downPayment = undefined;
     nominalInterestRate = undefined;
     monthlyPayment = undefined;
+    loanLength = undefined;
 
 
     constructor(rootStore: ApplicationStore) {
@@ -217,7 +218,8 @@ export class CostsFormStore {
                 this.loanOrCash === LOAN_OR_CASH_OPTIONS[1] || (
                     this.nominalInterestRate !== undefined &&
                     this.downPayment !== undefined &&
-                    this.monthlyPayment !== undefined
+                    this.monthlyPayment !== undefined &&
+                    this.loanLength !== undefined
                 )
             ) && (
                 this.ppaOption === PPA_OPTIONS[1] || (

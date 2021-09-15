@@ -199,6 +199,10 @@ export const LOAN_DOWN_PAYMENT_TOOLTIP = "Percent of Total Installed Cost Paid a
 export const LOAN_DOWN_PAYMENT_INFO = "Percent of Total Installed Cost Paid at Time of Signature/Installation. " +
     "Typically ranging from 0% to 20%.";
 
+export const LOAN_LENGTH_LABEL = "Loan Length";
+export const LOAN_LENGTH_TOOTLIP = "Length of time to pay back loan";
+export const LOAN_LENGTH_INFO = "Amount of time to completely pay back the load.";
+
 export const NOMINAL_INTEREST_RATE_LABEL = "Loan Nominal Interest Rate";
 export const NOMINAL_INTEREST_RATE_TOOLTIP = "Nominal interest rate on the loan";
 export const NOMINAL_INTEREST_RATE_INFO = "Nominal interest rate on the loan.";

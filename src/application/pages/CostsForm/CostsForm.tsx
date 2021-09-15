@@ -22,7 +22,7 @@ import {
     INVERTER_REPLACEMENT_COSTS_TOOLTIP,
     LOAN_DOWN_PAYMENT_INFO,
     LOAN_DOWN_PAYMENT_LABEL,
-    LOAN_DOWN_PAYMENT_TOOLTIP,
+    LOAN_DOWN_PAYMENT_TOOLTIP, LOAN_LENGTH_INFO, LOAN_LENGTH_LABEL, LOAN_LENGTH_TOOTLIP,
     LOAN_OR_CASH_INFO,
     LOAN_OR_CASH_LABEL,
     LOAN_OR_CASH_OPTIONS,
@@ -284,6 +284,20 @@ const CostsForm = observer(() => {
                                             }}
                                             onError={() => store.monthlyPayment = undefined}
                                             InputProps={Adornment.PERCENT}
+                                            type={"number"}/>
+                    </Info>
+                    <Info tooltip={LOAN_LENGTH_TOOTLIP} info={LOAN_LENGTH_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={LOAN_LENGTH_LABEL}
+                                            defaultValue={store.loanLength}
+                                            schema={Yup.number().required().min(0)}
+                                            onValidate={(value) => {
+                                                store.loanLength = value
+                                            }}
+                                            onError={() => store.loanLength = undefined}
+                                            InputProps={Adornment.YEAR}
                                             type={"number"}/>
                     </Info>
                 </>
