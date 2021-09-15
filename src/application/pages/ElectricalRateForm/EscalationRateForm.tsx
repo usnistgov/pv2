@@ -31,10 +31,10 @@ const EscalationRateForm = observer(() => {
                                     required
                                     label={`Year ${i + 1}`}
                                     key={`Year ${i + 1}`}
-                                    defaultValue={values[i]}
+                                    defaultValue={values[i] * 100}
                                     variant={"filled"}
-                                    schema={Yup.number().max(1.0).min(-1.0)}
-                                    onValidate={(value) => values[i] = value}
+                                    schema={Yup.number().max(100).min(-100)}
+                                    onValidate={(value) => values[i] = value / 100}
                                     InputProps={Adornment.PERCENT}
                                     type={"number"}/>
             )
