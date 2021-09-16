@@ -238,6 +238,7 @@ export class SrecFormStore {
     srecPayments = SREC_PAYMENTS_OPTIONS[0];
     srecPaymentsUpFront = 0;
     srecPaymentsProductionBased: number[] = [];
+    srecContractLength = 10;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
@@ -253,7 +254,8 @@ export class SrecFormStore {
             this.srecPaymentsUpFront !== undefined
         ) || (
             this.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
-            this.srecPaymentsProductionBased.every((value) => value !== undefined)
+            this.srecPaymentsProductionBased.every((value) => value !== undefined) &&
+            this.srecContractLength !== undefined
         )
     }
 }

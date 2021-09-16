@@ -23,12 +23,14 @@ import Adornment from "../../../components/Adornments";
 
 // Stylesheets
 import "../Form.sass";
+import {action} from "mobx";
 
 /**
  * Form for SREC details.
  */
 const SrecForm = observer(() => {
     const store = useContext(Store).srecFormStore;
+    const studyPeriod = useContext(Store).analysisAssumptionsFormStore.studyPeriod;
 
     return (
         <Box className={"form-page-container"}>
@@ -47,9 +49,9 @@ const SrecForm = observer(() => {
                                 fullWidth
                                 labelId={SREC_PAYMENTS_LABEL}
                                 value={store.srecPayments}
-                                onChange={(event) => {
+                                onChange={action((event) => {
                                     store.srecPayments = event.target.value as string
-                                }}>
+                                })}>
                             {
                                 SREC_PAYMENTS_OPTIONS.map((option, index) =>
                                     <MenuItem value={option} key={index}>{option}</MenuItem>
@@ -65,33 +67,47 @@ const SrecForm = observer(() => {
                                         label={SREC_PAYMENTS_UP_FRONT_LABEL}
                                         defaultValue={store.srecPaymentsUpFront}
                                         schema={Yup.number().required().min(0)}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.srecPaymentsUpFront = value
-                                        }}
+                                        })}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
                 }
                 {store.srecPayments === SREC_PAYMENTS_OPTIONS[2] &&
-                <div className="form-two-column-container">
-                    {store.srecPaymentsProductionBased
-                        .map((payment, i) => {
-                            return (
-                                <ValidatedTextField fullWidth
-                                                    variant={"filled"}
-                                                    label={`Year ${i + 1}`}
-                                                    key={i + 1}
-                                                    defaultValue={store.srecPaymentsProductionBased[i]}
-                                                    schema={Yup.number().required().min(0)}
-                                                    onValidate={(value) => {
-                                                        store.srecPaymentsProductionBased[i] = value
-                                                    }}
-                                                    onError={() => store.srecPaymentsProductionBased[i] = 0}
-                                                    InputProps={Adornment.DOLLAR_PER_MWH}
-                                                    type={"number"}/>
-                            )
-                        })}
-                </div>
+                <>
+                    <ValidatedTextField fullWidth
+                                        variant={"filled"}
+                                        label={`SREC Contract Length`}
+                                        defaultValue={store.srecContractLength}
+                                        schema={Yup.number().required().min(0).max(studyPeriod)}
+                                        onValidate={action((value) => store.srecContractLength = value)}
+                                        onError={action(() => store.srecContractLength = 0)}
+                                        InputProps={Adornment.YEAR}
+                                        type={"number"}/>
+                    <div className="form-two-column-container">
+                        {store.srecPaymentsProductionBased
+                            .filter((_, index) => index < store.srecContractLength)
+                            .map((payment, i) => {
+                                return (
+                                    <ValidatedTextField fullWidth
+                                                        variant={"filled"}
+                                                        label={`Year ${i + 1}`}
+                                                        key={i + 1}
+                                                        defaultValue={store.srecPaymentsProductionBased[i]}
+                                                        schema={Yup.number().required().min(0)}
+                                                        onValidate={action((value) => {
+                                                            store.srecPaymentsProductionBased[i] = value
+                                                        })}
+                                                        onError={action(() => {
+                                                            store.srecPaymentsProductionBased[i] = 0
+                                                        })}
+                                                        InputProps={Adornment.DOLLAR_PER_MWH}
+                                                        type={"number"}/>
+                                )
+                            })}
+                    </div>
+                </>
                 }
             </Box>
         </Box>
