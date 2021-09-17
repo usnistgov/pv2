@@ -138,6 +138,7 @@ const ResultData = observer(() => {
 
                     // TODO replace with E3 url once that is set up
                     // Fetch results from E3
+                    // http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S
                     fetch("http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S", fetchOptions)
                         .then((response) => {
                             console.log(response.status);

@@ -225,3 +225,5 @@ export const SREC_PAYMENTS_UP_FRONT_TOOLTIP = "Sell the rights to the SRECs upfr
     "production";
 export const SREC_PAYMENTS_UP_FRONT_INFO = "Choose how the homeowner wants to get paid for their SRECs: upfront lump " +
     "sum based on capacity or over time based on production";
+
+export const SREC_PAYMENT_YEARS = "Number of Years there will be SREC Payments";

@@ -9,6 +9,7 @@ import {observer} from "mobx-react-lite";
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import Info from "../../../components/Info";
 import {
+    SREC_PAYMENT_YEARS,
     SREC_PAYMENTS_INFO,
     SREC_PAYMENTS_LABEL,
     SREC_PAYMENTS_OPTIONS,
@@ -78,7 +79,7 @@ const SrecForm = observer(() => {
                 <>
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
-                                        label={`SREC Contract Length`}
+                                        label={SREC_PAYMENT_YEARS}
                                         defaultValue={store.srecContractLength}
                                         schema={Yup.number().required().min(0).max(studyPeriod)}
                                         onValidate={action((value) => store.srecContractLength = value)}

@@ -127,7 +127,7 @@ export class SolarSystemFormStore {
     // Advanced
     panelLifetime = 25;
     inverterLifetime: number = 15;
-    degradationRate = 0.05;
+    degradationRate = 0.5;
 
     lifetimeDefault: boolean = true;
 
@@ -249,11 +249,11 @@ export class SrecFormStore {
     }
 
     get isDone(): boolean {
-        return (
-            this.srecPayments === SREC_PAYMENTS_OPTIONS[0] &&
+        return this.srecPayments === SREC_PAYMENTS_OPTIONS[0] || (
+            this.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
             this.srecPaymentsUpFront !== undefined
         ) || (
-            this.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
+            this.srecPayments === SREC_PAYMENTS_OPTIONS[2] &&
             this.srecPaymentsProductionBased.every((value) => value !== undefined) &&
             this.srecContractLength !== undefined
         )
