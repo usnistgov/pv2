@@ -346,7 +346,7 @@ autorun(() => {
 
     region.then(stateToRegion)
         .then(regionToEscalationRateList)
-        .then(take(store.analysisAssumptionsFormStore.studyPeriod))
+        .then(take(store.analysisAssumptionsFormStore.studyPeriod + 1))
         .then((result) => {
             store.escalationRateFormStore.productionEscalationRateForYear = result;
             store.escalationRateFormStore.escalationRateForYear = result;

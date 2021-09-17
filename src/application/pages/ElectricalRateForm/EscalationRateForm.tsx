@@ -20,6 +20,7 @@ import {
 } from "../../../Strings";
 import Adornment from "../../../components/Adornments";
 import Info from "../../../components/Info";
+import {action} from "mobx";
 
 const EscalationRateForm = observer(() => {
     const store = useContext(Store).escalationRateFormStore;
@@ -34,7 +35,7 @@ const EscalationRateForm = observer(() => {
                                     defaultValue={values[i] * 100}
                                     variant={"filled"}
                                     schema={Yup.number().max(100).min(-100)}
-                                    onValidate={(value) => values[i] = value / 100}
+                                    onValidate={action((value) => values[i] = value / 100)}
                                     InputProps={Adornment.PERCENT}
                                     type={"number"}/>
             )
@@ -51,9 +52,9 @@ const EscalationRateForm = observer(() => {
                                 fullWidth
                                 labelId={VIEW_ANNUAL_ESCALATION_RATES_LABEL}
                                 value={store.viewAnnualEscalationRates}
-                                onChange={(event) => {
+                                onChange={action((event) => {
                                     store.viewAnnualEscalationRates = event.target.value as string
-                                }}>
+                                })}>
                             {
                                 VIEW_ANNUAL_ESCALATION_RATES_OPTIONS.map((option, index) =>
                                     <MenuItem value={option} key={index}>{option}</MenuItem>
@@ -73,9 +74,9 @@ const EscalationRateForm = observer(() => {
                                 fullWidth
                                 labelId={ESCALATION_RATES_SAME_OR_DIFF_LABEL}
                                 value={store.escalationRatesSameOrDiff}
-                                onChange={(event) => {
+                                onChange={action((event) => {
                                     store.escalationRatesSameOrDiff = event.target.value as string
-                                }}>
+                                })}>
                             {
                                 ESCALATION_RATES_SAME_OR_DIFF_OPTIONS.map((option, index) =>
                                     <MenuItem value={option} key={index}>{option}</MenuItem>

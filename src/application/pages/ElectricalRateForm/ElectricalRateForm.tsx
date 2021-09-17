@@ -39,6 +39,7 @@ import EscalationRateForm from "./EscalationRateForm";
 
 // Stylesheets
 import "../Form.sass";
+import {action} from "mobx";
 
 /*
  * Displays the electrical rate form.
@@ -56,9 +57,9 @@ const ElectricalRateForm = observer(() => {
                                         label={ELECTRICAL_COMPANY_NAME_LABEL}
                                         defaultValue={store.electricalCompanyName}
                                         schema={Yup.string()}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.electricalCompanyName = value
-                                        }}/>
+                                        })}/>
                 </Info>
                 <Info tooltip={ANNUAL_CONSUMPTION_TOOLTIP} info={ANNUAL_CONSUMPTION_INFO}>
                     <ValidatedTextField fullWidth
@@ -67,10 +68,10 @@ const ElectricalRateForm = observer(() => {
                                         label={ANNUAL_CONSUMPTION_LABEL}
                                         defaultValue={store.annualConsumption}
                                         schema={Yup.number().required()}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.annualConsumption = value
-                                        }}
-                                        onError={() => store.annualConsumption = undefined}
+                                        })}
+                                        onError={action(() => store.annualConsumption = undefined)}
                                         InputProps={Adornment.KWH}
                                         type={"number"}/>
                 </Info>
@@ -81,10 +82,10 @@ const ElectricalRateForm = observer(() => {
                                         label={FLAT_RATE_CHARGE_LABEL}
                                         defaultValue={store.monthlyFlatRateCharge}
                                         schema={Yup.number().required()}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.monthlyFlatRateCharge = value
-                                        }}
-                                        onError={() => store.monthlyFlatRateCharge = undefined}
+                                        })}
+                                        onError={action(() => store.monthlyFlatRateCharge = undefined)}
                                         InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
@@ -95,10 +96,10 @@ const ElectricalRateForm = observer(() => {
                                         label={ELECTRICAL_UNIT_PRICE_LABEL}
                                         defaultValue={store.electricUnitPrice}
                                         schema={Yup.number().required()}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.electricUnitPrice = value
-                                        }}
-                                        onError={() => store.electricUnitPrice = undefined}
+                                        })}
+                                        onError={action(() => store.electricUnitPrice = undefined)}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
@@ -109,9 +110,9 @@ const ElectricalRateForm = observer(() => {
                                 fullWidth
                                 labelId={NET_METERING_FEED_TARIFF_LABEL}
                                 value={store.netMeteringFeedTariff}
-                                onChange={(event) => {
+                                onChange={action((event) => {
                                     store.netMeteringFeedTariff = event.target.value as string
-                                }}>
+                                })}>
                             {
                                 NET_METERING_FEED_TARIFF_OPTIONS.map((option, index) =>
                                     <MenuItem value={option} key={index}>{option}</MenuItem>
@@ -127,10 +128,10 @@ const ElectricalRateForm = observer(() => {
                                         label={EXCESS_GENERATION_UNIT_PRICE_LABEL}
                                         defaultValue={store.excessGenerationUnitPrice}
                                         schema={Yup.number().required()}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.excessGenerationUnitPrice = value
-                                        }}
-                                        onError={() => store.excessGenerationUnitPrice = undefined}
+                                        })}
+                                        onError={action(() => store.excessGenerationUnitPrice = undefined)}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>
@@ -141,10 +142,10 @@ const ElectricalRateForm = observer(() => {
                                         label={PV_GRID_CONNECTION_RATE_LABEL}
                                         defaultValue={store.pvGridConnectionRate}
                                         schema={Yup.number().required()}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.pvGridConnectionRate = value
-                                        }}
-                                        onError={() => store.pvGridConnectionRate = undefined}
+                                        })}
+                                        onError={action(() => store.pvGridConnectionRate = undefined)}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
                 </Info>

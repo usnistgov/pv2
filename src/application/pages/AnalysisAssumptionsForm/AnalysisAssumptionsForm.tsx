@@ -29,6 +29,7 @@ import Adornment from "../../../components/Adornments";
 
 // Stylesheets
 import "../Form.sass";
+import {action} from "mobx";
 
 const AnalysisAssumptionsForm = observer(() => {
     const store = useContext(Store).analysisAssumptionsFormStore;
@@ -44,7 +45,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         label={STUDY_PERIOD_LABEL}
                         schema={Yup.number().required().max(40).min(1)}
                         defaultValue={store.studyPeriod}
-                        onValidate={(value: number) => store.studyPeriod = value}
+                        onValidate={action((value: number) => store.studyPeriod = value)}
                         InputProps={Adornment.YEAR}
                         type={"number"}/>
                 </Info>
@@ -55,7 +56,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         label={REAL_DISCOUNT_RATE_LABEL}
                         schema={Yup.number().required().max(100).min(0)}
                         defaultValue={store.realDiscountRate}
-                        onValidate={(value: number) => store.realDiscountRate = value}
+                        onValidate={action((value: number) => store.realDiscountRate = value)}
                         InputProps={Adornment.PERCENT}
                         type={"number"}/>
                 </Info>
@@ -66,7 +67,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         label={GENERAL_INFLATION_LABEL}
                         schema={Yup.number().required().max(100).min(0)}
                         defaultValue={store.generalInflation}
-                        onValidate={(value: number) => store.generalInflation = value}
+                        onValidate={action((value: number) => store.generalInflation = value)}
                         InputProps={Adornment.PERCENT}
                         type={"number"}/>
                 </Info>
@@ -77,9 +78,9 @@ const AnalysisAssumptionsForm = observer(() => {
                                 fullWidth
                                 labelId={RESIDUAL_VALUE_APPROACH_LABEL}
                                 value={store.residualValueApproach}
-                                onChange={(event) => {
+                                onChange={action((event) => {
                                     store.residualValueApproach = event.target.value as string
-                                }}>
+                                })}>
                             {
                                 RESIDUAL_VALUE_APPROACH_OPTIONS.map((option, index) =>
                                     <MenuItem value={option} key={index}>{option}</MenuItem>

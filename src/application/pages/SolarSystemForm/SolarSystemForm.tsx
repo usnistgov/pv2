@@ -39,6 +39,7 @@ import {Store} from "../../ApplicationStore";
 
 // Stylesheets
 import "../Form.sass";
+import {action} from "mobx";
 
 /**
  * Form for details about the output of the PV system.
@@ -58,10 +59,10 @@ const SolarSystemForm = observer(() => {
                                         label={PANEL_EFFICIENCY_LABEL}
                                         defaultValue={store.panelEfficiency}
                                         schema={Yup.number().max(100).min(0)}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.panelEfficiency = value
-                                        }}
-                                        onError={() => store.panelEfficiency = undefined}
+                                        })}
+                                        onError={action(() => store.panelEfficiency = undefined)}
                                         InputProps={Adornment.PERCENT}
                                         type={"number"}/>
                 </Info>
@@ -72,9 +73,9 @@ const SolarSystemForm = observer(() => {
                                 fullWidth
                                 labelId={INVERTER_TYPE_LABEL}
                                 value={store.inverterOption}
-                                onChange={(event) => {
+                                onChange={action((event) => {
                                     store.inverterOption = event.target.value as string
-                                }}>
+                                })}>
                             {
                                 INVERTER_TYPE_OPTIONS.map((option, index) =>
                                     <MenuItem value={option} key={index}>{option}</MenuItem>
@@ -90,10 +91,10 @@ const SolarSystemForm = observer(() => {
                                         label={TOTAL_SYSTEM_SIZE_LABEL}
                                         defaultValue={store.totalSystemSize}
                                         schema={Yup.number().required()}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.totalSystemSize = value
-                                        }}
-                                        onError={() => store.totalSystemSize = undefined}
+                                        })}
+                                        onError={action(() => store.totalSystemSize = undefined)}
                                         InputProps={endAdornment("Watts")}
                                         type={"number"}/>
                 </Info>
@@ -104,10 +105,10 @@ const SolarSystemForm = observer(() => {
                                         label={ANNUAL_PRODUCTION_LABEL}
                                         defaultValue={store.estimatedAnnualProduction}
                                         schema={Yup.number().required()}
-                                        onValidate={(value) => {
+                                        onValidate={action((value) => {
                                             store.estimatedAnnualProduction = value
-                                        }}
-                                        onError={() => store.estimatedAnnualProduction = undefined}
+                                        })}
+                                        onError={action(() => store.estimatedAnnualProduction = undefined)}
                                         InputProps={Adornment.KWH}
                                         type={"number"}/>
                 </Info>
@@ -119,9 +120,9 @@ const SolarSystemForm = observer(() => {
                                                 label={PANEL_LIFETIME_LABEL}
                                                 defaultValue={store.panelLifetime}
                                                 schema={Yup.number().required().max(40).min(1)}
-                                                onValidate={(value) => {
+                                                onValidate={action((value) => {
                                                     store.panelLifetime = value
-                                                }}
+                                                })}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
@@ -131,9 +132,9 @@ const SolarSystemForm = observer(() => {
                                                 label={INVERTER_LIFETIME_LABEL}
                                                 value={store.inverterLifetimeOrDefault}
                                                 schema={Yup.number().required().max(40).min(1)}
-                                                onValidate={(value) => {
+                                                onValidate={action((value) => {
                                                     store.inverterLifetimeOrDefault = value
-                                                }}
+                                                })}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
@@ -143,9 +144,9 @@ const SolarSystemForm = observer(() => {
                                                 label={DEGRADATION_RATE_LABEL}
                                                 defaultValue={store.degradationRate}
                                                 schema={Yup.number().required().max(100).min(0)}
-                                                onValidate={(value) => {
+                                                onValidate={action((value) => {
                                                     store.degradationRate = value
-                                                }}
+                                                })}
                                                 InputProps={Adornment.PERCENT}
                                                 type={"number"}/>
                         </Info>

@@ -119,7 +119,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
                         </Pv2Tooltip>
                     </Grid>
                     <Grid className={"vertical-center"} item xs={5}>
-                        <div>{valid(alt.deltaQuant[0]) ? numberFormatter.format(-alt.deltaQuant[0]) : "NA"}</div>
+                        <div>{valid(alt.deltaQuant?.["Electricity"]) ? numberFormatter.format(-alt.deltaQuant?.["Electricity"]) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
                         <Pv2Tooltip text={"Electricity reduction relative to No Solar System"}>
