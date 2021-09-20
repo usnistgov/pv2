@@ -1,4 +1,4 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, useContext, useEffect} from "react";
 
 // Library imports
 import {Link} from "react-router-dom";
@@ -8,11 +8,15 @@ import {mdiArrowRight} from "@mdi/js";
 
 // Stylesheets
 import './LandingPage.sass';
+import {Store} from "../ApplicationStore";
 
 /**
  * The main component for the landing page. Displays some information about the app and a photo.
  */
 export default function LandingPage(): ReactElement {
+    const store = useContext(Store);
+    useEffect(() => store.reset());
+
     return (
         <div className="landing-page-wrapper">
             <div className="landing-content">

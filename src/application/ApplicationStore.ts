@@ -41,6 +41,19 @@ export class ApplicationStore {
         this.formUiStore = new FormUiStore(this);
         this.resultUiStore = new ResultUiStore(this);
     }
+
+    reset() {
+        this.addressFormStore = new AddressFormStore(this);
+        this.analysisAssumptionsFormStore = new AnalysisAssumptionsFormStore(this);
+        this.electricalCostFormStore = new ElectricalCostFormStore(this);
+        this.escalationRateFormStore = new EscalationRateFormStore(this);
+        this.solarSystemFormStore = new SolarSystemFormStore(this);
+        this.costsFormStore = new CostsFormStore(this);
+        this.srecFormStore = new SrecFormStore(this);
+
+        this.formUiStore = new FormUiStore(this);
+        this.resultUiStore = new ResultUiStore(this);
+    }
 }
 
 /**
