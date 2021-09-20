@@ -38,7 +38,7 @@ const theme = createMuiTheme({
 // Render main application
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
-        <Store.Provider value={store}>z
+        <Store.Provider value={store}>
             <BrowserRouter>
                 <HeaderWrapper>
                     <Switch>
