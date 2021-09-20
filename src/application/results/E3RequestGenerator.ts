@@ -27,10 +27,6 @@ export const altLabels = [
     "PPA Solar System",
 ];
 
-const NET_METERING = "Net Metering Tariff";
-const CASH = "Cash";
-
-
 let nextAltId = 0;
 
 function baselineAlternative(store: ApplicationStore) {
@@ -163,7 +159,7 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
     const alternativeObjects = [];
     alternativeObjects.push(baselineAlternative(store));
     alternativeObjects.push(firstAlternative(store));
-    if (store.costsFormStore.ppaOption == PPA_OPTIONS[0])
+    if (store.costsFormStore.ppaOption === PPA_OPTIONS[0])
         alternativeObjects.push(ppaAlternative(store));
 
     let result = {

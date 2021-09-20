@@ -1,8 +1,5 @@
 import {ApplicationStore} from "../ApplicationStore";
 
-const NET_METERING = "Net Metering Tariff";
-const CASH = "Cash";
-
 export function gridConsumption(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
@@ -59,7 +56,7 @@ export function netGridConsumption(store: ApplicationStore): object {
 
     const netGridConsumptionRates = netElectricity.map((value) => Math.max(0, value))
         .map((value) => {
-            if (value == 0)
+            if (value === 0)
                 return 0;
 
             return (store.electricalCostFormStore.annualConsumption ?? 0) / value
@@ -93,7 +90,7 @@ export function panelProduction(store: ApplicationStore): object {
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate))
         .map((value) => {
-            if (value == 0)
+            if (value === 0)
                 return 0;
 
             return (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / value;
@@ -132,7 +129,7 @@ export function netPanelProduction(store: ApplicationStore): object {
 
     const netProductionRates = netElectricity.map((value) => Math.min(value, 0))
         .map((value) => {
-            if (value == 0)
+            if (value === 0)
                 return 0;
 
             return (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / value;
@@ -349,7 +346,7 @@ export function ppaConsumption(store: ApplicationStore): object {
 
     const netProductionRates = netElectricity.map((value) => Math.min(value, 0))
         .map((value) => {
-            if (value == 0)
+            if (value === 0)
                 return 0;
 
             return (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / value
@@ -426,7 +423,7 @@ export function productionBasedSrec(store: ApplicationStore): object {
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate))
         .map((value) => {
-            if (value == 0)
+            if (value === 0)
                 return 0;
 
             return ((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000) / (value / 1000);
@@ -435,7 +432,7 @@ export function productionBasedSrec(store: ApplicationStore): object {
     const srecPaymentRates = store.srecFormStore.srecPaymentsProductionBased
         .filter((_, index) => index < store.srecFormStore.srecContractLength)
         .map((value, index) => {
-            if (index == 0)
+            if (index === 0)
                 return 0;
 
             return store.srecFormStore.srecPaymentsProductionBased[0] / value;
@@ -468,7 +465,7 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate))
         .map((value) => {
-            if (value == 0)
+            if (value === 0)
                 return 0;
 
             return ((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000) / (value / 1000);
@@ -477,7 +474,7 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
     const srecPaymentRates = store.srecFormStore.srecPaymentsProductionBased
         .filter((_, index) => index < store.srecFormStore.srecContractLength)
         .map((value) => {
-            if (value == 0)
+            if (value === 0)
                 return 0;
 
             return store.srecFormStore.srecPaymentsProductionBased[0] / value;

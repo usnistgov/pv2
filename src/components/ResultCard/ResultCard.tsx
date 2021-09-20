@@ -14,6 +14,7 @@ import Pv2Tooltip from "../Pv2Tooltip/Pv2Tooltip";
 // Stylesheets
 import "./ResultCard.sass";
 import {Store} from "../../application/ApplicationStore";
+import {decimals} from "../../Utils";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -85,7 +86,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
                         </Pv2Tooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{valid(alt.AIRR) ? alt.AIRR : "NA"}</div>
+                        <div>{valid(alt.AIRR) ? decimals(alt.AIRR, 5) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
                         <Pv2Tooltip text={
@@ -102,7 +103,7 @@ export default function ResultCard({alt, graphMax, graphData}: ResultCardProps):
                         </Pv2Tooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{valid(alt.SPP) ? alt.SPP : "NA"}</div>
+                        <div>{valid(alt.SPP) ? decimals(alt.SPP, 5) : "NA"}</div>
                     </Grid>
                     <Grid item xs={1}>
                         <Pv2Tooltip text={

@@ -106,13 +106,16 @@ const ResultData = observer(() => {
     const [errorDetails, setErrorDetails] = useState<string | null>(null);
 
     function showError(e: FetchError) {
+        if(e.response) {
+            e.response.json()
+                .then((details) => {
+                    console.log(details);
+                    return details;
+                })
+                .then(setErrorDetails);
+        }
+
         setError(e);
-        e.response.json()
-            .then((details) => {
-                console.log(details);
-                return details;
-            })
-            .then(setErrorDetails);
         setShowErrorDialog(true);
     }
 
@@ -120,53 +123,37 @@ const ResultData = observer(() => {
     useEffect(() => {
         const controller = new AbortController();
 
-        if (!store.resultUiStore.resultCache) {
-            createE3Request(store)
-                .then((request) => {
-                    console.log(request);
+        createE3Request(store)
+            .then((request) => {
+                // Generate fetch post request
+                const fetchOptions: RequestInit = {
+                    method: "POST",
+                    signal: controller.signal,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(request)
+                }
 
-                    // Generate fetch post request
-                    const fetchOptions: RequestInit = {
-                        method: "POST",
-                        signal: controller.signal,
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Accept": "application/json"
-                        },
-                        body: JSON.stringify(request)
-                    }
+                // TODO replace with E3 url once that is set up
+                // Fetch results from E3
+                // http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S
+                fetch("http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S", fetchOptions)
+                    .then((response) => {
+                        if (response.ok)
+                            return response;
 
-                    // TODO replace with E3 url once that is set up
-                    // Fetch results from E3
-                    // http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S
-                    fetch("http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S", fetchOptions)
-                        .then((response) => {
-                            console.log(response.status);
-                            console.log(response.ok);
-
-                            if (response.ok)
-                                return response;
-
-                            console.log("error");
-
-                            throw new FetchError("E3 fetch failed", response);
-                        })
-                        .then(toJson)
-                        .then((result) => {
-                            console.log(result);
-                            return result;
-                        })
-                        .then(action((result) => {
-                            console.log("Hello");
-                            store.resultUiStore.resultCache = result;
-                        }))
-                        .catch(showError);
-                });
-        }
+                        throw new FetchError("E3 fetch failed", response);
+                    })
+                    .then(toJson)
+                    .then(action((result) => store.resultUiStore.resultCache = result))
+                    .catch(showError);
+            });
 
         // If the component is unmounted, abort the request
         return () => controller.abort();
-    }, []);
+    }, [store]);
 
     console.log(`Results Cache: ${store.resultUiStore.resultCache}`);
 

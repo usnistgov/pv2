@@ -9,6 +9,7 @@ import {mdiArrowLeft, mdiDownload} from "@mdi/js";
 import {Data} from "react-csv/components/CommonPropTypes";
 import {Serie} from "@nivo/line";
 import {observer} from "mobx-react-lite";
+import {Redirect} from "react-router-dom";
 
 // User Imports
 import ResultCard, {ResultGraphCard} from "../../components/ResultCard/ResultCard";
@@ -18,7 +19,6 @@ import {Store} from "../ApplicationStore";
 
 // Stylesheets
 import "./Results.sass";
-import {Redirect, useHistory} from "react-router-dom";
 
 interface ResultsProps {
     downloadData: Data;
@@ -114,8 +114,6 @@ const Results = observer(({downloadData}: ResultsProps) => {
     const result = uiStore.resultCache;
 
     let graphData = getGraphData(uiStore.graphOption, result);
-
-    console.log(result?.reqCashFlowObjects);
 
     return (redirect ? <Redirect to={"/application"}/> :
             <>

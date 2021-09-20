@@ -1,16 +1,17 @@
-import {Children, ReactElement, useContext, useState} from 'react';
+import {Children, ReactElement, useContext} from 'react';
 
 // Library Imports
 import {Button, Grid, Step, StepLabel, Stepper} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react"
 import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
 import {useHistory} from "react-router-dom";
+import {observer} from "mobx-react-lite";
+
+// User Imports
+import {Store} from "../../application/ApplicationStore";
 
 // Stylesheets
 import "./StepperNav.sass"
-import {observer} from "mobx-react-lite";
-import {Store} from "../../application/ApplicationStore";
-import {autorun} from "mobx";
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
