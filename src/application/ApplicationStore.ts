@@ -73,7 +73,7 @@ export class AddressFormStore {
     }
 
     get isDone(): boolean {
-        return this.state !== "" && this.state.length >= 2;
+        return this.zipcode !== "";
     }
 }
 
@@ -352,7 +352,7 @@ autorun(() => {
     const zipcode = store.addressFormStore.zipcode;
     const state = store.addressFormStore.state;
 
-    if (!zipcode || state.length < 2)
+    if (!zipcode && state.length < 2)
         return;
 
     let region = zipcode ? zipToState(zipcode) : stateIdToName(state);

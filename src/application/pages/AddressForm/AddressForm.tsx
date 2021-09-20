@@ -57,21 +57,21 @@ const AddressForm = observer(() => {
                         <Grid item xs={12}>
                             <Info tooltip={ADDRESS_FORM_TOOLTIP}>
                                 <ValidatedTextField fullWidth
-                                                    required
                                                     label={STATE_LABEL}
                                                     defaultValue={store.state}
                                                     variant={"filled"}
-                                                    schema={Yup.string().required()}
+                                                    schema={Yup.string()}
                                                     onValidate={action((value) => store.state = value)}/>
                             </Info>
                         </Grid>
                         <Grid item xs={12}>
                             <Info tooltip={ADDRESS_FORM_TOOLTIP}>
                                 <ValidatedTextField fullWidth
+                                                    required
                                                     label={ZIPCODE_LABEL}
                                                     defaultValue={store.zipcode}
                                                     variant={"filled"}
-                                                    schema={Yup.string()}
+                                                    schema={Yup.string().required()}
                                                     onValidate={action(
                                                         (value) => store.zipcode = value.padStart(5, "0")
                                                     )}/>
