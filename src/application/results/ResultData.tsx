@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 
 // Library Imports
-import {useHistory} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {
     Backdrop,
     Box,
@@ -16,12 +16,12 @@ import {Icon as MdiIcon} from "@mdi/react";
 import {mdiClose} from "@mdi/js";
 import {Store} from "../ApplicationStore";
 import {observer} from "mobx-react-lite";
+import {action} from "mobx";
 
 // User Imports
 import {toJson} from "../../Utils";
 import {createE3Request} from "./E3RequestGenerator";
 import Results from "./Results";
-import {action} from "mobx";
 
 export enum GraphOption {
     NET_VALUE, SAVINGS, CUMULATIVE
@@ -94,12 +94,12 @@ class FetchError extends Error {
 const ResultData = observer(() => {
     const store = useContext(Store);
 
-    const history = useHistory();
     const [downloadData] = useState(generateCsv(
         store.resultUiStore.resultCache,
         store.analysisAssumptionsFormStore.studyPeriod
     ));
 
+    const [shouldCancel, setCancel] = useState(false);
     const [showErrorDialog, setShowErrorDialog] = useState(false);
     const [error, setError] = useState<FetchError | null>(null);
     const [showErrorDetails, setShowErrorDetails] = useState(false);
@@ -159,6 +159,7 @@ const ResultData = observer(() => {
 
     return (
         <>
+            {shouldCancel && <Redirect to={"/application"}/>}
             <Dialog open={showErrorDialog} onClose={() => setShowErrorDialog(false)}>
                 <DialogTitle>An error has occurred</DialogTitle>
                 <DialogContent>
@@ -186,7 +187,7 @@ const ResultData = observer(() => {
                             variant={"contained"}
                             color={"secondary"}
                             startIcon={<MdiIcon path={mdiClose} size={1}/>}
-                            onClick={history.goBack}>
+                            onClick={() => setCancel(true)}>
                         Cancel
                     </Button>
                 </Box>
