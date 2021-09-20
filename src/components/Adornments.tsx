@@ -18,6 +18,7 @@ const Adornment = {
     PERCENT: endAdornment("%"),
     DOLLAR: startAdornment("$"),
     DOLLAR_PER_KWH: endAdornment("$/kWh"),
+    DOLLAR_PER_KW: endAdornment("$/kW"),
     DOLLAR_PER_MWH: endAdornment("$/MWh"),
     YEAR: endAdornment("Years"),
 }

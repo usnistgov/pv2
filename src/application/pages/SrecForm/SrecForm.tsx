@@ -71,7 +71,7 @@ const SrecForm = observer(() => {
                                         onValidate={action((value) => {
                                             store.srecPaymentsUpFront = value
                                         })}
-                                        InputProps={Adornment.DOLLAR_PER_KWH}
+                                        InputProps={Adornment.DOLLAR_PER_KW}
                                         type={"number"}/>
                 </Info>
                 }

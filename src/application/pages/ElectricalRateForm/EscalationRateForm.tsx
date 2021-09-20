@@ -32,10 +32,10 @@ const EscalationRateForm = observer(() => {
                                     required
                                     label={`Year ${i + 1}`}
                                     key={`Year ${i + 1}`}
-                                    defaultValue={values[i] * 100}
+                                    defaultValue={(values[i] * 100).toFixed(2)}
                                     variant={"filled"}
                                     schema={Yup.number().max(100).min(-100)}
-                                    onValidate={action((value) => values[i] = value / 100)}
+                                    onValidate={action((value) =>  values[i] = value / 100)}
                                     InputProps={Adornment.PERCENT}
                                     type={"number"}/>
             )
@@ -47,7 +47,8 @@ const EscalationRateForm = observer(() => {
             <AdvancedBox>
                 <Info tooltip={VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP} info={VIEW_ANNUAL_ESCALATION_RATES_INFO}>
                     <FormControl fullWidth variant={"filled"}>
-                        <InputLabel id={VIEW_ANNUAL_ESCALATION_RATES_LABEL}>{VIEW_ANNUAL_ESCALATION_RATES_LABEL}</InputLabel>
+                        <InputLabel
+                            id={VIEW_ANNUAL_ESCALATION_RATES_LABEL}>{VIEW_ANNUAL_ESCALATION_RATES_LABEL}</InputLabel>
                         <Select className={"form-select-left-align"}
                                 fullWidth
                                 labelId={VIEW_ANNUAL_ESCALATION_RATES_LABEL}
@@ -69,7 +70,8 @@ const EscalationRateForm = observer(() => {
                         {createFields(store.escalationRateForYear)}
                     </div>
                     <FormControl fullWidth variant={"filled"}>
-                        <InputLabel id={ESCALATION_RATES_SAME_OR_DIFF_LABEL}>{ESCALATION_RATES_SAME_OR_DIFF_LABEL}</InputLabel>
+                        <InputLabel
+                            id={ESCALATION_RATES_SAME_OR_DIFF_LABEL}>{ESCALATION_RATES_SAME_OR_DIFF_LABEL}</InputLabel>
                         <Select className={"form-select-left-align"}
                                 fullWidth
                                 labelId={ESCALATION_RATES_SAME_OR_DIFF_LABEL}
