@@ -185,6 +185,7 @@ export class SolarSystemFormStore {
 
     set inverterOption(option) {
         this.lifetimeDefault = true;
+        this.rootStore.costsFormStore.inverterReplacementCostsDefault = true;
         this.inverterType = option;
     }
 }
@@ -212,10 +213,32 @@ export class CostsFormStore {
     monthlyPayment = undefined;
     loanLength = undefined;
 
+    inverterReplacementCostsDefault: boolean = true;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
+    }
+
+    get inverterReplacementCostsOrDefault() {
+        if(!this.inverterReplacementCostsDefault) {
+            return this.inverterReplacementCosts;
+        }
+
+        switch (this.rootStore.solarSystemFormStore.inverterType) {
+            case INVERTER_TYPE_OPTIONS[0]:
+            case INVERTER_TYPE_OPTIONS[1]:
+                return (this.rootStore.solarSystemFormStore.totalSystemSize ?? 0) * 0.18;
+
+            case INVERTER_TYPE_OPTIONS[2]:
+            default:
+                return 0;
+        }
+    }
+
+    set inverterReplacementCostsOrDefault(value) {
+        this.inverterReplacementCostsDefault = false;
+        this.inverterReplacementCosts = value;
     }
 
     get federalTaxCredit(): string {
@@ -257,7 +280,7 @@ export class SrecFormStore {
         makeAutoObservable(this, {rootStore: false});
 
         this.rootStore = rootStore;
-        this.srecPaymentsProductionBased = Array(rootStore.analysisAssumptionsFormStore.studyPeriod)
+        this.srecPaymentsProductionBased = Array(rootStore.analysisAssumptionsFormStore.studyPeriod + 1)
             .fill(0);
     }
 

@@ -110,7 +110,7 @@ export function panelProduction(store: ApplicationStore): object {
         recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: studyPeriod,
-        valuePerQ: store.electricalCostFormStore.excessGenerationUnitPrice,	//Excess Production Rate
+        valuePerQ: -(store.electricalCostFormStore.excessGenerationUnitPrice ?? 0), //Excess Production Rate
         quant: store.solarSystemFormStore.estimatedAnnualProduction ?? 0,
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: annualProduction,
@@ -149,7 +149,7 @@ export function netPanelProduction(store: ApplicationStore): object {
         recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: studyPeriod,
-        valuePerQ: store.electricalCostFormStore.excessGenerationUnitPrice,	//Excess Production Rate
+        valuePerQ: -(store.electricalCostFormStore.excessGenerationUnitPrice ?? 0), //Excess Production Rate
         quant: store.solarSystemFormStore.estimatedAnnualProduction ?? 0,
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: netProductionRates,
@@ -283,7 +283,7 @@ export function federalTaxCredit(store: ApplicationStore): object {
         recurVarRate: null,
         recurVarValue: null,
         recurEndDate: null,
-        valuePerQ: store.costsFormStore.federalTaxCredit,
+        valuePerQ: -store.costsFormStore.federalTaxCredit,
         quant: 1,
         quantVarRate: null,
         quantVarValue: null,
@@ -305,7 +305,7 @@ export function grantsRebates(store: ApplicationStore): object {
         recurVarRate: null,
         recurVarValue: null,
         recurEndDate: null,
-        valuePerQ: store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates,
+        valuePerQ: -(store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0),
         quant: 1,
         quantVarRate: null,
         quantVarValue: null,
@@ -344,12 +344,15 @@ export function ppaConsumption(store: ApplicationStore): object {
 
     const netElectricity = annualConsumption.map((value, index) => value - annualProduction[index])
 
+    let tmp = store.solarSystemFormStore.estimatedAnnualProduction ?? 0;
     const netProductionRates = netElectricity.map((value) => Math.min(value, 0))
         .map((value) => {
-            if (value === 0)
+            if (value === tmp)
                 return 0;
 
-            return (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / value
+            let result = (value - tmp) / tmp;
+            tmp = value;
+            return result;
         });
 
     return {
@@ -409,7 +412,7 @@ export function upfrontSrec(store: ApplicationStore): object {
         recurVarRate: null,
         recurVarValue: null,
         recurEndDate: null,
-        valuePerQ: store.srecFormStore.srecPaymentsUpFront ?? 0,
+        valuePerQ: -(store.srecFormStore.srecPaymentsUpFront ?? 0),
         quant: store.solarSystemFormStore.totalSystemSize,
         quantVarRate: null,
         quantVarValue: null,
@@ -429,13 +432,15 @@ export function productionBasedSrec(store: ApplicationStore): object {
             return ((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000) / (value / 1000);
         });
 
+    let tmp = store.srecFormStore.srecPaymentsProductionBased[0];
     const srecPaymentRates = store.srecFormStore.srecPaymentsProductionBased
-        .filter((_, index) => index < store.srecFormStore.srecContractLength)
         .map((value, index) => {
-            if (index === 0)
+            if (value === tmp)
                 return 0;
 
-            return store.srecFormStore.srecPaymentsProductionBased[0] / value;
+            let result = (value - tmp) / tmp;
+            tmp = value;
+            return result;
         });
 
     return {
@@ -451,7 +456,7 @@ export function productionBasedSrec(store: ApplicationStore): object {
         recurVarRate: "Percent Delta Timestep X-1",
         recurVarValue: srecPaymentRates,
         recurEndDate: store.srecFormStore.srecContractLength,
-        valuePerQ: store.srecFormStore.srecPaymentsProductionBased[0],
+        valuePerQ: -store.srecFormStore.srecPaymentsProductionBased[0],
         quant: (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000, // Divide by 1000 to get MWh.
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: annualProduction,
@@ -471,13 +476,15 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
             return ((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000) / (value / 1000);
         });
 
+    let tmp = store.srecFormStore.srecPaymentsProductionBased[0];
     const srecPaymentRates = store.srecFormStore.srecPaymentsProductionBased
-        .filter((_, index) => index < store.srecFormStore.srecContractLength)
         .map((value) => {
-            if (value === 0)
+            if (value === tmp)
                 return 0;
 
-            return store.srecFormStore.srecPaymentsProductionBased[0] / value;
+            let result = (value - tmp) / tmp;
+            tmp = value;
+            return result;
         });
 
     return {
@@ -493,7 +500,7 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
         recurVarRate: "Percent Delta Timestep X-1",
         recurVarValue: srecPaymentRates,
         recurEndDate: store.srecFormStore.srecContractLength,
-        valuePerQ: store.srecFormStore.srecPaymentsProductionBased[0],
+        valuePerQ: -store.srecFormStore.srecPaymentsProductionBased[0],
         quant: (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000, // Divide by 1000 to get MWh.
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: annualProduction,

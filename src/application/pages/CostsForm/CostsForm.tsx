@@ -22,7 +22,10 @@ import {
     INVERTER_REPLACEMENT_COSTS_TOOLTIP,
     LOAN_DOWN_PAYMENT_INFO,
     LOAN_DOWN_PAYMENT_LABEL,
-    LOAN_DOWN_PAYMENT_TOOLTIP, LOAN_LENGTH_INFO, LOAN_LENGTH_LABEL, LOAN_LENGTH_TOOTLIP,
+    LOAN_DOWN_PAYMENT_TOOLTIP,
+    LOAN_LENGTH_INFO,
+    LOAN_LENGTH_LABEL,
+    LOAN_LENGTH_TOOTLIP,
     LOAN_OR_CASH_INFO,
     LOAN_OR_CASH_LABEL,
     LOAN_OR_CASH_OPTIONS,
@@ -122,10 +125,10 @@ const CostsForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={INVERTER_REPLACEMENT_COSTS_LABEL}
-                                                defaultValue={store.inverterReplacementCosts}
+                                                value={store.inverterReplacementCostsOrDefault}
                                                 schema={Yup.number().required().min(0)}
                                                 onValidate={action((value) => {
-                                                    store.inverterReplacementCosts = value
+                                                    store.inverterReplacementCostsOrDefault = value
                                                 })}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>

@@ -138,8 +138,9 @@ const ResultData = observer(() => {
 
                 // TODO replace with E3 url once that is set up
                 // Fetch results from E3
-                // http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S
-                fetch("http://localhost:8000/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S", fetchOptions)
+                // "http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S"
+                // "http://e3test.el.nist.gov/api/v1/analysis/?key=ysSq34WU.xq04WeLQ3qMqLF8mhka839ad7KUqEKRb"
+                fetch("http://e3test.el.nist.gov/api/v1/analysis/?key=ysSq34WU.xq04WeLQ3qMqLF8mhka839ad7KUqEKRb", fetchOptions)
                     .then((response) => {
                         if (response.ok)
                             return response;
@@ -147,6 +148,10 @@ const ResultData = observer(() => {
                         throw new FetchError("E3 fetch failed", response);
                     })
                     .then(toJson)
+                    .then((result) => {
+                        console.log(result);
+                        return result;
+                    })
                     .then(action((result) => store.resultUiStore.resultCache = result))
                     .catch(showError);
             });
