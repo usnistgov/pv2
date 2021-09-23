@@ -66,7 +66,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
                     return {
                         id: "",
                         data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
-                            let saving = value - array[0].totCostDisc[year];
+                            let saving = array[0].totCostDisc[year] - value;
 
                             graphMax = Math.max(graphMax, Math.abs(saving));
 
@@ -86,7 +86,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
                     return {
                         id: "",
                         data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
-                            let cumulativeSaving = accumulator + (value - array[0].totCostDisc[year]);
+                            let cumulativeSaving = accumulator + (array[0].totCostDisc[year] - value);
                             accumulator = cumulativeSaving;
 
                             graphMax = Math.max(graphMax, Math.abs(cumulativeSaving));

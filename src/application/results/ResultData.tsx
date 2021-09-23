@@ -166,7 +166,7 @@ const ResultData = observer(() => {
                 <DialogTitle>An error has occurred</DialogTitle>
                 <DialogContent>
                     <div>
-                        {`${error?.response.status} ${error?.response.statusText}`}
+                        {`${error?.response?.status} ${error?.response?.statusText}`}
                     </div>
                     {showErrorDetails && errorDetails && <code>
                         {JSON.stringify(errorDetails)}

@@ -4,7 +4,7 @@ import {
     grantsRebates,
     gridConsumption,
     gridDemandCharge, loanPayoff,
-    maintenanceCosts,
+    maintenanceCosts, maintenanceCostsAfterPpa,
     netGridConsumption,
     netPanelProduction,
     panelProduction,
@@ -96,13 +96,21 @@ function ppaAlternative(store: ApplicationStore) {
     let altId = nextAltId++;
 
     let bcns = [];
+    bcns.push(createBcn("Grid Electricity Demand Charge", altId, () => gridDemandCharge(store)));
+    bcns.push(createBcn("PV Grid Connection Fee", altId, () => pvGridConnectionRate(store)))
     bcns.push(createBcn("Net Grid Electricity Consumption", altId, () => netGridConsumption(store)));
+    bcns.push(createBcn("Net Panel Electricity Production", altId, () => netPanelProduction(store)));
     bcns.push(createBcn("Electricity Consumption - PPA", altId, () => ppaConsumption(store)));
     bcns.push(createBcn("Solar PV Purchase Price", altId, () => ppaSystemPurchasePrice(store)));
     bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
 
-    if (store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[2]) {
-        bcns.push(createBcn("Production Based Solar Renewable Energy Credits After Purchase", altId, () => productionBasedSrecAfterPpa(store)))
+    const ppaContractLength = store.costsFormStore.ppaContractLength ?? store.analysisAssumptionsFormStore.studyPeriod;
+    if (ppaContractLength < store.analysisAssumptionsFormStore.studyPeriod) {
+        bcns.push(createBcn("Maintenance Costs After PPA", altId, () => maintenanceCostsAfterPpa(store)));
+
+        if (store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[2]) {
+            bcns.push(createBcn("Production Based Solar Renewable Energy Credits After Purchase", altId, () => productionBasedSrecAfterPpa(store)))
+        }
     }
 
     return {
@@ -180,7 +188,7 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
             interestRate: store.costsFormStore.nominalInterestRate,
             dRateReal: store.analysisAssumptionsFormStore.realDiscountRate / 100,
             dRateNom: (1 + (store.analysisAssumptionsFormStore.generalInflation / 100)) *
-                (1 + (store.analysisAssumptionsFormStore.realDiscountRate / 100)),
+                (1 + (store.analysisAssumptionsFormStore.realDiscountRate / 100)) - 1,
             inflationRate: store.analysisAssumptionsFormStore.generalInflation / 100,
             Marr: store.analysisAssumptionsFormStore.realDiscountRate / 100,
             reinvestRate: store.analysisAssumptionsFormStore.realDiscountRate / 100,

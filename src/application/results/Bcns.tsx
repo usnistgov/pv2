@@ -94,7 +94,7 @@ export function panelProduction(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Electricity",
+        bcnTag: null,
         initialOcc: 1,
         bcnInvestBool: false,
         bcnLife: null,
@@ -130,7 +130,7 @@ export function netPanelProduction(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Electricity",
+        bcnTag: null,
         initialOcc: 1,
         bcnInvestBool: false,
         bcnLife: null,
@@ -330,21 +330,18 @@ export function maintenanceCosts(store: ApplicationStore): object {
 export function ppaConsumption(store: ApplicationStore): object {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
 
-    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0)
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * (store.solarSystemFormStore.degradationRate / 100)))
 
-    const netElectricity = annualConsumption.map((value, index) => value - annualProduction[index])
-
     const netProductionRates = generateVarValue(
-        netElectricity.map((value) => Math.min(value, 0)),
+        annualProduction,
         store.solarSystemFormStore.estimatedAnnualProduction ?? 0
     );
 
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Electricity",
+        bcnTag: null,
         initialOcc: 1,
         bcnInvestBool: false,
         bcnLife: null,
@@ -355,7 +352,7 @@ export function ppaConsumption(store: ApplicationStore): object {
         recurVarValue: (store.costsFormStore.ppaEscalationRate ?? 0) / 100, // Escalation Rate List or Constant Value for PPA
         recurEndDate: store.costsFormStore.ppaContractLength, // PPA contract length
         valuePerQ: store.costsFormStore.ppaElectricityRate, // PPA Rate
-        quant: store.solarSystemFormStore.estimatedAnnualProduction ?? 0,		//  = Annual Production
+        quant: store.solarSystemFormStore.estimatedAnnualProduction ?? 0, //  = Annual Production
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: netProductionRates, 	//  0.05% degradation rate per year
         quantUnit: "kWh"
@@ -442,6 +439,30 @@ export function productionBasedSrec(store: ApplicationStore): object {
     }
 }
 
+export function maintenanceCostsAfterPpa(store: ApplicationStore): object {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
+
+    return {
+        bcnType: "Cost",
+        bcnSubType: "Direct",
+        bcnTag: "Maintenance Costs",
+        initialOcc: (store.costsFormStore.ppaContractLength ?? studyPeriod) + 1,
+        bcnInvestBool: false,
+        bcnLife: null,
+        rvBool: false,
+        recurBool: true,
+        recurInterval: 1,
+        recurVarRate: "Percent Delta Timestep X-1",
+        recurVarValue: 0.0,
+        recurEndDate: store.analysisAssumptionsFormStore.studyPeriod, // Study Period
+        valuePerQ: store.costsFormStore.annualMaintenanceCosts,	// Maintenance Costs = 0 in this example
+        quant: 1,
+        quantVarRate: null,
+        quantVarValue: null,
+        quantUnit: null
+    }
+}
+
 export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
 
@@ -461,7 +482,7 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
         bcnType: "Cost",
         bcnSubType: "Direct",
         bcnTag: "SREC",
-        initialOcc: store.costsFormStore.ppaContractLength,
+        initialOcc: (store.costsFormStore.ppaContractLength ?? studyPeriod) + 1,
         bcnInvestBool: true,
         bcnLife: null,
         rvBool: false,
