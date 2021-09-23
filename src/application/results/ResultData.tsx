@@ -64,7 +64,9 @@ function generateCsv(results: any, studyPeriod: number): any {
     const totalCosts = altObjects.map((x: any) => x.totalCosts).map(validOrNA);
     const netSavings = altObjects.map((x: any) => x.netSavings).map(validOrNA);
     const airr = altObjects.map((x: any) => x.AIRR).map(validOrNA);
-    const spp = altObjects.map((x: any) => x.SPP).map(validOrNA);
+    const spp = altObjects.map((x: any) => x.SPP).map((value: string) => {
+        return valid(value) && value !== "Infinity" ? value : "NA"
+    });
     const electricityReduction = altObjects.map((x: any) => -x.deltaQuant?.["Electricity"] ?? 0).map(validOrNA);
     const data = Array.from(Array(studyPeriod + 1).keys())
         .map((index) => [index, ...cashFlowObjects.map((flow: any) => flow.totCostDisc[index])]);
@@ -94,10 +96,7 @@ class FetchError extends Error {
 const ResultData = observer(() => {
     const store = useContext(Store);
 
-    const [downloadData] = useState(generateCsv(
-        store.resultUiStore.resultCache,
-        store.analysisAssumptionsFormStore.studyPeriod
-    ));
+    const downloadData = generateCsv(store.resultUiStore.resultCache, store.analysisAssumptionsFormStore.studyPeriod);
 
     const [shouldCancel, setCancel] = useState(false);
     const [showErrorDialog, setShowErrorDialog] = useState(false);
