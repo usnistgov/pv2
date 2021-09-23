@@ -133,7 +133,6 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
                     </div>
                     <Grid container justify={"center"} spacing={2}>
                         {result ? result.alternativeSummaryObjects.map((res: any, index: number) => {
-                            console.log(index);
                             return <Grid item key={index}>
                                 <ResultCard alt={res}/>
                             </Grid>
