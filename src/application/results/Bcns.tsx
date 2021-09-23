@@ -1,4 +1,5 @@
 import {ApplicationStore} from "../ApplicationStore";
+import {generateVarValue} from "../../Utils";
 
 export function gridConsumption(store: ApplicationStore): object {
     return {
@@ -27,7 +28,7 @@ export function gridDemandCharge(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Electricity",
+        bcnTag: null,
         initialOcc: 1,
         bcnInvestBool: false,
         bcnLife: null,
@@ -50,17 +51,14 @@ export function netGridConsumption(store: ApplicationStore): object {
 
     const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-        .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate));
+        .map((value, index) => value * (1.0 - index * (store.solarSystemFormStore.degradationRate / 100)));
 
     const netElectricity = annualConsumption.map((value, index) => value - annualProduction[index]);
 
-    const netGridConsumptionRates = netElectricity.map((value) => Math.max(0, value))
-        .map((value) => {
-            if (value === 0)
-                return 0;
-
-            return (store.electricalCostFormStore.annualConsumption ?? 0) / value
-        });
+    const netGridConsumptionRates = generateVarValue(
+        netElectricity.map((value) => Math.max(0, value)),
+        store.electricalCostFormStore.annualConsumption ?? 0
+    );
 
     return {
         bcnType: "Cost",
@@ -87,14 +85,11 @@ export function netGridConsumption(store: ApplicationStore): object {
 export function panelProduction(store: ApplicationStore): object {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
 
-    const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-        .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate))
-        .map((value) => {
-            if (value === 0)
-                return 0;
-
-            return (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / value;
-        });
+    const annualProduction = generateVarValue(
+        Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+            .map((value, index) => value * (1.0 - index * (store.solarSystemFormStore.degradationRate / 100))),
+        store.solarSystemFormStore.estimatedAnnualProduction ?? 0
+    );
 
     return {
         bcnType: "Cost",
@@ -123,17 +118,14 @@ export function netPanelProduction(store: ApplicationStore): object {
 
     const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-        .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate));
+        .map((value, index) => value * (1.0 - index * (store.solarSystemFormStore.degradationRate / 100)));
 
     const netElectricity = annualConsumption.map((value, index) => value - annualProduction[index]);
 
-    const netProductionRates = netElectricity.map((value) => Math.min(value, 0))
-        .map((value) => {
-            if (value === 0)
-                return 0;
-
-            return (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / value;
-        });
+    const netProductionRates = generateVarValue(
+        netElectricity.map((value) => Math.min(value, 0)),
+        store.solarSystemFormStore.estimatedAnnualProduction ?? 0
+    );
 
     return {
         bcnType: "Cost",
@@ -161,7 +153,7 @@ export function pvGridConnectionRate(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Electricity",
+        bcnTag: null,
         initialOcc: 1,
         bcnInvestBool: false,
         bcnLife: null,
@@ -340,20 +332,14 @@ export function ppaConsumption(store: ApplicationStore): object {
 
     const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0)
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-        .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate))
+        .map((value, index) => value * (1.0 - index * (store.solarSystemFormStore.degradationRate / 100)))
 
     const netElectricity = annualConsumption.map((value, index) => value - annualProduction[index])
 
-    let tmp = store.solarSystemFormStore.estimatedAnnualProduction ?? 0;
-    const netProductionRates = netElectricity.map((value) => Math.min(value, 0))
-        .map((value) => {
-            if (value === tmp)
-                return 0;
-
-            let result = (value - tmp) / tmp;
-            tmp = value;
-            return result;
-        });
+    const netProductionRates = generateVarValue(
+        netElectricity.map((value) => Math.min(value, 0)),
+        store.solarSystemFormStore.estimatedAnnualProduction ?? 0
+    );
 
     return {
         bcnType: "Cost",
@@ -366,7 +352,7 @@ export function ppaConsumption(store: ApplicationStore): object {
         recurBool: true,
         recurInterval: 1,
         recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.costsFormStore.ppaEscalationRate, // Escalation Rate List or Constant Value for PPA
+        recurVarValue: (store.costsFormStore.ppaEscalationRate ?? 0) / 100, // Escalation Rate List or Constant Value for PPA
         recurEndDate: store.costsFormStore.ppaContractLength, // PPA contract length
         valuePerQ: store.costsFormStore.ppaElectricityRate, // PPA Rate
         quant: store.solarSystemFormStore.estimatedAnnualProduction ?? 0,		//  = Annual Production
@@ -423,25 +409,17 @@ export function upfrontSrec(store: ApplicationStore): object {
 export function productionBasedSrec(store: ApplicationStore): object {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
 
-    const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-        .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate))
-        .map((value) => {
-            if (value === 0)
-                return 0;
+    const annualProduction = generateVarValue(
+        Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+            .map((value, index) => value * (1.0 - index * (store.solarSystemFormStore.degradationRate / 100)))
+            .map((value) => value / 1000),
+        (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000
+    );
 
-            return ((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000) / (value / 1000);
-        });
-
-    let tmp = store.srecFormStore.srecPaymentsProductionBased[0];
-    const srecPaymentRates = store.srecFormStore.srecPaymentsProductionBased
-        .map((value, index) => {
-            if (value === tmp)
-                return 0;
-
-            let result = (value - tmp) / tmp;
-            tmp = value;
-            return result;
-        });
+    const srecPaymentRates = generateVarValue(
+        store.srecFormStore.srecPaymentsProductionBased,
+        store.srecFormStore.srecPaymentsProductionBased[0]
+    );
 
     return {
         bcnType: "Cost",
@@ -467,25 +445,17 @@ export function productionBasedSrec(store: ApplicationStore): object {
 export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
 
-    const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-        .map((value, index) => value * (1.0 - index * store.solarSystemFormStore.degradationRate))
-        .map((value) => {
-            if (value === 0)
-                return 0;
+    const annualProduction = generateVarValue(
+        Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+            .map((value, index) => value * (1.0 - index * (store.solarSystemFormStore.degradationRate / 100)))
+            .map((value) => value / 1000),
+        (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000
+    );
 
-            return ((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000) / (value / 1000);
-        });
-
-    let tmp = store.srecFormStore.srecPaymentsProductionBased[0];
-    const srecPaymentRates = store.srecFormStore.srecPaymentsProductionBased
-        .map((value) => {
-            if (value === tmp)
-                return 0;
-
-            let result = (value - tmp) / tmp;
-            tmp = value;
-            return result;
-        });
+    const srecPaymentRates = generateVarValue(
+        store.srecFormStore.srecPaymentsProductionBased,
+        store.srecFormStore.srecPaymentsProductionBased[0]
+    );
 
     return {
         bcnType: "Cost",

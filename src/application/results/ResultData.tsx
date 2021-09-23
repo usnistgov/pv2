@@ -140,7 +140,7 @@ const ResultData = observer(() => {
                 // Fetch results from E3
                 // "http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S"
                 // "http://e3test.el.nist.gov/api/v1/analysis/?key=ysSq34WU.xq04WeLQ3qMqLF8mhka839ad7KUqEKRb"
-                fetch("http://e3test.el.nist.gov/api/v1/analysis/?key=ysSq34WU.xq04WeLQ3qMqLF8mhka839ad7KUqEKRb", fetchOptions)
+                fetch("http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S", fetchOptions)
                     .then((response) => {
                         if (response.ok)
                             return response;

@@ -174,12 +174,12 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
             timestepComp: 1,
             outputRealBool: true,
             interestRate: store.costsFormStore.nominalInterestRate,
-            dRateReal: store.analysisAssumptionsFormStore.realDiscountRate,
-            dRateNom: (1 + store.analysisAssumptionsFormStore.generalInflation) *
-                (1 + store.analysisAssumptionsFormStore.realDiscountRate),
-            inflationRate: store.analysisAssumptionsFormStore.generalInflation,
-            Marr: store.analysisAssumptionsFormStore.realDiscountRate,
-            reinvestRate: store.analysisAssumptionsFormStore.realDiscountRate,
+            dRateReal: store.analysisAssumptionsFormStore.realDiscountRate / 100,
+            dRateNom: (1 + (store.analysisAssumptionsFormStore.generalInflation / 100)) *
+                (1 + (store.analysisAssumptionsFormStore.realDiscountRate / 100)),
+            inflationRate: store.analysisAssumptionsFormStore.generalInflation / 100,
+            Marr: store.analysisAssumptionsFormStore.realDiscountRate / 100,
+            reinvestRate: store.analysisAssumptionsFormStore.realDiscountRate / 100,
             incomeRateFed: 0.26,
             incomeRateOther: 0.26,
             noAlt: alternativeObjects.length,

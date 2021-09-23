@@ -40,6 +40,8 @@ export class ApplicationStore {
 
         this.formUiStore = new FormUiStore(this);
         this.resultUiStore = new ResultUiStore(this);
+
+        this.initReactions();
     }
 
     reset() {
@@ -53,6 +55,33 @@ export class ApplicationStore {
 
         this.formUiStore = new FormUiStore(this);
         this.resultUiStore = new ResultUiStore(this);
+
+        this.initReactions();
+    }
+
+    //FIXME: dispose of these reactions when reset is called.
+    initReactions() {
+        reaction(() => this.analysisAssumptionsFormStore.studyPeriod, (value) => {
+            this.srecFormStore.srecPaymentsProductionBased = Array(value).fill(0);
+        });
+
+        autorun(() => {
+            const zipcode = this.addressFormStore.zipcode;
+            const state = this.addressFormStore.state;
+
+            if (!zipcode && state.length < 2)
+                return;
+
+            let region = zipcode ? zipToState(zipcode) : stateIdToName(state);
+
+            region.then(stateToRegion)
+                .then(regionToEscalationRateList)
+                .then(take(this.analysisAssumptionsFormStore.studyPeriod + 1))
+                .then((result) => {
+                    this.escalationRateFormStore.productionEscalationRateForYear = result;
+                    this.escalationRateFormStore.escalationRateForYear = result;
+                });
+        });
     }
 }
 
@@ -331,10 +360,6 @@ export class FormUiStore {
 export const Store = React.createContext(new ApplicationStore());
 export const store = new ApplicationStore();
 
-reaction(() => store.analysisAssumptionsFormStore.studyPeriod, (value) => {
-    store.srecFormStore.srecPaymentsProductionBased = Array(value).fill(0);
-});
-
 const stateIdToName = fetchMap<string, string>(
     "escalation-rates/state-abbreviation.json",
     (input, json) => {
@@ -370,21 +395,3 @@ const zipToState = fetchMap<string, string>(
     "data/zip-state-mapping.json",
     (zipcode, json) => json[zipcode.padStart(5, "0")]
 );
-
-autorun(() => {
-    const zipcode = store.addressFormStore.zipcode;
-    const state = store.addressFormStore.state;
-
-    if (!zipcode && state.length < 2)
-        return;
-
-    let region = zipcode ? zipToState(zipcode) : stateIdToName(state);
-
-    region.then(stateToRegion)
-        .then(regionToEscalationRateList)
-        .then(take(store.analysisAssumptionsFormStore.studyPeriod + 1))
-        .then((result) => {
-            store.escalationRateFormStore.productionEscalationRateForYear = result;
-            store.escalationRateFormStore.escalationRateForYear = result;
-        });
-});

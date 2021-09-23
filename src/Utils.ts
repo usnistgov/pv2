@@ -16,3 +16,19 @@ export function fetchMap<A, B>(url: string, map: (input: A, json: any) => B): (i
 export function decimals(x: number | string, places: number): string {
     return (typeof x === 'number' ? x : parseFloat(x)).toFixed(places);
 }
+
+export function generateVarValue(array: number[], initial: number): number[] {
+    let tmp = initial;
+
+    return array.map((value) => {
+        if (value === tmp)
+            return 0;
+
+        if (tmp === 0)
+            tmp = initial;
+
+        let result = (value - tmp) / tmp;
+        tmp = value;
+        return result;
+    });
+}
