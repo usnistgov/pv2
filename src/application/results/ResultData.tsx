@@ -71,6 +71,7 @@ function generateCsv(results: any, studyPeriod: number): any {
         .map((index) => [index, ...cashFlowObjects.map((flow: any) => flow.totCostDisc[index])]);
 
     return [
+        ["Results Summary"],
         ["Summary Results", "No Solar System", "Purchase Solar System", "PPA Solar System"],
         ["Total Costs", ...totalCosts],
         ["Net Savings", ...netSavings],
@@ -78,6 +79,7 @@ function generateCsv(results: any, studyPeriod: number): any {
         ["SPP", ...spp],
         ["Electricity Reduction", ...electricityReduction],
         [],
+        ["Cash Flow (NPV)"],
         ["Year", "No Solar System", "Purchase Solar System", "PPA Solar System"],
         ...data
     ];

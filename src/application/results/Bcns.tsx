@@ -396,7 +396,7 @@ export function upfrontSrec(store: ApplicationStore): object {
         recurVarValue: null,
         recurEndDate: null,
         valuePerQ: -(store.srecFormStore.srecPaymentsUpFront ?? 0),
-        quant: store.solarSystemFormStore.totalSystemSize,
+        quant: (store.solarSystemFormStore.totalSystemSize ?? 0) / 1000,
         quantVarRate: null,
         quantVarValue: null,
         quantUnit: null
