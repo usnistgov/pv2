@@ -21,6 +21,7 @@ import {Store} from "../ApplicationStore";
 import "./Results.sass";
 
 interface ResultsProps {
+    result: any;
     downloadData: Data;
 }
 
@@ -107,11 +108,9 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
  * card form with some data and graphs. Finally the user can download a CSV file containing the E3 results. This
  * component takes not props since all necessary information for the E3 request is obtained from the redux store.
  */
-const Results = observer(({downloadData}: ResultsProps) => {
+const Results = observer(({result, downloadData}: ResultsProps) => {
     const uiStore = useContext(Store).resultUiStore;
     const [redirect, setRedirect] = useState(false);
-
-    const result = uiStore.resultCache;
 
     let graphData = getGraphData(uiStore.graphOption, result);
 
@@ -134,6 +133,7 @@ const Results = observer(({downloadData}: ResultsProps) => {
                     </div>
                     <Grid container justify={"center"} spacing={2}>
                         {result ? result.alternativeSummaryObjects.map((res: any, index: number) => {
+                            console.log(index);
                             return <Grid item key={index}>
                                 <ResultCard alt={res}/>
                             </Grid>

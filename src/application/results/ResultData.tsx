@@ -16,7 +16,6 @@ import {Icon as MdiIcon} from "@mdi/react";
 import {mdiClose} from "@mdi/js";
 import {Store} from "../ApplicationStore";
 import {observer} from "mobx-react-lite";
-import {action} from "mobx";
 
 // User Imports
 import {toJson} from "../../Utils";
@@ -96,13 +95,14 @@ class FetchError extends Error {
 const ResultData = observer(() => {
     const store = useContext(Store);
 
-    const downloadData = generateCsv(store.resultUiStore.resultCache, store.analysisAssumptionsFormStore.studyPeriod);
-
+    const [result, setResult] = useState<object | null>(null);
     const [shouldCancel, setCancel] = useState(false);
     const [showErrorDialog, setShowErrorDialog] = useState(false);
     const [error, setError] = useState<FetchError | null>(null);
     const [showErrorDetails, setShowErrorDetails] = useState(false);
     const [errorDetails, setErrorDetails] = useState<string | null>(null);
+
+    const downloadData = generateCsv(result, store.analysisAssumptionsFormStore.studyPeriod);
 
     function showError(e: FetchError) {
         if(e.response) {
@@ -151,15 +151,13 @@ const ResultData = observer(() => {
                         console.log(result);
                         return result;
                     })
-                    .then(action((result) => store.resultUiStore.resultCache = result))
+                    .then(setResult)
                     .catch(showError);
             });
 
         // If the component is unmounted, abort the request
         return () => controller.abort();
     }, [store]);
-
-    console.log(`Results Cache: ${store.resultUiStore.resultCache}`);
 
     return (
         <>
@@ -183,7 +181,7 @@ const ResultData = observer(() => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Backdrop className={"result-loading-backdrop"} open={store.resultUiStore.resultCache === null}>
+            <Backdrop className={"result-loading-backdrop"} open={result === null}>
                 <Box className={"loading-indicator"}>
                     <CircularProgress/>
                     <h1>Calculating Results</h1>
@@ -196,7 +194,7 @@ const ResultData = observer(() => {
                     </Button>
                 </Box>
             </Backdrop>
-            <Results downloadData={downloadData}/>
+            <Results result={result} downloadData={downloadData}/>
         </>
     );
 });

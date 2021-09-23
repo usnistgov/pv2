@@ -330,7 +330,6 @@ export class ResultUiStore {
 
     graphOption: GraphOption = GraphOption.NET_VALUE;
     shouldCalculate = true;
-    resultCache: any = null;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});

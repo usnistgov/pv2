@@ -153,6 +153,10 @@ function createBcn(name: string, alternative: number, options: () => object): BC
 }
 
 export async function createE3Request(store: ApplicationStore): Promise<any> {
+    nextAltId = 0;
+    nextBcnId = 0;
+    bcnCache = new Map();
+
     const now = new Date();
     const nowString = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()}`;
 
