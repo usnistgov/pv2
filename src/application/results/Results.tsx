@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 
 // Library imports
-import {Button, Grid} from "@material-ui/core";
+import {Box, Button, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
 import {Skeleton} from "@material-ui/lab";
 import {CSVLink} from "react-csv";
 import {Icon as MdiIcon} from "@mdi/react";
@@ -117,40 +117,66 @@ const Results = observer(({downloadData}: ResultsProps) => {
 
     return (redirect ? <Redirect to={"/application"}/> :
             <>
-                <div className="container">
+                <Box className="container">
                     <div className={"result-back-button"}>
                         <Button onClick={() => setRedirect(true)}
                                 startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>Back</Button>
                     </div>
                     <MaterialHeader text={"Results"}/>
-                </div>
-                <Grid container justify={"center"} spacing={2}>
-                    {result ? result.alternativeSummaryObjects.map((res: any, index: number) => {
-                        return <Grid item key={index}>
-                            <ResultCard
-                                alt={res}
-                                graphData={graphData.graphData[index]}
-                                graphMax={graphData.graphMax}/>
-                            <ResultGraphCard
-                                graphData={graphData.graphData[index]}
-                                graphMax={graphData.graphMax}/>
-                        </Grid>
-                    }) : Array.from({length: 3}).map((_, index) => {
+                    <div className={"download-results"}>
+                        <CSVLink data={downloadData} filename={"PV2 Results.csv"}>
+                            <Button variant={"contained"}
+                                    color={"primary"}
+                                    startIcon={<MdiIcon path={mdiDownload} size={1}/>}>
+                                Download CSV
+                            </Button>
+                        </CSVLink>
+                    </div>
+                    <Grid container justify={"center"} spacing={2}>
+                        {result ? result.alternativeSummaryObjects.map((res: any, index: number) => {
                             return <Grid item key={index}>
-                                <Skeleton className={"result-card"} height={500} variant={"rect"} animation={"wave"}/>
+                                <ResultCard alt={res}/>
                             </Grid>
-                        }
-                    )}
-                </Grid>
-                <div className={"download-results"}>
-                    <CSVLink data={downloadData} filename={"PV2 Results.csv"}>
-                        <Button variant={"contained"}
-                                color={"primary"}
-                                startIcon={<MdiIcon path={mdiDownload} size={1}/>}>
-                            Download CSV
-                        </Button>
-                    </CSVLink>
-                </div>
+                        }) : Array.from({length: 3}).map((_, index) => {
+                                return <Grid item key={index}>
+                                    <Skeleton className={"result-card"} height={400} variant={"rect"} animation={"wave"}/>
+                                </Grid>
+                            }
+                        )}
+                    </Grid>
+                </Box>
+                <Box className={"container"}>
+                    <MaterialHeader text={"Graphs"}/>
+                    <div className={"graph-control"}>
+                        <FormControl className={"graph-control"}>
+                            <Select
+                                id={"graph-option-select"}
+                                value={uiStore.graphOption}
+                                onChange={(event) => {
+                                    uiStore.graphOption = event.target.value as GraphOption;
+                                }}>
+                                <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
+                                <MenuItem value={GraphOption.SAVINGS}>Savings</MenuItem>
+                                <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Savings</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <Grid container justify={"center"} spacing={2}>
+                        {result ? result.alternativeSummaryObjects.map((res: any, index: number) => {
+                            return <Grid item key={index}>
+                                <ResultGraphCard
+                                    altId={res.altID}
+                                    graphData={graphData.graphData[index]}
+                                    graphMax={graphData.graphMax}/>
+                            </Grid>
+                        }) : Array.from({length: 3}).map((_, index) => {
+                                return <Grid item key={index}>
+                                    <Skeleton className={"result-card"} height={400} variant={"rect"} animation={"wave"}/>
+                                </Grid>
+                            }
+                        )}
+                    </Grid>
+                </Box>
             </>
     )
 });

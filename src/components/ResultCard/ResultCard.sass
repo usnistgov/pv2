@@ -1,16 +1,28 @@
 @use "src/colors"
 
-.result-card
+.side-tooltip-container
+  position: relative
+
+  .side-tooltips
+    position: absolute
+    left: 420px
+    top: 95px
+
+    display: flex
+    flex-flow: column
+
+  .icon
+    margin: 13px 8px
+
+.card-size
   width: 25em
-  margin-bottom: 32px
+  margin-bottom: 16px
 
   display: inline-block
   box-sizing: border-box
   border-radius: 1em
 
-  .icon
-    margin: 0 8px
-
+.result-card
   .result-title
     display: flex
     height: 70px
@@ -41,13 +53,5 @@
     border-bottom: 2px solid colors.$primary
 
   .result-graph
+    margin-top: 32px
     height: 200px
-
-    .result-graph-title
-      min-width: 300px
-
-      margin: 16px auto 8px auto
-      padding: 0 16px
-
-      font-size: 14pt
-      text-align: center

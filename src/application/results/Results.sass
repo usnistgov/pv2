@@ -1,5 +1,14 @@
 @use "src/colors"
 
+.graph-control
+  min-width: 300px !important
+
+  margin: 16px auto 32px auto
+  padding: 0 16px
+
+  font-size: 14pt
+  text-align: center
+
 .result-loading-backdrop
   z-index: 1000 !important
 
@@ -13,16 +22,17 @@
       margin-top: 32px
 
 .download-results
-  margin: 32px auto 64px auto
+  position: absolute
+  right: 8px
+  top: 10px
   width: fit-content
-
-  align-content: center
 
   a
     text-decoration: none
 
 .container
   position: relative
+  margin-bottom: 64px
 
 .result-back-button
   position: absolute
