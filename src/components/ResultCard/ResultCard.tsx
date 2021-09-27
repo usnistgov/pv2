@@ -77,7 +77,7 @@ export default function ResultCard({alt}: ResultCardProps): ReactElement {
                             </Pv2Tooltip>
                         </Grid>
                         <Grid item xs={6}>
-                            <div>{valid(alt.SPP) && alt.SPP !== "Infinity" ? decimals(alt.SPP, 5) : "NA"}</div>
+                            <div>{valid(alt.SPP) && alt.SPP !== "Infinity" ? `${decimals(alt.SPP, 2)}yr` : "NA"}</div>
                         </Grid>
 
                         <Grid item xs={6}>
