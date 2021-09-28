@@ -54,7 +54,6 @@ const SolarSystemForm = observer(() => {
             <Box className={"form-single-column-container"}>
                 <Info tooltip={PANEL_EFFICIENCY_TOOLTIP} info={PANEL_EFFICIENCY_INFO}>
                     <ValidatedTextField fullWidth
-                                        required
                                         variant={"filled"}
                                         label={PANEL_EFFICIENCY_LABEL}
                                         defaultValue={store.panelEfficiency}

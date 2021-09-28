@@ -180,8 +180,7 @@ export class SolarSystemFormStore {
     }
 
     get isDone(): boolean {
-        return this.panelEfficiency !== undefined &&
-            this.totalSystemSize !== undefined &&
+        return this.totalSystemSize !== undefined &&
             this.estimatedAnnualProduction !== undefined;
     }
 
@@ -281,10 +280,8 @@ export class CostsFormStore {
             ) &&
             (
                 this.loanOrCash === LOAN_OR_CASH_OPTIONS[1] || (
-                    this.nominalInterestRate !== undefined &&
                     this.downPayment !== undefined &&
-                    this.monthlyPayment !== undefined &&
-                    this.loanLength !== undefined
+                    this.monthlyPayment !== undefined
                 )
             ) && (
                 this.ppaOption === PPA_OPTIONS[1] || (

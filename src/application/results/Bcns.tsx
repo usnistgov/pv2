@@ -239,7 +239,7 @@ export function loanDownPayment(store: ApplicationStore): object {
 }
 
 export function loanPayoff(store: ApplicationStore): object {
-    let paybackAmount =  (store.costsFormStore.totalInstallationCosts ?? 0) -
+    let paybackAmount = (store.costsFormStore.totalInstallationCosts ?? 0) -
         ((store.costsFormStore.downPayment ?? 0) / 100) * (store.costsFormStore.totalInstallationCosts ?? 0);
     let monthlyAmount = (((store.costsFormStore.monthlyPayment ?? 0) / 100) *
         (store.costsFormStore.totalInstallationCosts ?? 0));
@@ -248,11 +248,16 @@ export function loanPayoff(store: ApplicationStore): object {
     let years = Math.floor(months / 12);
     let remainingAmount = (months > 12 ? (months % 12) : 0) * monthlyAmount;
 
-    let values = [0].concat(Array(years).fill(yearlyAmount));
-    values.push(remainingAmount);
-    values = values.concat(Array(store.analysisAssumptionsFormStore.studyPeriod - years - 1).fill(0));
+    let arrayLength = years > 25 ? 25 : years;
+    let remainingLength = Math.max(0, store.analysisAssumptionsFormStore.studyPeriod - years - 1);
 
-    let rates = values.map((value) =>  value / yearlyAmount);
+    let values = [0].concat(Array(arrayLength).fill(yearlyAmount));
+    if (values.length < 25) {
+        values.push(remainingAmount);
+        values = values.concat(Array(remainingLength).fill(0));
+    }
+    
+    let rates = values.map((value) => value / yearlyAmount);
 
     console.log(`Payback Amount: ${paybackAmount}`);
     console.log(`monthly Amount: ${monthlyAmount}`);
