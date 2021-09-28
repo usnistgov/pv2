@@ -230,7 +230,7 @@ export function loanDownPayment(store: ApplicationStore): object {
         recurVarRate: null,
         recurVarValue: null,
         recurEndDate: null,
-        valuePerQ: store.costsFormStore.downPayment,
+        valuePerQ: ((store.costsFormStore.downPayment ?? 0) / 100) * (store.costsFormStore.totalInstallationCosts ?? 0),
         quant: 1,
         quantVarRate: null,
         quantVarValue: null,
@@ -239,21 +239,45 @@ export function loanDownPayment(store: ApplicationStore): object {
 }
 
 export function loanPayoff(store: ApplicationStore): object {
+    let paybackAmount =  (store.costsFormStore.totalInstallationCosts ?? 0) -
+        ((store.costsFormStore.downPayment ?? 0) / 100) * (store.costsFormStore.totalInstallationCosts ?? 0);
+    let monthlyAmount = (((store.costsFormStore.monthlyPayment ?? 0) / 100) *
+        (store.costsFormStore.totalInstallationCosts ?? 0));
+    let yearlyAmount = monthlyAmount * 12;
+    let months = paybackAmount / monthlyAmount;
+    let years = Math.floor(months / 12);
+    let remainingAmount = (months > 12 ? (months % 12) : 0) * monthlyAmount;
+
+    let values = [0].concat(Array(years).fill(yearlyAmount));
+    values.push(remainingAmount);
+    values = values.concat(Array(store.analysisAssumptionsFormStore.studyPeriod - years - 1).fill(0));
+
+    let rates = values.map((value) =>  value / yearlyAmount);
+
+    console.log(`Payback Amount: ${paybackAmount}`);
+    console.log(`monthly Amount: ${monthlyAmount}`);
+    console.log(`yearly Amount: ${yearlyAmount}`);
+    console.log(`months: ${months}`);
+    console.log(`years: ${years}`);
+    console.log(`remaining Amount: ${remainingAmount}`);
+    console.log(`values: ${values}`);
+    console.log(`occur end date: ${Math.ceil(months / 12) + 1}`);
+
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
         bcnTag: "Investment Costs",
-        initialOcc: 0,
+        initialOcc: 1,
         bcnInvestBool: true,
         bcnLife: null,
-        rvBool: true,
+        rvBool: false,
         rvOnly: false,
         recurBool: true,
         recurInterval: 1,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: store.costsFormStore.loanLength,
-        valuePerQ: store.costsFormStore.monthlyPayment ?? 0,
+        recurVarRate: "Year by Year",
+        recurVarValue: rates,
+        recurEndDate: Math.ceil(months / 12) + 1,
+        valuePerQ: yearlyAmount,
         quant: 1,
         quantVarRate: null,
         quantVarValue: null,

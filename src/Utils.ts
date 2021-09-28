@@ -21,6 +21,8 @@ export function generateVarValue(array: number[], initial: number): number[] {
     let tmp = initial;
 
     return array.map((value) => {
+        console.log(`value: ${value} tmp: ${tmp}`)
+
         if (value === tmp)
             return 0;
 

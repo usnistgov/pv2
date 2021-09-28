@@ -3,16 +3,22 @@ import {
     federalTaxCredit,
     grantsRebates,
     gridConsumption,
-    gridDemandCharge, loanPayoff,
-    maintenanceCosts, maintenanceCostsAfterPpa,
+    gridDemandCharge,
+    loanDownPayment,
+    loanPayoff,
+    maintenanceCosts,
+    maintenanceCostsAfterPpa,
     netGridConsumption,
     netPanelProduction,
     panelProduction,
     ppaConsumption,
-    ppaSystemPurchasePrice, productionBasedSrec, productionBasedSrecAfterPpa,
+    ppaSystemPurchasePrice,
+    productionBasedSrec,
+    productionBasedSrecAfterPpa,
     pvGridConnectionRate,
     totalInstallationCosts,
-    totalInstallationCostsResidualValue, upfrontSrec
+    totalInstallationCostsResidualValue,
+    upfrontSrec
 } from "./Bcns";
 import {
     LOAN_OR_CASH_OPTIONS,
@@ -68,7 +74,7 @@ function firstAlternative(store: ApplicationStore) {
 
     switch (store.costsFormStore.loanOrCash) {
         case LOAN_OR_CASH_OPTIONS[0]:
-            bcns.push(createBcn("Loan Down Payment", altId, () => totalInstallationCosts(store)));
+            bcns.push(createBcn("Loan Down Payment", altId, () => loanDownPayment(store)));
             bcns.push(createBcn("Monthly Loan Payments", altId, () => loanPayoff(store)))
             break;
         case LOAN_OR_CASH_OPTIONS[1]:
