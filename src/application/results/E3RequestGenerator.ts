@@ -3,7 +3,7 @@ import {
     federalTaxCredit,
     grantsRebates,
     gridConsumption,
-    gridDemandCharge,
+    gridDemandCharge, inverterReplacement, inverterReplacementAfterPpa,
     loanDownPayment,
     loanPayoff,
     maintenanceCosts,
@@ -21,6 +21,7 @@ import {
     upfrontSrec
 } from "./Bcns";
 import {
+    INVERTER_TYPE_OPTIONS,
     LOAN_OR_CASH_OPTIONS,
     NET_METERING_FEED_TARIFF_OPTIONS,
     PPA_OPTIONS,
@@ -91,6 +92,16 @@ function firstAlternative(store: ApplicationStore) {
             break;
     }
 
+    switch (store.solarSystemFormStore.inverterType) {
+        case INVERTER_TYPE_OPTIONS[0]:
+        case INVERTER_TYPE_OPTIONS[1]:
+            bcns.push(createBcn("Inverter Replacement Costs", altId, () => inverterReplacement(store)));
+            break;
+
+        default:
+            break;
+    }
+
     return {
         altID: altId,
         altName: altLabels[1],
@@ -116,6 +127,16 @@ function ppaAlternative(store: ApplicationStore) {
 
         if (store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[2]) {
             bcns.push(createBcn("Production Based Solar Renewable Energy Credits After Purchase", altId, () => productionBasedSrecAfterPpa(store)))
+        }
+
+        switch (store.solarSystemFormStore.inverterType) {
+            case INVERTER_TYPE_OPTIONS[0]:
+            case INVERTER_TYPE_OPTIONS[1]:
+                bcns.push(createBcn("Inverter Replacement Costs After PPA", altId, () => inverterReplacementAfterPpa(store)));
+                break;
+
+            default:
+                break;
         }
     }
 

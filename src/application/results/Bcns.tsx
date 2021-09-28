@@ -216,6 +216,31 @@ export function totalInstallationCostsResidualValue(store: ApplicationStore): ob
     }
 }
 
+export function inverterReplacement(store: ApplicationStore): object {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
+
+    return {
+        bcnType: "Cost",
+        bcnSubType: "Direct",
+        bcnTag: "Maintenance Costs",
+        initialOcc: store.solarSystemFormStore.inverterLifetime,
+        bcnInvestBool: false,
+        bcnLife: store.solarSystemFormStore.inverterLifetime,
+        rvBool: true,
+        rvOnly: false,
+        recurBool: true,
+        recurInterval: store.solarSystemFormStore.inverterLifetime,
+        recurVarRate: null,
+        recurVarValue: null,
+        recurEndDate: studyPeriod + 1,
+        valuePerQ: store.costsFormStore.inverterReplacementCosts,
+        quant: 1,
+        quantVarRate: null,
+        quantVarValue: null,
+        quantUnit: null
+    }
+}
+
 export function loanDownPayment(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
@@ -256,17 +281,8 @@ export function loanPayoff(store: ApplicationStore): object {
         values.push(remainingAmount);
         values = values.concat(Array(remainingLength).fill(0));
     }
-    
-    let rates = values.map((value) => value / yearlyAmount);
 
-    console.log(`Payback Amount: ${paybackAmount}`);
-    console.log(`monthly Amount: ${monthlyAmount}`);
-    console.log(`yearly Amount: ${yearlyAmount}`);
-    console.log(`months: ${months}`);
-    console.log(`years: ${years}`);
-    console.log(`remaining Amount: ${remainingAmount}`);
-    console.log(`values: ${values}`);
-    console.log(`occur end date: ${Math.ceil(months / 12) + 1}`);
+    let rates = values.map((value) => value / yearlyAmount);
 
     return {
         bcnType: "Cost",
@@ -524,6 +540,35 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
         quant: (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000, // Divide by 1000 to get MWh.
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: annualProduction,
+        quantUnit: null
+    }
+}
+
+export function inverterReplacementAfterPpa(store: ApplicationStore): object {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
+
+    const initial = Math.ceil(
+        (store.costsFormStore.ppaContractLength ?? studyPeriod) / store.solarSystemFormStore.inverterLifetime
+    ) * store.solarSystemFormStore.inverterLifetime
+
+    return {
+        bcnType: "Cost",
+        bcnSubType: "Direct",
+        bcnTag: "Maintenance Costs",
+        initialOcc: initial,
+        bcnInvestBool: false,
+        bcnLife: store.solarSystemFormStore.inverterLifetime,
+        rvBool: true,
+        rvOnly: false,
+        recurBool: true,
+        recurInterval: store.solarSystemFormStore.inverterLifetime,
+        recurVarRate: null,
+        recurVarValue: null,
+        recurEndDate: studyPeriod + 1,
+        valuePerQ: store.costsFormStore.inverterReplacementCosts,
+        quant: 1,
+        quantVarRate: null,
+        quantVarValue: null,
         quantUnit: null
     }
 }
