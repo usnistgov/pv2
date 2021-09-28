@@ -83,6 +83,8 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
             let accumulator = 0;
             data = result.reqCashFlowObjects
                 .map((cashFlowObject: any, index: number, array: any) => {
+                    accumulator = 0;
+
                     return {
                         id: "",
                         data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
