@@ -409,7 +409,7 @@ export function ppaSystemPurchasePrice(store: ApplicationStore): object {
         bcnType: "Cost",
         bcnSubType: "Direct",
         bcnTag: "Investment Costs",
-        initialOcc: store.costsFormStore.ppaContractLength, // End of PPA contract
+        initialOcc: (store.costsFormStore.ppaContractLength ?? 0) + 1, // End of PPA contract
         bcnInvestBool: true,
         bcnLife: null,
         rvBool: false,
