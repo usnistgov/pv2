@@ -458,11 +458,6 @@ export function productionBasedSrec(store: ApplicationStore): object {
         (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000
     );
 
-    const srecPaymentRates = generateVarValue(
-        store.srecFormStore.srecPaymentsProductionBased,
-        store.srecFormStore.srecPaymentsProductionBased[0]
-    );
-
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
@@ -473,10 +468,10 @@ export function productionBasedSrec(store: ApplicationStore): object {
         rvBool: false,
         recurBool: true,
         recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: srecPaymentRates,
+        recurVarRate: "Year by Year",
+        recurVarValue: store.srecFormStore.srecPaymentsProductionBased,
         recurEndDate: store.srecFormStore.srecContractLength,
-        valuePerQ: -store.srecFormStore.srecPaymentsProductionBased[0],
+        valuePerQ: -1,
         quant: (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000, // Divide by 1000 to get MWh.
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: annualProduction,
@@ -518,11 +513,6 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
         (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000
     );
 
-    const srecPaymentRates = generateVarValue(
-        store.srecFormStore.srecPaymentsProductionBased,
-        store.srecFormStore.srecPaymentsProductionBased[0]
-    );
-
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
@@ -533,10 +523,10 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
         rvBool: false,
         recurBool: true,
         recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: srecPaymentRates,
+        recurVarRate: "Year by Year",
+        recurVarValue: store.srecFormStore.srecPaymentsProductionBased,
         recurEndDate: store.srecFormStore.srecContractLength,
-        valuePerQ: -store.srecFormStore.srecPaymentsProductionBased[0],
+        valuePerQ: -1,
         quant: (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000, // Divide by 1000 to get MWh.
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: annualProduction,

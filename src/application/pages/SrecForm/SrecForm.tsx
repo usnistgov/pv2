@@ -95,13 +95,13 @@ const SrecForm = observer(() => {
                                                         variant={"filled"}
                                                         label={`Year ${i + 1}`}
                                                         key={i + 1}
-                                                        defaultValue={store.srecPaymentsProductionBased[i]}
+                                                        defaultValue={store.srecPaymentsProductionBased[i + 1]}
                                                         schema={Yup.number().required().min(0)}
                                                         onValidate={action((value) => {
-                                                            store.srecPaymentsProductionBased[i] = value
+                                                            store.srecPaymentsProductionBased[i + 1] = value
                                                         })}
                                                         onError={action(() => {
-                                                            store.srecPaymentsProductionBased[i] = 0
+                                                            store.srecPaymentsProductionBased[i + 1] = 0
                                                         })}
                                                         InputProps={Adornment.DOLLAR_PER_MWH}
                                                         type={"number"}/>
