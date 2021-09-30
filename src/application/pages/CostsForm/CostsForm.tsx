@@ -261,7 +261,7 @@ const CostsForm = observer(() => {
                                                 store.downPayment = value
                                             })}
                                             onError={action(() => store.downPayment = undefined)}
-                                            InputProps={Adornment.PERCENT}
+                                            InputProps={Adornment.DOLLAR}
                                             type={"number"}/>
                     </Info>
                     <Info tooltip={NOMINAL_INTEREST_RATE_TOOLTIP} info={NOMINAL_INTEREST_RATE_INFO}>
@@ -288,7 +288,7 @@ const CostsForm = observer(() => {
                                                 store.monthlyPayment = value
                                             })}
                                             onError={action(() => store.monthlyPayment = undefined)}
-                                            InputProps={Adornment.PERCENT}
+                                            InputProps={Adornment.DOLLAR}
                                             type={"number"}/>
                     </Info>
                     <Info tooltip={LOAN_LENGTH_TOOTLIP} info={LOAN_LENGTH_INFO}>
