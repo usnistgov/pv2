@@ -94,7 +94,7 @@ export function panelProduction(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: null,
+        bcnTag: "Electricity",
         initialOcc: 1,
         bcnInvestBool: false,
         bcnLife: null,
@@ -105,8 +105,8 @@ export function panelProduction(store: ApplicationStore): object {
         recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: studyPeriod,
-        valuePerQ: -(store.electricalCostFormStore.excessGenerationUnitPrice ?? 0), //Excess Production Rate
-        quant: store.solarSystemFormStore.estimatedAnnualProduction ?? 0,
+        valuePerQ: store.electricalCostFormStore.excessGenerationUnitPrice ?? 0, //Excess Production Rate
+        quant: -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0),
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: annualProduction,
         quantUnit: "kWh"
@@ -124,13 +124,13 @@ export function netPanelProduction(store: ApplicationStore): object {
 
     const netProductionRates = generateVarValue(
         netElectricity.map((value) => Math.min(value, 0)),
-        store.solarSystemFormStore.estimatedAnnualProduction ?? 0
+        -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
     );
 
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: null,
+        bcnTag: "Electricity",
         initialOcc: 1,
         bcnInvestBool: false,
         bcnLife: null,
@@ -141,8 +141,8 @@ export function netPanelProduction(store: ApplicationStore): object {
         recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: studyPeriod,
-        valuePerQ: -(store.electricalCostFormStore.excessGenerationUnitPrice ?? 0), //Excess Production Rate
-        quant: store.solarSystemFormStore.estimatedAnnualProduction ?? 0,
+        valuePerQ: store.electricalCostFormStore.excessGenerationUnitPrice ?? 0, //Excess Production Rate
+        quant: -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0),
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: netProductionRates,
         quantUnit: "kWh"
@@ -255,7 +255,7 @@ export function loanDownPayment(store: ApplicationStore): object {
         recurVarRate: null,
         recurVarValue: null,
         recurEndDate: null,
-        valuePerQ: ((store.costsFormStore.downPayment ?? 0) / 100) * (store.costsFormStore.totalInstallationCosts ?? 0),
+        valuePerQ: store.costsFormStore.downPayment ?? 0,
         quant: 1,
         quantVarRate: null,
         quantVarValue: null,
@@ -264,25 +264,17 @@ export function loanDownPayment(store: ApplicationStore): object {
 }
 
 export function loanPayoff(store: ApplicationStore): object {
-    let paybackAmount = (store.costsFormStore.totalInstallationCosts ?? 0) -
-        ((store.costsFormStore.downPayment ?? 0) / 100) * (store.costsFormStore.totalInstallationCosts ?? 0);
-    let monthlyAmount = (((store.costsFormStore.monthlyPayment ?? 0) / 100) *
-        (store.costsFormStore.totalInstallationCosts ?? 0));
-    let yearlyAmount = monthlyAmount * 12;
-    let months = paybackAmount / monthlyAmount;
-    let years = Math.floor(months / 12);
-    let remainingAmount = (months > 12 ? (months % 12) : 0) * monthlyAmount;
+    let studyPeriod = store.analysisAssumptionsFormStore.studyPeriod;
+    let yearlyAmount = (store.costsFormStore.monthlyPayment ?? 0) * 12;
+    let loanLength = store.costsFormStore.loanLength ?? 1
+    let length = studyPeriod <= loanLength ? studyPeriod : loanLength;
 
-    let arrayLength = years > 25 ? 25 : years;
-    let remainingLength = Math.max(0, store.analysisAssumptionsFormStore.studyPeriod - years - 1);
-
-    let values = [0].concat(Array(arrayLength).fill(yearlyAmount));
-    if (values.length < 25) {
-        values.push(remainingAmount);
-        values = values.concat(Array(remainingLength).fill(0));
+    let payments = Array(studyPeriod + 1).fill(0);
+    for (let i = 1; i <= length; i++) {
+        payments[i] = yearlyAmount / Math.pow(1 + (store.analysisAssumptionsFormStore.generalInflation / 100), i);
     }
+    let rates = payments.map((value) => value / yearlyAmount);
 
-    let rates = values.map((value) => value / yearlyAmount);
 
     return {
         bcnType: "Cost",
@@ -297,7 +289,7 @@ export function loanPayoff(store: ApplicationStore): object {
         recurInterval: 1,
         recurVarRate: "Year by Year",
         recurVarValue: rates,
-        recurEndDate: Math.ceil(months / 12) + 1,
+        recurEndDate: store.costsFormStore.loanLength ?? 1,
         valuePerQ: yearlyAmount,
         quant: 1,
         quantVarRate: null,

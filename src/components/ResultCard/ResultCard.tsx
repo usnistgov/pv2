@@ -86,7 +86,7 @@ export default function ResultCard({alt}: ResultCardProps): ReactElement {
                             </Pv2Tooltip>
                         </Grid>
                         <Grid className={"vertical-center"} item xs={6}>
-                            <div>{valid(alt.deltaQuant?.["Electricity"]) ? numberFormatter.format(-alt.deltaQuant?.["Electricity"]) : "NA"}</div>
+                            <div>{valid(alt.deltaQuant?.["Electricity"]) ? `${numberFormatter.format(-alt.deltaQuant?.["Electricity"])} kWh` : "NA"}</div>
                         </Grid>
                     </Grid>
                 </CardContent>
