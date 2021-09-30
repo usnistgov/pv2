@@ -222,7 +222,7 @@ export function inverterReplacement(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Maintenance Costs",
+        bcnTag: "Investment Costs",
         initialOcc: store.solarSystemFormStore.inverterLifetime,
         bcnInvestBool: false,
         bcnLife: store.solarSystemFormStore.inverterLifetime,
@@ -536,7 +536,7 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Maintenance Costs",
+        bcnTag: "Investment Costs",
         initialOcc: initial,
         bcnInvestBool: false,
         bcnLife: store.solarSystemFormStore.inverterLifetime,
