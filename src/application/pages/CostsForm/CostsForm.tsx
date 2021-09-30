@@ -256,7 +256,7 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={LOAN_DOWN_PAYMENT_LABEL}
                                             defaultValue={store.downPayment}
-                                            schema={Yup.number().required().max(100).min(0)}
+                                            schema={Yup.number().required().min(0)}
                                             onValidate={action((value) => {
                                                 store.downPayment = value
                                             })}
