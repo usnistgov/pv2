@@ -195,9 +195,8 @@ export const LOAN_OR_CASH_OPTIONS = [
 ];
 
 export const LOAN_DOWN_PAYMENT_LABEL = "Loan Down Payment";
-export const LOAN_DOWN_PAYMENT_TOOLTIP = "Percent of Total Installed Cost Paid at Time of Signature/Installation";
-export const LOAN_DOWN_PAYMENT_INFO = "Percent of Total Installed Cost Paid at Time of Signature/Installation. " +
-    "Typically ranging from 0% to 20%.";
+export const LOAN_DOWN_PAYMENT_TOOLTIP = "Amount paid at the start of the loan";
+export const LOAN_DOWN_PAYMENT_INFO = "Amount paid at the start of the loan.";
 
 export const LOAN_LENGTH_LABEL = "Loan Length";
 export const LOAN_LENGTH_TOOTLIP = "Length of time to pay back loan";
