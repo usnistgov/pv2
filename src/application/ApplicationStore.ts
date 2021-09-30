@@ -280,6 +280,7 @@ export class CostsFormStore {
             ) &&
             (
                 this.loanOrCash === LOAN_OR_CASH_OPTIONS[1] || (
+                    this.loanLength !== undefined &&
                     this.downPayment !== undefined &&
                     this.monthlyPayment !== undefined
                 )

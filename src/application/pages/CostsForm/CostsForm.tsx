@@ -293,6 +293,7 @@ const CostsForm = observer(() => {
                     </Info>
                     <Info tooltip={LOAN_LENGTH_TOOTLIP} info={LOAN_LENGTH_INFO}>
                         <ValidatedTextField fullWidth
+                                            required
                                             variant={"filled"}
                                             label={LOAN_LENGTH_LABEL}
                                             defaultValue={store.loanLength}
