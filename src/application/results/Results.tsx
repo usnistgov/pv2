@@ -157,8 +157,8 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
                                     uiStore.graphOption = event.target.value as GraphOption;
                                 }}>
                                 <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
-                                <MenuItem value={GraphOption.SAVINGS}>Savings</MenuItem>
-                                <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Savings</MenuItem>
+                                <MenuItem value={GraphOption.SAVINGS}>Annual Net Savings</MenuItem>
+                                <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Net Savings</MenuItem>
                             </Select>
                         </FormControl>
                     </div>

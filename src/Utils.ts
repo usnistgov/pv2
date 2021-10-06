@@ -13,10 +13,6 @@ export function fetchMap<A, B>(url: string, map: (input: A, json: any) => B): (i
     return async (input: A) => data.then(json => map(input, json));
 }
 
-export function decimals(x: number | string, places: number): string {
-    return (typeof x === 'number' ? x : parseFloat(x)).toFixed(places);
-}
-
 export function generateVarValue(array: number[], initial: number): number[] {
     let tmp = initial;
 

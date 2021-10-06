@@ -14,7 +14,6 @@ import {
     SREC_PAYMENTS_LABEL,
     SREC_PAYMENTS_OPTIONS,
     SREC_PAYMENTS_TOOLTIP,
-    SREC_PAYMENTS_UP_FRONT_INFO,
     SREC_PAYMENTS_UP_FRONT_LABEL,
     SREC_PAYMENTS_UP_FRONT_TOOLTIP
 } from "../../../Strings";
@@ -37,9 +36,11 @@ const SrecForm = observer(() => {
         <Box className={"form-page-container"}>
             <MaterialHeader text={"SREC Payments"}/>
             <div className={"form-page-text"}>
-                PV^2 allows a user to input dollar values from Solar Renewable Energy Credit (SREC) sales. A homeowner
-                may be able to receive an upfront payment based on the size of the system or payments over time based on
-                production.
+                Provide information on the value of the Solar Renewable Energy Credits (SREC) generated from the solar
+                PV system. A homeowner may be able to receive an upfront payment based on the size of the system or
+                payments over time based on electricity production. All values should be available from the solar
+                contract proposal and vary significantly by location. See User Guide for detailed guidance on how to
+                populate the SREC information inputs.
             </div>
 
             <Box className={"form-single-column-container"}>
@@ -62,7 +63,7 @@ const SrecForm = observer(() => {
                     </FormControl>
                 </Info>
                 {store.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
-                <Info tooltip={SREC_PAYMENTS_UP_FRONT_TOOLTIP} info={SREC_PAYMENTS_UP_FRONT_INFO}>
+                <Info tooltip={SREC_PAYMENTS_UP_FRONT_TOOLTIP}>
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
                                         label={SREC_PAYMENTS_UP_FRONT_LABEL}

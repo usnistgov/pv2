@@ -1,18 +1,22 @@
-export const ADDRESS_FORM_TOOLTIP = "Your Home Address";
+export const ADDRESS_TOOLTIP = "Your Street Number and Name";
 export const ADDRESS_LABEL = "Address";
+export const CITY_TOOLTIP = "Your City";
 export const CITY_LABEL = "City";
+export const STATE_TOOLTIP = "Your State (Name or Acronym are both validate)";
 export const STATE_LABEL = "State";
-export const ZIPCODE_LABEL = "Zipcode";
+export const ZIPCODE_TOOLTIP = "Your ZIP Code (Required)";
+export const ZIPCODE_LABEL = "ZIP Code";
 
 export const STUDY_PERIOD_LABEL = "Study Period";
 export const STUDY_PERIOD_TOOLTIP = "Study period is the analysis time frame";
 export const STUDY_PERIOD_INFO = "Study period is the length of the time period covered by the economic evaluation. " +
-    "Can select a study period between 1 year and 40 years";
+    "Can select a study period between 1 year and 40 years. Recommend a study period equal to the solar panel " +
+    "warranty length.";
 
 export const REAL_DISCOUNT_RATE_LABEL = "Real Discount Rate";
 export const REAL_DISCOUNT_RATE_TOOLTIP = "Time value of money excluding inflation";
-export const REAL_DISCOUNT_RATE_INFO = "Real Discount Rates reflect Time Value of Money apart from changes in the " +
-    "purchasing power of the dollar (i.e., general inflation)";
+export const REAL_DISCOUNT_RATE_INFO = "Real Discount Rates reflect Time Value of Money excluding from changes in " +
+    "the purchasing power of the dollar (i.e., general inflation)";
 
 export const GENERAL_INFLATION_LABEL = "General Inflation Rate";
 export const GENERAL_INFLATION_TOOLTIP = "General rate of price changes over time";
@@ -20,13 +24,16 @@ export const GENERAL_INFLATION_INFO = "General inflation rate is the rate of ris
     "put another way, a decline in the general purchasing power of the dollar.";
 
 export const RESIDUAL_VALUE_APPROACH_LABEL = "Residual Value Approach";
-export const RESIDUAL_VALUE_APPROACH_TOOLTIP = "Approach to estimate value at the end of the study period";
-export const RESIDUAL_VALUE_APPROACH_INFO = "Residual Value is the estimated value, net of any Disposal Costs, of " +
-    "any building or building system removed or replaced during the Study Period, or remaining at the end of the " +
-    "Study Period, or recovered through resale or reuse at the end of the Study Period\n Approach Options:\n" +
-    "The Linear Depreciation approach assumes that the residual value is a linear function of the installation cost " +
-    "for an investment.\nNote: If the study period and the service life of the solar PC system are the same, " +
-    "the residual value will be zero.";
+export const RESIDUAL_VALUE_APPROACH_TOOLTIP = "Approach to estimate value of solar PV system at the end of the " +
+    "study period";
+export const RESIDUAL_VALUE_APPROACH_INFO = <div>
+    Residual Value is the estimated value, net of any Disposal Costs, of
+    any building or building system removed or replaced during the Study Period, or remaining at the end of the
+    Study Period, or recovered through resale or reuse at the end of the Study Period. <br/><br/>Approach Options:
+    The Linear Depreciation approach assumes that the residual value is a linear function of the installation cost
+    for an investment.<br/><br/>Note: If the study period and the service life of the solar PV system are the same,
+    the residual value will be zero.
+</div>;
 export const RESIDUAL_VALUE_APPROACH_OPTIONS = [
     "Linear Depreciation"
 ];
@@ -36,12 +43,12 @@ export const ELECTRICAL_COMPANY_NAME_TOOLTIP = "Electricity Provider Name";
 export const ELECTRICAL_COMPANY_NAME_INFO = "Electricity Provider Name. For informational purposes only.";
 
 export const ANNUAL_CONSUMPTION_LABEL = "Annual Consumption";
-export const ANNUAL_CONSUMPTION_TOOLTIP = "Annual consumption of the household";
-export const ANNUAL_CONSUMPTION_INFO = "Annual consumption of the household. Can use previous year’s bills or obtain " +
+export const ANNUAL_CONSUMPTION_TOOLTIP = "Annual household electricity consumption (kWh)";
+export const ANNUAL_CONSUMPTION_INFO = "Annual consumption of the household. Use previous year’s bills or obtain " +
     "consumption data from the users online account at the electricity provider.";
 
 export const FLAT_RATE_CHARGE_LABEL = "Monthly Flat Rate Charge";
-export const FLAT_RATE_CHARGE_TOOLTIP = "Demand charge is a fixed costs for having an account";
+export const FLAT_RATE_CHARGE_TOOLTIP = "Demand charge is a fixed cost for having an account";
 export const FLAT_RATE_CHARGE_INFO = "Demand charge is a fixed cost for having an account. Can find this value from " +
     "monthly bills";
 
@@ -52,12 +59,18 @@ export const ELECTRICAL_UNIT_PRICE_INFO = "Cost per unit of electricity consumed
     "fees, environmental fund payments.";
 
 export const NET_METERING_FEED_TARIFF_LABEL = "Net Metering or Feed In Tariff (FiT)";
-export const NET_METERING_FEED_TARIFF_TOOLTIP = "Net metering for Gross metering (i.e., feed in tariff)";
-export const NET_METERING_FEED_TARIFF_INFO = "Net metering means that the homeowner is charged (or paid) for the net " +
-    "difference in electricity consumption and electricity production. Typically, the price paid for excess " +
-    "consumption is different than the price paid to the homeowner for excess production.\nGross metering (i.e., " +
-    "feed in tariff) means that the homeowner is paid for all production and is charged for all consumption, " +
-    "typically at different rates.";
+export const NET_METERING_FEED_TARIFF_TOOLTIP = "Net metering or Gross metering (i.e., feed in tariff)";
+export const NET_METERING_FEED_TARIFF_INFO = <div>Net metering means that the homeowner is charged (or paid) for the net
+    difference in electricity consumption and electricity production. Typically, the price paid for excess
+    consumption is different than the price paid to the homeowner for excess production.\nGross metering (i.e.,
+    feed in tariff) means that the homeowner is paid for all production and is charged for all consumption,
+    typically at different rates. Most states use Net Metering. Homeowner can obtain this information from the
+    solar installer or&nbsp;
+    <a href={"https://www.dsireusa.org/resources/detailed-summary-maps/"}>
+        DSIREUSE.org
+    </a>
+    .
+</div>
 export const NET_METERING_FEED_TARIFF_OPTIONS = [
     "Net Metering Tariff",
     "Feed in Tariff (Gross Metering)"
@@ -66,19 +79,23 @@ export const NET_METERING_FEED_TARIFF_OPTIONS = [
 export const EXCESS_GENERATION_UNIT_PRICE_LABEL = "Excess Generation / FiT Unit Price";
 export const EXCESS_GENERATION_UNIT_PRICE_TOOLTIP = "Price per unit of electricity produced ($/kWh)";
 export const EXCESS_GENERATION_UNIT_PRICE_INFO = "Price per unit of electricity produced ($/kWh), which is typically " +
-    "different than the consumption price.";
+    "different than the consumption price. Provided in your electricity bill and utility rate schedule, on the " +
+    "provider website, or by the solar installer.";
 
-export const PV_GRID_CONNECTION_RATE_LABEL = "PV Grid Connection Rate (Annual)";
+export const PV_GRID_CONNECTION_RATE_LABEL = "PV Grid Connection Rate – Annual (Optional)";
 export const PV_GRID_CONNECTION_RATE_TOOLTIP = "Annual charge for connecting a solar PV system to the grid";
-export const PV_GRID_CONNECTION_RATE_INFO =  "Annual escalation rates for electricity prices. The default values are " +
-    "based on EIA projections for each Census Region and published in the Annual Supplement to NIST Handbook 135 " +
-    "(add hyperlink).";
+export const PV_GRID_CONNECTION_RATE_INFO = "Annual charge for connection of solar PV system to the electric grid. " +
+    "In most cases, no connection fee exists ($0).";
 
 export const VIEW_ANNUAL_ESCALATION_RATES_LABEL = "Do you want to view/edit annual escalation rates?";
 export const VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP = "Annual escalation rates for electricity prices";
-export const VIEW_ANNUAL_ESCALATION_RATES_INFO = "Annual escalation rates for electricity prices. The default values " +
-    "are based on EIA projections for each Census Region and published in the Annual Supplement to NIST Handbook " +
-    "135 (add hyperlink).";
+export const VIEW_ANNUAL_ESCALATION_RATES_INFO = <div>Annual escalation rates for electricity prices. The default values
+    are based on EIA projections for each Census Region and published in the&nbsp;
+    <a href={"https://nvlpubs.nist.gov/nistpubs/ir/2021/NIST.IR.85-3273-36.pdf"}>
+        Annual Supplement to NIST Handbook 135
+    </a>
+    .
+</div>
 export const VIEW_ANNUAL_ESCALATION_RATES_OPTIONS = [
     "Yes",
     "No"
@@ -90,14 +107,21 @@ export const ESCALATION_RATES_SAME_OR_DIFF_OPTIONS = [
     "Different"
 ];
 
-export const PANEL_EFFICIENCY_LABEL = "Solar Panel Rate Efficiency";
-export const PANEL_EFFICIENCY_TOOLTIP = "Input panel information";
-export const PANEL_EFFICIENCY_INFO = "Solar Panel Rate Efficiency.";
+export const PANEL_EFFICIENCY_LABEL = "Rated Efficiency of Solar Panels";
+export const PANEL_EFFICIENCY_TOOLTIP = "Rated efficiency of the solar panels";
+export const PANEL_EFFICIENCY_INFO = "Rated efficiency of solar panels is available from the solar contract proposal " +
+    "or equipment specification sheet.";
 
 export const INVERTER_TYPE_LABEL = "Inverter Type";
-export const INVERTER_TYPE_TOOLTIP= "Type of inverter";
+export const INVERTER_TYPE_TOOLTIP = "Type of inverter";
 export const INVERTER_TYPE_INFO = <div>
-    Inverter type can be:<br/>Microinverter<br/>String<br/>String with Optimizers
+    Inverter type can be:
+    <ul>
+        <li>Microinverter</li>
+        <li>String</li>
+        <li>String with Optimizers</li>
+    </ul>
+    Inverter type is available from the solar contract proposal or equipment specification sheet.
 </div>;
 export const INVERTER_TYPE_OPTIONS = [
     "String Inverter",
@@ -107,27 +131,37 @@ export const INVERTER_TYPE_OPTIONS = [
 
 export const TOTAL_SYSTEM_SIZE_LABEL = "Total System Size";
 export const TOTAL_SYSTEM_SIZE_TOOLTIP = "Total rated wattage of system";
+export const TOTAL_SYSTEM_SIZE_INFO = "Total rated capacity (W) is available from the solar contract proposal."
 
 export const ANNUAL_PRODUCTION_LABEL = "Estimated Annual Production";
 export const ANNUAL_PRODUCTION_TOOLTIP = "Estimated annual production in kWh";
-export const ANNUAL_PRODUCTION_INFO = "Estimated annual production in the initial year of operation. Calculations " +
-    "account for decreasing production due to efficiency degradation of the solar PV system";
+export const ANNUAL_PRODUCTION_INFO = "Estimated annual production in the initial year of operation. Estimated " +
+    "annual production (kWh) is available from the solar contract proposal. Calculations account for decreasing " +
+    "production due to efficiency degradation of the solar PV system";
 
 export const PANEL_LIFETIME_LABEL = "Panel Lifetime";
 export const PANEL_LIFETIME_TOOLTIP = "Expected service life of solar panels";
 export const PANEL_LIFETIME_INFO = "Panel lifetime is the expected service life of the solar panels. Typically use " +
-    "25 years or the length of the warranty. Must be 40 years or less.";
+    "25 years or the length of the warranty, which is available from the solar contract proposal or equipment " +
+    "specification sheet. Must be 40 years or less.";
 
 export const INVERTER_LIFETIME_LABEL = "Inverter Lifetime";
 export const INVERTER_LIFETIME_TOOLTIP = "Expected service life of inverter";
-export const INVERTER_LIFETIME_INFO = "Inverter lifetime is the expected service life of the inverters. Typical " +
-    "lifetimes are:\nString: 15 years or length of warranty\nMicroinverter: lifetime or warranty length of panels\n" +
-    "Must be 40 years or less.";
+export const INVERTER_LIFETIME_INFO = <div>
+    Inverter lifetime is the expected service life of the inverters. Typical
+    lifetimes are:
+    <ul>
+        <li>String: 15 years or length of warranty</li>
+        <li>Microinverter: lifetime or warranty length of panels</li>
+    </ul>
+    Must be 40 years or less. Warranty length is available from the solar contract proposal or equipment specification
+    sheet.
+</div>
 
 export const DEGRADATION_RATE_LABEL = "System Efficiency Degradation Rate (Year-Over-Year %)";
-export const DEGRADATION_RATE_TOOLTIP = "Rate at which the solar production decreasing year-over-year";
+export const DEGRADATION_RATE_TOOLTIP = "Rate at which the solar production decreases year-over-year";
 export const DEGRADATION_RATE_INFO = "Degradation Rate is the rate at which the solar production decreases each year." +
-    " Default is 0.05%. Specific system degradation should be in the solar PC system warranty document.";
+    " Default is 0.05%. Specific system degradation should be in the solar PV system warranty document.";
 
 export const TOTAL_INSTALLATION_COSTS_LABEL = "Total Installation Costs";
 export const TOTAL_INSTALLATION_COSTS_TOOLTIP = "Total (gross) costs of installing the system before financial " +
@@ -138,7 +172,7 @@ export const TOTAL_INSTALLATION_COSTS_INFO = "Total (gross) costs of installing 
 
 export const FEDERAL_TAX_CREDIT_LABEL = "Federal Tax Credit - 26% of Total Installed Cost";
 export const FEDERAL_TAX_CREDIT_TOOLTIP = "Currently 26% of total installation costs";
-export const FEDERAL_TAX_CREDIT_INFO =  "Federal tax credit is currently 26% of total installation costs. This " +
+export const FEDERAL_TAX_CREDIT_INFO = "Federal tax credit is currently 26% of total installation costs. This " +
     "credit applies to all costs associated with the installation.";
 
 export const TAX_CRED_OR_REBATE_LABEL = "State/Local Tax Credits/Grants/Rebates";
@@ -160,7 +194,7 @@ export const PPA_OPTION_LABEL = "Include a Power Purchase Agreement Option?";
 export const PPA_OPTION_TOOLTIP = "Include a PPA/leasing option in the analysis";
 export const PPA_OPTION_INFO = "Include a PPA/leasing option in the analysis. Under a PPA/lease, the installer owns " +
     "the system and homeowners sign a contract to pay the installer for the electricity produced by the system. " +
-    "Typically, homeowners have a purchase option at the end of the";
+    "Typically, homeowners have a purchase option at the end of the contract.";
 export const PPA_OPTIONS = [
     "Yes",
     "No"
@@ -199,8 +233,8 @@ export const LOAN_DOWN_PAYMENT_TOOLTIP = "Amount paid at the start of the loan";
 export const LOAN_DOWN_PAYMENT_INFO = "Amount paid at the start of the loan.";
 
 export const LOAN_LENGTH_LABEL = "Loan Length";
-export const LOAN_LENGTH_TOOTLIP = "Length of time to pay back loan";
-export const LOAN_LENGTH_INFO = "Amount of time to completely pay back the load.";
+export const LOAN_LENGTH_TOOLTIP = "Length of time to pay back loan";
+export const LOAN_LENGTH_INFO = "Amount of time to completely pay back the loan.";
 
 export const NOMINAL_INTEREST_RATE_LABEL = "Loan Nominal Interest Rate";
 export const NOMINAL_INTEREST_RATE_TOOLTIP = "Nominal interest rate on the loan";
@@ -212,7 +246,10 @@ export const MONTHLY_PAYMENT_INFO = "Monthly payment on the loan.";
 
 export const SREC_PAYMENTS_LABEL = "SREC Payments";
 export const SREC_PAYMENTS_TOOLTIP = "Solar Renewable Energy Credit";
-export const SREC_PAYMENTS_INFO = "A Solar Renewable Energy Credit (SREC) is …";
+export const SREC_PAYMENTS_INFO = "A Solar Renewable Energy Credit (SREC) is a certificate that serves as proof that " +
+    "a unit of electricity was generated from solar energy. These credits are required in some states to meet " +
+    "renewable-based electricity requirements. Homeowners may have the option of receiving an upfront lump sum " +
+    "payment based on capacity (kW) or payments over time based on the solar PV system’s electricity production (MWh).";
 export const SREC_PAYMENTS_OPTIONS = [
     "None",
     "Up-front Payment",
@@ -222,7 +259,5 @@ export const SREC_PAYMENTS_OPTIONS = [
 export const SREC_PAYMENTS_UP_FRONT_LABEL = "SREC Payments - Up-front Payment";
 export const SREC_PAYMENTS_UP_FRONT_TOOLTIP = "Sell the rights to the SRECs upfront or get paid over time based on " +
     "production";
-export const SREC_PAYMENTS_UP_FRONT_INFO = "Choose how the homeowner wants to get paid for their SRECs: upfront lump " +
-    "sum based on capacity or over time based on production";
 
 export const SREC_PAYMENT_YEARS = "Number of Years there will be SREC Payments";

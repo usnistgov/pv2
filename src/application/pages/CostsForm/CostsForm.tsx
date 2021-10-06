@@ -25,7 +25,7 @@ import {
     LOAN_DOWN_PAYMENT_TOOLTIP,
     LOAN_LENGTH_INFO,
     LOAN_LENGTH_LABEL,
-    LOAN_LENGTH_TOOTLIP,
+    LOAN_LENGTH_TOOLTIP,
     LOAN_OR_CASH_INFO,
     LOAN_OR_CASH_LABEL,
     LOAN_OR_CASH_OPTIONS,
@@ -76,7 +76,14 @@ const CostsForm = observer(() => {
     return (
         <Box className={"form-page-container"}>
             <MaterialHeader text={"Solar PV System Costs"}/>
-            Fill in the system information for the Solar PV quote you received.
+            <div className={"form-page-text"}>
+                Provide costs of the solar PV system, including installation costs and financial incentives, and
+                purchasing options. Defaults are provided for advanced options (maintenance and replacement costs).
+                Solar contract proposals provide purchase and financing options, such as cash, loans, or leases (i.e.
+                power purchase agreement – PPA). The user has the option to include loan details as well as whether to
+                include a PPA option. All values should be available from the solar contract proposal. See User Guide
+                for detailed guidance on how to populate the solar PV system cost information inputs.
+            </div>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={TOTAL_INSTALLATION_COSTS_TOOLTIP} info={TOTAL_INSTALLATION_COSTS_INFO}>
                     <ValidatedTextField fullWidth
@@ -291,7 +298,7 @@ const CostsForm = observer(() => {
                                             InputProps={Adornment.DOLLAR}
                                             type={"number"}/>
                     </Info>
-                    <Info tooltip={LOAN_LENGTH_TOOTLIP} info={LOAN_LENGTH_INFO}>
+                    <Info tooltip={LOAN_LENGTH_TOOLTIP} info={LOAN_LENGTH_INFO}>
                         <ValidatedTextField fullWidth
                                             required
                                             variant={"filled"}

@@ -29,7 +29,7 @@ import {
     PANEL_EFFICIENCY_TOOLTIP,
     PANEL_LIFETIME_INFO,
     PANEL_LIFETIME_LABEL,
-    PANEL_LIFETIME_TOOLTIP,
+    PANEL_LIFETIME_TOOLTIP, TOTAL_SYSTEM_SIZE_INFO,
     TOTAL_SYSTEM_SIZE_LABEL,
     TOTAL_SYSTEM_SIZE_TOOLTIP
 } from "../../../Strings";
@@ -50,7 +50,11 @@ const SolarSystemForm = observer(() => {
     return (
         <Box className={"form-page-container"}>
             <MaterialHeader text={"Solar PV System Information"}/>
-            Fill in the system information for the Solar PV quote you received.
+            <div className={"form-page-text"}>
+                Provide information on the solar PV system, which are available from the solar installer contract
+                proposal. Default values are provided for advanced inputs (i.e., equipment lifetimes and degradation
+                rate). See User Guide for detailed guidance on how to populate the solar PV system information inputs.
+            </div>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={PANEL_EFFICIENCY_TOOLTIP} info={PANEL_EFFICIENCY_INFO}>
                     <ValidatedTextField fullWidth
@@ -83,7 +87,7 @@ const SolarSystemForm = observer(() => {
                         </Select>
                     </FormControl>
                 </Info>
-                <Info tooltip={TOTAL_SYSTEM_SIZE_TOOLTIP}>
+                <Info tooltip={TOTAL_SYSTEM_SIZE_TOOLTIP} info={TOTAL_SYSTEM_SIZE_INFO}>
                     <ValidatedTextField fullWidth
                                         required
                                         variant={"filled"}
@@ -137,7 +141,7 @@ const SolarSystemForm = observer(() => {
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
-                         <Info tooltip={DEGRADATION_RATE_TOOLTIP} info={DEGRADATION_RATE_INFO}>
+                        <Info tooltip={DEGRADATION_RATE_TOOLTIP} info={DEGRADATION_RATE_INFO}>
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={DEGRADATION_RATE_LABEL}

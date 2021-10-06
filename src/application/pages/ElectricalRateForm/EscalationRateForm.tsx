@@ -45,6 +45,9 @@ const EscalationRateForm = observer(() => {
     return (
         <CollapseContainer text={"Advanced"}>
             <AdvancedBox>
+                <div className={"form-advanced-header"}>
+                    Consumption Escalation Rates
+                </div>
                 <Info tooltip={VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP} info={VIEW_ANNUAL_ESCALATION_RATES_INFO}>
                     <FormControl fullWidth variant={"filled"}>
                         <InputLabel
@@ -69,6 +72,9 @@ const EscalationRateForm = observer(() => {
                     <div className="form-two-column-container">
                         {createFields(store.escalationRateForYear)}
                     </div>
+                    <div className={"form-advanced-header"}>
+                        Production Escalation Rates
+                    </div>
                     <FormControl fullWidth variant={"filled"}>
                         <InputLabel
                             id={ESCALATION_RATES_SAME_OR_DIFF_LABEL}>{ESCALATION_RATES_SAME_OR_DIFF_LABEL}</InputLabel>
@@ -87,9 +93,9 @@ const EscalationRateForm = observer(() => {
                         </Select>
                     </FormControl>
                     {store.escalationRatesSameOrDiff === ESCALATION_RATES_SAME_OR_DIFF_OPTIONS[1] &&
-                    <div className="form-two-column-container">
-                        {createFields(store.productionEscalationRateForYear)}
-                    </div>
+                        <div className="form-two-column-container">
+                            {createFields(store.productionEscalationRateForYear)}
+                        </div>
                     }
                 </>
                 }

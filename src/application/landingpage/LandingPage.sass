@@ -1,7 +1,19 @@
 @use 'src/colors'
 
-.landing-page-wrapper
-  padding: 8vw 0
+.start-button
+  margin: 64px auto
+  text-align: center
+
+.landing-page-title
+  margin: 64px 0
+
+  text-align: center
+
+  h1
+    font-size: 48px
+
+.landing-page-section
+  padding: 64px 0
 
   display: flex
   flex-direction: row
@@ -16,11 +28,7 @@
     font-size: 18px
     gap: 0.5em
 
-    margin: 0 16px
-
-    h1
-      font-size: 48px
-
+    margin: auto 16px
 
     hr
       width: 100%
@@ -30,7 +38,7 @@
     align-self: center
     flex: 1
     box-sizing: border-box
-    margin: 0 16px
+    margin: auto 16px
 
     img
       border-radius: 8px
@@ -39,7 +47,7 @@
       object-fit: contain
 
 @media screen and (max-width: colors.$breakpoint-tablet)
-  .landing-page-wrapper
+  .landing-page-section
     padding: 2em
 
     flex-direction: column

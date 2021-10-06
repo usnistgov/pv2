@@ -140,8 +140,7 @@ export class ElectricalCostFormStore {
         return this.annualConsumption !== undefined &&
             this.monthlyFlatRateCharge !== undefined &&
             this.electricUnitPrice !== undefined &&
-            this.excessGenerationUnitPrice !== undefined &&
-            this.pvGridConnectionRate !== undefined;
+            this.excessGenerationUnitPrice !== undefined;
     }
 }
 

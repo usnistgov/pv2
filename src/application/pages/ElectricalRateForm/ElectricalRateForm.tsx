@@ -50,6 +50,12 @@ const ElectricalRateForm = observer(() => {
     return (
         <Box className={"form-page-container"}>
             <MaterialHeader text={"Electrical Rate Information"}/>
+            <div className={"form-page-text"}>
+                Provide information on the household’s electricity consumption and prices, which are available from
+                utility electricity bills or online account. Default values are provided for advanced inputs (i.e.,
+                energy price escalation projections). See User Guide for detailed guidance on how to populate the
+                electrical rate information inputs.
+            </div>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={ELECTRICAL_COMPANY_NAME_TOOLTIP} info={ELECTRICAL_COMPANY_NAME_INFO}>
                     <ValidatedTextField fullWidth
@@ -137,11 +143,10 @@ const ElectricalRateForm = observer(() => {
                 </Info>
                 <Info tooltip={PV_GRID_CONNECTION_RATE_TOOLTIP} info={PV_GRID_CONNECTION_RATE_INFO}>
                     <ValidatedTextField fullWidth
-                                        required
                                         variant={"filled"}
                                         label={PV_GRID_CONNECTION_RATE_LABEL}
                                         defaultValue={store.pvGridConnectionRate}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number()}
                                         onValidate={action((value) => {
                                             store.pvGridConnectionRate = value
                                         })}

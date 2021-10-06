@@ -9,7 +9,15 @@ import {action} from "mobx";
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import {Store} from "../../ApplicationStore";
-import {ADDRESS_FORM_TOOLTIP, ADDRESS_LABEL, CITY_LABEL, STATE_LABEL, ZIPCODE_LABEL} from "../../../Strings";
+import {
+    ADDRESS_TOOLTIP,
+    ADDRESS_LABEL,
+    CITY_LABEL,
+    STATE_LABEL,
+    ZIPCODE_LABEL,
+    CITY_TOOLTIP,
+    STATE_TOOLTIP, ZIPCODE_TOOLTIP
+} from "../../../Strings";
 import ValidatedTextField from "../../../components/ValidatedTextField";
 import Info from "../../../components/Info";
 
@@ -31,11 +39,15 @@ const AddressForm = observer(() => {
     return (
         <>
             <MaterialHeader text={"Address"}/>
+            <div className={"address-form-text"}>
+                Insert address for home on which a solar PV system may be installed.
+                Only the ZIP Code is necessary for [PV]2 to calculate results.
+            </div>
             <Grid className={"address-form-container"} container justify={"center"} spacing={8}>
                 <Grid item xs={6}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Info tooltip={ADDRESS_FORM_TOOLTIP}>
+                            <Info tooltip={ADDRESS_TOOLTIP}>
                                 <ValidatedTextField fullWidth
                                                     label={ADDRESS_LABEL}
                                                     defaultValue={store.address}
@@ -45,7 +57,7 @@ const AddressForm = observer(() => {
                             </Info>
                         </Grid>
                         <Grid item xs={12}>
-                            <Info tooltip={ADDRESS_FORM_TOOLTIP}>
+                            <Info tooltip={CITY_TOOLTIP}>
                                 <ValidatedTextField fullWidth
                                                     label={CITY_LABEL}
                                                     defaultValue={store.city}
@@ -55,7 +67,7 @@ const AddressForm = observer(() => {
                             </Info>
                         </Grid>
                         <Grid item xs={12}>
-                            <Info tooltip={ADDRESS_FORM_TOOLTIP}>
+                            <Info tooltip={STATE_TOOLTIP}>
                                 <ValidatedTextField fullWidth
                                                     label={STATE_LABEL}
                                                     defaultValue={store.state}
@@ -65,7 +77,7 @@ const AddressForm = observer(() => {
                             </Info>
                         </Grid>
                         <Grid item xs={12}>
-                            <Info tooltip={ADDRESS_FORM_TOOLTIP}>
+                            <Info tooltip={ZIPCODE_TOOLTIP}>
                                 <ValidatedTextField fullWidth
                                                     required
                                                     label={ZIPCODE_LABEL}
