@@ -155,86 +155,6 @@ const CostsForm = observer(() => {
                     </AdvancedBox>
                 </CollapseContainer>
             </Box>
-            <MaterialHeader text={"PPA Purchasing Option"}/>
-            <Box className={"form-single-column-container"}>
-                <Info tooltip={PPA_OPTION_TOOLTIP} info={PPA_OPTION_INFO}>
-                    <FormControl fullWidth variant={"filled"}>
-                        <InputLabel id={PPA_OPTION_LABEL}>{PPA_OPTION_LABEL}</InputLabel>
-                        <Select className={"form-select-left-align"}
-                                fullWidth
-                                labelId={PPA_OPTION_LABEL}
-                                value={store.ppaOption}
-                                onChange={action((event) => {
-                                    store.ppaOption = event.target.value as string
-                                })}>
-                            {
-                                PPA_OPTIONS.map((option, index) =>
-                                    <MenuItem value={option} key={index}>{option}</MenuItem>
-                                )
-                            }
-                        </Select>
-                    </FormControl>
-                </Info>
-                {store.ppaOption === PPA_OPTIONS[0] && <>
-                    <Info tooltip={PPA_CONTRACT_LENGTH_TOOLTIP} info={PPA_CONTRACT_LENGTH_INFO}>
-                        <ValidatedTextField fullWidth
-                                            required
-                                            variant={"filled"}
-                                            label={PPA_CONTRACT_LENGTH_LABEL}
-                                            defaultValue={store.ppaContractLength}
-                                            schema={Yup.number().required().max(40).min(1)}
-                                            onValidate={action((value) => {
-                                                store.ppaContractLength = value
-                                            })}
-                                            onError={action(() => store.ppaContractLength = undefined)}
-                                            InputProps={Adornment.YEAR}
-                                            type={"number"}/>
-                    </Info>
-                    <Info tooltip={PPA_ELECTRICITY_RATE_TOOLTIP} info={PPA_ELECTRICITY_RATE_INFO}>
-                        <ValidatedTextField fullWidth
-                                            required
-                                            variant={"filled"}
-                                            label={PPA_ELECTRICITY_RATE_LABEL}
-                                            defaultValue={store.ppaElectricityRate}
-                                            schema={Yup.number().required()}
-                                            onValidate={action((value) => {
-                                                store.ppaElectricityRate = value
-                                            })}
-                                            onError={action(() => store.ppaElectricityRate = undefined)}
-                                            InputProps={Adornment.DOLLAR}
-                                            type={"number"}/>
-                    </Info>
-                    <Info tooltip={PPA_ESCALATION_RATE_TOOLTIP} info={PPA_ESCALATION_RATE_INFO}>
-                        <ValidatedTextField fullWidth
-                                            required
-                                            variant={"filled"}
-                                            label={PPA_ESCALATION_RATE_LABEL}
-                                            defaultValue={store.ppaEscalationRate}
-                                            schema={Yup.number().required()}
-                                            onValidate={action((value) => {
-                                                store.ppaEscalationRate = value
-                                            })}
-                                            onError={action(() => store.ppaEscalationRate = undefined)}
-                                            InputProps={Adornment.PERCENT}
-                                            type={"number"}/>
-                    </Info>
-                    <Info tooltip={PPA_PURCHASE_PRICE_TOOLTIP} info={PPA_PURCHASE_PRICE_INFO}>
-                        <ValidatedTextField fullWidth
-                                            required
-                                            variant={"filled"}
-                                            label={PPA_PURCHASE_PRICE_LABEL}
-                                            defaultValue={store.ppaPurchasePrice}
-                                            schema={Yup.number().required()}
-                                            onValidate={action((value) => {
-                                                store.ppaPurchasePrice = value
-                                            })}
-                                            onError={action(() => store.ppaPurchasePrice = undefined)}
-                                            InputProps={Adornment.DOLLAR}
-                                            type={"number"}/>
-                    </Info>
-                </>
-                }
-            </Box>
             <MaterialHeader text={"Cash or Loan Option"}/>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={LOAN_OR_CASH_TOOLTIP} info={LOAN_OR_CASH_INFO}>
@@ -310,6 +230,86 @@ const CostsForm = observer(() => {
                                             })}
                                             onError={action(() => store.loanLength = undefined)}
                                             InputProps={Adornment.YEAR}
+                                            type={"number"}/>
+                    </Info>
+                </>
+                }
+            </Box>
+            <MaterialHeader text={"PPA Purchasing Option"}/>
+            <Box className={"form-single-column-container"}>
+                <Info tooltip={PPA_OPTION_TOOLTIP} info={PPA_OPTION_INFO}>
+                    <FormControl fullWidth variant={"filled"}>
+                        <InputLabel id={PPA_OPTION_LABEL}>{PPA_OPTION_LABEL}</InputLabel>
+                        <Select className={"form-select-left-align"}
+                                fullWidth
+                                labelId={PPA_OPTION_LABEL}
+                                value={store.ppaOption}
+                                onChange={action((event) => {
+                                    store.ppaOption = event.target.value as string
+                                })}>
+                            {
+                                PPA_OPTIONS.map((option, index) =>
+                                    <MenuItem value={option} key={index}>{option}</MenuItem>
+                                )
+                            }
+                        </Select>
+                    </FormControl>
+                </Info>
+                {store.ppaOption === PPA_OPTIONS[0] && <>
+                    <Info tooltip={PPA_CONTRACT_LENGTH_TOOLTIP} info={PPA_CONTRACT_LENGTH_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={PPA_CONTRACT_LENGTH_LABEL}
+                                            defaultValue={store.ppaContractLength}
+                                            schema={Yup.number().required().max(40).min(1)}
+                                            onValidate={action((value) => {
+                                                store.ppaContractLength = value
+                                            })}
+                                            onError={action(() => store.ppaContractLength = undefined)}
+                                            InputProps={Adornment.YEAR}
+                                            type={"number"}/>
+                    </Info>
+                    <Info tooltip={PPA_ELECTRICITY_RATE_TOOLTIP} info={PPA_ELECTRICITY_RATE_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={PPA_ELECTRICITY_RATE_LABEL}
+                                            defaultValue={store.ppaElectricityRate}
+                                            schema={Yup.number().required()}
+                                            onValidate={action((value) => {
+                                                store.ppaElectricityRate = value
+                                            })}
+                                            onError={action(() => store.ppaElectricityRate = undefined)}
+                                            InputProps={Adornment.DOLLAR}
+                                            type={"number"}/>
+                    </Info>
+                    <Info tooltip={PPA_ESCALATION_RATE_TOOLTIP} info={PPA_ESCALATION_RATE_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={PPA_ESCALATION_RATE_LABEL}
+                                            defaultValue={store.ppaEscalationRate}
+                                            schema={Yup.number().required()}
+                                            onValidate={action((value) => {
+                                                store.ppaEscalationRate = value
+                                            })}
+                                            onError={action(() => store.ppaEscalationRate = undefined)}
+                                            InputProps={Adornment.PERCENT}
+                                            type={"number"}/>
+                    </Info>
+                    <Info tooltip={PPA_PURCHASE_PRICE_TOOLTIP} info={PPA_PURCHASE_PRICE_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={PPA_PURCHASE_PRICE_LABEL}
+                                            defaultValue={store.ppaPurchasePrice}
+                                            schema={Yup.number().required()}
+                                            onValidate={action((value) => {
+                                                store.ppaPurchasePrice = value
+                                            })}
+                                            onError={action(() => store.ppaPurchasePrice = undefined)}
+                                            InputProps={Adornment.DOLLAR}
                                             type={"number"}/>
                     </Info>
                 </>
