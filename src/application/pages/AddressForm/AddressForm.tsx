@@ -41,7 +41,7 @@ const AddressForm = observer(() => {
             <MaterialHeader text={"Address"}/>
             <div className={"address-form-text"}>
                 Insert address for home on which a solar PV system may be installed.
-                Only the ZIP Code is necessary for [PV]2 to calculate results.
+                Only the ZIP Code is necessary for [PV]<sup>2</sup> to calculate results.
             </div>
             <Grid className={"address-form-container"} container justify={"center"} spacing={8}>
                 <Grid item xs={6}>
