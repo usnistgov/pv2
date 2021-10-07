@@ -10,7 +10,7 @@ interface Pv2TooltipProps {
 
 export default function Pv2Tooltip({text, children}: PropsWithChildren<Pv2TooltipProps>): ReactElement {
     return (
-        <Tooltip title={<div className={"tooltip"}>{text}</div>} arrow>
+        <Tooltip title={<div className={"tooltip"}>{text}</div>} arrow interactive leaveDelay={100}>
             {children as ReactElement}
         </Tooltip>
     );
