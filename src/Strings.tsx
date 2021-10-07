@@ -62,7 +62,9 @@ export const NET_METERING_FEED_TARIFF_LABEL = "Net Metering or Feed In Tariff (F
 export const NET_METERING_FEED_TARIFF_TOOLTIP = "Net metering or Gross metering (i.e., feed in tariff)";
 export const NET_METERING_FEED_TARIFF_INFO = <div>Net metering means that the homeowner is charged (or paid) for the net
     difference in electricity consumption and electricity production. Typically, the price paid for excess
-    consumption is different than the price paid to the homeowner for excess production.\nGross metering (i.e.,
+    consumption is different than the price paid to the homeowner for excess production.
+    <br/>
+    Gross metering (i.e.,
     feed in tariff) means that the homeowner is paid for all production and is charged for all consumption,
     typically at different rates. Most states use Net Metering. Homeowner can obtain this information from the
     solar installer or&nbsp;
