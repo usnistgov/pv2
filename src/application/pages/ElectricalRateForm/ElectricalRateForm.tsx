@@ -4,6 +4,7 @@ import React, {useContext} from "react";
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import * as Yup from "yup";
 import {observer} from "mobx-react-lite";
+import {action} from "mobx";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
@@ -36,10 +37,11 @@ import {
 } from "../../../Strings";
 import Adornment from "../../../components/Adornments";
 import EscalationRateForm from "./EscalationRateForm";
+import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets
 import "../Form.sass";
-import {action} from "mobx";
+import {defaultIfUndefined} from "../../../Utils";
 
 /*
  * Displays the electrical rate form.
@@ -49,7 +51,7 @@ const ElectricalRateForm = observer(() => {
 
     return (
         <Box className={"form-page-container"}>
-            <MaterialHeader text={"Electrical Rate Information"}/>
+            <MaterialHeader text={"Electrical Rate Information"} right={<ResetButton onClick={() => store.reset()}/>}/>
             <div className={"form-page-text"}>
                 Provide information on the household’s electricity consumption and prices, which are available from
                 utility electricity bills or online account. Default values are provided for advanced inputs (i.e.,
@@ -61,18 +63,16 @@ const ElectricalRateForm = observer(() => {
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
                                         label={ELECTRICAL_COMPANY_NAME_LABEL}
-                                        defaultValue={store.electricalCompanyName}
+                                        value={defaultIfUndefined(store.electricalCompanyName, '')}
                                         schema={Yup.string()}
-                                        onValidate={action((value) => {
-                                            store.electricalCompanyName = value
-                                        })}/>
+                                        onValidate={action((value) => store.electricalCompanyName = value)}/>
                 </Info>
                 <Info tooltip={ANNUAL_CONSUMPTION_TOOLTIP} info={ANNUAL_CONSUMPTION_INFO}>
                     <ValidatedTextField fullWidth
                                         required
                                         variant={"filled"}
                                         label={ANNUAL_CONSUMPTION_LABEL}
-                                        defaultValue={store.annualConsumption}
+                                        value={defaultIfUndefined(store.annualConsumption, '')}
                                         schema={Yup.number().required()}
                                         onValidate={action((value) => {
                                             store.annualConsumption = value
@@ -86,7 +86,7 @@ const ElectricalRateForm = observer(() => {
                                         required
                                         variant={"filled"}
                                         label={FLAT_RATE_CHARGE_LABEL}
-                                        defaultValue={store.monthlyFlatRateCharge}
+                                        value={defaultIfUndefined(store.monthlyFlatRateCharge, '')}
                                         schema={Yup.number().required()}
                                         onValidate={action((value) => {
                                             store.monthlyFlatRateCharge = value
@@ -100,7 +100,7 @@ const ElectricalRateForm = observer(() => {
                                         required
                                         variant={"filled"}
                                         label={ELECTRICAL_UNIT_PRICE_LABEL}
-                                        defaultValue={store.electricUnitPrice}
+                                        value={defaultIfUndefined(store.electricUnitPrice, '')}
                                         schema={Yup.number().required()}
                                         onValidate={action((value) => {
                                             store.electricUnitPrice = value
@@ -132,7 +132,7 @@ const ElectricalRateForm = observer(() => {
                                         required
                                         variant={"filled"}
                                         label={EXCESS_GENERATION_UNIT_PRICE_LABEL}
-                                        defaultValue={store.excessGenerationUnitPrice}
+                                        value={defaultIfUndefined(store.excessGenerationUnitPrice, '')}
                                         schema={Yup.number().required()}
                                         onValidate={action((value) => {
                                             store.excessGenerationUnitPrice = value
@@ -145,7 +145,7 @@ const ElectricalRateForm = observer(() => {
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
                                         label={PV_GRID_CONNECTION_RATE_LABEL}
-                                        defaultValue={store.pvGridConnectionRate}
+                                        value={defaultIfUndefined(store.pvGridConnectionRate, '')}
                                         schema={Yup.number()}
                                         onValidate={action((value) => {
                                             store.pvGridConnectionRate = value

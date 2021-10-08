@@ -65,23 +65,34 @@ export class ApplicationStore {
             this.srecFormStore.srecPaymentsProductionBased = Array(value).fill(0);
         });
 
-        autorun(() => {
-            const zipcode = this.addressFormStore.zipcode;
-            const state = this.addressFormStore.state;
+        autorun(() => this.getEscalationRates());
+    }
 
-            if (!zipcode && state.length < 2)
-                return;
+    getEscalationRates() {
+        let region = this.getRegion()
 
-            let region = zipcode ? zipToState(zipcode) : stateIdToName(state);
+        if(region)
+            this.calculateEscalationRates(region)
+    }
 
-            region.then(stateToRegion)
-                .then(regionToEscalationRateList)
-                .then(take(this.analysisAssumptionsFormStore.studyPeriod + 1))
-                .then((result) => {
-                    this.escalationRateFormStore.productionEscalationRateForYear = result;
-                    this.escalationRateFormStore.escalationRateForYear = result;
-                });
-        });
+    getRegion(): Promise<string> | undefined {
+        const zipcode = this.addressFormStore.zipcode;
+        const state = this.addressFormStore.state;
+
+        if (!zipcode && state.length < 2)
+            return;
+
+        return zipcode ? zipToState(zipcode) : stateIdToName(state);
+    }
+
+    calculateEscalationRates(region: Promise<string>) {
+        region.then(stateToRegion)
+            .then(regionToEscalationRateList)
+            .then(take(this.analysisAssumptionsFormStore.studyPeriod + 1))
+            .then((result) => {
+                this.escalationRateFormStore.productionEscalationRateForYear = result;
+                this.escalationRateFormStore.escalationRateForYear = result;
+            });
     }
 }
 
@@ -104,6 +115,13 @@ export class AddressFormStore {
     get isDone(): boolean {
         return this.zipcode !== "";
     }
+
+    reset() {
+        this.address = "";
+        this.city = "";
+        this.state = "";
+        this.zipcode = "";
+    }
 }
 
 export class AnalysisAssumptionsFormStore {
@@ -118,6 +136,13 @@ export class AnalysisAssumptionsFormStore {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore
     }
+
+    reset() {
+        this.studyPeriod = 25;
+        this.realDiscountRate = 3;
+        this.generalInflation = 2.3
+        this.residualValueApproach = RESIDUAL_VALUE_APPROACH_OPTIONS[0];
+    }
 }
 
 export class ElectricalCostFormStore {
@@ -125,7 +150,7 @@ export class ElectricalCostFormStore {
 
     electricalCompanyName = "";
     netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
-    annualConsumption = undefined;
+    annualConsumption: number | undefined = undefined;
     monthlyFlatRateCharge = undefined;
     electricUnitPrice = undefined;
     excessGenerationUnitPrice = undefined;
@@ -142,6 +167,18 @@ export class ElectricalCostFormStore {
             this.electricUnitPrice !== undefined &&
             this.excessGenerationUnitPrice !== undefined;
     }
+
+    reset() {
+        this.electricalCompanyName = "";
+        this.netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
+        this.annualConsumption = undefined;
+        this.monthlyFlatRateCharge = undefined;
+        this.electricUnitPrice = undefined;
+        this.excessGenerationUnitPrice = undefined;
+        this.pvGridConnectionRate = undefined;
+
+        this.rootStore.escalationRateFormStore.reset()
+    }
 }
 
 export class EscalationRateFormStore {
@@ -155,6 +192,15 @@ export class EscalationRateFormStore {
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
+    }
+
+    reset() {
+        this.viewAnnualEscalationRates = VIEW_ANNUAL_ESCALATION_RATES_OPTIONS[1];
+        this.escalationRatesSameOrDiff = ESCALATION_RATES_SAME_OR_DIFF_OPTIONS[0];
+        this.escalationRateForYear = [];
+        this.productionEscalationRateForYear = [];
+
+        this.rootStore.getEscalationRates()
     }
 }
 
@@ -215,6 +261,19 @@ export class SolarSystemFormStore {
         this.rootStore.costsFormStore.inverterReplacementCostsDefault = true;
         this.inverterType = option;
     }
+
+    reset() {
+        this.panelEfficiency = undefined;
+        this.inverterType = INVERTER_TYPE_OPTIONS[0];
+        this.totalSystemSize = undefined;
+        this.estimatedAnnualProduction = undefined;
+        // Advanced
+        this.panelLifetime = 25;
+        this.inverterLifetime = 15;
+        this.degradationRate = 0.5;
+
+        this.lifetimeDefault = true;
+    }
 }
 
 export class CostsFormStore {
@@ -226,6 +285,8 @@ export class CostsFormStore {
     // Advanced
     inverterReplacementCosts = 0;
     annualMaintenanceCosts = 150;
+
+    inverterReplacementCostsDefault: boolean = true;
 
     // PPA Options
     ppaOption = PPA_OPTIONS[1];
@@ -239,8 +300,6 @@ export class CostsFormStore {
     nominalInterestRate = undefined;
     monthlyPayment = undefined;
     loanLength = undefined;
-
-    inverterReplacementCostsDefault: boolean = true;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
@@ -292,6 +351,32 @@ export class CostsFormStore {
                 )
             )
     }
+
+    resetPvCost() {
+        this.totalInstallationCosts = undefined;
+        this.stateOrLocalTaxCreditsOrGrantsOrRebates = undefined;
+
+        this.inverterReplacementCosts = 0;
+        this.annualMaintenanceCosts = 150;
+
+        this.inverterReplacementCostsDefault = true;
+    }
+
+    resetCashLoan() {
+        this.loanOrCash = LOAN_OR_CASH_OPTIONS[1];
+        this.downPayment = undefined;
+        this.nominalInterestRate = undefined;
+        this.monthlyPayment = undefined;
+        this.loanLength = undefined;
+    }
+
+    resetPpa() {
+        this.ppaOption = PPA_OPTIONS[1];
+        this.ppaContractLength = undefined;
+        this.ppaElectricityRate = undefined;
+        this.ppaEscalationRate = undefined;
+        this.ppaPurchasePrice = undefined;
+    }
 }
 
 export class SrecFormStore {
@@ -319,6 +404,14 @@ export class SrecFormStore {
             this.srecPaymentsProductionBased.every((value) => value !== undefined) &&
             this.srecContractLength !== undefined
         )
+    }
+
+    reset() {
+        this.srecPayments = SREC_PAYMENTS_OPTIONS[0];
+        this.srecPaymentsUpFront = 0;
+        this.srecPaymentsProductionBased = Array(this.rootStore.analysisAssumptionsFormStore.studyPeriod + 1)
+            .fill(0);
+        this.srecContractLength = 10;
     }
 }
 

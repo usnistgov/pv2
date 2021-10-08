@@ -66,6 +66,8 @@ import Adornment from "../../../components/Adornments";
 // Stylesheets
 import "../Form.sass";
 import {action} from "mobx";
+import ResetButton from "../../../components/ResetButton/ResetButton";
+import {defaultIfUndefined} from "../../../Utils";
 
 /**
  * Creates a form to input the costs of the PV system.
@@ -75,7 +77,7 @@ const CostsForm = observer(() => {
 
     return (
         <Box className={"form-page-container"}>
-            <MaterialHeader text={"Solar PV System Costs"}/>
+            <MaterialHeader text={"Solar PV System Costs"} right={<ResetButton onClick={() => store.resetPvCost()}/>}/>
             <div className={"form-page-text"}>
                 Provide costs of the solar PV system, including installation costs and financial incentives, and
                 purchasing options. Defaults are provided for advanced options (maintenance and replacement costs).
@@ -90,7 +92,7 @@ const CostsForm = observer(() => {
                                         required
                                         variant={"filled"}
                                         label={TOTAL_INSTALLATION_COSTS_LABEL}
-                                        defaultValue={store.totalInstallationCosts}
+                                        value={defaultIfUndefined(store.totalInstallationCosts, '')}
                                         schema={Yup.number().required()}
                                         onValidate={action((value) => {
                                             store.totalInstallationCosts = value
@@ -115,7 +117,7 @@ const CostsForm = observer(() => {
                                         required
                                         variant={"filled"}
                                         label={TAX_CRED_OR_REBATE_LABEL}
-                                        defaultValue={store.stateOrLocalTaxCreditsOrGrantsOrRebates}
+                                        value={defaultIfUndefined(store.stateOrLocalTaxCreditsOrGrantsOrRebates, '')}
                                         schema={Yup.number().required()}
                                         onValidate={action((value) => {
                                             store.stateOrLocalTaxCreditsOrGrantsOrRebates = value
@@ -144,7 +146,7 @@ const CostsForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={ANNUAL_MAINTENANCE_COSTS_LABEL}
-                                                defaultValue={store.annualMaintenanceCosts}
+                                                value={store.annualMaintenanceCosts}
                                                 schema={Yup.number().required().min(0)}
                                                 onValidate={action((value) => {
                                                     store.annualMaintenanceCosts = value
@@ -155,7 +157,7 @@ const CostsForm = observer(() => {
                     </AdvancedBox>
                 </CollapseContainer>
             </Box>
-            <MaterialHeader text={"Cash or Loan Option"}/>
+            <MaterialHeader text={"Cash or Loan Option"} right={<ResetButton onClick={() => store.resetCashLoan()}/>}/>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={LOAN_OR_CASH_TOOLTIP} info={LOAN_OR_CASH_INFO}>
                     <FormControl fullWidth variant={"filled"}>
@@ -182,7 +184,7 @@ const CostsForm = observer(() => {
                                             required
                                             variant={"filled"}
                                             label={LOAN_DOWN_PAYMENT_LABEL}
-                                            defaultValue={store.downPayment}
+                                            value={defaultIfUndefined(store.downPayment, '')}
                                             schema={Yup.number().required().min(0)}
                                             onValidate={action((value) => {
                                                 store.downPayment = value
@@ -195,7 +197,7 @@ const CostsForm = observer(() => {
                         <ValidatedTextField fullWidth
                                             variant={"filled"}
                                             label={NOMINAL_INTEREST_RATE_LABEL}
-                                            defaultValue={store.nominalInterestRate}
+                                            value={defaultIfUndefined(store.nominalInterestRate, '')}
                                             schema={Yup.number().required().max(100).min(0)}
                                             onValidate={action((value) => {
                                                 store.nominalInterestRate = value
@@ -209,7 +211,7 @@ const CostsForm = observer(() => {
                                             required
                                             variant={"filled"}
                                             label={MONTHLY_PAYMENT_LABEL}
-                                            defaultValue={store.monthlyPayment}
+                                            value={defaultIfUndefined(store.monthlyPayment, '')}
                                             schema={Yup.number().required().moreThan(0)}
                                             onValidate={action((value) => {
                                                 store.monthlyPayment = value
@@ -223,7 +225,7 @@ const CostsForm = observer(() => {
                                             required
                                             variant={"filled"}
                                             label={LOAN_LENGTH_LABEL}
-                                            defaultValue={store.loanLength}
+                                            value={defaultIfUndefined(store.loanLength, '')}
                                             schema={Yup.number().required().min(0)}
                                             onValidate={action((value) => {
                                                 store.loanLength = value
@@ -235,7 +237,7 @@ const CostsForm = observer(() => {
                 </>
                 }
             </Box>
-            <MaterialHeader text={"PPA Purchasing Option"}/>
+            <MaterialHeader text={"PPA Purchasing Option"} right={<ResetButton onClick={() => store.resetPpa()}/>}/>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={PPA_OPTION_TOOLTIP} info={PPA_OPTION_INFO}>
                     <FormControl fullWidth variant={"filled"}>
@@ -261,7 +263,7 @@ const CostsForm = observer(() => {
                                             required
                                             variant={"filled"}
                                             label={PPA_CONTRACT_LENGTH_LABEL}
-                                            defaultValue={store.ppaContractLength}
+                                            value={defaultIfUndefined(store.ppaContractLength, '')}
                                             schema={Yup.number().required().max(40).min(1)}
                                             onValidate={action((value) => {
                                                 store.ppaContractLength = value
@@ -275,7 +277,7 @@ const CostsForm = observer(() => {
                                             required
                                             variant={"filled"}
                                             label={PPA_ELECTRICITY_RATE_LABEL}
-                                            defaultValue={store.ppaElectricityRate}
+                                            value={defaultIfUndefined(store.ppaElectricityRate, '')}
                                             schema={Yup.number().required()}
                                             onValidate={action((value) => {
                                                 store.ppaElectricityRate = value
@@ -289,7 +291,7 @@ const CostsForm = observer(() => {
                                             required
                                             variant={"filled"}
                                             label={PPA_ESCALATION_RATE_LABEL}
-                                            defaultValue={store.ppaEscalationRate}
+                                            value={defaultIfUndefined(store.ppaEscalationRate, '')}
                                             schema={Yup.number().required()}
                                             onValidate={action((value) => {
                                                 store.ppaEscalationRate = value
@@ -303,7 +305,7 @@ const CostsForm = observer(() => {
                                             required
                                             variant={"filled"}
                                             label={PPA_PURCHASE_PRICE_LABEL}
-                                            defaultValue={store.ppaPurchasePrice}
+                                            value={defaultIfUndefined(store.ppaPurchasePrice, '')}
                                             schema={Yup.number().required()}
                                             onValidate={action((value) => {
                                                 store.ppaPurchasePrice = value

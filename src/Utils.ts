@@ -13,6 +13,10 @@ export function fetchMap<A, B>(url: string, map: (input: A, json: any) => B): (i
     return async (input: A) => data.then(json => map(input, json));
 }
 
+export const defaultIfUndefined = <A, B>(value: A, defaultValue: B): A | B  => {
+    return value === undefined ? defaultValue : value
+}
+
 export function generateVarValue(array: number[], initial: number): number[] {
     let tmp = initial;
 

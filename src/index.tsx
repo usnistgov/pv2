@@ -3,7 +3,7 @@ import React from 'react';
 // Library Imports
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import {createTheme, MuiThemeProvider} from "@material-ui/core";
 
 // User Imports
 import LandingPage from "./application/landingpage/LandingPage";
@@ -18,7 +18,7 @@ import './main.sass';
 import "./components/Info.sass"
 
 // Material UI theme definition
-const theme = createMuiTheme({
+const theme = createTheme({
     palette: {
         primary: {
             light: '#98ee99',

@@ -57,8 +57,8 @@ function generateCsv(results: any, studyPeriod: number): any {
         return [];
     }
 
-    const altObjects = results.alternativeSummaryObjects;
-    const cashFlowObjects = results.reqCashFlowObjects;
+    const altObjects = results.MeasureSummary;
+    const cashFlowObjects = results.FlowSummary;
 
     const totalCosts = altObjects.map((x: any) => x.totalCosts).map(validOrNA);
     const netSavings = altObjects.map((x: any) => x.netSavings).map(validOrNA);

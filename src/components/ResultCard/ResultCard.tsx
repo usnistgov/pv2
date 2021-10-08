@@ -10,6 +10,7 @@ import {mdiInformation} from "@mdi/js";
 import {altLabels} from "../../application/results/E3RequestGenerator";
 import {valid} from "../../application/results/ResultData";
 import FormTooltip from "../Tooltips/FormTooltip";
+import InfoTooltip from "../Tooltips/InfoTooltip";
 
 // Stylesheets
 import "./ResultCard.sass";
@@ -91,27 +92,27 @@ export default function ResultCard({alt}: ResultCardProps): ReactElement {
                 </CardContent>
             </Card>
             <div className={"side-tooltips"}>
-                <FormTooltip text={"Total Net Present Value Costs"}>
+                <InfoTooltip text={"Total Net Present Value Costs"}>
                     <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </FormTooltip>
-                <FormTooltip text={"Net Present Value Savings relative to No Solar System"}>
+                </InfoTooltip>
+                <InfoTooltip text={"Net Present Value Savings relative to No Solar System"}>
                     <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </FormTooltip>
-                <FormTooltip text={
+                </InfoTooltip>
+                <InfoTooltip text={
                     "Adjusted Internal Rate of Return (AIRR) on Investment. This is a measure of return on " +
                     "investment that accounts for reinvestment of the annual savings"
                 }>
                     <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </FormTooltip>
-                <FormTooltip text={
+                </InfoTooltip>
+                <InfoTooltip text={
                     "Simple Payback Period (SPP) is the number of years it takes for cost savings to offset " +
                     "the initial investment costs"
                 }>
                     <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </FormTooltip>
-                <FormTooltip text={"Electricity reduction relative to No Solar System"}>
+                </InfoTooltip>
+                <InfoTooltip text={"Electricity reduction relative to No Solar System"}>
                     <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </FormTooltip>
+                </InfoTooltip>
             </div>
         </div>
     )

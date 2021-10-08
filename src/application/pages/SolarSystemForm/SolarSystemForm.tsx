@@ -40,6 +40,8 @@ import {Store} from "../../ApplicationStore";
 // Stylesheets
 import "../Form.sass";
 import {action} from "mobx";
+import ResetButton from "../../../components/ResetButton/ResetButton";
+import {defaultIfUndefined} from "../../../Utils";
 
 /**
  * Form for details about the output of the PV system.
@@ -49,7 +51,7 @@ const SolarSystemForm = observer(() => {
 
     return (
         <Box className={"form-page-container"}>
-            <MaterialHeader text={"Solar PV System Information"}/>
+            <MaterialHeader text={"Solar PV System Information"} right={<ResetButton onClick={() => store.reset()}/>}/>
             <div className={"form-page-text"}>
                 Provide information on the solar PV system, which are available from the solar installer contract
                 proposal. Default values are provided for advanced inputs (i.e., equipment lifetimes and degradation
@@ -60,7 +62,7 @@ const SolarSystemForm = observer(() => {
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
                                         label={PANEL_EFFICIENCY_LABEL}
-                                        defaultValue={store.panelEfficiency}
+                                        value={defaultIfUndefined(store.panelEfficiency, '')}
                                         schema={Yup.number().max(100).min(0)}
                                         onValidate={action((value) => {
                                             store.panelEfficiency = value
@@ -92,7 +94,7 @@ const SolarSystemForm = observer(() => {
                                         required
                                         variant={"filled"}
                                         label={TOTAL_SYSTEM_SIZE_LABEL}
-                                        defaultValue={store.totalSystemSize}
+                                        value={defaultIfUndefined(store.totalSystemSize, '')}
                                         schema={Yup.number().required()}
                                         onValidate={action((value) => {
                                             store.totalSystemSize = value
@@ -106,7 +108,7 @@ const SolarSystemForm = observer(() => {
                                         required
                                         variant={"filled"}
                                         label={ANNUAL_PRODUCTION_LABEL}
-                                        defaultValue={store.estimatedAnnualProduction}
+                                        value={defaultIfUndefined(store.estimatedAnnualProduction, '')}
                                         schema={Yup.number().required()}
                                         onValidate={action((value) => {
                                             store.estimatedAnnualProduction = value
@@ -121,7 +123,7 @@ const SolarSystemForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={PANEL_LIFETIME_LABEL}
-                                                defaultValue={store.panelLifetime}
+                                                value={store.panelLifetime}
                                                 schema={Yup.number().required().max(40).min(1)}
                                                 onValidate={action((value) => {
                                                     store.panelLifetime = value
@@ -133,7 +135,7 @@ const SolarSystemForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={INVERTER_LIFETIME_LABEL}
-                                                value={store.inverterLifetimeOrDefault}
+                                                value={defaultIfUndefined(store.inverterLifetimeOrDefault, '')}
                                                 schema={Yup.number().required().max(40).min(1)}
                                                 onValidate={action((value) => {
                                                     store.inverterLifetimeOrDefault = value
@@ -145,7 +147,7 @@ const SolarSystemForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={DEGRADATION_RATE_LABEL}
-                                                defaultValue={store.degradationRate}
+                                                value={store.degradationRate}
                                                 schema={Yup.number().required().max(100).min(0)}
                                                 onValidate={action((value) => {
                                                     store.degradationRate = value

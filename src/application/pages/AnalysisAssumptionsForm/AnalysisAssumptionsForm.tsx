@@ -4,6 +4,7 @@ import React, {useContext} from "react";
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import * as Yup from "yup";
 import {observer} from "mobx-react-lite";
+import {action} from "mobx";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
@@ -26,17 +27,17 @@ import {Store} from "../../ApplicationStore";
 import ValidatedTextField from "../../../components/ValidatedTextField";
 import Info from "../../../components/Info";
 import Adornment from "../../../components/Adornments";
+import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets
 import "../Form.sass";
-import {action} from "mobx";
 
 const AnalysisAssumptionsForm = observer(() => {
     const store = useContext(Store).analysisAssumptionsFormStore;
 
     return (
         <Box className={"form-page-container"}>
-            <MaterialHeader text={"Analysis Assumptions"}/>
+            <MaterialHeader text={"Analysis Assumptions"} right={<ResetButton onClick={() => store.reset()}/>}/>
             <div className={"form-page-text"}>
                 Provide general assumptions for the economic analysis. Default values are provided. See User Guide for
                 detailed guidance on study period (timeframe of analysis), discount rate (time value of money),
@@ -49,7 +50,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         variant={"filled"}
                         label={STUDY_PERIOD_LABEL}
                         schema={Yup.number().required().max(40).min(1)}
-                        defaultValue={store.studyPeriod}
+                        value={store.studyPeriod}
                         onValidate={action((value: number) => store.studyPeriod = value)}
                         InputProps={Adornment.YEAR}
                         type={"number"}/>
@@ -60,7 +61,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         variant={"filled"}
                         label={REAL_DISCOUNT_RATE_LABEL}
                         schema={Yup.number().required().max(100).min(0)}
-                        defaultValue={store.realDiscountRate}
+                        value={store.realDiscountRate}
                         onValidate={action((value: number) => store.realDiscountRate = value)}
                         InputProps={Adornment.PERCENT}
                         type={"number"}/>
@@ -71,7 +72,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         variant={"filled"}
                         label={GENERAL_INFLATION_LABEL}
                         schema={Yup.number().required().max(100).min(0)}
-                        defaultValue={store.generalInflation}
+                        value={store.generalInflation}
                         onValidate={action((value: number) => store.generalInflation = value)}
                         InputProps={Adornment.PERCENT}
                         type={"number"}/>

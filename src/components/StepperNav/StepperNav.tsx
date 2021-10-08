@@ -49,7 +49,7 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
 
     return (
         <>
-            <Grid className={"grid-container"} container justify={'center'} alignItems={'center'} spacing={0}>
+            <Grid className={"grid-container"} container justifyContent={'center'} alignItems={'center'} spacing={0}>
                 <Grid item xs={1}>
                     <Button
                         onClick={isFirstStep ? history.goBack : () => store.previous()}

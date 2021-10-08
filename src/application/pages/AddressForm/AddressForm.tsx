@@ -10,16 +10,18 @@ import {action} from "mobx";
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import {Store} from "../../ApplicationStore";
 import {
-    ADDRESS_TOOLTIP,
     ADDRESS_LABEL,
+    ADDRESS_TOOLTIP,
     CITY_LABEL,
-    STATE_LABEL,
-    ZIPCODE_LABEL,
     CITY_TOOLTIP,
-    STATE_TOOLTIP, ZIPCODE_TOOLTIP
+    STATE_LABEL,
+    STATE_TOOLTIP,
+    ZIPCODE_LABEL,
+    ZIPCODE_TOOLTIP
 } from "../../../Strings";
 import ValidatedTextField from "../../../components/ValidatedTextField";
 import Info from "../../../components/Info";
+import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets
 import "./AddressForm.sass"
@@ -38,19 +40,19 @@ const AddressForm = observer(() => {
 
     return (
         <>
-            <MaterialHeader text={"Address"}/>
+            <MaterialHeader text={"Address"} right={<ResetButton onClick={() => store.reset()}/>}/>
             <div className={"address-form-text"}>
                 Insert address for home on which a solar PV system may be installed.
                 Only the ZIP Code is necessary for [PV]<sup>2</sup> to calculate results.
             </div>
-            <Grid className={"address-form-container"} container justify={"center"} spacing={8}>
+            <Grid className={"address-form-container"} container justifyContent={"center"} spacing={8}>
                 <Grid item xs={6}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Info tooltip={ADDRESS_TOOLTIP}>
                                 <ValidatedTextField fullWidth
                                                     label={ADDRESS_LABEL}
-                                                    defaultValue={store.address}
+                                                    value={store.address}
                                                     variant={"filled"}
                                                     schema={Yup.string()}
                                                     onValidate={action((value) => store.address = value)}/>
@@ -60,7 +62,7 @@ const AddressForm = observer(() => {
                             <Info tooltip={CITY_TOOLTIP}>
                                 <ValidatedTextField fullWidth
                                                     label={CITY_LABEL}
-                                                    defaultValue={store.city}
+                                                    value={store.city}
                                                     variant={"filled"}
                                                     schema={Yup.string()}
                                                     onValidate={action((value) => store.city = value)}/>
@@ -70,7 +72,7 @@ const AddressForm = observer(() => {
                             <Info tooltip={STATE_TOOLTIP}>
                                 <ValidatedTextField fullWidth
                                                     label={STATE_LABEL}
-                                                    defaultValue={store.state}
+                                                    value={store.state}
                                                     variant={"filled"}
                                                     schema={Yup.string()}
                                                     onValidate={action((value) => store.state = value)}/>
@@ -81,12 +83,10 @@ const AddressForm = observer(() => {
                                 <ValidatedTextField fullWidth
                                                     required
                                                     label={ZIPCODE_LABEL}
-                                                    defaultValue={store.zipcode}
+                                                    value={store.zipcode}
                                                     variant={"filled"}
                                                     schema={Yup.string().required()}
-                                                    onValidate={action(
-                                                        (value) => store.zipcode = value.padStart(5, "0")
-                                                    )}/>
+                                                    onValidate={action((value) => store.zipcode = value)}/>
                             </Info>
                         </Grid>
                     </Grid>

@@ -44,7 +44,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
 
     switch (graphOption) {
         case GraphOption.NET_VALUE:
-            data = result.reqCashFlowObjects
+            data = result.FlowSummary
                 .map((cashFlowObject: any) => {
                     return {
                         id: "",
@@ -61,7 +61,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
 
             return {graphData: data, graphMax: graphMax};
         case GraphOption.SAVINGS:
-            data = result.reqCashFlowObjects
+            data = result.FlowSummary
                 .map((cashFlowObject: any, index: number, array: any) => {
                     return {
                         id: "",
@@ -81,7 +81,7 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
             return {graphData: data, graphMax: graphMax};
         case GraphOption.CUMULATIVE:
             let accumulator = 0;
-            data = result.reqCashFlowObjects
+            data = result.FlowSummary
                 .map((cashFlowObject: any, index: number, array: any) => {
                     accumulator = 0;
 
@@ -133,8 +133,8 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
                             </Button>
                         </CSVLink>
                     </div>
-                    <Grid container justify={"center"} spacing={2}>
-                        {result ? result.alternativeSummaryObjects.map((res: any, index: number) => {
+                    <Grid container justifyContent={"center"} spacing={2}>
+                        {result ? result.MeasureSummary.map((res: any, index: number) => {
                             return <Grid item key={index}>
                                 <ResultCard alt={res}/>
                             </Grid>
@@ -162,8 +162,8 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
                             </Select>
                         </FormControl>
                     </div>
-                    <Grid container justify={"center"} spacing={2}>
-                        {result ? result.alternativeSummaryObjects.map((res: any, index: number) => {
+                    <Grid container justifyContent={"center"} spacing={2}>
+                        {result ? result.MeasureSummary.map((res: any, index: number) => {
                             return <Grid item key={index}>
                                 <ResultGraphCard
                                     altId={res.altID}
