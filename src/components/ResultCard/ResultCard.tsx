@@ -130,6 +130,7 @@ export function ResultGraphCard({altId, graphMax, graphData}: any) {
                         animate
                         enableArea
                         enableSlices={"x"}
+                        useMesh={true}
                         margin={{top: 5, right: 5, bottom: 20, left: 35}}
                         data={[graphData]}
                         xScale={{type: 'linear'}}

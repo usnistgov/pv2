@@ -1,7 +1,8 @@
-FROM node:16.3.0
+FROM node:16.10.0
 
 WORKDIR /usr/src/app
 
+RUN npm install -g npm
 RUN npm install -g serve
 COPY package.json ./
 RUN npm install --legacy-peer-deps
