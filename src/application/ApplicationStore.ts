@@ -71,7 +71,7 @@ export class ApplicationStore {
     getEscalationRates() {
         let region = this.getRegion()
 
-        if(region)
+        if (region)
             this.calculateEscalationRates(region)
     }
 
@@ -230,7 +230,7 @@ export class SolarSystemFormStore {
     }
 
     get inverterLifetimeOrDefault() {
-        if(!this.lifetimeDefault) {
+        if (!this.lifetimeDefault) {
             return this.inverterLifetime;
         }
 
@@ -307,7 +307,7 @@ export class CostsFormStore {
     }
 
     get inverterReplacementCostsOrDefault() {
-        if(!this.inverterReplacementCostsDefault) {
+        if (!this.inverterReplacementCostsDefault) {
             return this.inverterReplacementCosts;
         }
 
@@ -430,11 +430,31 @@ export class ResultUiStore {
 export class FormUiStore {
     rootStore: ApplicationStore;
 
-    current = 0;
+    _current = 0;
+    seen = new Set();
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
+
+        this.seen.add(0);
+    }
+
+    isDone(): boolean {
+        return this.rootStore.addressFormStore.isDone &&
+            this.rootStore.electricalCostFormStore.isDone &&
+            this.rootStore.solarSystemFormStore.isDone &&
+            this.rootStore.costsFormStore.isDone &&
+            this.rootStore.srecFormStore.isDone
+    }
+
+    get current(): number {
+        return this._current;
+    }
+
+    set current(value: number) {
+        this._current = value;
+        this.seen.add(value);
     }
 
     next() {

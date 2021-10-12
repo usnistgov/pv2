@@ -1,7 +1,7 @@
 import {Children, ReactElement, useContext} from 'react';
 
 // Library Imports
-import {Button, Grid, Step, StepLabel, Stepper} from "@material-ui/core";
+import {Button, Grid, Step, StepButton, StepLabel, Stepper} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react"
 import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
 import {useHistory} from "react-router-dom";
@@ -12,6 +12,7 @@ import {Store} from "../../application/ApplicationStore";
 
 // Stylesheets
 import "./StepperNav.sass"
+import {action} from "mobx";
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
@@ -39,10 +40,14 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
      * Creates a label from the StepperPage component that is passed in.
      * This function should only be called with a StepperPage component as the argument.
      */
-    function createStepLabel(page: any): ReactElement {
+    function createStepLabel(page: any, index: number, isDone?: () => boolean): ReactElement {
         return (
-            <Step key={page.props.label}>
-                <StepLabel>{page.props.label}</StepLabel>
+            <Step key={page.props.label} completed={store.seen.has(index) && isDone?.()}>
+                <StepButton onClick={action(() => store.current = index)}>
+                    <StepLabel error={store.seen.has(index) && store.current !== index && !isDone?.()}>
+                        {page.props.label}
+                    </StepLabel>
+                </StepButton>
             </Step>
         );
     }
@@ -63,8 +68,10 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
                     </Button>
                 </Grid>
                 <Grid item xs={10}>
-                    <Stepper activeStep={store.current} alternativeLabel>
-                        {Children.map(children, createStepLabel)}
+                    <Stepper nonLinear activeStep={store.current} alternativeLabel>
+                        {Children.map(children, (page, index) => {
+                            return createStepLabel(page, index, children[index].props.isDone)
+                        })}
                     </Stepper>
                 </Grid>
                 <Grid item xs={1}>
@@ -76,7 +83,7 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
                                          size={1}/>
                             }
                             data-testid={"forward-button"}
-                            disabled={!children[store.current].props.isDone?.()}
+                            disabled={isLastStep && !store.isDone()}
                     >
                         {isLastStep ? "Finish" : "Next"}
                     </Button>

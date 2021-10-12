@@ -11,6 +11,7 @@
     "@nivo/core": "^0.70.0",
     "@nivo/line": "^0.70.0",
     "@nivo/tooltip": "^0.70.0",
+    "@react-pdf/renderer": "^1.6.17",
     "mobx": "^6.3.3",
     "mobx-react-lite": "^3.2.1",
     "prop-types": "^15.7.2",
