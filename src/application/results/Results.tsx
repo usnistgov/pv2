@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {ReactNode, useContext, useState} from "react";
 
 // Library imports
 import {Box, Button, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
@@ -10,12 +10,14 @@ import {Data} from "react-csv/components/CommonPropTypes";
 import {Serie} from "@nivo/line";
 import {observer} from "mobx-react-lite";
 import {Redirect} from "react-router-dom";
+import {PDFDownloadLink} from "@react-pdf/renderer";
 
 // User Imports
 import ResultCard, {ResultGraphCard} from "../../components/ResultCard/ResultCard";
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import {GraphOption} from "./ResultData";
 import {Store} from "../ApplicationStore";
+import PdfReport from "../../components/PdfRport/PdfReport";
 
 // Stylesheets
 import "./Results.sass";
@@ -116,6 +118,17 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
 
     let graphData = getGraphData(uiStore.graphOption, result);
 
+    function componentOrSkeleton(component: () => ReactNode) {
+        if(result)
+            return component();
+
+        return Array.from({length: 3}).map((_, index) => {
+            return <Grid item key={index}>
+                <Skeleton className={"result-card"} height={400} variant={"rect"} animation={"wave"}/>
+            </Grid>
+        });
+    }
+
     return (redirect ? <Redirect to={"/application"}/> :
             <>
                 <Box className="container">
@@ -129,21 +142,23 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
                             <Button variant={"contained"}
                                     color={"primary"}
                                     startIcon={<MdiIcon path={mdiDownload} size={1}/>}>
-                                Download CSV
+                                CSV
                             </Button>
                         </CSVLink>
+                        <PDFDownloadLink document={<PdfReport result={result} store={useContext(Store)}/>} fileName={"PV2 Report"}>
+                            <Button variant={"contained"}
+                                    color={"primary"}
+                                    startIcon={<MdiIcon path={mdiDownload} size={1}/>}>
+                                PDF
+                            </Button>
+                        </PDFDownloadLink>
                     </div>
                     <Grid container justifyContent={"center"} spacing={2}>
-                        {result ? result.MeasureSummary.map((res: any, index: number) => {
+                        {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
                             return <Grid item key={index}>
                                 <ResultCard alt={res}/>
                             </Grid>
-                        }) : Array.from({length: 3}).map((_, index) => {
-                                return <Grid item key={index}>
-                                    <Skeleton className={"result-card"} height={400} variant={"rect"} animation={"wave"}/>
-                                </Grid>
-                            }
-                        )}
+                        }))}
                     </Grid>
                 </Box>
                 <Box className={"container"}>
@@ -163,19 +178,14 @@ const Results = observer(({result, downloadData}: ResultsProps) => {
                         </FormControl>
                     </div>
                     <Grid container justifyContent={"center"} spacing={2}>
-                        {result ? result.MeasureSummary.map((res: any, index: number) => {
+                        {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
                             return <Grid item key={index}>
                                 <ResultGraphCard
                                     altId={res.altID}
                                     graphData={graphData.graphData[index]}
                                     graphMax={graphData.graphMax}/>
                             </Grid>
-                        }) : Array.from({length: 3}).map((_, index) => {
-                                return <Grid item key={index}>
-                                    <Skeleton className={"result-card"} height={400} variant={"rect"} animation={"wave"}/>
-                                </Grid>
-                            }
-                        )}
+                        }))}
                     </Grid>
                 </Box>
             </>
