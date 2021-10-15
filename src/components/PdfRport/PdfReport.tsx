@@ -90,7 +90,7 @@ const PdfReport = ({result, store}: { result: any, store: ApplicationStore }) =>
             <Page size={"A4"} style={styles.page}>
                 <View style={[styles.columns, styles.section]}>
                     <Image style={styles.nistLogo} src={"/images/645px-nist_logo-svg_1.png"}/>
-                    <Image style={styles.pv2Logo} src={"/images/PV2-cropped.png"}/>
+                    <Image style={styles.pv2Logo} src={"/images/PV2 Logo.png"}/>
                 </View>
                 <Separator/>
                 <View style={styles.section}>

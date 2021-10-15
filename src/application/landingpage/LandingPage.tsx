@@ -49,12 +49,12 @@ export default function LandingPage(): ReactElement {
                     <hr/>
                 </div>
                 <div className="landing-image">
-                    <img src={"/images/PV2-cropped.png"} alt={"PV2 logo"}/>
+                    <img src={"/images/PV2 Logo.png"} alt={"PV2 logo"}/>
                 </div>
             </div>
             <div className="landing-page-section">
                 <div className="landing-image">
-                    <img src={"/images/E3-cropped.png"} alt={"E3 logo"}/>
+                    <img src={"/images/E3 Logo.png"} alt={"E3 logo"}/>
                 </div>
                 <div className="landing-content">
                     <hr/>
