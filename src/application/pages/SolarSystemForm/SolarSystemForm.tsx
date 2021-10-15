@@ -95,7 +95,7 @@ const SolarSystemForm = observer(() => {
                                         variant={"filled"}
                                         label={TOTAL_SYSTEM_SIZE_LABEL}
                                         value={defaultIfUndefined(store.totalSystemSize, '')}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={action((value) => {
                                             store.totalSystemSize = value
                                         })}
@@ -109,7 +109,7 @@ const SolarSystemForm = observer(() => {
                                         variant={"filled"}
                                         label={ANNUAL_PRODUCTION_LABEL}
                                         value={defaultIfUndefined(store.estimatedAnnualProduction, '')}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={action((value) => {
                                             store.estimatedAnnualProduction = value
                                         })}

@@ -93,7 +93,7 @@ const CostsForm = observer(() => {
                                         variant={"filled"}
                                         label={TOTAL_INSTALLATION_COSTS_LABEL}
                                         value={defaultIfUndefined(store.totalInstallationCosts, '')}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={action((value) => {
                                             store.totalInstallationCosts = value
                                         })}
@@ -118,7 +118,7 @@ const CostsForm = observer(() => {
                                         variant={"filled"}
                                         label={TAX_CRED_OR_REBATE_LABEL}
                                         value={defaultIfUndefined(store.stateOrLocalTaxCreditsOrGrantsOrRebates, '')}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={action((value) => {
                                             store.stateOrLocalTaxCreditsOrGrantsOrRebates = value
                                         })}
@@ -278,7 +278,7 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={PPA_ELECTRICITY_RATE_LABEL}
                                             value={defaultIfUndefined(store.ppaElectricityRate, '')}
-                                            schema={Yup.number().required()}
+                                            schema={Yup.number().required().min(0)}
                                             onValidate={action((value) => {
                                                 store.ppaElectricityRate = value
                                             })}
@@ -292,7 +292,7 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={PPA_ESCALATION_RATE_LABEL}
                                             value={defaultIfUndefined(store.ppaEscalationRate, '')}
-                                            schema={Yup.number().required()}
+                                            schema={Yup.number().required().min(0)}
                                             onValidate={action((value) => {
                                                 store.ppaEscalationRate = value
                                             })}
@@ -306,7 +306,7 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={PPA_PURCHASE_PRICE_LABEL}
                                             value={defaultIfUndefined(store.ppaPurchasePrice, '')}
-                                            schema={Yup.number().required()}
+                                            schema={Yup.number().required().min(0)}
                                             onValidate={action((value) => {
                                                 store.ppaPurchasePrice = value
                                             })}

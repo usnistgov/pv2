@@ -73,7 +73,7 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={ANNUAL_CONSUMPTION_LABEL}
                                         value={defaultIfUndefined(store.annualConsumption, '')}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={action((value) => {
                                             store.annualConsumption = value
                                         })}
@@ -87,7 +87,7 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={FLAT_RATE_CHARGE_LABEL}
                                         value={defaultIfUndefined(store.monthlyFlatRateCharge, '')}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={action((value) => {
                                             store.monthlyFlatRateCharge = value
                                         })}
@@ -101,7 +101,7 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={ELECTRICAL_UNIT_PRICE_LABEL}
                                         value={defaultIfUndefined(store.electricUnitPrice, '')}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={action((value) => {
                                             store.electricUnitPrice = value
                                         })}
@@ -133,7 +133,7 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={EXCESS_GENERATION_UNIT_PRICE_LABEL}
                                         value={defaultIfUndefined(store.excessGenerationUnitPrice, '')}
-                                        schema={Yup.number().required()}
+                                        schema={Yup.number().required().min(0)}
                                         onValidate={action((value) => {
                                             store.excessGenerationUnitPrice = value
                                         })}
@@ -146,7 +146,7 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={PV_GRID_CONNECTION_RATE_LABEL}
                                         value={defaultIfUndefined(store.pvGridConnectionRate, '')}
-                                        schema={Yup.number()}
+                                        schema={Yup.number().min(0)}
                                         onValidate={action((value) => {
                                             store.pvGridConnectionRate = value
                                         })}
