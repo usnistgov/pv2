@@ -31,6 +31,7 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets
 import "../Form.sass";
+import {DecimalTest} from "../../../Utils";
 
 const AnalysisAssumptionsForm = observer(() => {
     const store = useContext(Store).analysisAssumptionsFormStore;
@@ -49,7 +50,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         fullWidth
                         variant={"filled"}
                         label={STUDY_PERIOD_LABEL}
-                        schema={Yup.number().required().max(40).min(1)}
+                        schema={Yup.number().required().max(40).min(1).integer()}
                         value={store.studyPeriod}
                         onValidate={action((value: number) => store.studyPeriod = value)}
                         InputProps={Adornment.YEAR}
@@ -60,7 +61,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         fullWidth
                         variant={"filled"}
                         label={REAL_DISCOUNT_RATE_LABEL}
-                        schema={Yup.number().required().max(100).min(0)}
+                        schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
                         value={store.realDiscountRate}
                         onValidate={action((value: number) => store.realDiscountRate = value)}
                         InputProps={Adornment.PERCENT}
@@ -71,7 +72,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         fullWidth
                         variant={"filled"}
                         label={GENERAL_INFLATION_LABEL}
-                        schema={Yup.number().required().max(100).min(0)}
+                        schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
                         value={store.generalInflation}
                         onValidate={action((value: number) => store.generalInflation = value)}
                         InputProps={Adornment.PERCENT}

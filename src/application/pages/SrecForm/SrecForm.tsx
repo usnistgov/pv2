@@ -25,6 +25,7 @@ import Adornment from "../../../components/Adornments";
 import "../Form.sass";
 import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
+import {DecimalTest} from "../../../Utils";
 
 /**
  * Form for SREC details.
@@ -69,10 +70,8 @@ const SrecForm = observer(() => {
                                         variant={"filled"}
                                         label={SREC_PAYMENTS_UP_FRONT_LABEL}
                                         value={store.srecPaymentsUpFront}
-                                        schema={Yup.number().required().min(0)}
-                                        onValidate={action((value) => {
-                                            store.srecPaymentsUpFront = value
-                                        })}
+                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.srecPaymentsUpFront = value)}
                                         InputProps={Adornment.DOLLAR_PER_KW}
                                         type={"number"}/>
                 </Info>
@@ -83,7 +82,7 @@ const SrecForm = observer(() => {
                                         variant={"filled"}
                                         label={SREC_PAYMENT_YEARS}
                                         value={store.srecContractLength}
-                                        schema={Yup.number().required().min(0).max(studyPeriod)}
+                                        schema={Yup.number().required().min(0).max(studyPeriod).integer()}
                                         onValidate={action((value) => store.srecContractLength = value)}
                                         onError={action(() => store.srecContractLength = 0)}
                                         InputProps={Adornment.YEAR}
@@ -98,12 +97,12 @@ const SrecForm = observer(() => {
                                                         label={`Year ${i + 1}`}
                                                         key={i + 1}
                                                         value={store.srecPaymentsProductionBased[i + 1]}
-                                                        schema={Yup.number().required().min(0)}
+                                                        schema={Yup.number().required().min(0).test(DecimalTest)}
                                                         onValidate={action((value) => {
                                                             store.srecPaymentsProductionBased[i + 1] = value
                                                         })}
                                                         onError={action(() => {
-                                                            store.srecPaymentsProductionBased[i + 1] = 0
+                                                            store.srecPaymentsProductionBased[i + 1] = undefined
                                                         })}
                                                         InputProps={Adornment.DOLLAR_PER_MWH}
                                                         type={"number"}/>

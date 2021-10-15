@@ -41,7 +41,7 @@ import {Store} from "../../ApplicationStore";
 import "../Form.sass";
 import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
-import {defaultIfUndefined} from "../../../Utils";
+import {DecimalTest, defaultIfUndefined} from "../../../Utils";
 
 /**
  * Form for details about the output of the PV system.
@@ -63,10 +63,8 @@ const SolarSystemForm = observer(() => {
                                         variant={"filled"}
                                         label={PANEL_EFFICIENCY_LABEL}
                                         value={defaultIfUndefined(store.panelEfficiency, '')}
-                                        schema={Yup.number().max(100).min(0)}
-                                        onValidate={action((value) => {
-                                            store.panelEfficiency = value
-                                        })}
+                                        schema={Yup.number().max(100).min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.panelEfficiency = value)}
                                         onError={action(() => store.panelEfficiency = undefined)}
                                         InputProps={Adornment.PERCENT}
                                         type={"number"}/>
@@ -95,10 +93,8 @@ const SolarSystemForm = observer(() => {
                                         variant={"filled"}
                                         label={TOTAL_SYSTEM_SIZE_LABEL}
                                         value={defaultIfUndefined(store.totalSystemSize, '')}
-                                        schema={Yup.number().required().min(0)}
-                                        onValidate={action((value) => {
-                                            store.totalSystemSize = value
-                                        })}
+                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.totalSystemSize = value)}
                                         onError={action(() => store.totalSystemSize = undefined)}
                                         InputProps={endAdornment("Watts")}
                                         type={"number"}/>
@@ -109,10 +105,8 @@ const SolarSystemForm = observer(() => {
                                         variant={"filled"}
                                         label={ANNUAL_PRODUCTION_LABEL}
                                         value={defaultIfUndefined(store.estimatedAnnualProduction, '')}
-                                        schema={Yup.number().required().min(0)}
-                                        onValidate={action((value) => {
-                                            store.estimatedAnnualProduction = value
-                                        })}
+                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.estimatedAnnualProduction = value)}
                                         onError={action(() => store.estimatedAnnualProduction = undefined)}
                                         InputProps={Adornment.KWH}
                                         type={"number"}/>
@@ -124,10 +118,8 @@ const SolarSystemForm = observer(() => {
                                                 variant={"filled"}
                                                 label={PANEL_LIFETIME_LABEL}
                                                 value={store.panelLifetime}
-                                                schema={Yup.number().required().max(40).min(1)}
-                                                onValidate={action((value) => {
-                                                    store.panelLifetime = value
-                                                })}
+                                                schema={Yup.number().required().max(40).min(1).integer()}
+                                                onValidate={action((value) => store.panelLifetime = value)}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
@@ -136,7 +128,7 @@ const SolarSystemForm = observer(() => {
                                                 variant={"filled"}
                                                 label={INVERTER_LIFETIME_LABEL}
                                                 value={defaultIfUndefined(store.inverterLifetimeOrDefault, '')}
-                                                schema={Yup.number().required().max(40).min(1)}
+                                                schema={Yup.number().required().max(40).min(1).integer()}
                                                 onValidate={action((value) => {
                                                     store.inverterLifetimeOrDefault = value
                                                 })}
@@ -148,10 +140,8 @@ const SolarSystemForm = observer(() => {
                                                 variant={"filled"}
                                                 label={DEGRADATION_RATE_LABEL}
                                                 value={store.degradationRate}
-                                                schema={Yup.number().required().max(100).min(0)}
-                                                onValidate={action((value) => {
-                                                    store.degradationRate = value
-                                                })}
+                                                schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
+                                                onValidate={action((value) => store.degradationRate = value)}
                                                 InputProps={Adornment.PERCENT}
                                                 type={"number"}/>
                         </Info>

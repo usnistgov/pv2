@@ -32,3 +32,20 @@ export function generateVarValue(array: number[], initial: number): number[] {
         return result;
     });
 }
+
+export const DecimalTest = {
+    name: "Number of Decimals",
+    message: "Too many decimals, can only have 4.",
+    test: (value: any) => {
+        // Must be defined
+        if (value === undefined || value === null)
+            return false;
+
+        // Must not be an integer
+        if (value.toString().split('.').length <= 1)
+            return true;
+
+        // Must have 4 or fewer decimals
+        return value.toString().split('.')[1].length <= 4;
+    }
+}

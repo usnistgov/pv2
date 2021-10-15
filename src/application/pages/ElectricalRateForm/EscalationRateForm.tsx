@@ -21,6 +21,7 @@ import {
 import Adornment from "../../../components/Adornments";
 import Info from "../../../components/Info";
 import {action} from "mobx";
+import {DecimalTest} from "../../../Utils";
 
 const EscalationRateForm = observer(() => {
     const store = useContext(Store).escalationRateFormStore;
@@ -34,7 +35,7 @@ const EscalationRateForm = observer(() => {
                                     key={`Year ${i + 1}`}
                                     defaultValue={(values[i] * 100).toFixed(2)}
                                     variant={"filled"}
-                                    schema={Yup.number().max(100).min(-100)}
+                                    schema={Yup.number().max(100).min(-100).test(DecimalTest)}
                                     onValidate={action((value) =>  values[i] = value / 100)}
                                     InputProps={Adornment.PERCENT}
                                     type={"number"}/>

@@ -384,7 +384,7 @@ export class SrecFormStore {
 
     srecPayments = SREC_PAYMENTS_OPTIONS[0];
     srecPaymentsUpFront = 0;
-    srecPaymentsProductionBased: number[] = [];
+    srecPaymentsProductionBased: (number | undefined)[] = [];
     srecContractLength = 10;
 
     constructor(rootStore: ApplicationStore) {

@@ -41,7 +41,7 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets
 import "../Form.sass";
-import {defaultIfUndefined} from "../../../Utils";
+import {DecimalTest, defaultIfUndefined} from "../../../Utils";
 
 /*
  * Displays the electrical rate form.
@@ -73,10 +73,8 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={ANNUAL_CONSUMPTION_LABEL}
                                         value={defaultIfUndefined(store.annualConsumption, '')}
-                                        schema={Yup.number().required().min(0)}
-                                        onValidate={action((value) => {
-                                            store.annualConsumption = value
-                                        })}
+                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.annualConsumption = value)}
                                         onError={action(() => store.annualConsumption = undefined)}
                                         InputProps={Adornment.KWH}
                                         type={"number"}/>
@@ -87,10 +85,8 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={FLAT_RATE_CHARGE_LABEL}
                                         value={defaultIfUndefined(store.monthlyFlatRateCharge, '')}
-                                        schema={Yup.number().required().min(0)}
-                                        onValidate={action((value) => {
-                                            store.monthlyFlatRateCharge = value
-                                        })}
+                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.monthlyFlatRateCharge = value)}
                                         onError={action(() => store.monthlyFlatRateCharge = undefined)}
                                         InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
@@ -101,10 +97,8 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={ELECTRICAL_UNIT_PRICE_LABEL}
                                         value={defaultIfUndefined(store.electricUnitPrice, '')}
-                                        schema={Yup.number().required().min(0)}
-                                        onValidate={action((value) => {
-                                            store.electricUnitPrice = value
-                                        })}
+                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.electricUnitPrice = value)}
                                         onError={action(() => store.electricUnitPrice = undefined)}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
@@ -133,10 +127,8 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={EXCESS_GENERATION_UNIT_PRICE_LABEL}
                                         value={defaultIfUndefined(store.excessGenerationUnitPrice, '')}
-                                        schema={Yup.number().required().min(0)}
-                                        onValidate={action((value) => {
-                                            store.excessGenerationUnitPrice = value
-                                        })}
+                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.excessGenerationUnitPrice = value)}
                                         onError={action(() => store.excessGenerationUnitPrice = undefined)}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
@@ -146,10 +138,8 @@ const ElectricalRateForm = observer(() => {
                                         variant={"filled"}
                                         label={PV_GRID_CONNECTION_RATE_LABEL}
                                         value={defaultIfUndefined(store.pvGridConnectionRate, '')}
-                                        schema={Yup.number().min(0)}
-                                        onValidate={action((value) => {
-                                            store.pvGridConnectionRate = value
-                                        })}
+                                        schema={Yup.number().min(0).test(DecimalTest)}
+                                        onValidate={action((value) => store.pvGridConnectionRate = value)}
                                         onError={action(() => store.pvGridConnectionRate = undefined)}
                                         InputProps={Adornment.DOLLAR_PER_KWH}
                                         type={"number"}/>
