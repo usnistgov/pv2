@@ -3,6 +3,12 @@ import {createTheme} from "@material-ui/core";
 const Config = {
     FEDERAL_TAX_CREDIT: 0.26,
 
+    routes: {
+        LANDING_PAGE: "/",
+        APPLICATION: "/application",
+        RESULTS: "/results",
+    },
+
     // Material UI theme definition
     theme: createTheme({
         palette: {

@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 
 // Library Imports
-import {Redirect} from "react-router-dom";
 import {
     Backdrop,
     Box,
@@ -21,6 +20,8 @@ import {observer} from "mobx-react-lite";
 import {toJson} from "../../Utils";
 import {createE3Request} from "./E3RequestGenerator";
 import Results from "./Results";
+import RedirectWhen from "../../components/RedirectWhen";
+import Config from "../../Config";
 
 export enum GraphOption {
     NET_VALUE, SAVINGS, CUMULATIVE
@@ -34,55 +35,6 @@ export enum GraphOption {
  */
 export function valid(value: any): boolean {
     return value !== null && value !== undefined && typeof value !== 'object' && !isNaN(value);
-}
-
-/**
- * Checks a value is valid and if so returns that value, otherwise it returns the string "NA".
- *
- * @param value the value to check.
- * @returns the value if it is valid, otherwise the string "NA".
- */
-function validOrNA(value: any): any {
-    return valid(value) ? value : "NA"
-}
-
-/**
- * Generates CSV data for the given results and study period.
- *
- * @param results The JSON results obtained from E3.
- * @param studyPeriod The study period defined in the redux store.
- */
-function generateCsv(results: any, studyPeriod: number): any {
-    if (results === null || results === undefined) {
-        return [];
-    }
-
-    const altObjects = results.MeasureSummary;
-    const cashFlowObjects = results.FlowSummary;
-
-    const totalCosts = altObjects.map((x: any) => x.totalCosts).map(validOrNA);
-    const netSavings = altObjects.map((x: any) => x.netSavings).map(validOrNA);
-    const airr = altObjects.map((x: any) => x.AIRR).map(validOrNA);
-    const spp = altObjects.map((x: any) => x.SPP).map((value: string) => {
-        return valid(value) && value !== "Infinity" ? value : "NA"
-    });
-    const electricityReduction = altObjects.map((x: any) => -x.deltaQuant?.["Electricity"] ?? 0).map(validOrNA);
-    const data = Array.from(Array(studyPeriod + 1).keys())
-        .map((index) => [index, ...cashFlowObjects.map((flow: any) => flow.totCostDisc[index])]);
-
-    return [
-        ["Results Summary"],
-        ["Summary Results", "No Solar System", "Purchase Solar System", "PPA Solar System"],
-        ["Total Costs", ...totalCosts],
-        ["Net Savings", ...netSavings],
-        ["AIRR", ...airr],
-        ["SPP", ...spp],
-        ["Electricity Reduction", ...electricityReduction],
-        [],
-        ["Cash Flow (NPV)"],
-        ["Year", "No Solar System", "Purchase Solar System", "PPA Solar System"],
-        ...data
-    ];
 }
 
 class FetchError extends Error {
@@ -103,8 +55,6 @@ const ResultData = observer(() => {
     const [error, setError] = useState<FetchError | null>(null);
     const [showErrorDetails, setShowErrorDetails] = useState(false);
     const [errorDetails, setErrorDetails] = useState<string | null>(null);
-
-    const downloadData = generateCsv(result, store.analysisAssumptionsFormStore.studyPeriod);
 
     function showError(e: FetchError) {
         if(e.response) {
@@ -141,7 +91,7 @@ const ResultData = observer(() => {
                 // Fetch results from E3
                 // "http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S"
                 // "http://e3test.el.nist.gov/api/v1/analysis/?key=ysSq34WU.xq04WeLQ3qMqLF8mhka839ad7KUqEKRb"
-                fetch("http://e3test.el.nist.gov/api/v1/analysis/?key=ysSq34WU.xq04WeLQ3qMqLF8mhka839ad7KUqEKRb", fetchOptions)
+                fetch("http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S", fetchOptions)
                     .then((response) => {
                         if (response.ok)
                             return response;
@@ -163,7 +113,7 @@ const ResultData = observer(() => {
 
     return (
         <>
-            {shouldCancel && <Redirect to={"/application"}/>}
+            <RedirectWhen predicate={shouldCancel} to={Config.routes.APPLICATION}/>
             <Dialog open={showErrorDialog} onClose={() => setShowErrorDialog(false)}>
                 <DialogTitle>An error has occurred</DialogTitle>
                 <DialogContent>
@@ -196,7 +146,7 @@ const ResultData = observer(() => {
                     </Button>
                 </Box>
             </Backdrop>
-            <Results result={result} downloadData={downloadData}/>
+            <Results result={result}/>
         </>
     );
 });

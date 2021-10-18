@@ -26,9 +26,9 @@ ReactDOM.render(
             <BrowserRouter>
                 <Header>
                     <Switch>
-                        <Route exact path={"/"}><LandingPage/></Route>
-                        <Route path={"/application"}><Application/></Route>
-                        <Route path={"/results"}><ResultData/></Route>
+                        <Route exact path={Config.routes.LANDING_PAGE}><LandingPage/></Route>
+                        <Route path={Config.routes.APPLICATION}><Application/></Route>
+                        <Route path={Config.routes.RESULTS}><ResultData/></Route>
                     </Switch>
                 </Header>
             </BrowserRouter>

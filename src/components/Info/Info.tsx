@@ -3,6 +3,7 @@ import {Icon as MdiIcon} from "@mdi/react";
 import {mdiInformation} from "@mdi/js";
 import React, {PropsWithChildren, ReactElement} from "react";
 import InfoTooltip from "../Tooltips/InfoTooltip";
+import "./Info.sass";
 
 interface InfoProps {
     // Text to display in tooltip

@@ -1,6 +1,8 @@
 /*
  * Helper function that converts a Response into JSON.
  */
+import {valid} from "./application/results/ResultData";
+
 export const toJson = (response: Response) => response.json();
 
 /**
@@ -48,4 +50,14 @@ export const DecimalTest = {
         // Must have 4 or fewer decimals
         return value.toString().split('.')[1].length <= 4;
     }
+}
+
+/**
+ * Checks a value is valid and if so returns that value, otherwise it returns the string "NA".
+ *
+ * @param value the value to check.
+ * @returns the value if it is valid, otherwise the string "NA".
+ */
+export function validOrNA(value: any): any {
+    return valid(value) ? value : "NA"
 }
