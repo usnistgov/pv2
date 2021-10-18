@@ -1,3 +1,12 @@
+export const CATEGORIES = [
+    "Address",
+    "Analysis Assumptions",
+    "Electrical Rate",
+    "Solar PV System",
+    "Solar PV Costs",
+    "SREC"
+];
+
 export const ADDRESS_TOOLTIP = "Your Street Number and Name";
 export const ADDRESS_LABEL = "Address";
 export const CITY_TOOLTIP = "Your City";

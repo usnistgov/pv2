@@ -8,18 +8,15 @@ import {mdiArrowLeft} from "@mdi/js";
 import {Serie} from "@nivo/line";
 import {observer} from "mobx-react-lite";
 import {Link} from "react-router-dom";
-
-// User Imports
 import ResultCard, {ResultGraphCard} from "../ResultCard/ResultCard";
 import MaterialHeader from "../MaterialHeader/MaterialHeader";
 import {GraphOption} from "../Request/Request";
 import {Store} from "../../application/ApplicationStore";
-
-// Stylesheets
 import "./Results.sass";
 import Downloads from "../Download/Downloads";
 import Config from "../../Config";
 import {action} from "mobx";
+import InputReport from "../InputReport/InputReport";
 
 interface ResultsProps {
     result: any;
@@ -128,15 +125,19 @@ const Results = observer(({result}: ResultsProps) => {
 
     return <>
         <Box className="container">
-            <div className={"result-back-button"}>
-                <Button component={Link}
-                        to={Config.routes.APPLICATION}
-                        startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>
-                    Back
-                </Button>
-            </div>
-            <MaterialHeader text={"Results"}/>
-            <Downloads result={result}/>
+            <MaterialHeader
+                text={"Info"}
+                left={
+                    <div className={"result-back-button"}>
+                        <Button component={Link}
+                                to={Config.routes.APPLICATION}
+                                startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>
+                            Back
+                        </Button>
+                    </div>
+                }
+                right={<Downloads result={result}/>}/>
+            <MaterialHeader text={"Summary"}/>
             <Grid container justifyContent={"center"} spacing={2}>
                 {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
                     return <Grid item key={index}>
@@ -144,8 +145,6 @@ const Results = observer(({result}: ResultsProps) => {
                     </Grid>
                 }))}
             </Grid>
-        </Box>
-        <Box className={"container"}>
             <MaterialHeader text={"Graphs"}/>
             <div className={"graph-control"}>
                 <FormControl className={"graph-control"}>
@@ -171,6 +170,8 @@ const Results = observer(({result}: ResultsProps) => {
                     </Grid>
                 }))}
             </Grid>
+            <MaterialHeader text={"Inputs"}/>
+            <InputReport/>
         </Box>
     </>
 });

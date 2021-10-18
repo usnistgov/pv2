@@ -14,7 +14,7 @@ interface DownloadsProps {
  */
 export default function Downloads({result}: DownloadsProps) {
     return (
-        <div className={"download-results"}>
+        <div className={"downloads"}>
             <CSVDownload result={result}/>
             <PDFDownload result={result}/>
         </div>
