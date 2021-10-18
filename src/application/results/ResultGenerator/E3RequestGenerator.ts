@@ -1,4 +1,4 @@
-import {ApplicationStore} from "../ApplicationStore";
+import {ApplicationStore} from "../../ApplicationStore";
 import {
     federalTaxCredit,
     grantsRebates,
@@ -26,7 +26,7 @@ import {
     NET_METERING_FEED_TARIFF_OPTIONS,
     PPA_OPTIONS,
     SREC_PAYMENTS_OPTIONS
-} from "../../Strings";
+} from "../../../Strings";
 
 export const altLabels = [
     "No Solar System",

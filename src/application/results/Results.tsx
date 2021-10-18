@@ -1,7 +1,7 @@
-import React, {ReactNode, useContext, useState} from "react";
+import React, {ReactNode, useContext} from "react";
 
 // Library imports
-import {Box, Button, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
+import {Box, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
 import {Skeleton} from "@material-ui/lab";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiArrowLeft} from "@mdi/js";
@@ -17,8 +17,8 @@ import {Store} from "../ApplicationStore";
 // Stylesheets
 import "./Results.sass";
 import Downloads from "../../components/Download/Downloads";
-import RedirectWhen from "../../components/RedirectWhen";
 import Config from "../../Config";
+import RedirectButton from "../../components/RedirectButton";
 
 interface ResultsProps {
     result: any;
@@ -111,7 +111,6 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
  */
 const Results = observer(({result}: ResultsProps) => {
     const uiStore = useContext(Store).resultUiStore;
-    const [redirect, setRedirect] = useState(false);
 
     let graphData = getGraphData(uiStore.graphOption, result);
 
@@ -127,11 +126,11 @@ const Results = observer(({result}: ResultsProps) => {
     }
 
     return <>
-        <RedirectWhen predicate={redirect} to={Config.routes.APPLICATION}/>
         <Box className="container">
             <div className={"result-back-button"}>
-                <Button onClick={() => setRedirect(true)}
-                        startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>Back</Button>
+                <RedirectButton to={Config.routes.APPLICATION} startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>
+                    Back
+                </RedirectButton>
             </div>
             <MaterialHeader text={"Results"}/>
             <Downloads result={result}/>

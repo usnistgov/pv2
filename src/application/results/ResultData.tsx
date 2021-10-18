@@ -18,10 +18,10 @@ import {observer} from "mobx-react-lite";
 
 // User Imports
 import {toJson} from "../../Utils";
-import {createE3Request} from "./E3RequestGenerator";
+import {createE3Request} from "./ResultGenerator/E3RequestGenerator";
 import Results from "./Results";
-import RedirectWhen from "../../components/RedirectWhen";
 import Config from "../../Config";
+import RedirectButton from "../../components/RedirectButton";
 
 export enum GraphOption {
     NET_VALUE, SAVINGS, CUMULATIVE
@@ -50,14 +50,13 @@ const ResultData = observer(() => {
     const store = useContext(Store);
 
     const [result, setResult] = useState<object | null>(null);
-    const [shouldCancel, setCancel] = useState(false);
     const [showErrorDialog, setShowErrorDialog] = useState(false);
     const [error, setError] = useState<FetchError | null>(null);
     const [showErrorDetails, setShowErrorDetails] = useState(false);
     const [errorDetails, setErrorDetails] = useState<string | null>(null);
 
     function showError(e: FetchError) {
-        if(e.response) {
+        if (e.response) {
             e.response.json()
                 .then((details) => {
                     console.log(details);
@@ -113,7 +112,6 @@ const ResultData = observer(() => {
 
     return (
         <>
-            <RedirectWhen predicate={shouldCancel} to={Config.routes.APPLICATION}/>
             <Dialog open={showErrorDialog} onClose={() => setShowErrorDialog(false)}>
                 <DialogTitle>An error has occurred</DialogTitle>
                 <DialogContent>
@@ -137,13 +135,13 @@ const ResultData = observer(() => {
                 <Box className={"loading-indicator"}>
                     <CircularProgress/>
                     <h1>Calculating Results</h1>
-                    <Button className={"cancel-calculation-button"}
-                            variant={"contained"}
-                            color={"secondary"}
-                            startIcon={<MdiIcon path={mdiClose} size={1}/>}
-                            onClick={() => setCancel(true)}>
+                    <RedirectButton className={"cancel-calculation-button"}
+                                    variant={"contained"}
+                                    color={"secondary"}
+                                    startIcon={<MdiIcon path={mdiClose} size={1}/>}
+                                    to={Config.routes.APPLICATION}>
                         Cancel
-                    </Button>
+                    </RedirectButton>
                 </Box>
             </Backdrop>
             <Results result={result}/>
