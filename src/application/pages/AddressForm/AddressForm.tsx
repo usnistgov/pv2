@@ -20,7 +20,7 @@ import {
     ZIPCODE_TOOLTIP
 } from "../../../Strings";
 import ValidatedTextField from "../../../components/ValidatedTextField";
-import Info from "../../../components/Info";
+import Info from "../../../components/Info/Info";
 import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets

@@ -8,7 +8,7 @@ import {action} from "mobx";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
-import Info from "../../../components/Info";
+import Info from "../../../components/Info/Info";
 import {Store} from "../../ApplicationStore";
 import ValidatedTextField from "../../../components/ValidatedTextField";
 import {

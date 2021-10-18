@@ -1,8 +1,8 @@
-import FormTooltip from "./Tooltips/FormTooltip";
+import FormTooltip from "../Tooltips/FormTooltip";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiInformation} from "@mdi/js";
 import React, {PropsWithChildren, ReactElement} from "react";
-import InfoTooltip from "./Tooltips/InfoTooltip";
+import InfoTooltip from "../Tooltips/InfoTooltip";
 
 interface InfoProps {
     // Text to display in tooltip

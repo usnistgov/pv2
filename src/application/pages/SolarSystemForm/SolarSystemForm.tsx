@@ -9,7 +9,7 @@ import {observer} from "mobx-react-lite";
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import CollapseContainer from "../../../components/CollapseContainer/CollapseContainer";
 import AdvancedBox from "../../../components/AdvancedBox/AdvancedBox";
-import Info from "../../../components/Info";
+import Info from "../../../components/Info/Info";
 import {
     ANNUAL_PRODUCTION_INFO,
     ANNUAL_PRODUCTION_LABEL,

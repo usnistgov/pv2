@@ -19,7 +19,7 @@ import {
     VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP
 } from "../../../Strings";
 import Adornment from "../../../components/Adornments";
-import Info from "../../../components/Info";
+import Info from "../../../components/Info/Info";
 import {action} from "mobx";
 import {DecimalTest} from "../../../Utils";
 

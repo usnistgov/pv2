@@ -5,7 +5,7 @@ import {Redirect} from "react-router-dom";
 
 // User Imports
 import StepperNav from "../components/StepperNav/StepperNav";
-import StepperPage from "../components/StepperPage/StepperPage";
+import StepperPage from "../components/StepperPage";
 import SrecForm from "./pages/SrecForm/SrecForm";
 import SolarSystemForm from "./pages/SolarSystemForm/SolarSystemForm";
 import CostsForm from "./pages/CostsForm/CostsForm";

@@ -7,7 +7,7 @@ import {observer} from "mobx-react-lite";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
-import Info from "../../../components/Info";
+import Info from "../../../components/Info/Info";
 import {
     SREC_PAYMENT_YEARS,
     SREC_PAYMENTS_INFO,

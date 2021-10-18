@@ -25,7 +25,7 @@ import {
 } from "../../../Strings";
 import {Store} from "../../ApplicationStore";
 import ValidatedTextField from "../../../components/ValidatedTextField";
-import Info from "../../../components/Info";
+import Info from "../../../components/Info/Info";
 import Adornment from "../../../components/Adornments";
 import ResetButton from "../../../components/ResetButton/ResetButton";
 

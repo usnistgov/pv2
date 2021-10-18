@@ -17,7 +17,7 @@ import ResultCard, {ResultGraphCard} from "../../components/ResultCard/ResultCar
 import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
 import {GraphOption} from "./ResultData";
 import {Store} from "../ApplicationStore";
-import PdfReport from "../../components/PdfRport/PdfReport";
+import PdfReport from "../../components/PdfReport";
 
 // Stylesheets
 import "./Results.sass";

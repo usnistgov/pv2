@@ -59,7 +59,7 @@ import {
     TOTAL_INSTALLATION_COSTS_LABEL,
     TOTAL_INSTALLATION_COSTS_TOOLTIP
 } from "../../../Strings";
-import Info from "../../../components/Info";
+import Info from "../../../components/Info/Info";
 import ValidatedTextField from "../../../components/ValidatedTextField";
 import Adornment from "../../../components/Adornments";
 
