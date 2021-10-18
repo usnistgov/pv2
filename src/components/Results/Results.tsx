@@ -1,24 +1,24 @@
 import React, {ReactNode, useContext} from "react";
 
 // Library imports
-import {Box, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
+import {Box, Button, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
 import {Skeleton} from "@material-ui/lab";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiArrowLeft} from "@mdi/js";
 import {Serie} from "@nivo/line";
 import {observer} from "mobx-react-lite";
+import {Link} from "react-router-dom";
 
 // User Imports
-import ResultCard, {ResultGraphCard} from "../../components/ResultCard/ResultCard";
-import MaterialHeader from "../../components/MaterialHeader/MaterialHeader";
-import {GraphOption} from "./ResultData";
-import {Store} from "../ApplicationStore";
+import ResultCard, {ResultGraphCard} from "../ResultCard/ResultCard";
+import MaterialHeader from "../MaterialHeader/MaterialHeader";
+import {GraphOption} from "../Request/Request";
+import {Store} from "../../application/ApplicationStore";
 
 // Stylesheets
 import "./Results.sass";
-import Downloads from "../../components/Download/Downloads";
+import Downloads from "../Download/Downloads";
 import Config from "../../Config";
-import RedirectButton from "../../components/RedirectButton";
 
 interface ResultsProps {
     result: any;
@@ -128,9 +128,11 @@ const Results = observer(({result}: ResultsProps) => {
     return <>
         <Box className="container">
             <div className={"result-back-button"}>
-                <RedirectButton to={Config.routes.APPLICATION} startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>
+                <Button component={Link}
+                        to={Config.routes.APPLICATION}
+                        startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>
                     Back
-                </RedirectButton>
+                </Button>
             </div>
             <MaterialHeader text={"Results"}/>
             <Downloads result={result}/>

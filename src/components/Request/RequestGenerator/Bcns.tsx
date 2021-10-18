@@ -1,4 +1,4 @@
-import {ApplicationStore} from "../../ApplicationStore";
+import {ApplicationStore} from "../../../application/ApplicationStore";
 import {generateVarValue} from "../../../Utils";
 
 export function gridConsumption(store: ApplicationStore): object {

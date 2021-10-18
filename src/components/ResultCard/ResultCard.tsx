@@ -7,8 +7,8 @@ import {Icon as MdiIcon} from "@mdi/react";
 import {mdiInformation} from "@mdi/js";
 
 // User Imports
-import {altLabels} from "../../application/results/ResultGenerator/E3RequestGenerator";
-import {valid} from "../../application/results/ResultData";
+import {altLabels} from "../Request/RequestGenerator/E3RequestGenerator";
+import {valid} from "../Request/Request";
 import FormTooltip from "../Tooltips/FormTooltip";
 import InfoTooltip from "../Tooltips/InfoTooltip";
 

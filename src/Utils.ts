@@ -1,7 +1,7 @@
 /*
  * Helper function that converts a Response into JSON.
  */
-import {valid} from "./application/results/ResultData";
+import {valid} from "./components/Request/Request";
 
 export const toJson = (response: Response) => response.json();
 
@@ -60,4 +60,9 @@ export const DecimalTest = {
  */
 export function validOrNA(value: any): any {
     return valid(value) ? value : "NA"
+}
+
+export function promiseLog<T>(value: T): T {
+    console.log(value);
+    return value;
 }

@@ -3,7 +3,7 @@ import {Icon as MdiIcon} from "@mdi/react";
 import {mdiDownload} from "@mdi/js";
 import {CSVLink} from "react-csv";
 import React, {useContext} from "react";
-import {valid} from "../../application/results/ResultData";
+import {valid} from "../Request/Request";
 import {observer} from "mobx-react-lite";
 import {validOrNA} from "../../Utils";
 import {Store} from "../../application/ApplicationStore";

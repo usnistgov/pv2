@@ -9,7 +9,7 @@ import {MuiThemeProvider} from "@material-ui/core";
 import LandingPage from "./application/landingpage/LandingPage";
 import Application from "./application/Application";
 import {Store, store} from "./application/ApplicationStore";
-import ResultData from "./application/results/ResultData";
+import Request from "./components/Request/Request";
 import Header from "./components/Header/Header";
 import Disclaimer from "./components/Disclaimer/Disclaimer";
 import Config from "./Config";
@@ -28,7 +28,7 @@ ReactDOM.render(
                     <Switch>
                         <Route exact path={Config.routes.LANDING_PAGE}><LandingPage/></Route>
                         <Route path={Config.routes.APPLICATION}><Application/></Route>
-                        <Route path={Config.routes.RESULTS}><ResultData/></Route>
+                        <Route path={Config.routes.RESULTS}><Request/></Route>
                     </Switch>
                 </Header>
             </BrowserRouter>

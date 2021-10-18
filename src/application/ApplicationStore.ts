@@ -1,4 +1,4 @@
-import {GraphOption} from "./results/ResultData";
+import {GraphOption} from "../components/Request/Request";
 import {autorun, makeAutoObservable, reaction} from "mobx";
 import React from "react";
 import {

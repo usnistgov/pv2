@@ -1,4 +1,4 @@
-import {ApplicationStore} from "../../ApplicationStore";
+import {ApplicationStore} from "../../../application/ApplicationStore";
 import {
     federalTaxCredit,
     grantsRebates,

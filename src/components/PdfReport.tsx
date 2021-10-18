@@ -1,7 +1,7 @@
 import {Canvas, Document, Image, Page, StyleSheet, Text, View} from '@react-pdf/renderer';
 import {ReactNode} from "react";
-import {altLabels} from "../application/results/ResultGenerator/E3RequestGenerator";
-import {valid} from "../application/results/ResultData";
+import {altLabels} from "./Request/RequestGenerator/E3RequestGenerator";
+import {valid} from "./Request/Request";
 import {ApplicationStore} from "../application/ApplicationStore";
 import {ESCALATION_RATES_SAME_OR_DIFF_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../Strings";
 

@@ -9,6 +9,12 @@ const Config = {
         RESULTS: "/results",
     },
 
+    /*
+     * "http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S"
+     * "http://e3test.el.nist.gov/api/v1/analysis/?key=ysSq34WU.xq04WeLQ3qMqLF8mhka839ad7KUqEKRb"
+     */
+    requestUrl: "http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S",
+
     // Material UI theme definition
     theme: createTheme({
         palette: {
