@@ -207,6 +207,7 @@ export class EscalationRateFormStore {
 export class SolarSystemFormStore {
     rootStore: ApplicationStore;
 
+    systemDescription = undefined;
     panelEfficiency = undefined;
     inverterType = INVERTER_TYPE_OPTIONS[0];
     totalSystemSize = undefined;
@@ -225,7 +226,8 @@ export class SolarSystemFormStore {
     }
 
     get isDone(): boolean {
-        return this.totalSystemSize !== undefined &&
+        return this.systemDescription !== undefined &&
+            this.totalSystemSize !== undefined &&
             this.estimatedAnnualProduction !== undefined;
     }
 
@@ -263,6 +265,7 @@ export class SolarSystemFormStore {
     }
 
     reset() {
+        this.systemDescription = undefined;
         this.panelEfficiency = undefined;
         this.inverterType = INVERTER_TYPE_OPTIONS[0];
         this.totalSystemSize = undefined;

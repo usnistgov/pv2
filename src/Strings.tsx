@@ -109,6 +109,9 @@ export const ESCALATION_RATES_SAME_OR_DIFF_OPTIONS = [
     "Different"
 ];
 
+export const SYSTEM_DESCRIPTION_LABEL = "System Description";
+export const SYSTEM_DESCRIPTION_TOOLTIP = "Longer description about the solar system";
+
 export const PANEL_EFFICIENCY_LABEL = "Rated Efficiency of Solar Panels";
 export const PANEL_EFFICIENCY_TOOLTIP = "Rated efficiency of the solar panels";
 export const PANEL_EFFICIENCY_INFO = "Rated efficiency of solar panels is available from the solar contract proposal " +

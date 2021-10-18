@@ -19,6 +19,7 @@ import {Store} from "../../application/ApplicationStore";
 import "./Results.sass";
 import Downloads from "../Download/Downloads";
 import Config from "../../Config";
+import {action} from "mobx";
 
 interface ResultsProps {
     result: any;
@@ -151,9 +152,9 @@ const Results = observer(({result}: ResultsProps) => {
                     <Select
                         id={"graph-option-select"}
                         value={uiStore.graphOption}
-                        onChange={(event) => {
+                        onChange={action((event) => {
                             uiStore.graphOption = event.target.value as GraphOption;
-                        }}>
+                        })}>
                         <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
                         <MenuItem value={GraphOption.SAVINGS}>Annual Net Savings</MenuItem>
                         <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Net Savings</MenuItem>
