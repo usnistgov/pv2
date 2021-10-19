@@ -187,7 +187,7 @@ const Results = observer(({result}: ResultsProps) => {
                 }))}
             </Grid>
 
-            <MaterialHeader text={"All Inputs"}/>
+            <MaterialHeader text={"All Inputs"} bottomMargin={false}/>
             <InputReport/>
         </Box>
     </>

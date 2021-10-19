@@ -15,6 +15,9 @@ const Config = {
      */
     requestUrl: "http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S",
 
+    // TODO: replace with NIST key
+    googleMapKey: "AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg",
+
     // Material UI theme definition
     theme: createTheme({
         palette: {

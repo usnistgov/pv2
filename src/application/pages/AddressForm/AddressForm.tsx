@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 
 // Library Imports
-import {Grid, Paper} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import * as Yup from "yup";
 import {observer} from "mobx-react-lite";
 import {action} from "mobx";
@@ -25,6 +25,7 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets
 import "./AddressForm.sass"
+import GoogleMap from "../../../components/GoogleMap/GoogleMap";
 
 /*
  * The AddressForm component is the first page of the application form that lets user fill
@@ -34,9 +35,8 @@ const AddressForm = observer(() => {
     const store = useContext(Store).addressFormStore;
 
     // Google Maps embedded url query
-    // TODO replace this with real key
     const wholeMap = !(store.address || store.city || store.state || store.zipcode) ? "&center=39.8097343,-98.5556199&zoom=3" : "";
-    const query = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg&q=${store.address}, ${store.city}, ${store.state} ${store.zipcode}${wholeMap}`;
+    const query = `${store.address}, ${store.city}, ${store.state} ${store.zipcode}${wholeMap}`;
 
     return (
         <>
@@ -92,9 +92,7 @@ const AddressForm = observer(() => {
                     </Grid>
                 </Grid>
                 <Grid item xs={6}>
-                    <Paper className={"map"} elevation={3}>
-                        <iframe title={"Google Address Map"} frameBorder="0" src={query} allowFullScreen/>
-                    </Paper>
+                    <GoogleMap query={query}/>
                 </Grid>
             </Grid>
         </>

@@ -2,8 +2,9 @@ export const CATEGORIES = [
     "Address",
     "Analysis Assumptions",
     "Electrical Rate",
+    "Escalation Rates",
     "Solar PV System",
-    "Solar PV Costs",
+    "Costs",
     "SREC"
 ];
 
