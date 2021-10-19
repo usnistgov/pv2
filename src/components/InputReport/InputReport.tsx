@@ -10,11 +10,13 @@ export default function InputReport() {
     return (
         <div className={"input-report-tab-list"}>
           <TabContext value={tabPosition}>
-              <TabList centered onChange={(_, value) => setTabPosition(value)}>
-                  {CATEGORIES.map((value) => (
-                      <Tab label={value} value={value}/>
-                  ))}
-              </TabList>
+              <div className={"input-report-background"}>
+                  <TabList centered onChange={(_, value) => setTabPosition(value)}>
+                      {CATEGORIES.map((value) => (
+                          <Tab label={value} value={value}/>
+                      ))}
+                  </TabList>
+              </div>
               {CATEGORIES.map((value) => (
                   <TabPanel value={value}>
                       {value}

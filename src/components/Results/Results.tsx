@@ -8,7 +8,7 @@ import {mdiArrowLeft} from "@mdi/js";
 import {Serie} from "@nivo/line";
 import {observer} from "mobx-react-lite";
 import {Link} from "react-router-dom";
-import ResultCard, {ResultGraphCard} from "../ResultCard/ResultCard";
+import ResultCard from "../Card/ResultCard/ResultCard";
 import MaterialHeader from "../MaterialHeader/MaterialHeader";
 import {GraphOption} from "../Request/Request";
 import {Store} from "../../application/ApplicationStore";
@@ -17,6 +17,8 @@ import Downloads from "../Download/Downloads";
 import Config from "../../Config";
 import {action} from "mobx";
 import InputReport from "../InputReport/InputReport";
+import Card from "../Card/Card";
+import {GraphCard} from "../Card/GraphCard/GraphCard";
 
 interface ResultsProps {
     result: any;
@@ -137,6 +139,19 @@ const Results = observer(({result}: ResultsProps) => {
                     </div>
                 }
                 right={<Downloads result={result}/>}/>
+            <Grid container justifyContent={"center"} spacing={2}>
+                <Grid item key={0}>
+                    <Card title={"System Summary"}>
+
+                    </Card>
+                </Grid>
+                <Grid item key={1}>
+                    <Card title={"Initial Costs"}>
+
+                    </Card>
+                </Grid>
+            </Grid>
+
             <MaterialHeader text={"Summary"}/>
             <Grid container justifyContent={"center"} spacing={2}>
                 {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
@@ -145,6 +160,7 @@ const Results = observer(({result}: ResultsProps) => {
                     </Grid>
                 }))}
             </Grid>
+
             <MaterialHeader text={"Graphs"}/>
             <div className={"graph-control"}>
                 <FormControl className={"graph-control"}>
@@ -163,14 +179,15 @@ const Results = observer(({result}: ResultsProps) => {
             <Grid container justifyContent={"center"} spacing={2}>
                 {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
                     return <Grid item key={index}>
-                        <ResultGraphCard
+                        <GraphCard
                             altId={res.altID}
                             graphData={graphData.graphData[index]}
                             graphMax={graphData.graphMax}/>
                     </Grid>
                 }))}
             </Grid>
-            <MaterialHeader text={"Inputs"}/>
+
+            <MaterialHeader text={"All Inputs"}/>
             <InputReport/>
         </Box>
     </>
