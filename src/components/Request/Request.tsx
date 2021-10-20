@@ -12,10 +12,6 @@ import ErrorDialog from "../ErrorDialog";
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 import config from "../../config.json";
 
-export enum GraphOption {
-    NET_VALUE, SAVINGS, CUMULATIVE
-}
-
 /**
  * Checks if a value is valid, in other words is not null, undefined, etc.
  *

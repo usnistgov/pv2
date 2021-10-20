@@ -10,7 +10,6 @@ import {observer} from "mobx-react-lite";
 import {Link} from "react-router-dom";
 import ResultCard from "../Card/ResultCard/ResultCard";
 import MaterialHeader from "../MaterialHeader/MaterialHeader";
-import {GraphOption} from "../Request/Request";
 import {Store} from "../../application/ApplicationStore";
 import "./Results.sass";
 import Downloads from "../Download/Downloads";
@@ -25,6 +24,10 @@ const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
+
+export enum GraphOption {
+    NET_VALUE, SAVINGS, CUMULATIVE, NET_ELECTRICAL_CONSUMPTION, ELECTRICAL_REDUCTION
+}
 
 interface ResultsProps {
     result: any;
@@ -101,6 +104,48 @@ function getGraphData(graphOption: GraphOption, result: any): GraphData {
                             return {
                                 x: year,
                                 y: cumulativeSaving
+                            }
+                        })
+                    }
+                });
+
+            return {graphData: data, graphMax: graphMax};
+        case GraphOption.NET_ELECTRICAL_CONSUMPTION:
+            data = result.OptionalSummary
+                .filter((value: any) => value.tag === "Electricity")
+                .map((cashFlowObject: any) => {
+                    return {
+                        id: "",
+                        data: cashFlowObject.totTagQ.map((value: number, year: number) => {
+                            graphMax = Math.max(graphMax, Math.abs(value));
+
+                            return {
+                                x: year,
+                                y: value
+                            }
+                        })
+                    }
+                });
+
+            return {graphData: data, graphMax: graphMax};
+        case GraphOption.ELECTRICAL_REDUCTION:
+            let reduction = 0;
+            data = result.OptionalSummary
+                .filter((value: any) => value.tag === "Electricity")
+                .map((cashFlowObject: any, index: number, array: any) => {
+                    reduction = 0;
+
+                    return {
+                        id: "",
+                        data: cashFlowObject.totTagQ.map((value: number, year: number) => {
+                            let cumulativeReduction = reduction + (array[0].totTagQ[year] - value);
+                            reduction = cumulativeReduction;
+
+                            graphMax = Math.max(graphMax, Math.abs(cumulativeReduction));
+
+                            return {
+                                x: year,
+                                y: cumulativeReduction
                             }
                         })
                     }
@@ -207,6 +252,8 @@ const Results = observer(({result}: ResultsProps) => {
                         <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
                         <MenuItem value={GraphOption.SAVINGS}>Annual Net Savings</MenuItem>
                         <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Net Savings</MenuItem>
+                        <MenuItem value={GraphOption.NET_ELECTRICAL_CONSUMPTION}>Net Electrical Consumption</MenuItem>
+                        <MenuItem value={GraphOption.ELECTRICAL_REDUCTION}>Electricity Reduction</MenuItem>
                     </Select>
                 </FormControl>
             </div>

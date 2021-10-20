@@ -205,7 +205,7 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
         analysisObject: {
             analysisType: "LCCA",
             projectType: "Buildings",
-            objToReport: ["FlowSummary", "MeasureSummary"],
+            objToReport: ["FlowSummary", "MeasureSummary", "OptionalSummary"],
             studyPeriod: store.analysisAssumptionsFormStore.studyPeriod,
             baseDate: nowString,
             serviceDate: nowString,

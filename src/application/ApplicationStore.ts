@@ -1,4 +1,3 @@
-import {GraphOption} from "../components/Request/Request";
 import {autorun, makeAutoObservable, reaction} from "mobx";
 import React from "react";
 import {
@@ -13,6 +12,7 @@ import {
 } from "../Strings";
 import {fetchMap, take} from "../Utils";
 import Constants from "../Constants";
+import {GraphOption} from "../components/Results/Results";
 
 /**
  * Main application store. Contains all sub-stores that contain form data.
