@@ -5,7 +5,7 @@ import {Icon as MdiIcon} from "@mdi/react";
 import {mdiArrowRight, mdiArrowUp} from "@mdi/js";
 import {Store} from "../ApplicationStore";
 import './LandingPage.sass';
-import Config from "../../Config";
+import Constants from "../../Constants";
 
 /**
  * The main component for the landing page. Displays some information about the app and a photo.
@@ -21,7 +21,7 @@ export default function LandingPage(): ReactElement {
             <div className={"start-button"}>
                 <Button
                     component={Link}
-                    to={Config.routes.APPLICATION}
+                    to={Constants.routes.APPLICATION}
                     endIcon={<MdiIcon path={mdiArrowRight} size={1}/>}
                     variant={"contained"}
                     color={"primary"}

@@ -1,4 +1,3 @@
-import {GraphOption} from "../components/Request/Request";
 import {autorun, makeAutoObservable, reaction} from "mobx";
 import React from "react";
 import {
@@ -12,7 +11,8 @@ import {
     VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
 } from "../Strings";
 import {fetchMap, take} from "../Utils";
-import Config from "../Config";
+import Constants from "../Constants";
+import {GraphOption} from "../components/Results/Results";
 
 /**
  * Main application store. Contains all sub-stores that contain form data.
@@ -207,6 +207,7 @@ export class EscalationRateFormStore {
 export class SolarSystemFormStore {
     rootStore: ApplicationStore;
 
+    systemDescription = undefined;
     panelEfficiency = undefined;
     inverterType = INVERTER_TYPE_OPTIONS[0];
     totalSystemSize = undefined;
@@ -225,7 +226,8 @@ export class SolarSystemFormStore {
     }
 
     get isDone(): boolean {
-        return this.totalSystemSize !== undefined &&
+        return this.systemDescription !== undefined &&
+            this.totalSystemSize !== undefined &&
             this.estimatedAnnualProduction !== undefined;
     }
 
@@ -263,6 +265,7 @@ export class SolarSystemFormStore {
     }
 
     reset() {
+        this.systemDescription = undefined;
         this.panelEfficiency = undefined;
         this.inverterType = INVERTER_TYPE_OPTIONS[0];
         this.totalSystemSize = undefined;
@@ -328,7 +331,7 @@ export class CostsFormStore {
     }
 
     get federalTaxCredit(): string {
-        return ((this.totalInstallationCosts ?? 0) * Config.FEDERAL_TAX_CREDIT).toFixed(2);
+        return ((this.totalInstallationCosts ?? 0) * Constants.FEDERAL_TAX_CREDIT).toFixed(2);
     }
 
     get isDone(): boolean {

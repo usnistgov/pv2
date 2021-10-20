@@ -10,7 +10,7 @@ import AnalysisAssumptionsForm from "./pages/AnalysisAssumptionsForm/AnalysisAss
 import {Store} from "./ApplicationStore";
 import {observer} from "mobx-react-lite";
 import RedirectWhen from "../components/RedirectWhen";
-import Config from "../Config";
+import Constants from "../Constants";
 
 /*
  * Wrapper component for the main form application. Redirects to results if finished.
@@ -20,7 +20,7 @@ const Application = observer(() => {
     const [finished, setFinished] = useState(false);
 
     return <>
-        <RedirectWhen predicate={finished} to={Config.routes.RESULTS}/>
+        <RedirectWhen predicate={finished} to={Constants.routes.RESULTS}/>
         <StepperNav onFinish={() => setFinished(true)}>
             <StepperPage label={"Address"} isDone={() => store.addressFormStore.isDone}>
                 <AddressForm/>

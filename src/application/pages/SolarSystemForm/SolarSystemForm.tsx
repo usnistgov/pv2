@@ -29,7 +29,7 @@ import {
     PANEL_EFFICIENCY_TOOLTIP,
     PANEL_LIFETIME_INFO,
     PANEL_LIFETIME_LABEL,
-    PANEL_LIFETIME_TOOLTIP, TOTAL_SYSTEM_SIZE_INFO,
+    PANEL_LIFETIME_TOOLTIP, SYSTEM_DESCRIPTION_LABEL, SYSTEM_DESCRIPTION_TOOLTIP, TOTAL_SYSTEM_SIZE_INFO,
     TOTAL_SYSTEM_SIZE_LABEL,
     TOTAL_SYSTEM_SIZE_TOOLTIP
 } from "../../../Strings";
@@ -58,6 +58,18 @@ const SolarSystemForm = observer(() => {
                 rate). See User Guide for detailed guidance on how to populate the solar PV system information inputs.
             </div>
             <Box className={"form-single-column-container"}>
+                <Info tooltip={SYSTEM_DESCRIPTION_TOOLTIP}>
+                    <ValidatedTextField fullWidth
+                                        required
+                                        multiline
+                                        maxRows={4}
+                                        variant={"filled"}
+                                        label={SYSTEM_DESCRIPTION_LABEL}
+                                        value={defaultIfUndefined(store.systemDescription, '')}
+                                        onValidate={action((value) => store.systemDescription = value)}
+                                        onError={() => store.systemDescription = undefined}
+                                        schema={Yup.string().required()}/>
+                </Info>
                 <Info tooltip={PANEL_EFFICIENCY_TOOLTIP} info={PANEL_EFFICIENCY_INFO}>
                     <ValidatedTextField fullWidth
                                         variant={"filled"}

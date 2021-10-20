@@ -6,6 +6,7 @@ import {Container} from "@material-ui/core";
 
 // Stylesheets
 import "./Header.sass";
+import Constants from "../../Constants";
 
 /**
  * Component for displaying a header with link options.
@@ -15,7 +16,7 @@ export default function Header({children}: PropsWithChildren<{}>): ReactElement 
         <Container maxWidth="lg">
             <div className="header-wrapper">
                 <div className="options">
-                    <Link className={"menu-option"} to={"/"}>
+                    <Link className={"menu-option"} to={Constants.routes.LANDING_PAGE}>
                         Home
                     </Link>
                     <a className={"menu-option"} href={"docs/user-guide.pdf"}>

@@ -12,7 +12,7 @@ import {Store, store} from "./application/ApplicationStore";
 import Request from "./components/Request/Request";
 import Header from "./components/Header/Header";
 import Disclaimer from "./components/Disclaimer/Disclaimer";
-import Config from "./Config";
+import Constants from "./Constants";
 
 // Stylesheets
 import '@csstools/normalize.css'
@@ -21,14 +21,14 @@ import './main.sass';
 
 // Render main application
 ReactDOM.render(
-    <MuiThemeProvider theme={Config.theme}>
+    <MuiThemeProvider theme={Constants.theme}>
         <Store.Provider value={store}>
             <BrowserRouter>
                 <Header>
                     <Switch>
-                        <Route exact path={Config.routes.LANDING_PAGE}><LandingPage/></Route>
-                        <Route path={Config.routes.APPLICATION}><Application/></Route>
-                        <Route path={Config.routes.RESULTS}><Request/></Route>
+                        <Route exact path={Constants.routes.LANDING_PAGE}><LandingPage/></Route>
+                        <Route path={Constants.routes.APPLICATION}><Application/></Route>
+                        <Route path={Constants.routes.RESULTS}><Request/></Route>
                     </Switch>
                 </Header>
             </BrowserRouter>

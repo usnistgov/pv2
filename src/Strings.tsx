@@ -1,3 +1,13 @@
+export const CATEGORIES = [
+    "Address",
+    "Analysis Assumptions",
+    "Electrical Rate",
+    "Escalation Rates",
+    "Solar PV System",
+    "Costs",
+    "SREC"
+];
+
 export const ADDRESS_TOOLTIP = "Your Street Number and Name";
 export const ADDRESS_LABEL = "Address";
 export const CITY_TOOLTIP = "Your City";
@@ -108,6 +118,9 @@ export const ESCALATION_RATES_SAME_OR_DIFF_OPTIONS = [
     "Same",
     "Different"
 ];
+
+export const SYSTEM_DESCRIPTION_LABEL = "System Description";
+export const SYSTEM_DESCRIPTION_TOOLTIP = "Longer description about the solar system";
 
 export const PANEL_EFFICIENCY_LABEL = "Rated Efficiency of Solar Panels";
 export const PANEL_EFFICIENCY_TOOLTIP = "Rated efficiency of the solar panels";
