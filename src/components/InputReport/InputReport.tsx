@@ -7,7 +7,7 @@ import {Store} from "../../application/ApplicationStore";
 import GoogleMap from "../GoogleMap/GoogleMap";
 
 export default function InputReport() {
-    const [tabPosition, setTabPosition] = useState("0");
+    const [tabPosition, setTabPosition] = useState(CATEGORIES[0]);
 
     return (
         <TabContext value={tabPosition}>

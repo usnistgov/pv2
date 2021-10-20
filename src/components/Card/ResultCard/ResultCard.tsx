@@ -33,7 +33,7 @@ export default function ResultCard({alt}: ResultCardProps): ReactElement {
     return (
         <div className={"side-tooltip-container result-card"}>
             <Card title={altLabels[alt.altID]}>
-                <Grid className={"result-table"} container spacing={4}>
+                <Grid className={"card-table"} container spacing={4}>
                     <Grid item xs={6}>
                         <FormTooltip text={"Total Net Present Value Costs"}>
                             <div>Total Cost (NPV)</div>

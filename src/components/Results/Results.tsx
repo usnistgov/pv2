@@ -143,32 +143,32 @@ const Results = observer(({result}: ResultsProps) => {
             <Grid container justifyContent={"center"} spacing={2}>
                 <Grid item key={0}>
                     <Card title={"System Summary"}>
-                        <Grid container spacing={4}>
-                            <Grid item xs={6}>System Description:</Grid>
+                        <Grid className={"card-table"} container spacing={4}>
+                            <Grid item xs={6}>System Description</Grid>
                             <Grid item xs={6}>{store.solarSystemFormStore.systemDescription}</Grid>
-                            <Grid item xs={6}>System Size:</Grid>
+                            <Grid item xs={6}>System Size</Grid>
                             <Grid item xs={6}>{store.solarSystemFormStore.totalSystemSize}</Grid>
-                            <Grid item xs={6}>System Efficiency:</Grid>
+                            <Grid item xs={6}>System Efficiency</Grid>
                             <Grid item xs={6}>{store.solarSystemFormStore.panelEfficiency ?? 0}%</Grid>
-                            <Grid item xs={6}>Panel Lifetime:</Grid>
+                            <Grid item xs={6}>Panel Lifetime</Grid>
                             <Grid item xs={6}>{store.solarSystemFormStore.panelLifetime}yr</Grid>
-                            <Grid item xs={6}>Inverter Lifetime:</Grid>
+                            <Grid item xs={6}>Inverter Lifetime</Grid>
                             <Grid item xs={6}>{store.solarSystemFormStore.inverterLifetime}yr</Grid>
                         </Grid>
                     </Card>
                 </Grid>
                 <Grid item key={1}>
                     <Card title={"Initial Costs"}>
-                        <Grid container spacing={4}>
-                            <Grid item xs={6}>Total Installation Cost:</Grid>
+                        <Grid className={"card-table"} container spacing={4}>
+                            <Grid item xs={6}>Total Installation Cost</Grid>
                             <Grid item xs={6}>${store.costsFormStore.totalInstallationCosts}</Grid>
-                            <Grid item xs={6}>Federal Tax Credit:</Grid>
+                            <Grid item xs={6}>Federal Tax Credit</Grid>
                             <Grid item xs={6}>${store.costsFormStore.federalTaxCredit}</Grid>
-                            <Grid item xs={6}>Grants or Rebates:</Grid>
+                            <Grid item xs={6}>Grants or Rebates</Grid>
                             <Grid item xs={6}>${store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates}</Grid>
-                            <Grid item xs={6}>SREC:</Grid>
+                            <Grid item xs={6}>SREC</Grid>
                             <Grid item xs={6}>{}</Grid>
-                            <Grid item xs={6}>Net Installation Cost:</Grid>
+                            <Grid item xs={6}>Net Installation Cost</Grid>
                             <Grid item xs={6}>{}</Grid>
                         </Grid>
                     </Card>
