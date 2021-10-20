@@ -34,48 +34,48 @@ export default function ResultCard({alt}: ResultCardProps): ReactElement {
         <div className={"side-tooltip-container result-card"}>
             <Card title={altLabels[alt.altID]}>
                 <Grid className={"card-table"} container spacing={4}>
-                    <Grid item xs={6}>
+                    <Grid item xs={7}>
                         <FormTooltip text={"Total Net Present Value Costs"}>
                             <div>Total Cost (NPV)</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <div>{valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}</div>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={7}>
                         <FormTooltip text={"Net Present Value Savings relative to No Solar System"}>
                             <div>Net Savings</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <div>{valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}</div>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={7}>
                         <FormTooltip text={"Adjusted Internal Rate of Return (AIRR) on Investment"}>
                             <div>AIRR</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <div>{valid(alt.AIRR) ? `${(alt.AIRR * 100).toFixed(2)}%` : "NA"}</div>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={7}>
                         <FormTooltip text={"Simple Payback Period (SPP)"}>
                             <div>Simple Payback Period</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <div>{valid(alt.SPP) && alt.SPP !== "Infinity" ? `${Math.round(alt.SPP)}yr` : "NA"}</div>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={7}>
                         <FormTooltip text={"Electricity reduction relative to No Solar System (kWh)"}>
                             <div>Electricity Reduction</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid className={"vertical-center"} item xs={6}>
+                    <Grid className={"vertical-center"} item xs={5}>
                         <div>{valid(alt.deltaQuant?.["Electricity"]) ? `${numberFormatter.format(-alt.deltaQuant?.["Electricity"])} kWh` : "NA"}</div>
                     </Grid>
                 </Grid>

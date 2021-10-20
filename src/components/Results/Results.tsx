@@ -19,6 +19,12 @@ import {action} from "mobx";
 import InputReport from "../InputReport/InputReport";
 import Card from "../Card/Card";
 import {GraphCard} from "../Card/GraphCard/GraphCard";
+import {SREC_PAYMENTS_OPTIONS} from "../../Strings";
+
+const currencyFormatter = Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
 
 interface ResultsProps {
     result: any;
@@ -144,32 +150,37 @@ const Results = observer(({result}: ResultsProps) => {
                 <Grid item key={0}>
                     <Card title={"System Summary"}>
                         <Grid className={"card-table"} container spacing={4}>
-                            <Grid item xs={6}>System Description</Grid>
-                            <Grid item xs={6}>{store.solarSystemFormStore.systemDescription}</Grid>
-                            <Grid item xs={6}>System Size</Grid>
-                            <Grid item xs={6}>{store.solarSystemFormStore.totalSystemSize}</Grid>
-                            <Grid item xs={6}>System Efficiency</Grid>
-                            <Grid item xs={6}>{store.solarSystemFormStore.panelEfficiency ?? 0}%</Grid>
-                            <Grid item xs={6}>Panel Lifetime</Grid>
-                            <Grid item xs={6}>{store.solarSystemFormStore.panelLifetime}yr</Grid>
-                            <Grid item xs={6}>Inverter Lifetime</Grid>
-                            <Grid item xs={6}>{store.solarSystemFormStore.inverterLifetime}yr</Grid>
+                            <Grid item xs={7}>System Description</Grid>
+                            <Grid item xs={5}>{store.solarSystemFormStore.systemDescription}</Grid>
+                            <Grid item xs={7}>System Size</Grid>
+                            <Grid item xs={5}>{store.solarSystemFormStore.totalSystemSize} W</Grid>
+                            <Grid item xs={7}>System Efficiency</Grid>
+                            <Grid item xs={5}>{store.solarSystemFormStore.panelEfficiency ?? 0}%</Grid>
+                            <Grid item xs={7}>Panel Lifetime</Grid>
+                            <Grid item xs={5}>{store.solarSystemFormStore.panelLifetime}yr</Grid>
+                            <Grid item xs={7}>Inverter Lifetime</Grid>
+                            <Grid item xs={5}>{store.solarSystemFormStore.inverterLifetime}yr</Grid>
                         </Grid>
                     </Card>
                 </Grid>
                 <Grid item key={1}>
                     <Card title={"Initial Costs"}>
                         <Grid className={"card-table"} container spacing={4}>
-                            <Grid item xs={6}>Total Installation Cost</Grid>
-                            <Grid item xs={6}>${store.costsFormStore.totalInstallationCosts}</Grid>
-                            <Grid item xs={6}>Federal Tax Credit</Grid>
-                            <Grid item xs={6}>${store.costsFormStore.federalTaxCredit}</Grid>
-                            <Grid item xs={6}>Grants or Rebates</Grid>
-                            <Grid item xs={6}>${store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates}</Grid>
-                            <Grid item xs={6}>SREC</Grid>
-                            <Grid item xs={6}>{}</Grid>
-                            <Grid item xs={6}>Net Installation Cost</Grid>
-                            <Grid item xs={6}>{}</Grid>
+                            <Grid item xs={7}>Total Installation Cost</Grid>
+                            <Grid item xs={5}>${store.costsFormStore.totalInstallationCosts}</Grid>
+                            <Grid item xs={7}>Federal Tax Credit</Grid>
+                            <Grid item xs={5}>${store.costsFormStore.federalTaxCredit}</Grid>
+                            <Grid item xs={7}>Grants or Rebates</Grid>
+                            <Grid item xs={5}>${store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates}</Grid>
+                            <Grid item xs={7}>SREC</Grid>
+                            <Grid item xs={5}>${
+                                store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] ?
+                                    store.srecFormStore.srecPaymentsUpFront : 0
+                            }</Grid>
+                            <Grid item xs={7}>Net Installation Cost</Grid>
+                            <Grid item xs={5}>
+                                {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
+                            </Grid>
                         </Grid>
                     </Card>
                 </Grid>
