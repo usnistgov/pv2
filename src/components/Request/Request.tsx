@@ -8,9 +8,9 @@ import {observer} from "mobx-react-lite";
 import {promiseLog, toJson} from "../../Utils";
 import {createE3Request} from "./RequestGenerator/E3RequestGenerator";
 import Results from "../Results/Results";
-import Config from "../../Config";
 import ErrorDialog from "../ErrorDialog";
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
+import config from "../../config.json";
 
 export enum GraphOption {
     NET_VALUE, SAVINGS, CUMULATIVE
@@ -73,7 +73,7 @@ const Request = observer(() => {
                 }
 
                 // Fetch results from E3
-                fetch(Config.requestUrl, fetchOptions)
+                fetch(config.requestUrl, fetchOptions)
                     .then((response) => {
                         if (response.ok)
                             return response;

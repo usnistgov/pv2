@@ -1,6 +1,6 @@
 import {createTheme} from "@material-ui/core";
 
-const Config = {
+const Constants = {
     FEDERAL_TAX_CREDIT: 0.26,
 
     routes: {
@@ -8,15 +8,6 @@ const Config = {
         APPLICATION: "/application",
         RESULTS: "/results",
     },
-
-    /*
-     * "http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S"
-     * "http://e3test.el.nist.gov/api/v1/analysis/?key=ysSq34WU.xq04WeLQ3qMqLF8mhka839ad7KUqEKRb"
-     */
-    requestUrl: "http://localhost/api/v1/analysis/?key=CFXFTKIq.5lAaGLvjWDvh6heyfmZeAsbF2bz0Ow8S",
-
-    // TODO: replace with NIST key
-    googleMapKey: "AIzaSyDGXJiK0XkDxlx2loXvonuX6BJOIYpd0Lg",
 
     // Material UI theme definition
     theme: createTheme({
@@ -37,4 +28,4 @@ const Config = {
     })
 }
 
-export default Config;
+export default Constants;

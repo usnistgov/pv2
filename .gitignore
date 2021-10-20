@@ -28,4 +28,6 @@ yarn-error.log*
 .eslintcache
 
 # Lock files
-*.~lock*
+*.~lock*!
+
+/src/config.json

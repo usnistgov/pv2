@@ -14,7 +14,7 @@ import {GraphOption} from "../Request/Request";
 import {Store} from "../../application/ApplicationStore";
 import "./Results.sass";
 import Downloads from "../Download/Downloads";
-import Config from "../../Config";
+import Constants from "../../Constants";
 import {action} from "mobx";
 import InputReport from "../InputReport/InputReport";
 import Card from "../Card/Card";
@@ -133,7 +133,7 @@ const Results = observer(({result}: ResultsProps) => {
                 left={
                     <div className={"result-back-button"}>
                         <Button component={Link}
-                                to={Config.routes.APPLICATION}
+                                to={Constants.routes.APPLICATION}
                                 startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>
                             Back
                         </Button>

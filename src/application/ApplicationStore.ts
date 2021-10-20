@@ -12,7 +12,7 @@ import {
     VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
 } from "../Strings";
 import {fetchMap, take} from "../Utils";
-import Config from "../Config";
+import Constants from "../Constants";
 
 /**
  * Main application store. Contains all sub-stores that contain form data.
@@ -331,7 +331,7 @@ export class CostsFormStore {
     }
 
     get federalTaxCredit(): string {
-        return ((this.totalInstallationCosts ?? 0) * Config.FEDERAL_TAX_CREDIT).toFixed(2);
+        return ((this.totalInstallationCosts ?? 0) * Constants.FEDERAL_TAX_CREDIT).toFixed(2);
     }
 
     get isDone(): boolean {
