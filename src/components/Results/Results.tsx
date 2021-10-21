@@ -164,6 +164,9 @@ const Results = observer(({result}: ResultsProps) => {
     const store = useContext(Store);
     const uiStore = useContext(Store).resultUiStore;
 
+    let srecUpfront = store.srecFormStore.srecPaymentsUpFront / 1000 *
+        (store.solarSystemFormStore.totalSystemSize ?? 0);
+
     let graphData = getGraphData(uiStore.graphOption, result);
 
     function componentOrSkeleton(component: () => ReactNode) {
@@ -223,10 +226,10 @@ const Results = observer(({result}: ResultsProps) => {
                                     store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
                                 )}
                             </Grid>
-                            <Grid item xs={7}>SREC</Grid>
+                            <Grid item xs={7}>SREC Upfront Payment</Grid>
                             <Grid item xs={5}>{currencyFormatter.format(
                                 store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] ?
-                                    store.srecFormStore.srecPaymentsUpFront : 0
+                                    srecUpfront : 0
                             )}</Grid>
                             <Grid item xs={7}>Net Installation Cost</Grid>
                             <Grid item xs={5}>
