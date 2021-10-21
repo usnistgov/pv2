@@ -10,7 +10,6 @@ import {createE3Request} from "./RequestGenerator/E3RequestGenerator";
 import Results from "../Results/Results";
 import ErrorDialog from "../ErrorDialog";
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
-import config from "../../config.json";
 
 /**
  * Checks if a value is valid, in other words is not null, undefined, etc.
@@ -69,7 +68,7 @@ const Request = observer(() => {
                 }
 
                 // Fetch results from E3
-                fetch(config.requestUrl, fetchOptions)
+                fetch(process.env.REACT_APP_REQUEST_URL ?? "", fetchOptions)
                     .then((response) => {
                         if (response.ok)
                             return response;

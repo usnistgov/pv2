@@ -1,6 +1,5 @@
 import {Paper} from "@material-ui/core";
 import React from "react";
-import config from "../../config.json";
 import "./GoogleMap.sass";
 
 interface GoogleMapProps {
@@ -8,7 +7,8 @@ interface GoogleMapProps {
 }
 
 export default function GoogleMap({query}: GoogleMapProps) {
-    let completeQuery = `https://www.google.com/maps/embed/v1/place?key=${config.googleMapKey}&q=${query}`
+    let completeQuery =
+        `https://www.google.com/maps/embed/v1/place?key=${process.env.REACT_APP_GOOGLE_MAP_KEY}&q=${query}`;
 
     return (
         <Paper className={"map"} elevation={3}>
