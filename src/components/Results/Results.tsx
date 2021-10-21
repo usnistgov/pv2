@@ -263,7 +263,8 @@ const Results = observer(({result}: ResultsProps) => {
                         <GraphCard
                             altId={res.altID}
                             graphData={graphData.graphData[index]}
-                            graphMax={graphData.graphMax}/>
+                            graphMax={graphData.graphMax}
+                            graphOption={uiStore.graphOption}/>
                     </Grid>
                 }))}
             </Grid>
