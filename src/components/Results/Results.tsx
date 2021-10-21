@@ -164,6 +164,9 @@ const Results = observer(({result}: ResultsProps) => {
     const store = useContext(Store);
     const uiStore = useContext(Store).resultUiStore;
 
+    let srecUpfront = store.srecFormStore.srecPaymentsUpFront / 1000 *
+        (store.solarSystemFormStore.totalSystemSize ?? 0);
+
     let graphData = getGraphData(uiStore.graphOption, result);
 
     function componentOrSkeleton(component: () => ReactNode) {
@@ -180,7 +183,7 @@ const Results = observer(({result}: ResultsProps) => {
     return <>
         <Box className="container">
             <MaterialHeader
-                text={"Info"}
+                text={"System Summary"}
                 left={
                     <div className={"result-back-button"}>
                         <Button component={Link}
@@ -212,16 +215,22 @@ const Results = observer(({result}: ResultsProps) => {
                     <Card title={"Initial Costs"}>
                         <Grid className={"card-table"} container spacing={4}>
                             <Grid item xs={7}>Total Installation Cost</Grid>
-                            <Grid item xs={5}>${store.costsFormStore.totalInstallationCosts}</Grid>
+                            <Grid item xs={5}>
+                                {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
+                            </Grid>
                             <Grid item xs={7}>Federal Tax Credit</Grid>
                             <Grid item xs={5}>${store.costsFormStore.federalTaxCredit}</Grid>
                             <Grid item xs={7}>Grants or Rebates</Grid>
-                            <Grid item xs={5}>${store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates}</Grid>
-                            <Grid item xs={7}>SREC</Grid>
-                            <Grid item xs={5}>${
+                            <Grid item xs={5}>
+                                {currencyFormatter.format(
+                                    store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
+                                )}
+                            </Grid>
+                            <Grid item xs={7}>SREC Upfront Payment</Grid>
+                            <Grid item xs={5}>{currencyFormatter.format(
                                 store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] ?
-                                    store.srecFormStore.srecPaymentsUpFront : 0
-                            }</Grid>
+                                    srecUpfront : 0
+                            )}</Grid>
                             <Grid item xs={7}>Net Installation Cost</Grid>
                             <Grid item xs={5}>
                                 {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
@@ -231,7 +240,7 @@ const Results = observer(({result}: ResultsProps) => {
                 </Grid>
             </Grid>
 
-            <MaterialHeader text={"Summary"}/>
+            <MaterialHeader text={"Results Summary"}/>
             <Grid container justifyContent={"center"} spacing={2}>
                 {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
                     return <Grid item key={index}>
@@ -263,7 +272,8 @@ const Results = observer(({result}: ResultsProps) => {
                         <GraphCard
                             altId={res.altID}
                             graphData={graphData.graphData[index]}
-                            graphMax={graphData.graphMax}/>
+                            graphMax={graphData.graphMax}
+                            graphOption={uiStore.graphOption}/>
                     </Grid>
                 }))}
             </Grid>
