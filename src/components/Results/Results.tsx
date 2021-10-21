@@ -180,7 +180,7 @@ const Results = observer(({result}: ResultsProps) => {
     return <>
         <Box className="container">
             <MaterialHeader
-                text={"Info"}
+                text={"System Summary"}
                 left={
                     <div className={"result-back-button"}>
                         <Button component={Link}
@@ -231,7 +231,7 @@ const Results = observer(({result}: ResultsProps) => {
                 </Grid>
             </Grid>
 
-            <MaterialHeader text={"Summary"}/>
+            <MaterialHeader text={"Results Summary"}/>
             <Grid container justifyContent={"center"} spacing={2}>
                 {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
                     return <Grid item key={index}>
