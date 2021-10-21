@@ -212,16 +212,22 @@ const Results = observer(({result}: ResultsProps) => {
                     <Card title={"Initial Costs"}>
                         <Grid className={"card-table"} container spacing={4}>
                             <Grid item xs={7}>Total Installation Cost</Grid>
-                            <Grid item xs={5}>${store.costsFormStore.totalInstallationCosts}</Grid>
+                            <Grid item xs={5}>
+                                {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
+                            </Grid>
                             <Grid item xs={7}>Federal Tax Credit</Grid>
                             <Grid item xs={5}>${store.costsFormStore.federalTaxCredit}</Grid>
                             <Grid item xs={7}>Grants or Rebates</Grid>
-                            <Grid item xs={5}>${store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates}</Grid>
+                            <Grid item xs={5}>
+                                {currencyFormatter.format(
+                                    store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
+                                )}
+                            </Grid>
                             <Grid item xs={7}>SREC</Grid>
-                            <Grid item xs={5}>${
+                            <Grid item xs={5}>{currencyFormatter.format(
                                 store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] ?
                                     store.srecFormStore.srecPaymentsUpFront : 0
-                            }</Grid>
+                            )}</Grid>
                             <Grid item xs={7}>Net Installation Cost</Grid>
                             <Grid item xs={5}>
                                 {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}

@@ -46,7 +46,7 @@ export function GraphCard({altId, graphMax, graphData, graphOption}: any) {
                         legendPosition: "middle",
                         legendOffset: -35,
                         format: useDollarSign() ? currencyFormatter.format : numberFormatter.format,
-                        legend: useDollarSign() ? "" : "Watt-hour"
+                        legend: useDollarSign() ? "" : "kWh"
                     }}
                     axisBottom={{
                         tickSize: 0,
