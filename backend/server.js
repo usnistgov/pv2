@@ -25,7 +25,14 @@ function query(queryString) {
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-app.get("/api/environment/:zipcode", query(`SELECT * FROM environment WHERE zipcode = :zipcode`));
+app.get("/api/environment/:zipcode", query("SELECT * FROM environment WHERE zipcode = :zipcode"));
+
+app.get("/api/escalation-rates/:zipcode", query("SELECT array_agg(rate ORDER BY year) rates " +
+    "FROM zip_state_mapping " +
+    "         INNER JOIN state_info ON zip_state_mapping.state = state_info.full_name " +
+    "         INNER JOIN region_escalation_rates rer on state_info.region = rer.region " +
+    "WHERE zipcode = :zipcode " +
+    "GROUP BY zipcode;"))
 
 app.get('*', (request, response) => {
    response.sendFile(path.join(__dirname, '../frontend/build/index.html'));
