@@ -1,14 +1,22 @@
-FROM node:16.10.0
+FROM node:16.10.0 AS frontend-build
 
 WORKDIR /usr/src/app
 
 RUN npm install -g npm
-RUN npm install -g serve
-COPY package.json ./
+COPY frontend/package.json .
 RUN npm install --legacy-peer-deps
-COPY . .
+COPY frontend/ .
 RUN npm run build
 
-EXPOSE 5000
+FROM node:16.10.0 AS backend-build
 
-CMD ["serve", "-s", "build"]
+WORKDIR /root/backend
+RUN npm install -g npm
+COPY --from=frontend-build /usr/src/app/build ../frontend/build
+COPY backend/package.json .
+RUN npm install --legacy-peer-deps
+COPY backend/server.js .
+
+EXPOSE 80
+
+CMD ["node", "./server.js"]
