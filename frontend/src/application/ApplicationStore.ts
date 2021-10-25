@@ -10,7 +10,7 @@ import {
     SREC_PAYMENTS_OPTIONS,
     VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
 } from "../Strings";
-import {fetchMap, take} from "../Utils";
+import {take, toJson} from "../Utils";
 import Constants from "../Constants";
 import {GraphOption} from "../components/Results/Results";
 
@@ -65,33 +65,23 @@ export class ApplicationStore {
             this.srecFormStore.srecPaymentsProductionBased = Array(value).fill(0);
         });
 
-        autorun(() => this.getEscalationRates());
+        autorun(() => this.calculateEscalationRates(this.addressFormStore.zipcode));
     }
 
-    getEscalationRates() {
-        let region = this.getRegion()
-
-        if (region)
-            this.calculateEscalationRates(region)
-    }
-
-    getRegion(): Promise<string> | undefined {
-        const zipcode = this.addressFormStore.zipcode;
-        const state = this.addressFormStore.state;
-
-        if (!zipcode && state.length < 2)
+    calculateEscalationRates(zipcode: string) {
+        if(zipcode.length <= 0)
             return;
 
-        return zipcode ? zipToState(zipcode) : stateIdToName(state);
-    }
-
-    calculateEscalationRates(region: Promise<string>) {
-        region.then(stateToRegion)
-            .then(regionToEscalationRateList)
-            .then(take(this.analysisAssumptionsFormStore.studyPeriod + 1))
+        fetch(`/api/escalation-rates/${zipcode}`)
+            .then(toJson)
+            .then((result) => result[0].rates)
+            .then<number[]>(take(this.analysisAssumptionsFormStore.studyPeriod + 1))
             .then((result) => {
                 this.escalationRateFormStore.productionEscalationRateForYear = result;
                 this.escalationRateFormStore.escalationRateForYear = result;
+            })
+            .catch((reason: any) => {
+                console.log(reason);
             });
     }
 }
@@ -200,7 +190,7 @@ export class EscalationRateFormStore {
         this.escalationRateForYear = [];
         this.productionEscalationRateForYear = [];
 
-        this.rootStore.getEscalationRates()
+        this.rootStore.calculateEscalationRates(this.rootStore.addressFormStore.zipcode);
     }
 }
 
@@ -422,7 +412,6 @@ export class ResultUiStore {
     rootStore: ApplicationStore;
 
     graphOption: GraphOption = GraphOption.NET_VALUE;
-    shouldCalculate = true;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
@@ -471,39 +460,3 @@ export class FormUiStore {
 
 export const Store = React.createContext(new ApplicationStore());
 export const store = new ApplicationStore();
-
-const stateIdToName = fetchMap<string, string>(
-    "escalation-rates/state-abbreviation.json",
-    (input, json) => {
-        if (input.length < 2)
-            return "";
-
-        const state = input === "" || !input ? "MD" : input;
-        return state.length === 2 ? json[state.toUpperCase()] : state
-    }
-);
-
-const stateToRegion = fetchMap<string, string>(
-    "escalation-rates/state-region-mapping.json",
-    (state, json) => {
-        if (!state || !json[state])
-            return "";
-
-        return json[state];
-    }
-);
-
-const regionToEscalationRateList = fetchMap<string, number[]>(
-    "escalation-rates/region-escalation-rates.json",
-    (region, json) => {
-        if (!region)
-            return [];
-
-        return Object.values(json[region]);
-    }
-);
-
-const zipToState = fetchMap<string, string>(
-    "data/zip-state-mapping.json",
-    (zipcode, json) => json[zipcode.padStart(5, "0")]
-);
