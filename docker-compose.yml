@@ -1,8 +1,18 @@
 version: "3.9"
 services:
-  frontend:
+  stack:
     build: ./
     ports:
-      - "5000:5000"
+      - "3000:80"
+    networks:
+      - default
+  postgres:
+    image: postgres:13.3
+    restart: always
+    hostname: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: AuTWRecHIFBdg5LJ6WbbUmFVPs3zhCwh
+      POSTGRES_DB: PV2
     networks:
       - default
