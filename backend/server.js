@@ -26,7 +26,7 @@ app.get("/api/escalation-rates/:zipcode", createQuery("SELECT array_agg(rate ORD
     "         INNER JOIN state_info ON zip_state_mapping.state = state_info.full_name " +
     "         INNER JOIN region_escalation_rates rer on state_info.region = rer.region " +
     "WHERE zipcode = $1 " +
-    "GROUP BY zipcode;"))
+    "GROUP BY zipcode;"));
 
 app.get('*', (request, response) => {
    response.sendFile(path.join(__dirname, '../frontend/build/index.html'));
