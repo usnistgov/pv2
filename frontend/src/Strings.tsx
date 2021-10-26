@@ -33,17 +33,6 @@ export const GENERAL_INFLATION_TOOLTIP = "General rate of price changes over tim
 export const GENERAL_INFLATION_INFO = "General inflation rate is the rate of rise in the general price level, or, " +
     "put another way, a decline in the general purchasing power of the dollar.";
 
-export const RESIDUAL_VALUE_APPROACH_LABEL = "Residual Value Approach";
-export const RESIDUAL_VALUE_APPROACH_TOOLTIP = "Approach to estimate value of solar PV system at the end of the " +
-    "study period";
-export const RESIDUAL_VALUE_APPROACH_INFO = <div>
-    Residual Value is the estimated value, net of any Disposal Costs, of
-    any building or building system removed or replaced during the Study Period, or remaining at the end of the
-    Study Period, or recovered through resale or reuse at the end of the Study Period. <br/><br/>Approach Options:
-    The Linear Depreciation approach assumes that the residual value is a linear function of the installation cost
-    for an investment.<br/><br/>Note: If the study period and the service life of the solar PV system are the same,
-    the residual value will be zero.
-</div>;
 export const RESIDUAL_VALUE_APPROACH_OPTIONS = [
     "Linear Depreciation"
 ];
