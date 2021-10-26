@@ -9,11 +9,11 @@ export const CATEGORIES = [
 ];
 
 export const ADDRESS_TOOLTIP = "Your Street Number and Name";
-export const ADDRESS_LABEL = "Address";
+export const ADDRESS_LABEL = "Address (optional)";
 export const CITY_TOOLTIP = "Your City";
-export const CITY_LABEL = "City";
+export const CITY_LABEL = "City (optional)";
 export const STATE_TOOLTIP = "Your State (Name or Acronym are both validate)";
-export const STATE_LABEL = "State";
+export const STATE_LABEL = "State (optional)";
 export const ZIPCODE_TOOLTIP = "Your ZIP Code (Required)";
 export const ZIPCODE_LABEL = "ZIP Code";
 
@@ -48,7 +48,7 @@ export const RESIDUAL_VALUE_APPROACH_OPTIONS = [
     "Linear Depreciation"
 ];
 
-export const ELECTRICAL_COMPANY_NAME_LABEL = "Electricity Utility Company";
+export const ELECTRICAL_COMPANY_NAME_LABEL = "Electricity Utility Company (optional)";
 export const ELECTRICAL_COMPANY_NAME_TOOLTIP = "Electricity Provider Name";
 export const ELECTRICAL_COMPANY_NAME_INFO = "Electricity Provider Name. For informational purposes only.";
 
@@ -251,7 +251,7 @@ export const LOAN_LENGTH_LABEL = "Loan Length";
 export const LOAN_LENGTH_TOOLTIP = "Length of time to pay back loan";
 export const LOAN_LENGTH_INFO = "Amount of time to completely pay back the loan.";
 
-export const NOMINAL_INTEREST_RATE_LABEL = "Loan Nominal Interest Rate";
+export const NOMINAL_INTEREST_RATE_LABEL = "Loan Nominal Interest Rate (optional)";
 export const NOMINAL_INTEREST_RATE_TOOLTIP = "Nominal interest rate on the loan";
 export const NOMINAL_INTEREST_RATE_INFO = "Nominal interest rate on the loan.";
 
