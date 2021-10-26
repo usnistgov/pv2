@@ -18,16 +18,12 @@ import {action} from "mobx";
 import InputReport from "../InputReport/InputReport";
 import Card from "../Card/Card";
 import {GraphCard} from "../Card/GraphCard/GraphCard";
-import {SREC_PAYMENTS_OPTIONS} from "../../Strings";
+import {GraphOption, SREC_PAYMENTS_OPTIONS} from "../../Strings";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
-
-export enum GraphOption {
-    NET_VALUE, SAVINGS, CUMULATIVE, NET_ELECTRICAL_CONSUMPTION, ELECTRICAL_REDUCTION
-}
 
 interface ResultsProps {
     result: any;
@@ -258,11 +254,13 @@ const Results = observer(({result}: ResultsProps) => {
                         onChange={action((event) => {
                             uiStore.graphOption = event.target.value as GraphOption;
                         })}>
-                        <MenuItem value={GraphOption.NET_VALUE}>Cash Flow - Net Present Value</MenuItem>
-                        <MenuItem value={GraphOption.SAVINGS}>Annual Net Savings</MenuItem>
-                        <MenuItem value={GraphOption.CUMULATIVE}>Cumulative Net Savings</MenuItem>
-                        <MenuItem value={GraphOption.NET_ELECTRICAL_CONSUMPTION}>Net Electrical Consumption</MenuItem>
-                        <MenuItem value={GraphOption.ELECTRICAL_REDUCTION}>Electricity Reduction</MenuItem>
+                        <MenuItem value={GraphOption.NET_VALUE}>{GraphOption.NET_VALUE}</MenuItem>
+                        <MenuItem value={GraphOption.SAVINGS}>{GraphOption.SAVINGS}</MenuItem>
+                        <MenuItem value={GraphOption.CUMULATIVE}>{GraphOption.CUMULATIVE}</MenuItem>
+                        <MenuItem value={GraphOption.NET_ELECTRICAL_CONSUMPTION}>
+                            {GraphOption.NET_ELECTRICAL_CONSUMPTION}
+                        </MenuItem>
+                        <MenuItem value={GraphOption.ELECTRICAL_REDUCTION}>{GraphOption.ELECTRICAL_REDUCTION}</MenuItem>
                     </Select>
                 </FormControl>
             </div>

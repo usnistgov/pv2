@@ -265,3 +265,11 @@ export const SREC_PAYMENTS_UP_FRONT_TOOLTIP = "Sell the rights to the SRECs upfr
     "production";
 
 export const SREC_PAYMENT_YEARS = "Number of Years there will be SREC Payments";
+
+export enum GraphOption {
+    NET_VALUE = "Annual Costs - Net Present Value",
+    SAVINGS = "Annual Net Savings",
+    CUMULATIVE = "Cumulative Net Savings",
+    NET_ELECTRICAL_CONSUMPTION = "Net Electrical Consumption",
+    ELECTRICAL_REDUCTION = "Electricity Reduction"
+}

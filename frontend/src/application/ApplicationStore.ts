@@ -1,7 +1,7 @@
 import {autorun, makeAutoObservable, reaction} from "mobx";
 import React from "react";
 import {
-    ESCALATION_RATES_SAME_OR_DIFF_OPTIONS,
+    ESCALATION_RATES_SAME_OR_DIFF_OPTIONS, GraphOption,
     INVERTER_TYPE_OPTIONS,
     LOAN_OR_CASH_OPTIONS,
     NET_METERING_FEED_TARIFF_OPTIONS,
@@ -12,7 +12,6 @@ import {
 } from "../Strings";
 import {take, toJson} from "../Utils";
 import Constants from "../Constants";
-import {GraphOption} from "../components/Results/Results";
 
 /**
  * Main application store. Contains all sub-stores that contain form data.

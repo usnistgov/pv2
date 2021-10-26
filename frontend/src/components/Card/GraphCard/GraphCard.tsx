@@ -3,7 +3,7 @@ import {altLabels} from "../../Request/RequestGenerator/E3RequestGenerator";
 import {ResponsiveLine} from "@nivo/line";
 import React from "react";
 import "./GraphCard.sass";
-import {GraphOption} from "../../Results/Results";
+import {GraphOption} from "../../../Strings";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
