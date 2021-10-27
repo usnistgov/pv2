@@ -411,10 +411,23 @@ export class ResultUiStore {
     rootStore: ApplicationStore;
 
     graphOption: GraphOption = GraphOption.NET_VALUE;
+    mGraphMax: number = 0;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
+    }
+
+    resetGraphMax() {
+        this.graphMax = 0;
+    }
+
+    get graphMax() {
+        return this.mGraphMax;
+    }
+
+    set graphMax(value: number) {
+        this.mGraphMax = Math.max(this.mGraphMax, Math.abs(value));
     }
 }
 

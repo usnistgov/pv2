@@ -1,11 +1,10 @@
 import React, {ReactNode, useContext} from "react";
 
 // Library imports
-import {Box, Button, FormControl, Grid, MenuItem, Select} from "@material-ui/core";
+import {Box, Button, Grid} from "@material-ui/core";
 import {Skeleton} from "@material-ui/lab";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiArrowLeft} from "@mdi/js";
-import {Serie} from "@nivo/line";
 import {observer} from "mobx-react-lite";
 import {Link} from "react-router-dom";
 import ResultCard from "../Card/ResultCard/ResultCard";
@@ -14,11 +13,11 @@ import {Store} from "../../application/ApplicationStore";
 import "./Results.sass";
 import Downloads from "../Download/Downloads";
 import Constants from "../../Constants";
-import {action} from "mobx";
 import InputReport from "../InputReport/InputReport";
 import Card from "../Card/Card";
-import {GraphCard} from "../Card/GraphCard/GraphCard";
-import {GraphOption, SREC_PAYMENTS_OPTIONS} from "../../Strings";
+import GraphCard from "../Card/GraphCard/GraphCard";
+import {SREC_PAYMENTS_OPTIONS} from "../../Strings";
+import GraphOptionSelect from "../GraphOptionSelect/GraphOptionSelect";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -28,129 +27,6 @@ const currencyFormatter = Intl.NumberFormat('en-US', {
 interface ResultsProps {
     result: any;
 }
-
-interface GraphData {
-    graphData: Serie,
-    graphMax: number
-}
-
-/**
- * Generates graph data for the given graph options and result object.
- *
- * @param graphOption
- * @param result
- */
-function getGraphData(graphOption: GraphOption, result: any): GraphData {
-    let graphMax = 0;
-    let data: Serie = {id: "", data: []};
-
-    if (!result) return {graphData: data, graphMax: 0};
-
-    switch (graphOption) {
-        case GraphOption.NET_VALUE:
-            data = result.FlowSummary
-                .map((cashFlowObject: any) => {
-                    return {
-                        id: "",
-                        data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
-                            graphMax = Math.max(graphMax, Math.abs(value));
-
-                            return {
-                                x: year,
-                                y: value
-                            }
-                        })
-                    }
-                });
-
-            return {graphData: data, graphMax: graphMax};
-        case GraphOption.SAVINGS:
-            data = result.FlowSummary
-                .map((cashFlowObject: any, index: number, array: any) => {
-                    return {
-                        id: "",
-                        data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
-                            let saving = array[0].totCostDisc[year] - value;
-
-                            graphMax = Math.max(graphMax, Math.abs(saving));
-
-                            return {
-                                x: year,
-                                y: saving
-                            }
-                        })
-                    }
-                });
-
-            return {graphData: data, graphMax: graphMax};
-        case GraphOption.CUMULATIVE:
-            let accumulator = 0;
-            data = result.FlowSummary
-                .map((cashFlowObject: any, index: number, array: any) => {
-                    accumulator = 0;
-
-                    return {
-                        id: "",
-                        data: cashFlowObject.totCostDisc.map((value: number, year: number) => {
-                            let cumulativeSaving = accumulator + (array[0].totCostDisc[year] - value);
-                            accumulator = cumulativeSaving;
-
-                            graphMax = Math.max(graphMax, Math.abs(cumulativeSaving));
-
-                            return {
-                                x: year,
-                                y: cumulativeSaving
-                            }
-                        })
-                    }
-                });
-
-            return {graphData: data, graphMax: graphMax};
-        case GraphOption.NET_ELECTRICAL_CONSUMPTION:
-            data = result.OptionalSummary
-                .filter((value: any) => value.tag === "Electricity")
-                .map((cashFlowObject: any) => {
-                    return {
-                        id: "",
-                        data: cashFlowObject.totTagQ.map((value: number, year: number) => {
-                            graphMax = Math.max(graphMax, Math.abs(value));
-
-                            return {
-                                x: year,
-                                y: value
-                            }
-                        })
-                    }
-                });
-
-            return {graphData: data, graphMax: graphMax};
-        case GraphOption.ELECTRICAL_REDUCTION:
-            let reduction = 0;
-            data = result.OptionalSummary
-                .filter((value: any) => value.tag === "Electricity")
-                .map((cashFlowObject: any, index: number, array: any) => {
-                    reduction = 0;
-
-                    return {
-                        id: "",
-                        data: cashFlowObject.totTagQ.map((value: number, year: number) => {
-                            let cumulativeReduction = reduction + (array[0].totTagQ[year] - value);
-                            reduction = cumulativeReduction;
-
-                            graphMax = Math.max(graphMax, Math.abs(cumulativeReduction));
-
-                            return {
-                                x: year,
-                                y: cumulativeReduction
-                            }
-                        })
-                    }
-                });
-
-            return {graphData: data, graphMax: graphMax};
-    }
-}
-
 /**
  * This page requests calculations from the E3 API and displays the results. Results are shown in side-by-side
  * card form with some data and graphs. Finally the user can download a CSV file containing the E3 results. This
@@ -162,8 +38,6 @@ const Results = observer(({result}: ResultsProps) => {
 
     let srecUpfront = store.srecFormStore.srecPaymentsUpFront / 1000 *
         (store.solarSystemFormStore.totalSystemSize ?? 0);
-
-    let graphData = getGraphData(uiStore.graphOption, result);
 
     function componentOrSkeleton(component: () => ReactNode) {
         if (result)
@@ -246,32 +120,13 @@ const Results = observer(({result}: ResultsProps) => {
             </Grid>
 
             <MaterialHeader text={"Graphs"}/>
-            <div className={"graph-control"}>
-                <FormControl className={"graph-control"}>
-                    <Select
-                        id={"graph-option-select"}
-                        value={uiStore.graphOption}
-                        onChange={action((event) => {
-                            uiStore.graphOption = event.target.value as GraphOption;
-                        })}>
-                        <MenuItem value={GraphOption.NET_VALUE}>{GraphOption.NET_VALUE}</MenuItem>
-                        <MenuItem value={GraphOption.SAVINGS}>{GraphOption.SAVINGS}</MenuItem>
-                        <MenuItem value={GraphOption.CUMULATIVE}>{GraphOption.CUMULATIVE}</MenuItem>
-                        <MenuItem value={GraphOption.NET_ELECTRICAL_CONSUMPTION}>
-                            {GraphOption.NET_ELECTRICAL_CONSUMPTION}
-                        </MenuItem>
-                        <MenuItem value={GraphOption.ELECTRICAL_REDUCTION}>{GraphOption.ELECTRICAL_REDUCTION}</MenuItem>
-                    </Select>
-                </FormControl>
-            </div>
+            <GraphOptionSelect/>
             <Grid container justifyContent={"center"} spacing={2}>
                 {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
                     return <Grid item key={index}>
                         <GraphCard
                             altId={res.altID}
-                            graphData={graphData.graphData[index]}
-                            graphMax={graphData.graphMax}
-                            graphOption={uiStore.graphOption}/>
+                            result={result}/>
                     </Grid>
                 }))}
             </Grid>
