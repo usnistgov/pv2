@@ -410,7 +410,7 @@ export class SrecFormStore {
 export class ResultUiStore {
     rootStore: ApplicationStore;
 
-    graphOption: GraphOption = GraphOption.NET_VALUE;
+    graphOption: GraphOption = GraphOption.CUMULATIVE;
     mGraphMax: number = 0;
 
     constructor(rootStore: ApplicationStore) {
