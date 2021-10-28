@@ -245,7 +245,7 @@ function SRECReport() {
             <Grid item xs={6}>SREC Payment Length:</Grid>
             <Grid item xs={6}>{store.srecContractLength}</Grid>
             {store.srecPaymentsProductionBased
-                .filter((_, index) => index > 0 && index <= store.srecContractLength)
+                .filter((_, index) => index > 0 && index <= (store.srecContractLength ?? 0))
                 .map((value, index) => <>
                         <Grid item xs={6}>{`Year ${index + 1}:`}</Grid>
                         <Grid item xs={6}>{value}</Grid>

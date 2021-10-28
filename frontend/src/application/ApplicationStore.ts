@@ -12,6 +12,15 @@ import {
 } from "../Strings";
 import {take, toJson} from "../Utils";
 import Constants from "../Constants";
+import {
+    ANNUAL_MAINTENANCE,
+    DEGRADATION_RATE,
+    GENERAL_INFLATION,
+    INVERTER_LIFETIME, INVERTER_REPLACEMENT,
+    PANEL_LIFETIME,
+    REAL_DISCOUNT_RATE, SREC_CONTRACT_LENGTH, SREC_UPFRONT,
+    STUDY_PERIOD
+} from "../Defaults";
 
 /**
  * Main application store. Contains all sub-stores that contain form data.
@@ -68,13 +77,13 @@ export class ApplicationStore {
     }
 
     calculateEscalationRates(zipcode: string) {
-        if(zipcode.length <= 0)
+        if (zipcode.length <= 0)
             return;
 
         fetch(`/api/escalation-rates/${zipcode}`)
             .then(toJson)
             .then((result) => result[0].rates)
-            .then<number[]>(take(this.analysisAssumptionsFormStore.studyPeriod + 1))
+            .then<number[]>(take((this.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD) + 1))
             .then((result) => {
                 this.escalationRateFormStore.productionEscalationRateForYear = result;
                 this.escalationRateFormStore.escalationRateForYear = result;
@@ -116,9 +125,9 @@ export class AddressFormStore {
 export class AnalysisAssumptionsFormStore {
     rootStore: ApplicationStore;
 
-    studyPeriod = 25;
-    realDiscountRate = 3;
-    generalInflation = 2.3;
+    studyPeriod?: number = STUDY_PERIOD;
+    realDiscountRate?: number = REAL_DISCOUNT_RATE;
+    generalInflation?: number = GENERAL_INFLATION;
     residualValueApproach = RESIDUAL_VALUE_APPROACH_OPTIONS[0];
 
     constructor(rootStore: ApplicationStore) {
@@ -126,10 +135,16 @@ export class AnalysisAssumptionsFormStore {
         this.rootStore = rootStore
     }
 
+    get isDone() {
+        return this.studyPeriod !== undefined &&
+            this.realDiscountRate !== undefined &&
+            this.generalInflation !== undefined
+    }
+
     reset() {
-        this.studyPeriod = 25;
-        this.realDiscountRate = 3;
-        this.generalInflation = 2.3
+        this.studyPeriod = STUDY_PERIOD;
+        this.realDiscountRate = REAL_DISCOUNT_RATE;
+        this.generalInflation = GENERAL_INFLATION;
         this.residualValueApproach = RESIDUAL_VALUE_APPROACH_OPTIONS[0];
     }
 }
@@ -202,9 +217,9 @@ export class SolarSystemFormStore {
     totalSystemSize = undefined;
     estimatedAnnualProduction = undefined;
     // Advanced
-    panelLifetime = 25;
-    inverterLifetime: number = 15;
-    degradationRate = 0.5;
+    panelLifetime? = PANEL_LIFETIME;
+    inverterLifetime?: number = INVERTER_LIFETIME;
+    degradationRate? = DEGRADATION_RATE;
 
     lifetimeDefault: boolean = true;
 
@@ -217,7 +232,10 @@ export class SolarSystemFormStore {
     get isDone(): boolean {
         return this.systemDescription !== undefined &&
             this.totalSystemSize !== undefined &&
-            this.estimatedAnnualProduction !== undefined;
+            this.estimatedAnnualProduction !== undefined &&
+            this.panelLifetime !== undefined &&
+            this.inverterLifetime !== undefined &&
+            this.degradationRate !== undefined;
     }
 
     get inverterLifetimeOrDefault() {
@@ -275,8 +293,8 @@ export class CostsFormStore {
     totalInstallationCosts = undefined;
     stateOrLocalTaxCreditsOrGrantsOrRebates = undefined;
     // Advanced
-    inverterReplacementCosts = 0;
-    annualMaintenanceCosts = 150;
+    inverterReplacementCosts? = INVERTER_REPLACEMENT;
+    annualMaintenanceCosts? = ANNUAL_MAINTENANCE;
 
     inverterReplacementCostsDefault: boolean = true;
 
@@ -326,7 +344,9 @@ export class CostsFormStore {
     get isDone(): boolean {
         return (
                 this.totalInstallationCosts !== undefined &&
-                this.stateOrLocalTaxCreditsOrGrantsOrRebates !== undefined
+                this.stateOrLocalTaxCreditsOrGrantsOrRebates !== undefined &&
+                this.inverterReplacementCosts !== undefined &&
+                this.annualMaintenanceCosts !== undefined
             ) &&
             (
                 this.loanOrCash === LOAN_OR_CASH_OPTIONS[1] || (
@@ -375,15 +395,17 @@ export class SrecFormStore {
     rootStore: ApplicationStore;
 
     srecPayments = SREC_PAYMENTS_OPTIONS[0];
-    srecPaymentsUpFront = 0;
+    srecPaymentsUpFront? = SREC_UPFRONT;
     srecPaymentsProductionBased: (number | undefined)[] = [];
-    srecContractLength = 10;
+    srecContractLength? = SREC_CONTRACT_LENGTH;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
 
         this.rootStore = rootStore;
-        this.srecPaymentsProductionBased = Array(rootStore.analysisAssumptionsFormStore.studyPeriod + 1)
+        this.srecPaymentsProductionBased = Array(
+            (rootStore.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD) + 1
+        )
             .fill(0);
     }
 
@@ -401,7 +423,9 @@ export class SrecFormStore {
     reset() {
         this.srecPayments = SREC_PAYMENTS_OPTIONS[0];
         this.srecPaymentsUpFront = 0;
-        this.srecPaymentsProductionBased = Array(this.rootStore.analysisAssumptionsFormStore.studyPeriod + 1)
+        this.srecPaymentsProductionBased = Array(
+            (this.rootStore.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD) + 1
+        )
             .fill(0);
         this.srecContractLength = 10;
     }

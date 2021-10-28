@@ -18,6 +18,7 @@ import Card from "../Card/Card";
 import GraphCard from "../Card/GraphCard/GraphCard";
 import {SREC_PAYMENTS_OPTIONS} from "../../Strings";
 import GraphOptionSelect from "../GraphOptionSelect/GraphOptionSelect";
+import {SREC_UPFRONT} from "../../Defaults";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -35,8 +36,9 @@ interface ResultsProps {
 const Results = observer(({result}: ResultsProps) => {
     const store = useContext(Store);
     const uiStore = useContext(Store).resultUiStore;
+    const upfront = store.srecFormStore.srecPaymentsUpFront ?? SREC_UPFRONT;
 
-    let srecUpfront = store.srecFormStore.srecPaymentsUpFront / 1000 *
+    let srecUpfront = upfront / 1000 *
         (store.solarSystemFormStore.totalSystemSize ?? 0);
 
     function componentOrSkeleton(component: () => ReactNode) {

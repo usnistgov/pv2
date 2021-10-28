@@ -132,11 +132,14 @@ const CostsForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={INVERTER_REPLACEMENT_COSTS_LABEL}
-                                                value={store.inverterReplacementCostsOrDefault}
+                                                value={defaultIfUndefined(store.inverterReplacementCostsOrDefault, '')}
                                                 schema={Yup.number().required().min(0).test(DecimalTest)}
                                                 onValidate={action((value) => {
                                                     store.inverterReplacementCostsOrDefault = value
                                                 })}
+                                                onError={action(() => {
+                                                        store.inverterReplacementCostsOrDefault = undefined
+                                                    })}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -144,9 +147,10 @@ const CostsForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={ANNUAL_MAINTENANCE_COSTS_LABEL}
-                                                value={store.annualMaintenanceCosts}
+                                                value={defaultIfUndefined(store.annualMaintenanceCosts, '')}
                                                 schema={Yup.number().required().min(0).test(DecimalTest)}
                                                 onValidate={action((value) => store.annualMaintenanceCosts = value)}
+                                                onError={action(() => store.annualMaintenanceCosts = undefined)}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>

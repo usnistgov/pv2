@@ -129,9 +129,10 @@ const SolarSystemForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={PANEL_LIFETIME_LABEL}
-                                                value={store.panelLifetime}
+                                                value={defaultIfUndefined(store.panelLifetime, '')}
                                                 schema={Yup.number().required().max(40).min(1).integer()}
                                                 onValidate={action((value) => store.panelLifetime = value)}
+                                                onError={action(() => store.panelLifetime = undefined)}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
@@ -144,6 +145,7 @@ const SolarSystemForm = observer(() => {
                                                 onValidate={action((value) => {
                                                     store.inverterLifetimeOrDefault = value
                                                 })}
+                                                onError={action(() => store.inverterLifetimeOrDefault = undefined)}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
@@ -151,9 +153,10 @@ const SolarSystemForm = observer(() => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={DEGRADATION_RATE_LABEL}
-                                                value={store.degradationRate}
+                                                value={defaultIfUndefined(store.degradationRate, '')}
                                                 schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
                                                 onValidate={action((value) => store.degradationRate = value)}
+                                                onError={action(() => store.degradationRate = undefined)}
                                                 InputProps={Adornment.PERCENT}
                                                 type={"number"}/>
                         </Info>

@@ -25,7 +25,7 @@ const Application = observer(() => {
             <StepperPage label={"Address"} isDone={() => store.addressFormStore.isDone}>
                 <AddressForm/>
             </StepperPage>
-            <StepperPage label={"Analysis Assumptions"}>
+            <StepperPage label={"Analysis Assumptions"} isDone={() => store.analysisAssumptionsFormStore.isDone}>
                 <AnalysisAssumptionsForm/>
             </StepperPage>
             <StepperPage label={"Electrical Rate"} isDone={() => store.electricalCostFormStore.isDone}>
