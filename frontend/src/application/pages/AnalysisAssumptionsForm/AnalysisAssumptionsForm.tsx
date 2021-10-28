@@ -27,7 +27,7 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets
 import "../Form.sass";
-import {DecimalTest} from "../../../Utils";
+import {DecimalTest, defaultIfUndefined} from "../../../Utils";
 
 const AnalysisAssumptionsForm = observer(() => {
     const store = useContext(Store).analysisAssumptionsFormStore;
@@ -47,8 +47,9 @@ const AnalysisAssumptionsForm = observer(() => {
                         variant={"filled"}
                         label={STUDY_PERIOD_LABEL}
                         schema={Yup.number().required().max(40).min(1).integer()}
-                        value={store.studyPeriod}
+                        value={defaultIfUndefined(store.studyPeriod, '')}
                         onValidate={action((value: number) => store.studyPeriod = value)}
+                        onError={action(() => store.studyPeriod = undefined)}
                         InputProps={Adornment.YEAR}
                         type={"number"}/>
                 </Info>
@@ -58,8 +59,9 @@ const AnalysisAssumptionsForm = observer(() => {
                         variant={"filled"}
                         label={REAL_DISCOUNT_RATE_LABEL}
                         schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
-                        value={store.realDiscountRate}
+                        value={defaultIfUndefined(store.realDiscountRate, '')}
                         onValidate={action((value: number) => store.realDiscountRate = value)}
+                        onError={action(() => store.realDiscountRate = undefined)}
                         InputProps={Adornment.PERCENT}
                         type={"number"}/>
                 </Info>
@@ -69,8 +71,9 @@ const AnalysisAssumptionsForm = observer(() => {
                         variant={"filled"}
                         label={GENERAL_INFLATION_LABEL}
                         schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
-                        value={store.generalInflation}
+                        value={defaultIfUndefined(store.generalInflation, '')}
                         onValidate={action((value: number) => store.generalInflation = value)}
+                        onError={action(() => store.generalInflation = undefined)}
                         InputProps={Adornment.PERCENT}
                         type={"number"}/>
                 </Info>

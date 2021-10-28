@@ -7,6 +7,7 @@ import {valid} from "../Request/Request";
 import {observer} from "mobx-react-lite";
 import {validOrNA} from "../../Utils";
 import {Store} from "../../application/ApplicationStore";
+import {STUDY_PERIOD} from "../../Defaults";
 
 /**
  * Generates CSV data for the given results and study period.
@@ -60,7 +61,7 @@ const CSVDownload = observer(({result}: CSVDownloadProps) => {
     const store = useContext(Store).analysisAssumptionsFormStore;
 
     return (
-        <CSVLink data={generateCsv(result, store.studyPeriod)}
+        <CSVLink data={generateCsv(result, store.studyPeriod ?? STUDY_PERIOD)}
                  filename={"PV2 Results.csv"}>
             <Button variant={"contained"}
                     color={"primary"}

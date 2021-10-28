@@ -143,7 +143,7 @@ const Inputs = ({store}: { store: ApplicationStore }) => {
                 <View style={[styles.column, styles.infoColumn]}>
                     {
                         store.srecFormStore.srecPaymentsProductionBased
-                            .filter((_, index) => index > 0 && index <= store.srecFormStore.srecContractLength)
+                            .filter((_, index) => index > 0 && index <= (store.srecFormStore.srecContractLength ?? 0))
                             .map((value) => <Text style={styles.text}>{value}</Text>)
                     }
                 </View>

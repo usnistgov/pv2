@@ -27,6 +27,7 @@ import {
     PPA_OPTIONS,
     SREC_PAYMENTS_OPTIONS
 } from "../../../Strings";
+import {GENERAL_INFLATION, REAL_DISCOUNT_RATE, STUDY_PERIOD} from "../../../Defaults";
 
 export const altLabels = [
     "No Solar System",
@@ -110,6 +111,7 @@ function firstAlternative(store: ApplicationStore) {
 }
 
 function ppaAlternative(store: ApplicationStore) {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     let altId = nextAltId++;
 
     let bcns = [];
@@ -121,8 +123,8 @@ function ppaAlternative(store: ApplicationStore) {
     bcns.push(createBcn("Solar PV Purchase Price", altId, () => ppaSystemPurchasePrice(store)));
     bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
 
-    const ppaContractLength = store.costsFormStore.ppaContractLength ?? store.analysisAssumptionsFormStore.studyPeriod;
-    if (ppaContractLength < store.analysisAssumptionsFormStore.studyPeriod) {
+    const ppaContractLength = store.costsFormStore.ppaContractLength ?? studyPeriod;
+    if (ppaContractLength < studyPeriod) {
         bcns.push(createBcn("Maintenance Costs After PPA", altId, () => maintenanceCostsAfterPpa(store)));
 
         if (store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[2]) {
@@ -195,6 +197,9 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
     const now = new Date();
     const nowString = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()}`;
 
+    const realDiscountRate = store.analysisAssumptionsFormStore.realDiscountRate ?? REAL_DISCOUNT_RATE;
+    const generalInflation = store.analysisAssumptionsFormStore.generalInflation ?? GENERAL_INFLATION;
+
     const alternativeObjects = [];
     alternativeObjects.push(baselineAlternative(store));
     alternativeObjects.push(firstAlternative(store));
@@ -213,12 +218,12 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
             timestepComp: 1,
             outputRealBool: true,
             interestRate: store.costsFormStore.nominalInterestRate,
-            dRateReal: store.analysisAssumptionsFormStore.realDiscountRate / 100,
-            dRateNom: (1 + (store.analysisAssumptionsFormStore.generalInflation / 100)) *
-                (1 + (store.analysisAssumptionsFormStore.realDiscountRate / 100)) - 1,
-            inflationRate: store.analysisAssumptionsFormStore.generalInflation / 100,
-            Marr: store.analysisAssumptionsFormStore.realDiscountRate / 100,
-            reinvestRate: store.analysisAssumptionsFormStore.realDiscountRate / 100,
+            dRateReal: realDiscountRate / 100,
+            dRateNom: (1 + (generalInflation / 100)) *
+                (1 + (realDiscountRate / 100)) - 1,
+            inflationRate: generalInflation / 100,
+            Marr: realDiscountRate / 100,
+            reinvestRate: realDiscountRate / 100,
             incomeRateFed: 0.26,
             incomeRateOther: 0.26,
             noAlt: alternativeObjects.length,

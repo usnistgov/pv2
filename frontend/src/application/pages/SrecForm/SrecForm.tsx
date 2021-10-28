@@ -25,14 +25,16 @@ import Adornment from "../../../components/Adornments";
 import "../Form.sass";
 import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
-import {DecimalTest} from "../../../Utils";
+import {DecimalTest, defaultIfUndefined} from "../../../Utils";
+import {STUDY_PERIOD} from "../../../Defaults";
 
 /**
  * Form for SREC details.
  */
 const SrecForm = observer(() => {
     const store = useContext(Store).srecFormStore;
-    const studyPeriod = useContext(Store).analysisAssumptionsFormStore.studyPeriod;
+
+    const studyPeriod = useContext(Store).analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
 
     return (
         <Box className={"form-page-container"}>
@@ -69,9 +71,10 @@ const SrecForm = observer(() => {
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
                                         label={SREC_PAYMENTS_UP_FRONT_LABEL}
-                                        value={store.srecPaymentsUpFront}
+                                        value={defaultIfUndefined(store.srecPaymentsUpFront, '')}
                                         schema={Yup.number().required().min(0).test(DecimalTest)}
                                         onValidate={action((value) => store.srecPaymentsUpFront = value)}
+                                        onError={action(() => store.srecPaymentsUpFront = undefined)}
                                         InputProps={Adornment.DOLLAR_PER_KW}
                                         type={"number"}/>
                 </Info>
@@ -81,22 +84,25 @@ const SrecForm = observer(() => {
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
                                         label={SREC_PAYMENT_YEARS}
-                                        value={store.srecContractLength}
+                                        value={defaultIfUndefined(store.srecContractLength, '')}
                                         schema={Yup.number().required().min(0).max(studyPeriod).integer()}
                                         onValidate={action((value) => store.srecContractLength = value)}
-                                        onError={action(() => store.srecContractLength = 0)}
+                                        onError={action(() => store.srecContractLength = undefined)}
                                         InputProps={Adornment.YEAR}
                                         type={"number"}/>
                     <div className="form-two-column-container">
                         {store.srecPaymentsProductionBased
-                            .filter((_, index) => index < store.srecContractLength)
+                            .filter((_, index) => index < (store.srecContractLength ?? 0))
                             .map((payment, i) => {
                                 return (
                                     <ValidatedTextField fullWidth
                                                         variant={"filled"}
                                                         label={`Year ${i + 1}`}
                                                         key={i + 1}
-                                                        value={store.srecPaymentsProductionBased[i + 1]}
+                                                        value={defaultIfUndefined(
+                                                            store.srecPaymentsProductionBased[i + 1],
+                                                            ''
+                                                        )}
                                                         schema={Yup.number().required().min(0).test(DecimalTest)}
                                                         onValidate={action((value) => {
                                                             store.srecPaymentsProductionBased[i + 1] = value
