@@ -6,6 +6,7 @@ import {mdiArrowRight, mdiArrowUp} from "@mdi/js";
 import {Store} from "../ApplicationStore";
 import './LandingPage.sass';
 import Constants from "../../Constants";
+import {scrollTo} from "../../Utils";
 
 /**
  * The main component for the landing page. Displays some information about the app and a photo.
@@ -105,7 +106,7 @@ export default function LandingPage(): ReactElement {
             </div>
             <div className={"start-button"}>
                 <Button
-                    onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+                    onClick={scrollTo(0)}
                     endIcon={<MdiIcon path={mdiArrowUp} size={1}/>}
                     variant={"contained"}
                     size={"large"}>

@@ -1,4 +1,4 @@
-import {Children, ReactElement, useContext} from 'react';
+import {Children, ReactElement, useContext, useState} from 'react';
 
 // Library Imports
 import {Button, Grid, Step, StepButton, StepLabel, Stepper} from "@material-ui/core";
@@ -13,6 +13,8 @@ import {Store} from "../../application/ApplicationStore";
 // Stylesheets
 import "./StepperNav.sass"
 import {action} from "mobx";
+import {scrollTo} from "../../Utils";
+import Sticky from "../Sticky/Sticky";
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
@@ -28,6 +30,7 @@ export interface StepperNavProps {
  */
 const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
     const store = useContext(Store).formUiStore;
+    const [isSticky, setIsSticky] = useState(false);
 
     // React-router history object
     const history = useHistory();
@@ -52,43 +55,67 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
         );
     }
 
+    /**
+     * Function to scroll to the navigation bar if the user has scrolled past it.
+     */
+    function scrollToStickyNav() {
+        if (window.scrollY > 82)
+            scrollTo(82)();
+    }
+
     return (
         <>
-            <Grid className={"grid-container"} container justifyContent={'center'} alignItems={'center'} spacing={0}>
-                <Grid item xs={1}>
-                    <Button
-                        onClick={isFirstStep ? history.goBack : () => store.previous()}
-                        startIcon={
-                            <MdiIcon path={isFirstStep ? mdiClose : mdiArrowLeft}
-                                     size={1}/>
-                        }
-                        data-testid={"back-button"}
-                    >
-                        {isFirstStep ? "Cancel" : "Back"}
-                    </Button>
-                </Grid>
-                <Grid item xs={10}>
-                    <Stepper nonLinear activeStep={store.current} alternativeLabel>
-                        {Children.map(children, (page, index) => {
-                            return createStepLabel(page, index, children[index].props.isDone)
-                        })}
-                    </Stepper>
-                </Grid>
-                <Grid item xs={1}>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={isLastStep ? onFinish : () => store.next()}
-                            endIcon={
-                                <MdiIcon path={isLastStep ? mdiCheck : mdiArrowRight}
+            <Sticky stickyChange={setIsSticky}>
+                <Grid className={"grid-container"}
+                      container
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      spacing={0}>
+                    <Grid item xs={1}>
+                        <Button
+                            onClick={isFirstStep ? history.goBack : () => {
+                                store.previous();
+                                scrollToStickyNav();
+                            }}
+                            startIcon={
+                                <MdiIcon path={isFirstStep ? mdiClose : mdiArrowLeft}
                                          size={1}/>
                             }
-                            data-testid={"forward-button"}
-                            disabled={isLastStep && !store.isDone()}
-                    >
-                        {isLastStep ? "Finish" : "Next"}
-                    </Button>
+                            data-testid={"back-button"}
+                        >
+                            {isFirstStep ? "Cancel" : "Back"}
+                        </Button>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <Stepper nonLinear activeStep={store.current} alternativeLabel>
+                            {Children.map(children, (page, index) => {
+                                return createStepLabel(page, index, children[index].props.isDone)
+                            })}
+                        </Stepper>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Button variant="contained"
+                                color="primary"
+                                onClick={isLastStep ? onFinish : () => {
+                                    store.next();
+                                    scrollToStickyNav();
+                                }}
+                                endIcon={
+                                    <MdiIcon path={isLastStep ? mdiCheck : mdiArrowRight}
+                                             size={1}/>
+                                }
+                                data-testid={"forward-button"}
+                                disabled={isLastStep && !store.isDone()}
+                        >
+                            {isLastStep ? "Finish" : "Next"}
+                        </Button>
+                    </Grid>
                 </Grid>
-            </Grid>
+                <div className={`sticky-base ${isSticky ? "show" : ""}`}>
+                    <hr className={"border"}/>
+                    <div className={"gradient"}/>
+                </div>
+            </Sticky>
             {children[store.current]}
         </>
     );

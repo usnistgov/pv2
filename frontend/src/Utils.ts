@@ -66,3 +66,7 @@ export function promiseLog<T>(value: T): T {
     console.log(value);
     return value;
 }
+
+export function scrollTo(amount: number) {
+    return () => window.scrollTo({top: amount, behavior: 'smooth'})
+}
