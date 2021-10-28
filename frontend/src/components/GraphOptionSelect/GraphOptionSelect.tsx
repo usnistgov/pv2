@@ -17,9 +17,9 @@ const GraphOptionSelect = observer(() => {
                 onChange={action((event) => {
                     uiStore.graphOption = event.target.value as GraphOption;
                 })}>
-                <MenuItem value={GraphOption.NET_VALUE}>{GraphOption.NET_VALUE}</MenuItem>
-                <MenuItem value={GraphOption.SAVINGS}>{GraphOption.SAVINGS}</MenuItem>
                 <MenuItem value={GraphOption.CUMULATIVE}>{GraphOption.CUMULATIVE}</MenuItem>
+                <MenuItem value={GraphOption.SAVINGS}>{GraphOption.SAVINGS}</MenuItem>
+                <MenuItem value={GraphOption.NET_VALUE}>{GraphOption.NET_VALUE}</MenuItem>
                 <MenuItem value={GraphOption.NET_ELECTRICAL_CONSUMPTION}>
                     {GraphOption.NET_ELECTRICAL_CONSUMPTION}
                 </MenuItem>
