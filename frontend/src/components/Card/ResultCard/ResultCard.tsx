@@ -4,6 +4,7 @@ import React, {ReactElement} from "react";
 import {Grid} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiInformation} from "@mdi/js";
+import _ from "lodash";
 
 // User Imports
 import {altLabels} from "../../Request/RequestGenerator/E3RequestGenerator";
@@ -24,12 +25,20 @@ const numberFormatter = Intl.NumberFormat('en-US', {});
 export interface ResultCardProps {
     // The alternative objects
     alt: any;
+
+    // List of optional summaries associated with this alternative
+    optionalSummaries: any[];
 }
 
 /**
  * Creates a card that displays the given E3 results.
  */
-export default function ResultCard({alt}: ResultCardProps): ReactElement {
+export default function ResultCard({alt, optionalSummaries}: ResultCardProps): ReactElement {
+    console.log(optionalSummaries);
+    const gwpOptional = optionalSummaries.find((summary) => summary.tag === "LCIA-Global-Warming-Potential");
+    console.log(gwpOptional);
+    const gwp = _.sum(gwpOptional.totTagQ) / 1000;
+
     return (
         <div className={"side-tooltip-container result-card"}>
             <Card title={altLabels[alt.altID]}>
@@ -77,6 +86,15 @@ export default function ResultCard({alt}: ResultCardProps): ReactElement {
                     </Grid>
                     <Grid className={"vertical-center"} item xs={5}>
                         <div>{valid(alt.deltaQuant?.["Electricity"]) ? `${numberFormatter.format(-alt.deltaQuant?.["Electricity"])} kWh` : "NA"}</div>
+                    </Grid>
+
+                    <Grid item xs={7}>
+                        <FormTooltip text={"Carbon Footprint (GWP-100) – tons CO2e"}>
+                            <div>Carbon Footprint</div>
+                        </FormTooltip>
+                    </Grid>
+                    <Grid className={"vertical-center"} item xs={5}>
+                        <div>{valid(gwp) ? `${numberFormatter.format(gwp)} tons CO2e` : "NA"}</div>
                     </Grid>
                 </Grid>
             </Card>

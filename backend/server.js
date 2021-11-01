@@ -8,6 +8,8 @@ const pool = new Pool({
    connectionString: "postgres://admin:AuTWRecHIFBdg5LJ6WbbUmFVPs3zhCwh@postgres:5432/PV2"
 })
 
+
+
 function createQuery(query) {
    return async function wrapped(request, response) {
       console.log(`Executing database query: ${query}`);

@@ -107,8 +107,6 @@ const GraphCard = observer(({altId, result}: any) => {
     const [graphData, setGraphData] = useState<Serie>({id: "", data: []});
 
     useEffect(() => {
-        console.log("RECALCULATING GRAPH!!!!!!")
-
         getGraphData(store.graphOption, altId, result, store).then(setGraphData);
     }, [store.graphOption, result]);
 

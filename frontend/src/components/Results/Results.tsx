@@ -28,6 +28,7 @@ const currencyFormatter = Intl.NumberFormat('en-US', {
 interface ResultsProps {
     result: any;
 }
+
 /**
  * This page requests calculations from the E3 API and displays the results. Results are shown in side-by-side
  * card form with some data and graphs. Finally the user can download a CSV file containing the E3 results. This
@@ -116,7 +117,9 @@ const Results = observer(({result}: ResultsProps) => {
             <Grid container justifyContent={"center"} spacing={2}>
                 {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
                     return <Grid item key={index}>
-                        <ResultCard alt={res}/>
+                        <ResultCard
+                            alt={res}
+                            optionalSummaries={result.OptionalSummary.filter((value: any) => value.altID === index)}/>
                     </Grid>
                 }))}
             </Grid>

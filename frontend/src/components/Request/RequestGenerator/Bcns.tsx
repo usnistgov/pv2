@@ -564,3 +564,184 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object {
         quantUnit: null
     }
 }
+
+export function acidificationPotentialConsumption(store: ApplicationStore): object {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
+    const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
+    const acidificationPotential = store.analysisAssumptionsFormStore.environmentalVariables?.acidificationPotential ?? 0;
+
+    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+        .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
+
+    const netAcidification = annualConsumption.map((value, index) => value - annualProduction[index])
+        .map((value) => value * (acidificationPotential / 1000));
+
+    const netAcidificationRates = generateVarValue(
+        netAcidification.map((value) => Math.max(0, value)),
+        store.electricalCostFormStore.annualConsumption ?? 0
+    );
+
+    return {
+        bcnType: "Non-Monetary",
+        bcnSubType: "Direct",
+        bcnTag: "LCIA-Acidification-Potential",
+        initialOcc: 1,
+        bcnInvestBool: false,
+        bcnLife: null,
+        rvBool: false,
+        recurBool: true,
+        recurInterval: 1,
+        recurVarRate: "Percent Delta Timestep X-1",
+        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
+            null : store.escalationRateFormStore.escalationRateForYear,
+        recurEndDate: studyPeriod, // Study Period
+        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
+        quant: store.electricalCostFormStore.annualConsumption ?? 0,
+        quantVarRate: "Percent Delta Timestep X-1",
+        quantVarValue: netAcidificationRates,
+        quantUnit: "kg"
+    }
+}
+
+export function acidificationPotentialProduction(store: ApplicationStore): object {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
+    const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
+    const acidificationPotential = store.analysisAssumptionsFormStore.environmentalVariables?.acidificationPotential ?? 0;
+
+    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+        .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
+
+    const netAcidification = annualConsumption.map((value, index) => value - annualProduction[index])
+        .map((value) => value * (acidificationPotential / 1000));
+
+    const netAcidificationRates = generateVarValue(
+        netAcidification.map((value) => Math.min(value, 0)),
+        -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+    );
+
+    return {
+        bcnType: "Non-Monetary",
+        bcnSubType: "Direct",
+        bcnTag: "LCIA-Acidification-Potential",
+        initialOcc: 1,
+        bcnInvestBool: false,
+        bcnLife: null,
+        rvBool: false,
+        recurBool: true,
+        recurInterval: 1,
+        recurVarRate: "Percent Delta Timestep X-1",
+        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
+            null : store.escalationRateFormStore.escalationRateForYear,
+        recurEndDate: studyPeriod, // Study Period
+        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
+        quant: -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0),
+        quantVarRate: "Percent Delta Timestep X-1",
+        quantVarValue: netAcidificationRates,
+        quantUnit: "kg"
+    }
+}
+
+export function globalWarmingPotentialBaseline(store: ApplicationStore): object {
+    const globalWarmingPotential = store.analysisAssumptionsFormStore.environmentalVariables?.globalWarmingPotential ?? 0;
+
+    return {
+        bcnType: "Non-Monetary",
+        bcnSubType: "Direct",
+        bcnTag: "LCIA-Global-Warming-Potential",
+        initialOcc: 1,
+        bcnInvestBool: false,
+        bcnLife: null,
+        rvBool: false,
+        recurBool: true,
+        recurInterval: 1,
+        recurVarRate: "Percent Delta Timestep X-1",
+        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
+            null : store.escalationRateFormStore.escalationRateForYear,
+        recurEndDate: store.analysisAssumptionsFormStore.studyPeriod,
+        valuePerQ: store.electricalCostFormStore.electricUnitPrice,
+        quant: store.electricalCostFormStore.annualConsumption ?? 0,
+        quantVarRate: "Percent Delta Timestep X-1",
+        quantVarValue: globalWarmingPotential,
+        quantUnit: "kg"
+    }
+}
+
+export function globalWarmingPotentialConsumption(store: ApplicationStore): object {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
+    const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
+    const globalWarmingPotential = store.analysisAssumptionsFormStore.environmentalVariables?.globalWarmingPotential ?? 0;
+
+    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+        .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
+
+    const netGlobalWarmingPotential = annualConsumption.map((value, index) => value - annualProduction[index])
+        .map((value) => value * (globalWarmingPotential / 1000));
+
+    const netGlobalWarmingPotentialRates = generateVarValue(
+        netGlobalWarmingPotential.map((value) => Math.max(0, value)),
+        store.electricalCostFormStore.annualConsumption ?? 0
+    );
+
+    return {
+        bcnType: "Non-Monetary",
+        bcnSubType: "Direct",
+        bcnTag: "LCIA-Global-Warming-Potential",
+        initialOcc: 1,
+        bcnInvestBool: false,
+        bcnLife: null,
+        rvBool: false,
+        recurBool: true,
+        recurInterval: 1,
+        recurVarRate: "Percent Delta Timestep X-1",
+        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
+            null : store.escalationRateFormStore.escalationRateForYear,
+        recurEndDate: studyPeriod, // Study Period
+        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
+        quant: store.electricalCostFormStore.annualConsumption ?? 0,
+        quantVarRate: "Percent Delta Timestep X-1",
+        quantVarValue: netGlobalWarmingPotentialRates,
+        quantUnit: "kg"
+    }
+}
+
+export function globalWarmingPotentialProduction(store: ApplicationStore): object {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
+    const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
+    const globalWarmingPotential = store.analysisAssumptionsFormStore.environmentalVariables?.globalWarmingPotential ?? 0;
+
+    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+        .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
+
+    const netGlobalWarmingotential = annualConsumption.map((value, index) => value - annualProduction[index])
+        .map((value) => value * (globalWarmingPotential / 1000));
+
+    const netGlobalWarmingPotentialRates = generateVarValue(
+        netGlobalWarmingotential.map((value) => Math.min(value, 0)),
+        -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+    );
+
+    return {
+        bcnType: "Non-Monetary",
+        bcnSubType: "Direct",
+        bcnTag: "LCIA-Global-Warming-Potential",
+        initialOcc: 1,
+        bcnInvestBool: false,
+        bcnLife: null,
+        rvBool: false,
+        recurBool: true,
+        recurInterval: 1,
+        recurVarRate: "Percent Delta Timestep X-1",
+        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
+            null : store.escalationRateFormStore.escalationRateForYear,
+        recurEndDate: studyPeriod, // Study Period
+        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
+        quant: -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0),
+        quantVarRate: "Percent Delta Timestep X-1",
+        quantVarValue: netGlobalWarmingPotentialRates,
+        quantUnit: "kg"
+    }
+}

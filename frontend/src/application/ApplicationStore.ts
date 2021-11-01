@@ -21,6 +21,8 @@ import {
     REAL_DISCOUNT_RATE, SREC_CONTRACT_LENGTH, SREC_UPFRONT,
     STUDY_PERIOD
 } from "../Defaults";
+import {Environment} from "../typings/Environment";
+import _ from "lodash";
 
 /**
  * Main application store. Contains all sub-stores that contain form data.
@@ -74,6 +76,18 @@ export class ApplicationStore {
         });
 
         autorun(() => this.calculateEscalationRates(this.addressFormStore.zipcode));
+        autorun(() => this.getEnvironmentVariables(this.addressFormStore.zipcode));
+    }
+
+    getEnvironmentVariables(zipcode: string) {
+        if (zipcode.length <= 0)
+            return;
+
+        fetch(`/api/environment/${zipcode}`)
+            .then(toJson)
+            .then((value) => value[0])
+            .then((value) => _.mapKeys(value, (v, k) => _.camelCase(k)))
+            .then((value) => this.analysisAssumptionsFormStore.environmentalVariables = (value as Environment));
     }
 
     calculateEscalationRates(zipcode: string) {
@@ -129,6 +143,8 @@ export class AnalysisAssumptionsFormStore {
     realDiscountRate?: number = REAL_DISCOUNT_RATE;
     generalInflation?: number = GENERAL_INFLATION;
     residualValueApproach = RESIDUAL_VALUE_APPROACH_OPTIONS[0];
+
+    environmentalVariables?: Environment;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
