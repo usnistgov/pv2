@@ -231,7 +231,7 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
             baseDate: nowString,
             serviceDate: nowString,
             timestepVal: "Year",
-            timestepComp: 1,
+            timestepComp: "EndOfYear",
             outputRealBool: true,
             interestRate: store.costsFormStore.nominalInterestRate,
             dRateReal: realDiscountRate / 100,
