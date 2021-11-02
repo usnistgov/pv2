@@ -6,6 +6,8 @@ import "./GraphCard.sass";
 import {GraphOption} from "../../../Strings";
 import {ResultUiStore, Store} from "../../../application/ApplicationStore";
 import {observer} from "mobx-react-lite";
+import {Result} from "../../../typings/Result";
+import OptionalSummary from "../../../typings/OptionalSummary";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -24,15 +26,13 @@ const numberFormatter = Intl.NumberFormat('en-US', {
  * @param result
  * @param store
  */
-async function getGraphData(graphOption: GraphOption, index: number, result: any, store: ResultUiStore): Promise<Serie> {
-    let initial: any = null;
-    let accumulator: number = 0;
-    let data: Serie = {id: "", data: []};
+async function getGraphData(graphOption: GraphOption, index: number, result: Result, store: ResultUiStore): Promise<Serie> {
+    const emptySerie = {id: "", data: []};
 
-    if (!result) return data;
+    if (!result) return emptySerie;
 
     switch (graphOption) {
-        case GraphOption.NET_VALUE:
+        case GraphOption.NET_VALUE: {
             return {
                 id: "",
                 data: result.FlowSummary[index].totCostDisc.map((value: number, year: number) => {
@@ -41,8 +41,9 @@ async function getGraphData(graphOption: GraphOption, index: number, result: any
                     return {x: year, y: value};
                 })
             };
-        case GraphOption.SAVINGS:
-            initial = result.FlowSummary[0];
+        }
+        case GraphOption.SAVINGS: {
+            let initial = result.FlowSummary[0];
 
             return {
                 id: "",
@@ -54,9 +55,10 @@ async function getGraphData(graphOption: GraphOption, index: number, result: any
                     return {x: year, y: saving};
                 })
             };
-        case GraphOption.CUMULATIVE:
-            initial = result.FlowSummary[0];
-            accumulator = 0;
+        }
+        case GraphOption.CUMULATIVE: {
+            let initial = result.FlowSummary[0];
+            let accumulator = 0;
 
             return {
                 id: "",
@@ -69,36 +71,48 @@ async function getGraphData(graphOption: GraphOption, index: number, result: any
                     return {x: year, y: cumulativeSaving};
                 })
             };
-        case GraphOption.NET_ELECTRICAL_CONSUMPTION:
-            return {
-                id: "",
-                data: result.OptionalSummary
-                    .filter((value: any) => value.tag === "Electricity" && value.altID == index)[0]
-                    .totTagQ
-                    .map((value: number, year: number) => {
-                        store.graphMax = value;
+        }
+        case GraphOption.NET_ELECTRICAL_CONSUMPTION: {
+            let current = result.OptionalSummary.find((value: OptionalSummary) => {
+                return value.tag === "Electricity" && value.altID == index;
+            });
 
-                        return {x: year, y: value};
-                    })
-            };
-        case GraphOption.ELECTRICAL_REDUCTION:
-            initial = result.OptionalSummary.filter((value: any) => value.tag === "Electricity" && value.altID == 0)[0];
-            accumulator = 0;
+            if (current === undefined)
+                return emptySerie;
 
             return {
                 id: "",
-                data: result.OptionalSummary
-                    .filter((value: any) => value.tag === "Electricity" && value.altID == index)[0]
-                    .totTagQ
-                    .map((value: number, year: number) => {
-                        let cumulativeReduction = accumulator + (initial.totTagQ[year] - value);
-                        accumulator = cumulativeReduction;
+                data: current.totTagQ.map((value: number, year: number) => {
+                    store.graphMax = value;
 
-                        store.graphMax = cumulativeReduction;
-
-                        return {x: year, y: cumulativeReduction};
-                    })
+                    return {x: year, y: value};
+                })
             };
+        }
+        case GraphOption.ELECTRICAL_REDUCTION: {
+            let initial = result.OptionalSummary.find((value: OptionalSummary) => {
+                return value.tag === "Electricity" && value.altID == 0;
+            });
+            let current = result.OptionalSummary.find((value: OptionalSummary) => {
+                return value.tag === "Electricity" && value.altID == index;
+            });
+            let accumulator = 0;
+
+            if (initial === undefined || current === undefined)
+                return emptySerie;
+
+            return {
+                id: "",
+                data: current.totTagQ.map((value: number, year: number) => {
+                    let cumulativeReduction = accumulator + ((initial?.totTagQ[year] ?? 0) - value);
+                    accumulator = cumulativeReduction;
+
+                    store.graphMax = cumulativeReduction;
+
+                    return {x: year, y: cumulativeReduction};
+                })
+            };
+        }
     }
 }
 

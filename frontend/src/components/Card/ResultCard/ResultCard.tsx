@@ -15,6 +15,8 @@ import Card from "../Card";
 
 // Stylesheets
 import "./ResultCard.sass";
+import OptionalSummary from "../../../typings/OptionalSummary";
+import MeasureSummary from "../../../typings/MeasureSummary";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -24,20 +26,18 @@ const numberFormatter = Intl.NumberFormat('en-US', {});
 
 export interface ResultCardProps {
     // The alternative objects
-    alt: any;
+    alt: MeasureSummary;
 
     // List of optional summaries associated with this alternative
-    optionalSummaries: any[];
+    optionalSummaries: OptionalSummary[];
 }
 
 /**
  * Creates a card that displays the given E3 results.
  */
 export default function ResultCard({alt, optionalSummaries}: ResultCardProps): ReactElement {
-    console.log(optionalSummaries);
     const gwpOptional = optionalSummaries.find((summary) => summary.tag === "LCIA-Global-Warming-Potential");
-    console.log(gwpOptional);
-    const gwp = _.sum(gwpOptional.totTagQ) / 1000;
+    const gwp = _.sum(gwpOptional?.totTagQ ?? []) / 1000;
 
     return (
         <div className={"side-tooltip-container result-card"}>
@@ -49,7 +49,9 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"}</div>
+                        <div>{
+                            valid(alt.totalCosts) ? currencyFormatter.format(parseFloat(alt.totalCosts)) : "NA"
+                        }</div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -58,7 +60,9 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"}</div>
+                        <div>{
+                            valid(alt.netSavings) ? currencyFormatter.format(parseFloat(alt.netSavings)) : "NA"
+                        }</div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -67,7 +71,10 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{valid(alt.AIRR) ? `${(alt.AIRR * 100).toFixed(2)}%` : "NA"}</div>
+                        <div>{
+                            valid(alt.AIRR) && alt.AIRR !== undefined ?
+                                `${(parseFloat(alt.AIRR) * 100).toFixed(2)}%` : "NA"
+                        }</div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -76,7 +83,10 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{valid(alt.SPP) && alt.SPP !== "Infinity" ? `${Math.round(alt.SPP)}yr` : "NA"}</div>
+                        <div>{
+                            valid(alt.SPP) && alt.SPP !== undefined && alt.SPP !== 'Infinity' ?
+                                `${Math.round(parseFloat(alt.SPP))}yr` : "NA"
+                        }</div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -85,7 +95,10 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid className={"vertical-center"} item xs={5}>
-                        <div>{valid(alt.deltaQuant?.["Electricity"]) ? `${numberFormatter.format(-alt.deltaQuant?.["Electricity"])} kWh` : "NA"}</div>
+                        <div>{
+                            valid(alt.deltaQuant?.["Electricity"]) ?
+                                `${numberFormatter.format(-(alt.deltaQuant?.["Electricity"] ?? 0))} kWh` : "NA"
+                        }</div>
                     </Grid>
 
                     <Grid item xs={7}>

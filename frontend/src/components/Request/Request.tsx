@@ -10,6 +10,7 @@ import {createE3Request} from "./RequestGenerator/E3RequestGenerator";
 import Results from "../Results/Results";
 import ErrorDialog from "../ErrorDialog";
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
+import {Result} from "../../typings/Result";
 
 /**
  * Checks if a value is valid, in other words is not null, undefined, etc.
@@ -33,7 +34,7 @@ class FetchError extends Error {
 const Request = observer(() => {
     const store = useContext(Store);
 
-    const [result, setResult] = useState<object | null>(null);
+    const [result, setResult] = useState<Result | undefined>(undefined);
     const [error, setError] = useState<FetchError | null>(null);
     const [errorDetails, setErrorDetails] = useState<string | null>(null);
 

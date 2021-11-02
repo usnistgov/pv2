@@ -10,7 +10,7 @@ export const toJson = (response: Response) => response.json();
  */
 export const take = (x: number) => <T>(array: Array<T>) => array.filter((_, index) => index < x);
 
-export function fetchMap<A, B>(url: string, map: (input: A, json: any) => B): (input: A) => Promise<B> {
+export function fetchMap<A, B, C>(url: string, map: (input: A, json: C) => B): (input: A) => Promise<B> {
     const data = fetch(url).then(toJson);
     return async (input: A) => data.then(json => map(input, json));
 }

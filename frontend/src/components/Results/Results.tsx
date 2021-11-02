@@ -19,6 +19,9 @@ import GraphCard from "../Card/GraphCard/GraphCard";
 import {SREC_PAYMENTS_OPTIONS} from "../../Strings";
 import GraphOptionSelect from "../GraphOptionSelect/GraphOptionSelect";
 import {SREC_UPFRONT} from "../../Defaults";
+import MeasureSummary from "../../typings/MeasureSummary";
+import OptionalSummary from "../../typings/OptionalSummary";
+import {Result} from "../../typings/Result";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -26,7 +29,7 @@ const currencyFormatter = Intl.NumberFormat('en-US', {
 });
 
 interface ResultsProps {
-    result: any;
+    result?: Result;
 }
 
 /**
@@ -42,9 +45,9 @@ const Results = observer(({result}: ResultsProps) => {
     let srecUpfront = upfront / 1000 *
         (store.solarSystemFormStore.totalSystemSize ?? 0);
 
-    function componentOrSkeleton(component: () => ReactNode) {
-        if (result)
-            return component();
+    function componentOrSkeleton(component: (result: Result) => ReactNode) {
+        if (result !== undefined)
+            return component(result);
 
         return Array.from({length: 3}).map((_, index) => {
             return <Grid item key={index}>
@@ -66,7 +69,7 @@ const Results = observer(({result}: ResultsProps) => {
                         </Button>
                     </div>
                 }
-                right={<Downloads result={result}/>}/>
+                right={result !== undefined ? <Downloads result={result}/> : <></>}/>
             <Grid container justifyContent={"center"} spacing={2}>
                 <Grid item key={0}>
                     <Card title={"System Summary"}>
@@ -115,11 +118,11 @@ const Results = observer(({result}: ResultsProps) => {
 
             <MaterialHeader text={"Results Summary"}/>
             <Grid container justifyContent={"center"} spacing={2}>
-                {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
+                {componentOrSkeleton((result) => result.MeasureSummary.map((res: MeasureSummary, index: number) => {
                     return <Grid item key={index}>
                         <ResultCard
                             alt={res}
-                            optionalSummaries={result.OptionalSummary.filter((value: any) => value.altID === index)}/>
+                            optionalSummaries={result.OptionalSummary.filter((value: OptionalSummary) => value.altID === index)}/>
                     </Grid>
                 }))}
             </Grid>
@@ -127,7 +130,7 @@ const Results = observer(({result}: ResultsProps) => {
             <MaterialHeader text={"Graphs"}/>
             <GraphOptionSelect/>
             <Grid container justifyContent={"center"} spacing={2}>
-                {componentOrSkeleton(() => result.MeasureSummary.map((res: any, index: number) => {
+                {componentOrSkeleton((result) => result.MeasureSummary.map((res: any, index: number) => {
                     return <Grid item key={index}>
                         <GraphCard
                             altId={res.altID}

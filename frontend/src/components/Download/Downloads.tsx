@@ -2,9 +2,10 @@ import CSVDownload from "./CSVDownload";
 import PDFDownload from "./PDFDownload";
 import React from "react";
 import "./Downloads.sass";
+import {Result} from "../../typings/Result";
 
 interface DownloadsProps {
-    result: any;
+    result: Result;
 }
 
 /**

@@ -8,6 +8,7 @@ import {observer} from "mobx-react-lite";
 import {validOrNA} from "../../Utils";
 import {Store} from "../../application/ApplicationStore";
 import {STUDY_PERIOD} from "../../Defaults";
+import {Result} from "../../typings/Result";
 
 /**
  * Generates CSV data for the given results and study period.
@@ -15,23 +16,19 @@ import {STUDY_PERIOD} from "../../Defaults";
  * @param results The JSON results obtained from E3.
  * @param studyPeriod The study period defined in the redux store.
  */
-function generateCsv(results: any, studyPeriod: number): any {
-    if (results === null || results === undefined) {
-        return [];
-    }
-
+function generateCsv(results: Result, studyPeriod: number): any {
     const altObjects = results.MeasureSummary;
     const cashFlowObjects = results.FlowSummary;
 
-    const totalCosts = altObjects.map((x: any) => x.totalCosts).map(validOrNA);
-    const netSavings = altObjects.map((x: any) => x.netSavings).map(validOrNA);
-    const airr = altObjects.map((x: any) => x.AIRR).map(validOrNA);
-    const spp = altObjects.map((x: any) => x.SPP).map((value: string) => {
+    const totalCosts = altObjects.map((x) => x.totalCosts).map(validOrNA);
+    const netSavings = altObjects.map((x) => x.netSavings).map(validOrNA);
+    const airr = altObjects.map((x) => x.AIRR).map(validOrNA);
+    const spp = altObjects.map((x) => x.SPP).map((value: string | number | undefined) => {
         return valid(value) && value !== "Infinity" ? value : "NA"
     });
-    const electricityReduction = altObjects.map((x: any) => -x.deltaQuant?.["Electricity"] ?? 0).map(validOrNA);
+    const electricityReduction = altObjects.map((x) => -(x?.deltaQuant?.["Electricity"] ?? 0)).map(validOrNA);
     const data = Array.from(Array(studyPeriod + 1).keys())
-        .map((index) => [index, ...cashFlowObjects.map((flow: any) => flow.totCostDisc[index])]);
+        .map((index) => [index, ...cashFlowObjects.map((flow) => flow.totCostDisc[index])]);
 
     return [
         ["Results Summary"],
@@ -49,7 +46,7 @@ function generateCsv(results: any, studyPeriod: number): any {
 }
 
 interface CSVDownloadProps {
-    result: any;
+    result: Result;
 }
 
 /**
