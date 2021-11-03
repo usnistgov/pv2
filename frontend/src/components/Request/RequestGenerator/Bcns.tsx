@@ -660,10 +660,10 @@ export function globalWarmingPotentialBaseline(store: ApplicationStore): object 
         recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: store.analysisAssumptionsFormStore.studyPeriod,
-        valuePerQ: store.electricalCostFormStore.electricUnitPrice,
-        quant: store.electricalCostFormStore.annualConsumption ?? 0,
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: globalWarmingPotential / 1000,
+        valuePerQ: 1,
+        quant: (store.electricalCostFormStore.annualConsumption ?? 0) * (globalWarmingPotential / 1000),
+        quantVarRate: null,
+        quantVarValue: null,
         quantUnit: "kg"
     }
 }
