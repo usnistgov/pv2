@@ -52,7 +52,7 @@ function baselineAlternative(store: ApplicationStore) {
     bcns.push(createBcn("Grid Electricity Demand Charge", altId, () => gridDemandCharge(store)));
 
     //Environmental BCNs
-    //bcns.push(createBcn("Grid Consumption Global Warming Potential", altId, () => globalWarmingPotentialBaseline(store)));
+    bcns.push(createBcn("Grid Consumption Global Warming Potential", altId, () => globalWarmingPotentialBaseline(store)));
 
     return {
         altID: altId,
@@ -116,8 +116,8 @@ function firstAlternative(store: ApplicationStore) {
     // Environmental BCNs
     //bcns.push(createBcn("Consumption Acidification Potential", altId, () => acidificationPotentialConsumption(store)));
     //bcns.push(createBcn("Production Acidification Potential", altId, () => acidificationPotentialProduction(store)));
-    //bcns.push(createBcn("Consumption Global Warming Potential", altId, () => globalWarmingPotentialConsumption(store)));
-    //bcns.push(createBcn("Production Global Warming Potential", altId, () => globalWarmingPotentialProduction(store)));
+    bcns.push(createBcn("Consumption Global Warming Potential", altId, () => globalWarmingPotentialConsumption(store)));
+    bcns.push(createBcn("Production Global Warming Potential", altId, () => globalWarmingPotentialProduction(store)));
 
     return {
         altID: altId,

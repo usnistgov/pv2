@@ -663,7 +663,7 @@ export function globalWarmingPotentialBaseline(store: ApplicationStore): object 
         valuePerQ: store.electricalCostFormStore.electricUnitPrice,
         quant: store.electricalCostFormStore.annualConsumption ?? 0,
         quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: globalWarmingPotential,
+        quantVarValue: globalWarmingPotential / 1000,
         quantUnit: "kg"
     }
 }

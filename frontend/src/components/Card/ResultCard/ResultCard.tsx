@@ -17,6 +17,7 @@ import Card from "../Card";
 import "./ResultCard.sass";
 import OptionalSummary from "../../../typings/OptionalSummary";
 import MeasureSummary from "../../../typings/MeasureSummary";
+import Constants from "../../../Constants";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -37,7 +38,7 @@ export interface ResultCardProps {
  */
 export default function ResultCard({alt, optionalSummaries}: ResultCardProps): ReactElement {
     const gwpOptional = optionalSummaries.find((summary) => summary.tag === "LCIA-Global-Warming-Potential");
-    const gwp = _.sum(gwpOptional?.totTagQ ?? []) / 1000;
+    const gwp = _.sum(gwpOptional?.totTagQ.map((v) => v / 1000) ?? []);
 
     return (
         <div className={"side-tooltip-container result-card"}>
@@ -108,6 +109,17 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                     </Grid>
                     <Grid className={"vertical-center"} item xs={5}>
                         <div>{valid(gwp) ? `${numberFormatter.format(gwp)} tons CO2e` : "NA"}</div>
+                    </Grid>
+
+                    <Grid item xs={7}>
+                        <FormTooltip text={"Social Cost of Carbon $51 per ton"}>
+                            <div>Social Cost of Carbon</div>
+                        </FormTooltip>
+                    </Grid>
+                    <Grid className={"vertical-center"} item xs={5}>
+                        <div>{
+                            valid(gwp) ? `${currencyFormatter.format(gwp * Constants.SOCIAL_COST_OF_CARBON)}` : "NA"
+                        }</div>
                     </Grid>
                 </Grid>
             </Card>
