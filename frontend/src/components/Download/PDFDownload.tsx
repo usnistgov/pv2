@@ -1,4 +1,4 @@
-import PdfReport from "../PdfReport";
+import PdfReport from "../PDF/PdfReport";
 import React, {useContext} from "react";
 import {Store} from "../../application/ApplicationStore";
 import {Button} from "@material-ui/core";
