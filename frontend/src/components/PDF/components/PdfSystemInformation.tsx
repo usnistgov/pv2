@@ -1,5 +1,5 @@
 import PdfSection from "./PdfSection";
-import {ApplicationStore} from "../../application/ApplicationStore";
+import {ApplicationStore} from "../../../application/ApplicationStore";
 import {StyleSheet, Text, View} from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({

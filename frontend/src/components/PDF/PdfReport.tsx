@@ -1,10 +1,11 @@
 import {Document, Image, Page, StyleSheet, Text, View} from '@react-pdf/renderer';
 import {ApplicationStore} from "../../application/ApplicationStore";
-import PdfInitialCost from "./PdfInitialCost";
-import PdfSystemInformation from "./PdfSystemInformation";
-import PdfCumulativeSavings from "./PdfCumulativeSavings";
-import PdfCarbonOffset from "./PdfCarbonOffset";
-import PdfPaymentOptions from "./PdfPaymentOptions";
+import PdfInitialCost from "./components/PdfInitialCost";
+import PdfSystemInformation from "./components/PdfSystemInformation";
+import PdfCumulativeSavings from "./components/PdfCumulativeSavings";
+import PdfCarbonOffset from "./components/PdfCarbonOffset";
+import PdfPaymentOptions from "./components/PdfPaymentOptions";
+import {Result} from "../../typings/Result";
 
 const styles = StyleSheet.create({
     page: {
@@ -47,7 +48,13 @@ const styles = StyleSheet.create({
     }
 });
 
-const PdfReport = ({result, store}: { result: any, store: ApplicationStore }) => {
+interface PdfReportProps {
+    graphSrc: string;
+    result: Result;
+    store: ApplicationStore;
+}
+
+const PdfReport = ({graphSrc, result, store}: PdfReportProps) => {
     if (!result)
         return <Document/>
 
@@ -67,12 +74,25 @@ const PdfReport = ({result, store}: { result: any, store: ApplicationStore }) =>
                 <View style={styles.content}>
                     <View style={[styles.column, {marginRight: 8}]}>
                         <PdfInitialCost result={result} store={store}/>
-                        <PdfCumulativeSavings/>
-                        <PdfCarbonOffset/>
+                        <PdfCumulativeSavings graphSrc={graphSrc}/>
+                        <PdfCarbonOffset result={result}/>
                     </View>
                     <View style={[styles.column, {marginLeft: 8}]}>
                         <PdfSystemInformation store={store}/>
-                        <PdfPaymentOptions/>
+                        <PdfPaymentOptions result={result} store={store}/>
+                    </View>
+                </View>
+            </Page>
+            <Page size={"A4"} style={styles.page}>
+                <View style={{margin: 16}}>
+                    <Text style={styles.headerTitle}>Analysis Inputs</Text>
+                </View>
+                <View style={styles.content}>
+                    <View style={[styles.column, {marginRight: 8}]}>
+
+                    </View>
+                    <View style={[styles.column, {marginLeft: 8}]}>
+
                     </View>
                 </View>
             </Page>

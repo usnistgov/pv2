@@ -1,8 +1,8 @@
-import {ApplicationStore} from "../../application/ApplicationStore";
+import {ApplicationStore} from "../../../application/ApplicationStore";
 import PdfSection from "./PdfSection";
 import {StyleSheet, Text, View} from "@react-pdf/renderer";
-import {SREC_PAYMENTS_OPTIONS} from "../../Strings";
-import {SREC_UPFRONT} from "../../Defaults";
+import {SREC_PAYMENTS_OPTIONS} from "../../../Strings";
+import {SREC_UPFRONT} from "../../../Defaults";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
