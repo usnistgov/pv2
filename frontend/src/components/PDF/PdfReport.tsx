@@ -6,6 +6,9 @@ import PdfCumulativeSavings from "./components/PdfCumulativeSavings";
 import PdfCarbonOffset from "./components/PdfCarbonOffset";
 import PdfPaymentOptions from "./components/PdfPaymentOptions";
 import {Result} from "../../typings/Result";
+import PdfAddressInput from "./components/input/PdfAddressInput";
+import PdfAnalysisAssumptionsInput from "./components/input/PdfAnalysisAssumptionsInput";
+import PdfElectricalRateInput from "./components/input/PdfElectricalRateInput";
 
 const styles = StyleSheet.create({
     page: {
@@ -89,10 +92,11 @@ const PdfReport = ({graphSrc, result, store}: PdfReportProps) => {
                 </View>
                 <View style={styles.content}>
                     <View style={[styles.column, {marginRight: 8}]}>
-
+                        <PdfAddressInput store={store}/>
+                        <PdfElectricalRateInput store={store}/>
                     </View>
                     <View style={[styles.column, {marginLeft: 8}]}>
-
+                        <PdfAnalysisAssumptionsInput store={store}/>
                     </View>
                 </View>
             </Page>
