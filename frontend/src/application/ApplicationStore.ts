@@ -171,10 +171,10 @@ export class ElectricalCostFormStore {
     electricalCompanyName = "";
     netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
     annualConsumption: number | undefined = undefined;
-    monthlyFlatRateCharge = undefined;
-    electricUnitPrice = undefined;
-    excessGenerationUnitPrice = undefined;
-    pvGridConnectionRate = undefined;
+    monthlyFlatRateCharge: number | undefined = undefined;
+    electricUnitPrice: number | undefined = undefined;
+    excessGenerationUnitPrice: number | undefined = undefined;
+    pvGridConnectionRate: number | undefined = undefined;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});

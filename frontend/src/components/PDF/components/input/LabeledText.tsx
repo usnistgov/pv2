@@ -4,8 +4,7 @@ const styles = StyleSheet.create({
     labeledTextContainer: {
         display: "flex",
         width: "100%",
-        flexDirection: "row",
-        margin: 4
+        flexDirection: "row"
     },
     labeledTextLeftColumn: {
         textAlign: "right",

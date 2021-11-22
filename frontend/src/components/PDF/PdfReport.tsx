@@ -9,6 +9,15 @@ import {Result} from "../../typings/Result";
 import PdfAddressInput from "./components/input/PdfAddressInput";
 import PdfAnalysisAssumptionsInput from "./components/input/PdfAnalysisAssumptionsInput";
 import PdfElectricalRateInput from "./components/input/PdfElectricalRateInput";
+import PdfSolarSystemInput from "./components/input/PdfSolarSystemInput";
+import PdfDisclaimer from "./components/input/PdfDisclaimer";
+import PdfCostsInput from "./components/input/PdfCostsInput";
+import {PPA_OPTIONS} from "../../Strings";
+import PdfLoanOrCashInput from "./components/input/PdfLoanOrCashInput";
+import PdfPpaOptionInput from "./components/input/PdfPpaOptionInput";
+import PdfSrecInput from "./components/input/PdfSrecInput";
+import PdfProductionEscalationRatesInput from "./components/input/PdfProductionEscalationRatesInput";
+import PdfConsumptionEscalationRatesInput from "./components/input/PdfConsumptionEscalationRatesInput";
 
 const styles = StyleSheet.create({
     page: {
@@ -78,11 +87,12 @@ const PdfReport = ({graphSrc, result, store}: PdfReportProps) => {
                     <View style={[styles.column, {marginRight: 8}]}>
                         <PdfInitialCost result={result} store={store}/>
                         <PdfCumulativeSavings graphSrc={graphSrc}/>
-                        <PdfCarbonOffset result={result}/>
+                        {store.costsFormStore.ppaOption === PPA_OPTIONS[0] && <PdfCarbonOffset result={result}/>}
                     </View>
                     <View style={[styles.column, {marginLeft: 8}]}>
                         <PdfSystemInformation store={store}/>
                         <PdfPaymentOptions result={result} store={store}/>
+                        {store.costsFormStore.ppaOption === PPA_OPTIONS[1] && <PdfCarbonOffset result={result}/>}
                     </View>
                 </View>
             </Page>
@@ -94,10 +104,28 @@ const PdfReport = ({graphSrc, result, store}: PdfReportProps) => {
                     <View style={[styles.column, {marginRight: 8}]}>
                         <PdfAddressInput store={store}/>
                         <PdfElectricalRateInput store={store}/>
+                        <PdfCostsInput store={store}/>
+                        <PdfPpaOptionInput store={store}/>
                     </View>
                     <View style={[styles.column, {marginLeft: 8}]}>
                         <PdfAnalysisAssumptionsInput store={store}/>
+                        <PdfSolarSystemInput store={store}/>
+                        <PdfLoanOrCashInput store={store}/>
                     </View>
+                </View>
+            </Page>
+            <Page size={"A4"} style={styles.page}>
+                <View style={[styles.content, {marginBottom: "auto"}]}>
+                    <View style={[styles.column, {marginRight: 8}]}>
+                        <PdfConsumptionEscalationRatesInput store={store}/>
+                    </View>
+                    <View style={[styles.column, {marginLeft: 8}]}>
+                        <PdfProductionEscalationRatesInput store={store}/>
+                        <PdfSrecInput store={store}/>
+                    </View>
+                </View>
+                <View>
+                    <PdfDisclaimer/>
                 </View>
             </Page>
         </Document>

@@ -1,7 +1,6 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
-import {Text, View} from "@react-pdf/renderer";
-import InputSectionStyles from "./InputSectionStyles";
+import LabeledText from "./LabeledText";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -9,46 +8,24 @@ const currencyFormatter = Intl.NumberFormat('en-US', {
 });
 
 const PdfElectricalRateInput = ({store}: PdfInputSectionProps) => {
-    const electricty = store.electricalCostFormStore;
+    const electricity = store.electricalCostFormStore;
 
     return (
         <PdfSection title={"Electrical Information"}>
-            <View style={InputSectionStyles.inputSectionContainer}>
-                <View style={InputSectionStyles.inputSectionLeftColumn}>
-                    {
-                        electricty.electricalCompanyName &&
-                        <Text style={InputSectionStyles.inputSectionText}>Electrical Company Name</Text>
-                    }
-                    <Text style={InputSectionStyles.inputSectionText}>Metring Type</Text>
-                    <Text style={InputSectionStyles.inputSectionText}>Annual Consumption</Text>
-                    <Text style={InputSectionStyles.inputSectionText}>Connection Fee</Text>
-                    <Text style={InputSectionStyles.inputSectionText}>Electric Unit Price</Text>
-                    <Text style={InputSectionStyles.inputSectionText}>Generation Unit Price</Text>
-                    <Text style={InputSectionStyles.inputSectionText}>PV Grid Connection Fee</Text>
-                </View>
-                <View style={InputSectionStyles.inputSectionRightColumn}>
-                    {
-                        electricty.electricalCompanyName &&
-                        <Text style={InputSectionStyles.inputSectionText}>{electricty.electricalCompanyName}</Text>
-                    }
-                    <Text style={InputSectionStyles.inputSectionText}>{electricty.netMeteringFeedTariff}</Text>
-                    <Text style={InputSectionStyles.inputSectionText}>
-                        {`${electricty.annualConsumption} kWh`}
-                    </Text>
-                    <Text style={InputSectionStyles.inputSectionText}>
-                        {currencyFormatter.format(parseFloat(electricty.monthlyFlatRateCharge ?? "0"))}
-                    </Text>
-                    <Text style={InputSectionStyles.inputSectionText}>
-                        {currencyFormatter.format(parseFloat(electricty.electricUnitPrice ?? "0"))}
-                    </Text>
-                    <Text style={InputSectionStyles.inputSectionText}>
-                        {currencyFormatter.format(parseFloat(electricty.excessGenerationUnitPrice ?? "0"))}
-                    </Text>
-                    <Text style={InputSectionStyles.inputSectionText}>
-                        {currencyFormatter.format(parseFloat(electricty.pvGridConnectionRate ?? "0"))}
-                    </Text>
-                </View>
-            </View>
+            {
+                electricity.electricalCompanyName !== "" &&
+                <LabeledText label={"Electrical Company Name"} content={electricity.electricalCompanyName}/>
+            }
+            <LabeledText label={"Metering Type"} content={electricity.netMeteringFeedTariff}/>
+            <LabeledText label={"Annual Consumption"} content={`${electricity.annualConsumption ?? 0} kWh`}/>
+            <LabeledText label={"Connection Fee"}
+                         content={currencyFormatter.format(electricity.monthlyFlatRateCharge ?? 0)}/>
+            <LabeledText label={"Electric Unit Price"}
+                         content={currencyFormatter.format(electricity.electricUnitPrice ?? 0)}/>
+            <LabeledText label={"Generation Unit Price"}
+                         content={currencyFormatter.format(electricity.excessGenerationUnitPrice ?? 0)}/>
+            <LabeledText label={"PV Grid Connection Fee"}
+                         content={currencyFormatter.format(electricity.pvGridConnectionRate ?? 0)}/>
         </PdfSection>
     );
 }
