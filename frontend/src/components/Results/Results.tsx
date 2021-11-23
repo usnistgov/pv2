@@ -72,10 +72,12 @@ const Results = observer(({result}: ResultsProps) => {
                 right={result !== undefined ? <Downloads result={result}/> : <></>}/>
             <Grid container justifyContent={"center"} spacing={2}>
                 <Grid item key={0}>
-                    <Card title={"System Summary"}>
+                    <Card className={"result-card-size"} title={"System Summary"}>
                         <Grid className={"card-table"} container spacing={4}>
-                            <Grid item xs={7}>System Description</Grid>
-                            <Grid item xs={5}>{store.solarSystemFormStore.systemDescription}</Grid>
+                            <Grid item xs={12} className={"system-description-label"}>System Description</Grid>
+                            <Grid item xs={12} className={"system-description-text"}>
+                                {store.solarSystemFormStore.systemDescription}
+                            </Grid>
                             <Grid item xs={7}>System Size</Grid>
                             <Grid item xs={5}>{store.solarSystemFormStore.totalSystemSize} W</Grid>
                             <Grid item xs={7}>System Efficiency</Grid>
@@ -88,8 +90,9 @@ const Results = observer(({result}: ResultsProps) => {
                     </Card>
                 </Grid>
                 <Grid item key={1}>
-                    <Card title={"Initial Costs"}>
+                    <Card className={"result-card-size"} title={"Initial Costs"}>
                         <Grid className={"card-table"} container spacing={4}>
+                            <Grid item xs={12}/>
                             <Grid item xs={7}>Total Installation Cost</Grid>
                             <Grid item xs={5}>
                                 {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
