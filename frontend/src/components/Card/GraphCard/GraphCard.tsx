@@ -22,8 +22,6 @@ const GraphCard = observer(({altId, result}: any) => {
     const store = useContext(Store).resultUiStore;
     const [graphData, setGraphData] = useState<Serie>({id: "", data: []});
 
-    console.log("update");
-
     useEffect(() => {
         runInAction(() => getGraphData(store.graphOption, altId, result, store).then(setGraphData));
     }, [store.graphOption, result]);
