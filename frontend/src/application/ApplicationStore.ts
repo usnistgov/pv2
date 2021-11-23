@@ -450,7 +450,7 @@ export class SrecFormStore {
 export class ResultUiStore {
     rootStore: ApplicationStore;
 
-    graphOption: GraphOption = GraphOption.CUMULATIVE;
+    mGraphOption: GraphOption = GraphOption.CUMULATIVE;
     mGraphMax: number = 0;
 
     constructor(rootStore: ApplicationStore) {
@@ -458,8 +458,19 @@ export class ResultUiStore {
         this.rootStore = rootStore;
     }
 
+    set graphOption(option: GraphOption) {
+        if (option !== this.mGraphOption) {
+            this.resetGraphMax();
+            this.mGraphOption = option;
+        }
+    }
+
+    get graphOption() {
+        return this.mGraphOption;
+    }
+
     resetGraphMax() {
-        this.graphMax = 0;
+        this.mGraphMax = 0;
     }
 
     get graphMax() {

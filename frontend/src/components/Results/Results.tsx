@@ -1,4 +1,4 @@
-import React, {ReactNode, useContext} from "react";
+import React, {ReactNode, useContext, useEffect} from "react";
 
 // Library imports
 import {Box, Button, Grid} from "@material-ui/core";
@@ -22,6 +22,7 @@ import {SREC_UPFRONT} from "../../Defaults";
 import MeasureSummary from "../../typings/MeasureSummary";
 import OptionalSummary from "../../typings/OptionalSummary";
 import {Result} from "../../typings/Result";
+import {getGraphData} from "../../GetGraphData";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -39,7 +40,6 @@ interface ResultsProps {
  */
 const Results = observer(({result}: ResultsProps) => {
     const store = useContext(Store);
-    const uiStore = useContext(Store).resultUiStore;
     const upfront = store.srecFormStore.srecPaymentsUpFront ?? SREC_UPFRONT;
 
     let srecUpfront = upfront / 1000 *
