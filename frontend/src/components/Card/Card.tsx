@@ -4,11 +4,12 @@ import React, {PropsWithChildren} from "react";
 
 interface CardProps {
     title?: string;
+    className?: string;
 }
 
-export default function Card({title, children}: PropsWithChildren<CardProps>) {
+export default function Card({title, children, className}: PropsWithChildren<CardProps>) {
     return (
-        <MUICard>
+        <MUICard className={className}>
             <CardContent className={"card card-size"}>
                 {title && <div className="card-title">
                     <div>{title}</div>
