@@ -47,7 +47,7 @@ const PdfSystemInformation = ({store}: {store: ApplicationStore}) => {
                       {store.solarSystemFormStore.panelLifetime} yr
                   </Text>
                   <Text style={styles.systemInfoText}>
-                      {store.solarSystemFormStore.inverterLifetime} yr
+                      {store.solarSystemFormStore.inverterLifetimeOrDefault} yr
                   </Text>
               </View>
               <View style={styles.systemInfoLabelColumn}>

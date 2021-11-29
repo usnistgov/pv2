@@ -162,7 +162,7 @@ function SolarPVSystemReport() {
                 <Grid item xs={6}>Panel Lifetime:</Grid>
                 <Grid item xs={6}>{store.panelLifetime}</Grid>
                 <Grid item xs={6}>Inverter Lifetime:</Grid>
-                <Grid item xs={6}>{store.inverterLifetime}</Grid>
+                <Grid item xs={6}>{store.inverterLifetimeOrDefault}</Grid>
                 <Grid item xs={6}>Degradation Rate:</Grid>
                 <Grid item xs={6}>{store.degradationRate}</Grid>
             </Grid>
@@ -213,7 +213,7 @@ function SolarPVCostsReport() {
                 <Grid item xs={6}>Grants or Rebates:</Grid>
                 <Grid item xs={6}>{store.stateOrLocalTaxCreditsOrGrantsOrRebates}</Grid>
                 <Grid item xs={6}>Inverter Replacement Costs:</Grid>
-                <Grid item xs={6}>{store.inverterReplacementCosts}</Grid>
+                <Grid item xs={6}>{store.inverterReplacementCostsOrDefault}</Grid>
                 <Grid item xs={6}>Annual Maintenance Costs:</Grid>
                 <Grid item xs={6}>{store.annualMaintenanceCosts}</Grid>
                 <Grid item xs={6}>Include PPA:</Grid>

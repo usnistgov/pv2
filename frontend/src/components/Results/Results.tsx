@@ -80,7 +80,7 @@ const Results = observer(({result}: ResultsProps) => {
                             <Grid item xs={7}>Panel Lifetime</Grid>
                             <Grid item xs={5}>{store.solarSystemFormStore.panelLifetime}yr</Grid>
                             <Grid item xs={7}>Inverter Lifetime</Grid>
-                            <Grid item xs={5}>{store.solarSystemFormStore.inverterLifetime}yr</Grid>
+                            <Grid item xs={5}>{store.solarSystemFormStore.inverterLifetimeOrDefault}yr</Grid>
                         </Grid>
                     </Card>
                 </Grid>

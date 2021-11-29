@@ -17,7 +17,7 @@ const PdfSolarSystemInput = ({store}: PdfInputSectionProps) => {
             <LabeledText label={"System Size"} content={`${solarSystem.totalSystemSize ?? 0} W`}/>
             <LabeledText label={"Annual Production"} content={`${solarSystem.estimatedAnnualProduction ?? 0} kWh`}/>
             <LabeledText label={"Panel Lifetime"} content={`${solarSystem.panelLifetime ?? 0} yr`}/>
-            <LabeledText label={"Inverter Lifetime"} content={`${solarSystem.inverterLifetime ?? 0} yr`}/>
+            <LabeledText label={"Inverter Lifetime"} content={`${solarSystem.inverterLifetimeOrDefault ?? 0} yr`}/>
             <LabeledText label={"Efficiency Degradation Rate"} content={`${solarSystem.degradationRate ?? 0}%`}/>
         </PdfSection>
     );
