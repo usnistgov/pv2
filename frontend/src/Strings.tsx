@@ -80,8 +80,9 @@ export const NET_METERING_FEED_TARIFF_OPTIONS = [
 export const EXCESS_GENERATION_UNIT_PRICE_LABEL = "Excess Generation / FiT Unit Price";
 export const EXCESS_GENERATION_UNIT_PRICE_TOOLTIP = "Price per unit of electricity produced ($/kWh)";
 export const EXCESS_GENERATION_UNIT_PRICE_INFO = "Price per unit of electricity produced ($/kWh), which is typically " +
-    "different than the consumption price. Provided in your electricity bill and utility rate schedule, on the " +
-    "provider website, or by the solar installer.";
+    "equal to or less than the electricity unit price for consumption and varies by utility. Should be provided in " +
+    "your electricity bill or utility rate schedule, on the provider website, or by the solar installer. See User " +
+    "Guide for additional guidance.";
 
 export const PV_GRID_CONNECTION_RATE_LABEL = "PV Grid Connection Rate – Annual (Optional)";
 export const PV_GRID_CONNECTION_RATE_TOOLTIP = "Annual charge for connecting a solar PV system to the grid";
@@ -109,7 +110,7 @@ export const ESCALATION_RATES_SAME_OR_DIFF_OPTIONS = [
 ];
 
 export const SYSTEM_DESCRIPTION_LABEL = "System Description";
-export const SYSTEM_DESCRIPTION_TOOLTIP = "Longer description about the solar system";
+export const SYSTEM_DESCRIPTION_TOOLTIP = "General description of solar PV system being analyzed.";
 
 export const PANEL_EFFICIENCY_LABEL = "Rated Efficiency of Solar Panels";
 export const PANEL_EFFICIENCY_TOOLTIP = "Rated efficiency of the solar panels";
@@ -194,7 +195,7 @@ export const ANNUAL_MAINTENANCE_COSTS_TOOLTIP = "Annual costs of maintaining the
 export const ANNUAL_MAINTENANCE_COSTS_INFO = "Annual costs of maintaining the solar PV system, such as annual " +
     "contract with installer to clean panels and check panel performance";
 
-export const PPA_OPTION_LABEL = "Include a Power Purchase Agreement Option?";
+export const PPA_OPTION_LABEL = "Include a Power Purchase Agreement/Lease Options?";
 export const PPA_OPTION_TOOLTIP = "Include a PPA/leasing option in the analysis";
 export const PPA_OPTION_INFO = "Include a PPA/leasing option in the analysis. Under a PPA/lease, the installer owns " +
     "the system and homeowners sign a contract to pay the installer for the electricity produced by the system. " +

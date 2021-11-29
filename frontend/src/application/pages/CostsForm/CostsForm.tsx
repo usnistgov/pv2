@@ -229,7 +229,7 @@ const CostsForm = observer(() => {
                 </>
                 }
             </Box>
-            <MaterialHeader text={"PPA Purchasing Option"} right={<ResetButton onClick={() => store.resetPpa()}/>}/>
+            <MaterialHeader text={"PPA/Lease Option"} right={<ResetButton onClick={() => store.resetPpa()}/>}/>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={PPA_OPTION_TOOLTIP} info={PPA_OPTION_INFO}>
                     <FormControl fullWidth variant={"filled"}>
