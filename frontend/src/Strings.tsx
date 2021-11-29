@@ -273,3 +273,18 @@ export enum GraphOption {
     NET_ELECTRICAL_CONSUMPTION = "Net Electrical Consumption",
     ELECTRICAL_REDUCTION = "Electricity Reduction"
 }
+
+export const RESULT_TOTAL_COST_TOOLTIP = "Total Net Present Value Costs";
+export const RESULT_NET_SAVINGS_TOOLTIP = "Net Present Value Savings relative to No Solar System";
+export const RESULT_AIRR_TOOLTIP = "Adjusted Internal Rate of Return (AIRR) on Investment. This is a measure of " +
+    "return on investment that accounts for reinvestment of the annual savings";
+export const RESULT_SPP_TOOLTIP = "Simple Payback Period (SPP) is the number of years it takes for cost savings to " +
+    "offset the initial investment costs";
+export const RESULT_ELECTRICAL_REDUCTION_TOOLTIP = "Electricity reduction relative to No Solar System";
+export const RESULT_CARBON_FOOTPRINT_TOOLTIP = "Carbon footprint includes GHG emissions (normalized to carbon " +
+    "dioxide equivalent - CO2e) associated with both electricity consumption and the manufacturing, installation, " +
+    "and replacement of the solar photovoltaic equipment over the study period. Excess production leads to negative " +
+    "electricity consumption emissions. See User Guide for additional details.";
+export const RESULT_SCC_TOOLTIP = "Social Cost of Carbon (SCC): The costs to society associated with the carbon " +
+    "footprint. A negative SCC is a net savings to society. Defaulted to $51/ton. This value is NOT included in the " +
+    "Total Cost calculations. See User Guide for additional details.";

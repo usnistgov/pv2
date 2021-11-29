@@ -18,6 +18,12 @@ import "./ResultCard.sass";
 import OptionalSummary from "../../../typings/OptionalSummary";
 import MeasureSummary from "../../../typings/MeasureSummary";
 import Constants from "../../../Constants";
+import {
+    RESULT_AIRR_TOOLTIP,
+    RESULT_CARBON_FOOTPRINT_TOOLTIP,
+    RESULT_ELECTRICAL_REDUCTION_TOOLTIP, RESULT_NET_SAVINGS_TOOLTIP, RESULT_SCC_TOOLTIP,
+    RESULT_SPP_TOOLTIP, RESULT_TOTAL_COST_TOOLTIP
+} from "../../../Strings";
 
 const currencyFormatter = Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -42,7 +48,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
 
     return (
         <div className={"side-tooltip-container result-card"}>
-            <Card title={altLabels[alt.altID]}>
+            <Card className={"overflow-visible"} title={altLabels[alt.altID]}>
                 <Grid className={"card-table"} container spacing={4}>
                     <Grid item xs={7}>
                         <FormTooltip text={"Total Net Present Value Costs"}>
@@ -50,9 +56,16 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{
-                            valid(alt.totalCosts) ? currencyFormatter.format(parseFloat(alt.totalCosts)) : "NA"
-                        }</div>
+                        <div className={"side-tooltip-container"}>
+                            {
+                                valid(alt.totalCosts) ? currencyFormatter.format(parseFloat(alt.totalCosts)) : "NA"
+                            }
+                            <div className={"side-tooltip"}>
+                                <InfoTooltip text={RESULT_TOTAL_COST_TOOLTIP}>
+                                    <MdiIcon path={mdiInformation} size={1} color={'#898989'}/>
+                                </InfoTooltip>
+                            </div>
+                        </div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -61,9 +74,16 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{
-                            valid(alt.netSavings) ? currencyFormatter.format(parseFloat(alt.netSavings)) : "NA"
-                        }</div>
+                        <div className={"side-tooltip-container"}>
+                            {
+                                valid(alt.netSavings) ? currencyFormatter.format(parseFloat(alt.netSavings)) : "NA"
+                            }
+                            <div className={"side-tooltip"}>
+                                <InfoTooltip text={RESULT_NET_SAVINGS_TOOLTIP}>
+                                    <MdiIcon path={mdiInformation} size={1} color={'#898989'}/>
+                                </InfoTooltip>
+                            </div>
+                        </div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -72,10 +92,17 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{
-                            valid(alt.AIRR) && alt.AIRR !== undefined ?
-                                `${(parseFloat(alt.AIRR) * 100).toFixed(2)}%` : "NA"
-                        }</div>
+                        <div className={"side-tooltip-container"}>
+                            {
+                                valid(alt.AIRR) && alt.AIRR !== undefined ?
+                                    `${(parseFloat(alt.AIRR) * 100).toFixed(2)}%` : "NA"
+                            }
+                            <div className={"side-tooltip"}>
+                                <InfoTooltip text={RESULT_AIRR_TOOLTIP}>
+                                    <MdiIcon path={mdiInformation} size={1} color={'#898989'}/>
+                                </InfoTooltip>
+                            </div>
+                        </div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -84,10 +111,17 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid item xs={5}>
-                        <div>{
-                            valid(alt.SPP) && alt.SPP !== undefined && alt.SPP !== 'Infinity' ?
-                                `${Math.round(parseFloat(alt.SPP))}yr` : "NA"
-                        }</div>
+                        <div className={"side-tooltip-container"}>
+                            {
+                                valid(alt.SPP) && alt.SPP !== undefined && alt.SPP !== 'Infinity' ?
+                                    `${Math.round(parseFloat(alt.SPP))}yr` : "NA"
+                            }
+                            <div className={"side-tooltip"}>
+                                <InfoTooltip text={RESULT_SPP_TOOLTIP}>
+                                    <MdiIcon path={mdiInformation} size={1} color={'#898989'}/>
+                                </InfoTooltip>
+                            </div>
+                        </div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -96,10 +130,17 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid className={"vertical-center"} item xs={5}>
-                        <div>{
-                            valid(alt.deltaQuant?.["Electricity"]) ?
-                                `${numberFormatter.format(-(alt.deltaQuant?.["Electricity"] ?? 0))} kWh` : "NA"
-                        }</div>
+                        <div className={"side-tooltip-container"}>
+                            {
+                                valid(alt.deltaQuant?.["Electricity"]) ?
+                                    `${numberFormatter.format(-(alt.deltaQuant?.["Electricity"] ?? 0))} kWh` : "NA"
+                            }
+                            <div className={"side-tooltip"}>
+                                <InfoTooltip text={RESULT_ELECTRICAL_REDUCTION_TOOLTIP}>
+                                    <MdiIcon path={mdiInformation} size={1} color={'#898989'}/>
+                                </InfoTooltip>
+                            </div>
+                        </div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -108,7 +149,14 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid className={"vertical-center"} item xs={5}>
-                        <div>{valid(gwp) ? `${numberFormatter.format(gwp)} tons CO2e` : "NA"}</div>
+                        <div className={"side-tooltip-container"}>
+                            {valid(gwp) ? `${numberFormatter.format(gwp)} tons CO2e` : "NA"}
+                            <div className={"side-tooltip"}>
+                                <InfoTooltip text={RESULT_CARBON_FOOTPRINT_TOOLTIP}>
+                                    <MdiIcon path={mdiInformation} size={1} color={'#898989'}/>
+                                </InfoTooltip>
+                            </div>
+                        </div>
                     </Grid>
 
                     <Grid item xs={7}>
@@ -117,35 +165,19 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         </FormTooltip>
                     </Grid>
                     <Grid className={"vertical-center"} item xs={5}>
-                        <div>{
-                            valid(gwp) ? `${currencyFormatter.format(gwp * Constants.SOCIAL_COST_OF_CARBON)}` : "NA"
-                        }</div>
+                        <div className={"side-tooltip-container"}>
+                            {
+                                valid(gwp) ? `${currencyFormatter.format(gwp * Constants.SOCIAL_COST_OF_CARBON)}` : "NA"
+                            }
+                            <div className={"side-tooltip"}>
+                                <InfoTooltip text={RESULT_SCC_TOOLTIP}>
+                                    <MdiIcon path={mdiInformation} size={1} color={'#898989'}/>
+                                </InfoTooltip>
+                            </div>
+                        </div>
                     </Grid>
                 </Grid>
             </Card>
-            <div className={"side-tooltips"}>
-                <InfoTooltip text={"Total Net Present Value Costs"}>
-                    <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </InfoTooltip>
-                <InfoTooltip text={"Net Present Value Savings relative to No Solar System"}>
-                    <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </InfoTooltip>
-                <InfoTooltip text={
-                    "Adjusted Internal Rate of Return (AIRR) on Investment. This is a measure of return on " +
-                    "investment that accounts for reinvestment of the annual savings"
-                }>
-                    <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </InfoTooltip>
-                <InfoTooltip text={
-                    "Simple Payback Period (SPP) is the number of years it takes for cost savings to offset " +
-                    "the initial investment costs"
-                }>
-                    <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </InfoTooltip>
-                <InfoTooltip text={"Electricity reduction relative to No Solar System"}>
-                    <MdiIcon className={"icon"} path={mdiInformation} size={1} color={'#898989'}/>
-                </InfoTooltip>
-            </div>
         </div>
     )
 }
