@@ -138,6 +138,8 @@ function ppaAlternative(store: ApplicationStore) {
     bcns.push(createBcn("Electricity Consumption - PPA", altId, () => ppaConsumption(store)));
     bcns.push(createBcn("Solar PV Purchase Price", altId, () => ppaSystemPurchasePrice(store)));
     bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
+    bcns.push(createBcn("Consumption Global Warming Potential", altId, () => globalWarmingPotentialConsumption(store)));
+    bcns.push(createBcn("Production Global Warming Potential", altId, () => globalWarmingPotentialProduction(store)));
 
     const ppaContractLength = store.costsFormStore.ppaContractLength ?? studyPeriod;
     if (ppaContractLength < studyPeriod) {
