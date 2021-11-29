@@ -1,18 +1,16 @@
 @use "src/colors"
 
+.overflow-visible
+  overflow: visible !important
+
 .side-tooltip-container
   position: relative
 
-  .side-tooltips
+  .side-tooltip
     position: absolute
-    left: 420px
-    top: 105px
-
-    display: flex
-    flex-flow: column
-
-  .icon
-    margin: 13px 8px
+    left: 181px
+    top: 50%
+    transform: translateY(-50%)
 
 .result-card
   .vertical-center
