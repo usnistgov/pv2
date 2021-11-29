@@ -4,12 +4,7 @@ import {Store} from "../../../application/ApplicationStore";
 import {getGraphData} from "../../../GetGraphData";
 import {GraphOption} from "../../../Strings";
 import {Result} from "../../../typings/Result";
-
-const currencyFormatter = Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    notation: 'compact',
-});
+import {compactCurrencyFormatter} from "../../../Format";
 
 interface PdfGraphProps {
     result: Result;
@@ -59,7 +54,7 @@ const PdfGraph = ({result}: PdfGraphProps) => {
                     tickPadding: 5,
                     legendPosition: "middle",
                     legendOffset: -35,
-                    format: currencyFormatter.format
+                    format: compactCurrencyFormatter.format
                 }}
                 axisBottom={{
                     tickSize: 0,

@@ -1,12 +1,8 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
 import LabeledText from "./LabeledText";
-import {LOAN_OR_CASH_OPTIONS, PPA_OPTIONS} from "../../../../Strings";
-
-const currencyFormatter = Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-});
+import {PPA_OPTIONS} from "../../../../Strings";
+import {currencyFormatter} from "../../../../Format";
 
 const PdfPpaOptionInput = ({store}: PdfInputSectionProps) => {
     const ppa = store.costsFormStore;

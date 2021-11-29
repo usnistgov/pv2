@@ -24,12 +24,7 @@ import {
     RESULT_ELECTRICAL_REDUCTION_TOOLTIP, RESULT_NET_SAVINGS_TOOLTIP, RESULT_SCC_TOOLTIP,
     RESULT_SPP_TOOLTIP, RESULT_TOTAL_COST_TOOLTIP
 } from "../../../Strings";
-
-const currencyFormatter = Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-});
-const numberFormatter = Intl.NumberFormat('en-US', {});
+import {currencyFormatter, numberFormatter} from "../../../Format";
 
 export interface ResultCardProps {
     // The alternative objects

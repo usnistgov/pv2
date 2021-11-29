@@ -8,15 +8,7 @@ import {Store} from "../../../application/ApplicationStore";
 import {observer} from "mobx-react-lite";
 import {getGraphData} from "../../../GetGraphData";
 import {runInAction} from "mobx";
-
-const currencyFormatter = Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    notation: 'compact',
-});
-const numberFormatter = Intl.NumberFormat('en-US', {
-    notation: 'compact',
-});
+import {compactCurrencyFormatter, compactNumberFormatter} from "../../../Format";
 
 const GraphCard = observer(({altId, result}: any) => {
     const store = useContext(Store).resultUiStore;
@@ -56,7 +48,7 @@ const GraphCard = observer(({altId, result}: any) => {
                         tickPadding: 5,
                         legendPosition: "middle",
                         legendOffset: -35,
-                        format: useDollarSign() ? currencyFormatter.format : numberFormatter.format,
+                        format: useDollarSign() ? compactCurrencyFormatter.format : compactNumberFormatter.format,
                         legend: useDollarSign() ? "" : "kWh"
                     }}
                     axisBottom={{

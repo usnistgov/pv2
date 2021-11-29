@@ -2,11 +2,7 @@ import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
 import LabeledText from "./LabeledText";
 import {LOAN_OR_CASH_OPTIONS} from "../../../../Strings";
-
-const currencyFormatter = Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-});
+import {currencyFormatter} from "../../../../Format";
 
 const PdfLoanOrCashInput = ({store}: PdfInputSectionProps) => {
     const costs = store.costsFormStore;

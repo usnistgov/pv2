@@ -3,11 +3,7 @@ import PdfSection from "../PdfSection";
 import LabeledText from "./LabeledText";
 import {SREC_PAYMENTS_OPTIONS} from "../../../../Strings";
 import {StyleSheet, View} from "@react-pdf/renderer";
-
-const currencyFormatter = Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-});
+import {currencyFormatter} from "../../../../Format";
 
 const styles = StyleSheet.create({
     rateContainer: {

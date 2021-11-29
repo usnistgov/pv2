@@ -3,12 +3,7 @@ import {Image, StyleSheet, Text, View} from "@react-pdf/renderer";
 import _ from "lodash";
 import {Result} from "../../../typings/Result";
 import Constants from "../../../Constants";
-
-const currencyFormatter = Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-});
-const numberFormatter = Intl.NumberFormat('en-US', {});
+import {currencyFormatter, numberFormatter} from "../../../Format";
 
 const styles = StyleSheet.create({
     carbonOffsetContainer: {

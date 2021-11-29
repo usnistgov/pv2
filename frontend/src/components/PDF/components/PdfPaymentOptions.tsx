@@ -2,11 +2,7 @@ import PdfSection from "./PdfSection";
 import {StyleSheet, Text, View} from '@react-pdf/renderer';
 import {Result} from "../../../typings/Result";
 import {ApplicationStore} from "../../../application/ApplicationStore";
-
-const currencyFormatter = Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-});
+import {currencyFormatter} from "../../../Format";
 
 const styles = StyleSheet.create({
     paymentContainer: {
