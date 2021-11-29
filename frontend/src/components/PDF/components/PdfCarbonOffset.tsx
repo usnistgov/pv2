@@ -25,9 +25,12 @@ const styles = StyleSheet.create({
 });
 
 const PdfCarbonOffset = ({result}: {result: Result}) => {
+    const gwpBaseline = result.OptionalSummary
+        .find(summary => summary.tag === "LCIA-Global-Warming-Potential" && summary.altID == 0);
     const gwpOptional = result.OptionalSummary
-        .find((summary) => summary.tag === "LCIA-Global-Warming-Potential");
-    const gwp = _.sum(gwpOptional?.totTagQ.map((v) => v / 1000) ?? []);
+        .find(summary => summary.tag === "LCIA-Global-Warming-Potential" && summary.altID == 1);
+    const gwp = _.sum(gwpBaseline?.totTagQ.map((v) => v / 1000) ?? []) -
+        _.sum(gwpOptional?.totTagQ.map((v) => v / 1000) ?? []);
 
     return (
       <PdfSection title={"Carbon Offset"}>
@@ -37,7 +40,7 @@ const PdfCarbonOffset = ({result}: {result: Result}) => {
           </View>
           <View style={styles.carbonOffsetCentered}>
               <Text>Social Cost of Carbon</Text>
-              <Text style={{fontSize: "10pt"}}>{`($${Constants.SOCIAL_COST_OF_CARBON}) per ton`}</Text>
+              <Text style={{fontSize: "10pt"}}>{`($${Constants.SOCIAL_COST_OF_CARBON} per ton)`}</Text>
               <Text style={{color: "#4CAF50", margin: "8px"}}>
                   {currencyFormatter.format(gwp * Constants.SOCIAL_COST_OF_CARBON)}
               </Text>
