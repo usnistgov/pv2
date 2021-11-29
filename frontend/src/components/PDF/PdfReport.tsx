@@ -87,12 +87,11 @@ const PdfReport = ({graphSrc, result, store}: PdfReportProps) => {
                     <View style={[styles.column, {marginRight: 8}]}>
                         <PdfInitialCost result={result} store={store}/>
                         <PdfCumulativeSavings graphSrc={graphSrc}/>
-                        {store.costsFormStore.ppaOption === PPA_OPTIONS[0] && <PdfCarbonOffset result={result}/>}
                     </View>
                     <View style={[styles.column, {marginLeft: 8}]}>
                         <PdfSystemInformation store={store}/>
                         <PdfPaymentOptions result={result} store={store}/>
-                        {store.costsFormStore.ppaOption === PPA_OPTIONS[1] && <PdfCarbonOffset result={result}/>}
+                        <PdfCarbonOffset result={result}/>
                     </View>
                 </View>
             </Page>
