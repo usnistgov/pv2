@@ -12,7 +12,10 @@ export default function InputReport() {
     return (
         <TabContext value={tabPosition}>
             <div className={"input-report-tab-list input-report-background"}>
-                <TabList centered onChange={(_, value) => setTabPosition(value)}>
+                <TabList centered
+                         variant={"scrollable"}
+                         scrollButtons={"auto"}
+                         onChange={(_, value) => setTabPosition(value)}>
                     {CATEGORIES.map((value) => (
                         <Tab label={value} value={value}/>
                     ))}
