@@ -182,7 +182,7 @@ export const FEDERAL_TAX_CREDIT_INFO = "Federal tax credit is currently 26% of t
 export const TAX_CRED_OR_REBATE_LABEL = "State/Local Tax Credits/Grants/Rebates";
 export const TAX_CRED_OR_REBATE_TOOLTIP = "Financial incentives from state and local programs";
 export const TAX_CRED_OR_REBATE_INFO = "State and local financial incentives include grant and rebate programs. Loan " +
-    "programs will be addressed under Purchasing Details below.";
+    "programs will be addressed under \"Cash or Loan Option\" below.";
 
 export const INVERTER_REPLACEMENT_COSTS_LABEL = "Inverter Replacement Costs";
 export const INVERTER_REPLACEMENT_COSTS_TOOLTIP = "Costs of replacing only the inverter(s)";
