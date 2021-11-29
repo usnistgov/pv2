@@ -37,8 +37,8 @@ const AnalysisAssumptionsForm = observer(() => {
             <MaterialHeader text={"Analysis Assumptions"} right={<ResetButton onClick={() => store.reset()}/>}/>
             <div className={"form-page-text"}>
                 Provide general assumptions for the economic analysis. Default values are provided. See User Guide for
-                detailed guidance on study period (timeframe of analysis), discount rate (time value of money),
-                inflation rate (purchasing power over time), and residual value assumptions.
+                detailed guidance on study period (timeframe of analysis), discount rate (time value of money), and
+                inflation rate (purchasing power over time).
             </div>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={STUDY_PERIOD_TOOLTIP} info={STUDY_PERIOD_INFO}>
