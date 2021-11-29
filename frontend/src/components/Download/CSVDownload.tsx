@@ -9,6 +9,8 @@ import {validOrNA} from "../../Utils";
 import {Store} from "../../application/ApplicationStore";
 import {STUDY_PERIOD} from "../../Defaults";
 import {Result} from "../../typings/Result";
+import Constants from "../../Constants";
+import _ from "lodash";
 
 /**
  * Generates CSV data for the given results and study period.
@@ -19,6 +21,7 @@ import {Result} from "../../typings/Result";
 function generateCsv(results: Result, studyPeriod: number): any {
     const altObjects = results.MeasureSummary;
     const cashFlowObjects = results.FlowSummary;
+    const optionalObjects = results.OptionalSummary;
 
     const totalCosts = altObjects.map((x) => x.totalCosts).map(validOrNA);
     const netSavings = altObjects.map((x) => x.netSavings).map(validOrNA);
@@ -26,7 +29,11 @@ function generateCsv(results: Result, studyPeriod: number): any {
     const spp = altObjects.map((x) => x.SPP).map((value: string | number | undefined) => {
         return valid(value) && value !== "Infinity" ? value : "NA"
     });
-    const electricityReduction = altObjects.map((x) => -(x?.deltaQuant?.["Electricity"] ?? 0)).map(validOrNA);
+    const electricityReduction = altObjects.map((x) => -(x?.deltaQuant?.["Electricity"] ?? 0))
+        .map(validOrNA);
+    const carbonFootprint = optionalObjects.filter(x => x.tag === "LCIA-Global-Warming-Potential")
+        .map(x => _.sum(x.totTagQ.map((v: any) => parseFloat(v))) / 1000);
+    const socialCostOfCarbon = carbonFootprint.map(v => v * Constants.SOCIAL_COST_OF_CARBON);
     const data = Array.from(Array(studyPeriod + 1).keys())
         .map((index) => [index, ...cashFlowObjects.map((flow) => flow.totCostDisc[index])]);
 
@@ -38,6 +45,8 @@ function generateCsv(results: Result, studyPeriod: number): any {
         ["AIRR", ...airr],
         ["SPP", ...spp],
         ["Electricity Reduction", ...electricityReduction],
+        ["Carbon Footprint (ton)", ...carbonFootprint],
+        ["Social Cost of Carbon ($51 per ton)", ...socialCostOfCarbon],
         [],
         ["Cash Flow (NPV)"],
         ["Year", "No Solar System", "Purchase Solar System", "PPA Solar System"],
