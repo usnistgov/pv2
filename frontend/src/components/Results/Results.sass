@@ -16,9 +16,6 @@
   position: relative
   margin-bottom: 64px
 
-.result-card-size
-  min-height: 450px
-
 .result-back-button
   position: absolute
   left: 8px
@@ -39,6 +36,15 @@
   text-align: center
   font-size: 14pt
 
-.vertical-center
-  margin-top: auto
-  margin-bottom: auto
+.vertical-center-container
+  height: 300px
+  position: relative
+
+  .vertical-center
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+
+.net-cost-line
+  border-top: solid 1px #727272
+  font-weight: bold

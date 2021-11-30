@@ -1,7 +1,7 @@
 import {ApplicationStore} from "../../../application/ApplicationStore";
 import PdfSection from "./PdfSection";
 import {StyleSheet, Text, View} from "@react-pdf/renderer";
-import {SREC_PAYMENTS_OPTIONS} from "../../../Strings";
+import {LOAN_OR_CASH_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../../Strings";
 import {SREC_UPFRONT} from "../../../Defaults";
 import {currencyFormatter} from "../../../Format";
 
@@ -51,23 +51,36 @@ const PdfInitialCost = ({result, store}: { result: any, store: ApplicationStore 
                     <Text style={styles.initialCostText}>
                         {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
                     </Text>
+                    {
+                        store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
+                        <Text style={styles.initialCostText}>
+                            -{currencyFormatter.format(
+                            (store.costsFormStore.totalInstallationCosts ?? 0) -
+                            (store.costsFormStore.downPayment ?? 0)
+                        )}
+                        </Text>
+                    }
                     <Text style={styles.initialCostText}>
-                        {currencyFormatter.format(parseFloat(store.costsFormStore.federalTaxCredit))}
+                        -{currencyFormatter.format(parseFloat(store.costsFormStore.federalTaxCredit))}
                     </Text>
                     <Text style={styles.initialCostText}>
-                        {currencyFormatter.format(
-                            store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
-                        )}
+                        -{currencyFormatter.format(
+                        store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
+                    )}
                     </Text>
                     {
                         store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
                         <Text style={styles.initialCostText}>
-                            {currencyFormatter.format(srecUpfront)}
+                            -{currencyFormatter.format(srecUpfront)}
                         </Text>
                     }
                 </View>
                 <View style={styles.initialCostLabelColumn}>
                     <Text style={styles.initialCostText}>Installation Costs</Text>
+                    {
+                        store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
+                        <Text style={styles.initialCostText}>Amount Financed</Text>
+                    }
                     <Text style={styles.initialCostText}>Federal Tax Credit</Text>
                     <Text style={styles.initialCostText}>Grants or Rebates</Text>
                     {

@@ -16,7 +16,7 @@ import Constants from "../../Constants";
 import InputReport from "../InputReport/InputReport";
 import Card from "../Card/Card";
 import GraphCard from "../Card/GraphCard/GraphCard";
-import {SREC_PAYMENTS_OPTIONS} from "../../Strings";
+import {LOAN_OR_CASH_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../Strings";
 import GraphOptionSelect from "../GraphOptionSelect/GraphOptionSelect";
 import {SREC_UPFRONT} from "../../Defaults";
 import MeasureSummary from "../../typings/MeasureSummary";
@@ -85,31 +85,48 @@ const Results = observer(({result}: ResultsProps) => {
                     </Card>
                 </Grid>
                 <Grid item key={1}>
-                    <Card className={"result-card-size"} title={"Initial Costs"}>
-                        <Grid className={"card-table"} container spacing={4}>
-                            <Grid item xs={12}/>
-                            <Grid item xs={7}>Total Installation Cost</Grid>
-                            <Grid item xs={5}>
-                                {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
-                            </Grid>
-                            <Grid item xs={7}>Federal Tax Credit</Grid>
-                            <Grid item xs={5}>${store.costsFormStore.federalTaxCredit}</Grid>
-                            <Grid item xs={7}>Grants or Rebates</Grid>
-                            <Grid item xs={5}>
-                                {currencyFormatter.format(
+                    <Card title={"Initial Costs"}>
+                        <div className={"vertical-center-container"}>
+                            <Grid className={"card-table vertical-center"} container spacing={4}>
+                                <Grid item xs={7}>Total Installation Cost</Grid>
+                                <Grid item xs={5}>
+                                    {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
+                                </Grid>
+                                {
+                                    store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
+                                    <>
+                                        <Grid item xs={7}>Amount Financed</Grid>
+                                        <Grid item xs={5}>
+                                            -{currencyFormatter.format(
+                                                (store.costsFormStore.totalInstallationCosts ?? 0) -
+                                                (store.costsFormStore.downPayment ?? 0)
+                                            )}
+                                        </Grid>
+                                    </>
+                                }
+                                <Grid item xs={7}>Federal Tax Credit</Grid>
+                                <Grid item xs={5}>
+                                    -{currencyFormatter.format(parseFloat(store.costsFormStore.federalTaxCredit ?? "0"))}
+                                </Grid>
+                                <Grid item xs={7}>Grants or Rebates</Grid>
+                                <Grid item xs={5}>
+                                    -{currencyFormatter.format(
                                     store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
                                 )}
+                                </Grid>
+                                {
+                                    store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
+                                    <>
+                                        <Grid item xs={7}>SREC Upfront Payment</Grid>
+                                        <Grid item xs={5}>-{currencyFormatter.format(srecUpfront)}</Grid>
+                                    </>
+                                }
+                                <Grid item xs={7} className={"net-cost-line"}>Net Installation Cost</Grid>
+                                <Grid item xs={5} className={"net-cost-line"}>
+                                    {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
+                                </Grid>
                             </Grid>
-                            <Grid item xs={7}>SREC Upfront Payment</Grid>
-                            <Grid item xs={5}>{currencyFormatter.format(
-                                store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] ?
-                                    srecUpfront : 0
-                            )}</Grid>
-                            <Grid item xs={7}>Net Installation Cost</Grid>
-                            <Grid item xs={5}>
-                                {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
-                            </Grid>
-                        </Grid>
+                        </div>
                     </Card>
                 </Grid>
             </Grid>
