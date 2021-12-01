@@ -31,3 +31,5 @@ yarn-error.log*
 *.~lock*!
 
 /src/config.json
+
+.env*
