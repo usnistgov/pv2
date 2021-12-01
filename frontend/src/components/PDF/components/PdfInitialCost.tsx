@@ -96,7 +96,7 @@ const PdfInitialCost = ({result, store}: { result: any, store: ApplicationStore 
                     </Text>
                 </View>
                 <View style={styles.initialCostLabelColumn}>
-                    <Text style={styles.initialCostNetText}>Net Cost</Text>
+                    <Text style={styles.initialCostNetText}>Net Initial Cost</Text>
                 </View>
             </View>
         </PdfSection>

@@ -121,7 +121,7 @@ const Results = observer(({result}: ResultsProps) => {
                                         <Grid item xs={5}>-{currencyFormatter.format(srecUpfront)}</Grid>
                                     </>
                                 }
-                                <Grid item xs={7} className={"net-cost-line"}>Net Installation Cost</Grid>
+                                <Grid item xs={7} className={"net-cost-line"}>Net Initial Cost</Grid>
                                 <Grid item xs={5} className={"net-cost-line"}>
                                     {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
                                 </Grid>
