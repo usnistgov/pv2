@@ -1,6 +1,6 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
-import LabeledText from "./LabeledText";
+import LabeledText from "../LabeledText";
 import {Text, View} from "@react-pdf/renderer";
 
 const PdfSolarSystemInput = ({store}: PdfInputSectionProps) => {

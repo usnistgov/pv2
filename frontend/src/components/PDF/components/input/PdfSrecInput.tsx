@@ -1,6 +1,6 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
-import LabeledText from "./LabeledText";
+import LabeledText from "../LabeledText";
 import {SREC_PAYMENTS_OPTIONS} from "../../../../Strings";
 import {StyleSheet, View} from "@react-pdf/renderer";
 import {currencyFormatter} from "../../../../Format";

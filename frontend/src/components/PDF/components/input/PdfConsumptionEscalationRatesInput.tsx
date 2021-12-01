@@ -1,7 +1,7 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
 import {StyleSheet, View} from "@react-pdf/renderer";
-import LabeledText from "./LabeledText";
+import LabeledText from "../LabeledText";
 
 const styles = StyleSheet.create({
     rateContainer: {

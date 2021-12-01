@@ -86,8 +86,8 @@ const Results = observer(({result}: ResultsProps) => {
                 </Grid>
                 <Grid item key={1}>
                     <Card title={"Initial Costs"}>
-                        <div className={"vertical-center-container"}>
-                            <Grid className={"card-table vertical-center"} container spacing={4}>
+                        <div className={"initial-cost-card vertical-center"}>
+                            <Grid className={"card-table"} container spacing={4}>
                                 <Grid item xs={7}>Total Installation Cost</Grid>
                                 <Grid item xs={5}>
                                     {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
@@ -101,6 +101,10 @@ const Results = observer(({result}: ResultsProps) => {
                                                 (store.costsFormStore.totalInstallationCosts ?? 0) -
                                                 (store.costsFormStore.downPayment ?? 0)
                                             )}
+                                        </Grid>
+                                        <Grid item xs={7} className={"net-cost-line"}>Upfront Out-of-Pocket Cost</Grid>
+                                        <Grid item xs={5} className={"net-cost-line"}>
+                                            {currencyFormatter.format(store.costsFormStore.downPayment ?? 0)}
                                         </Grid>
                                     </>
                                 }

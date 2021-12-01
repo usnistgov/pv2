@@ -1,6 +1,6 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
-import LabeledText from "./LabeledText";
+import LabeledText from "../LabeledText";
 
 const PdfAddressInput = ({store}: PdfInputSectionProps) => {
     const address = store.addressFormStore;

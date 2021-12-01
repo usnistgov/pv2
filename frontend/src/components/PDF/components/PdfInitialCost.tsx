@@ -4,12 +4,11 @@ import {StyleSheet, Text, View} from "@react-pdf/renderer";
 import {LOAN_OR_CASH_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../../Strings";
 import {SREC_UPFRONT} from "../../../Defaults";
 import {currencyFormatter} from "../../../Format";
+import LabeledText from "./LabeledText";
 
 const styles = StyleSheet.create({
     initialCostContainer: {
-        display: "flex",
         width: "100%",
-        flexDirection: "row",
         marginTop: 8
     },
     initialCostBottomBorder: {
@@ -47,57 +46,38 @@ const PdfInitialCost = ({result, store}: { result: any, store: ApplicationStore 
     return (
         <PdfSection title={"Initial Costs"}>
             <View style={[styles.initialCostContainer, styles.initialCostBottomBorder]}>
-                <View style={styles.initialCostNumberColumn}>
-                    <Text style={styles.initialCostText}>
-                        {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
-                    </Text>
-                    {
-                        store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
-                        <Text style={styles.initialCostText}>
-                            -{currencyFormatter.format(
-                            (store.costsFormStore.totalInstallationCosts ?? 0) -
-                            (store.costsFormStore.downPayment ?? 0)
-                        )}
-                        </Text>
-                    }
-                    <Text style={styles.initialCostText}>
-                        -{currencyFormatter.format(parseFloat(store.costsFormStore.federalTaxCredit))}
-                    </Text>
-                    <Text style={styles.initialCostText}>
-                        -{currencyFormatter.format(
-                        store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
-                    )}
-                    </Text>
-                    {
-                        store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
-                        <Text style={styles.initialCostText}>
-                            -{currencyFormatter.format(srecUpfront)}
-                        </Text>
-                    }
-                </View>
-                <View style={styles.initialCostLabelColumn}>
-                    <Text style={styles.initialCostText}>Installation Costs</Text>
-                    {
-                        store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
-                        <Text style={styles.initialCostText}>Amount Financed</Text>
-                    }
-                    <Text style={styles.initialCostText}>Federal Tax Credit</Text>
-                    <Text style={styles.initialCostText}>Grants or Rebates</Text>
-                    {
-                        store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
-                        <Text style={styles.initialCostText}>SREC Upfront Payment</Text>
-                    }
-                </View>
+                <LabeledText label={currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
+                             content={"Installation Costs"}/>
+                {
+                    store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
+                    <>
+                        <View style={styles.initialCostBottomBorder}>
+                            <LabeledText label={`-${currencyFormatter.format(
+                                (store.costsFormStore.totalInstallationCosts ?? 0) -
+                                (store.costsFormStore.downPayment ?? 0))}`}
+                                         content={"Amount Financed"}/>
+                        </View>
+                        <View style={{fontWeight: "bold"}}>
+                            <LabeledText label={currencyFormatter.format(store.costsFormStore.downPayment ?? 0)}
+                                         content={"Upfront Out-of-Pocket Cost"}/>
+                        </View>
+                    </>
+                }
+                <LabeledText label={`-${currencyFormatter.format(parseFloat(store.costsFormStore.federalTaxCredit))}`}
+                             content={"Federal Tax Credit"}/>
+                <LabeledText label={`-${currencyFormatter.format(
+                    store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
+                )}`}
+                             content={"Grants or Rebates"}/>
+                {
+                    store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
+                    <LabeledText label={`-${currencyFormatter.format(srecUpfront)}`}
+                                 content={"SREC Upfront Payment"}/>
+                }
             </View>
-            <View style={styles.initialCostContainer}>
-                <View style={styles.initialCostNumberColumn}>
-                    <Text style={styles.initialCostNetText}>
-                        {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
-                    </Text>
-                </View>
-                <View style={styles.initialCostLabelColumn}>
-                    <Text style={styles.initialCostNetText}>Net Initial Cost</Text>
-                </View>
+            <View style={[styles.initialCostContainer, styles.initialCostNetText]}>
+                <LabeledText label={currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
+                             content={"Net Initial Cost"}/>
             </View>
         </PdfSection>
     );

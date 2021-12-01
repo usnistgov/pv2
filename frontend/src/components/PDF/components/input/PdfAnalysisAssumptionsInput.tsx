@@ -1,6 +1,6 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
-import LabeledText from "./LabeledText";
+import LabeledText from "../LabeledText";
 
 const PdfAnalysisAssumptionsInput = ({store}: PdfInputSectionProps) => {
     const assumptions = store.analysisAssumptionsFormStore;

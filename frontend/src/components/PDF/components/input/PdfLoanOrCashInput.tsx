@@ -1,6 +1,6 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
-import LabeledText from "./LabeledText";
+import LabeledText from "../LabeledText";
 import {LOAN_OR_CASH_OPTIONS} from "../../../../Strings";
 import {currencyFormatter} from "../../../../Format";
 

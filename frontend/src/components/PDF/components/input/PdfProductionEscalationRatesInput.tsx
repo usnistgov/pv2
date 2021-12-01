@@ -1,6 +1,6 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
-import LabeledText from "./LabeledText";
+import LabeledText from "../LabeledText";
 import {StyleSheet, View, Text} from "@react-pdf/renderer";
 import {take} from "../../../../Utils";
 import {ESCALATION_RATES_SAME_OR_DIFF_OPTIONS} from "../../../../Strings";

@@ -1,5 +1,5 @@
 import PdfInputSectionProps from "./Props";
-import LabeledText from "./LabeledText";
+import LabeledText from "../LabeledText";
 import PdfSection from "../PdfSection";
 import {currencyFormatter} from "../../../../Format";
 

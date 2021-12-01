@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text} from "@react-pdf/renderer";
+import {StyleSheet, Text, View} from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
     labeledTextContainer: {
@@ -10,15 +10,13 @@ const styles = StyleSheet.create({
         textAlign: "right",
         display: "flex",
         flexDirection: "column",
-        flex: 1,
-        fontSize: "12pt"
+        flex: 1
     },
     labeledTextRightColumn: {
         textAlign: "left",
         display: "flex",
         flexDirection: "column",
-        flex: 1,
-        fontSize: "12pt"
+        flex: 1
     },
     inputSectionText: {
         margin: 4

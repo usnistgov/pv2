@@ -1,4 +1,4 @@
-import {Document, Image, Page, StyleSheet, Text, View} from '@react-pdf/renderer';
+import {Document, Image, Page, StyleSheet, Text, View, Font} from '@react-pdf/renderer';
 import {ApplicationStore} from "../../application/ApplicationStore";
 import PdfInitialCost from "./components/PdfInitialCost";
 import PdfSystemInformation from "./components/PdfSystemInformation";
@@ -19,9 +19,19 @@ import PdfSrecInput from "./components/input/PdfSrecInput";
 import PdfProductionEscalationRatesInput from "./components/input/PdfProductionEscalationRatesInput";
 import PdfConsumptionEscalationRatesInput from "./components/input/PdfConsumptionEscalationRatesInput";
 
+Font.register({
+    family: 'Roboto',
+    fonts: [
+        { src: 'https://cdn.jsdelivr.net/npm/@openfonts/roboto_all@1.44.1/files/roboto-all-400.woff' },
+        { src: 'https://cdn.jsdelivr.net/npm/@openfonts/roboto_all@1.44.1/files/roboto-all-700.woff', fontWeight: 700 }
+    ]
+});
+
 const styles = StyleSheet.create({
     page: {
-        padding: 8
+        padding: 8,
+        fontSize: "12pt",
+        fontFamily: "Roboto"
     },
     header: {
         marginVertical: 8,

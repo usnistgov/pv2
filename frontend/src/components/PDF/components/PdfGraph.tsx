@@ -49,6 +49,7 @@ const PdfGraph = ({result}: PdfGraphProps) => {
                 xScale={{type: 'linear'}}
                 yScale={{type: 'linear', min: "auto", max: "auto", stacked: false}}
                 yFormat={">-$,.2f"}
+                animate={false}
                 axisLeft={{
                     tickSize: 0,
                     tickPadding: 5,
