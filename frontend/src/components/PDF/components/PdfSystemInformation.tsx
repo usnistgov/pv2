@@ -34,7 +34,9 @@ const styles = StyleSheet.create({
 const PdfSystemInformation = ({store}: {store: ApplicationStore}) => {
     return (
       <PdfSection title={"System Information"}>
-          <Text style={styles.systemInfoCenterText}>{store.solarSystemFormStore.systemDescription}</Text>
+          <Text style={[styles.systemInfoCenterText, {maxHeight: "36pt", textOverflow: "ellipsis"}]}>
+              {store.solarSystemFormStore.systemDescription}
+          </Text>
           <View style={styles.systemInfoContainer}>
               <View style={styles.systemInfoColumn}>
                   <Text style={styles.systemInfoText}>

@@ -29,7 +29,7 @@ interface PdfSectionProps {
 }
 
 const PdfSection = ({title, children}: PropsWithChildren<PdfSectionProps>) => (
-    <View style={styles.sectionContainer}>
+    <View wrap={false} style={styles.sectionContainer}>
         <View style={styles.section}>
             {children}
         </View>

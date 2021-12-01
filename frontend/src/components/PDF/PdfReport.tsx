@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         height: "38px"
     },
     content: {
-        marginTop: 32,
+        marginTop: 16,
         marginBottom: 32,
         display: "flex",
         flexDirection: "row",
@@ -84,7 +84,7 @@ const PdfReport = ({graphSrc, result, store}: PdfReportProps) => {
 
     return (
         <Document>
-            <Page size={"A4"} style={styles.page}>
+            <Page size={"A4"} style={styles.page} wrap={false}>
                 <View style={[styles.header]}>
                     <Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"}/>
                     <View>
