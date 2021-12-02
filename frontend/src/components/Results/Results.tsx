@@ -92,22 +92,23 @@ const Results = observer(({result}: ResultsProps) => {
                                 <Grid item xs={5}>
                                     {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
                                 </Grid>
-                                {
-                                    store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
-                                    <>
-                                        <Grid item xs={7}>Amount Financed</Grid>
-                                        <Grid item xs={5}>
-                                            -{currencyFormatter.format(
+                                <Grid item xs={7}>Amount Financed</Grid>
+                                <Grid item xs={5}>
+                                    {
+                                        store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] ?
+                                            `-${currencyFormatter.format(
                                                 (store.costsFormStore.totalInstallationCosts ?? 0) -
                                                 (store.costsFormStore.downPayment ?? 0)
-                                            )}
-                                        </Grid>
-                                        <Grid item xs={7} className={"net-cost-line"}>Upfront Out-of-Pocket Cost</Grid>
-                                        <Grid item xs={5} className={"net-cost-line"}>
-                                            {currencyFormatter.format(store.costsFormStore.downPayment ?? 0)}
-                                        </Grid>
-                                    </>
-                                }
+                                            )}` :
+                                            currencyFormatter.format(0)
+                                    }
+                                </Grid>
+                                <Grid item xs={7} className={"net-cost-line"}>Upfront Out-of-Pocket Cost</Grid>
+                                <Grid item xs={5} className={"net-cost-line"}>
+                                    {store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] ?
+                                        currencyFormatter.format(store.costsFormStore.downPayment ?? 0) :
+                                        currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
+                                </Grid>
                                 <Grid item xs={7}>Federal Tax Credit</Grid>
                                 <Grid item xs={5}>
                                     -{currencyFormatter.format(parseFloat(store.costsFormStore.federalTaxCredit ?? "0"))}

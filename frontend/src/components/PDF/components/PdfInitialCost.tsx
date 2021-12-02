@@ -48,21 +48,20 @@ const PdfInitialCost = ({result, store}: { result: any, store: ApplicationStore 
             <View style={[styles.initialCostContainer, styles.initialCostBottomBorder]}>
                 <LabeledText label={currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
                              content={"Installation Costs"}/>
-                {
-                    store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
-                    <>
-                        <View style={styles.initialCostBottomBorder}>
-                            <LabeledText label={`-${currencyFormatter.format(
-                                (store.costsFormStore.totalInstallationCosts ?? 0) -
-                                (store.costsFormStore.downPayment ?? 0))}`}
-                                         content={"Amount Financed"}/>
-                        </View>
-                        <View style={{fontWeight: "bold"}}>
-                            <LabeledText label={currencyFormatter.format(store.costsFormStore.downPayment ?? 0)}
-                                         content={"Upfront Out-of-Pocket Cost"}/>
-                        </View>
-                    </>
-                }
+                <View style={styles.initialCostBottomBorder}>
+                    <LabeledText label={store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] ?
+                        `-${currencyFormatter.format(
+                            (store.costsFormStore.totalInstallationCosts ?? 0) -
+                            (store.costsFormStore.downPayment ?? 0))}` :
+                        currencyFormatter.format(0)}
+                                 content={"Amount Financed"}/>
+                </View>
+                <View style={{fontWeight: "bold"}}>
+                    <LabeledText label={store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] ?
+                        currencyFormatter.format(store.costsFormStore.downPayment ?? 0) :
+                        currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
+                                 content={"Upfront Out-of-Pocket Cost"}/>
+                </View>
                 <LabeledText label={`-${currencyFormatter.format(parseFloat(store.costsFormStore.federalTaxCredit))}`}
                              content={"Federal Tax Credit"}/>
                 <LabeledText label={`-${currencyFormatter.format(
