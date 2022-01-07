@@ -7,9 +7,11 @@ services:
     networks:
       - default
   postgres:
-    image: postgres:13.3
+    image: postgres:14.1
     restart: always
     hostname: postgres
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: AuTWRecHIFBdg5LJ6WbbUmFVPs3zhCwh
