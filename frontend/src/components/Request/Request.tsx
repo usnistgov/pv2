@@ -63,7 +63,8 @@ const Request = observer(() => {
                     signal: controller.signal,
                     headers: {
                         "Content-Type": "application/json",
-                        "Accept": "application/json"
+                        "Accept": "application/json",
+                        "Authorization": `Api-Key ${process.env.REACT_APP_API_TOKEN}`
                     },
                     body: JSON.stringify(request)
                 }

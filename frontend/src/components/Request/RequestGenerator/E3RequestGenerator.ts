@@ -213,7 +213,7 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
     bcnCache = new Map();
 
     const now = new Date();
-    const nowString = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()}`;
+    const nowString = now.toISOString().split('T')[0]
 
     const realDiscountRate = store.analysisAssumptionsFormStore.realDiscountRate ?? REAL_DISCOUNT_RATE;
     const generalInflation = store.analysisAssumptionsFormStore.generalInflation ?? GENERAL_INFLATION;
