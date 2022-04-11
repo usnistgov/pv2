@@ -17,6 +17,7 @@ import Constants from "./Constants";
 // Stylesheets
 import '@csstools/normalize.css'
 import './main.sass';
+import NotFound from "./application/pages/NotFound/NotFound";
 
 
 // Render main application
@@ -29,6 +30,7 @@ ReactDOM.render(
                         <Route exact path={Constants.routes.LANDING_PAGE}><LandingPage/></Route>
                         <Route path={Constants.routes.APPLICATION}><Application/></Route>
                         <Route path={Constants.routes.RESULTS}><Request/></Route>
+                        <Route path={"*"}><NotFound/></Route>
                     </Switch>
                 </Header>
             </BrowserRouter>
