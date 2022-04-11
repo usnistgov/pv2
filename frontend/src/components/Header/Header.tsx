@@ -22,11 +22,8 @@ export default function Header({children}: PropsWithChildren<{}>): ReactElement 
                     <a className={"menu-option"} href={"docs/user-guide.pdf"}>
                         User Guide
                     </a>
-                    <a className={"menu-option"} href={"docs/tutorial.pdf"}>
-                        Tutorial
-                    </a>
                     <a className={"menu-option"} href={"docs/PV2 Example.pdf"}>
-                        Example
+                        Example Quote & Electric Bill
                     </a>
                 </div>
                 <hr/>

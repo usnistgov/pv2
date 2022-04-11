@@ -1,12 +1,24 @@
 const express  = require("express");
 const path = require("path");
 const { Pool } = require("pg");
+const {expressCspHeader, SELF} = require("express-csp-header");
 
 const app = express();
 const port = 80;
 const pool = new Pool({
    connectionString: "postgres://admin:AuTWRecHIFBdg5LJ6WbbUmFVPs3zhCwh@postgres:5432/PV2"
 })
+
+app.use(expressCspHeader({
+   directives: {
+      "default-src": [SELF, "*.nist.gov"],
+      "script-src": [SELF, "'unsafe-eval'", "pages.nist.gov"],
+      "style-src": [SELF, "'unsafe-inline'", "pages.nist.gov", "unpkg.com"],
+      "img-src": [SELF, "data:", "pages.nist.gov"],
+      "frame-src": ["www.google.com"],
+      "connect-src": [SELF, "*.nist.gov"]
+   }
+}));
 
 
 
@@ -31,6 +43,7 @@ app.get("/api/escalation-rates/:zipcode", createQuery("SELECT array_agg(rate ORD
     "GROUP BY zipcode;"));
 
 app.get('*', (request, response) => {
+   response.set({"Content-Security_Policy": "default-src"})
    response.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
 
