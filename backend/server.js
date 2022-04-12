@@ -16,7 +16,7 @@ app.use(expressCspHeader({
       "style-src": [SELF, "'unsafe-inline'", "pages.nist.gov", "unpkg.com"],
       "img-src": [SELF, "data:", "pages.nist.gov"],
       "frame-src": ["www.google.com"],
-      "connect-src": [SELF, "*.nist.gov"]
+      "connect-src": [SELF, "*.nist.gov", "cdn.jsdelivr.net"]
    }
 }));
 
