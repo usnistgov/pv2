@@ -4,7 +4,6 @@ import {TabContext, TabList, TabPanel} from "@material-ui/lab";
 import "./InputReport.sass";
 import {CATEGORIES, LOAN_OR_CASH_OPTIONS, PPA_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../Strings";
 import {Store} from "../../application/ApplicationStore";
-import GoogleMap from "../GoogleMap/GoogleMap";
 
 export default function InputReport() {
     const [tabPosition, setTabPosition] = useState(CATEGORIES[0]);
@@ -37,26 +36,21 @@ export default function InputReport() {
 function AddressReport() {
     const store = useContext(Store).addressFormStore;
 
-    // Google Maps embedded url query
-    const wholeMap = !(store.address || store.city || store.state || store.zipcode) ? "&center=39.8097343,-98.5556199&zoom=3" : "";
-    const query = `${store.address}, ${store.city}, ${store.state} ${store.zipcode}${wholeMap}`;
-
     return (
-        <Grid container justifyContent={"space-evenly"}>
-            <Grid container item spacing={4} xs={3}>
-                <Grid item xs={6}>Address:</Grid>
-                <Grid item xs={6}>{store.address ?? "NA"}</Grid>
-                <Grid item xs={6}>City:</Grid>
-                <Grid item xs={6}>{store.city ?? "NA"}</Grid>
-                <Grid item xs={6}>State:</Grid>
-                <Grid item xs={6}>{store.state ?? "NA"}</Grid>
-                <Grid item xs={6}>ZIP Code:</Grid>
-                <Grid item xs={6}>{store.zipcode ?? "NA"}</Grid>
+        <div className={"input-report-container"}>
+            <Grid container>
+                <Grid container item spacing={4}>
+                    <Grid item xs={6}>Address:</Grid>
+                    <Grid item xs={6}>{store.address ?? "NA"}</Grid>
+                    <Grid item xs={6}>City:</Grid>
+                    <Grid item xs={6}>{store.city ?? "NA"}</Grid>
+                    <Grid item xs={6}>State:</Grid>
+                    <Grid item xs={6}>{store.state ?? "NA"}</Grid>
+                    <Grid item xs={6}>ZIP Code:</Grid>
+                    <Grid item xs={6}>{store.zipcode ?? "NA"}</Grid>
+                </Grid>
             </Grid>
-            <Grid item xs={4}>
-                <GoogleMap query={query}/>
-            </Grid>
-        </Grid>
+        </div>
     );
 }
 
