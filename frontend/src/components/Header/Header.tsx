@@ -19,10 +19,10 @@ export default function Header({children}: PropsWithChildren<{}>): ReactElement 
                     <Link className={"menu-option"} to={Constants.routes.LANDING_PAGE}>
                         Home
                     </Link>
-                    <a className={"menu-option"} href={"docs/user-guide.pdf"}>
+                    <a className={"menu-option"} href={"docs/user-guide.pdf"} target={"_blank"}>
                         User Guide
                     </a>
-                    <a className={"menu-option"} href={"docs/PV2 Example.pdf"}>
+                    <a className={"menu-option"} href={"docs/PV2 Example.pdf"} target={"_blank"}>
                         Example Quote & Electric Bill
                     </a>
                 </div>
