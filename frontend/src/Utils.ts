@@ -70,3 +70,11 @@ export function promiseLog<T>(value: T): T {
 export function scrollTo(amount: number) {
     return () => window.scrollTo({top: amount, behavior: 'smooth'})
 }
+
+export function calculateNominalDiscountRate(real: number, inflation: number): number {
+    return (1 + real) * (1 + inflation) - 1;
+}
+
+export function calculateRealDiscountRate(nominal: number, inflation: number): number {
+    return ((1 + nominal) / (1 + inflation)) - 1;
+}

@@ -1,6 +1,7 @@
 export const STUDY_PERIOD = 25;
 export const REAL_DISCOUNT_RATE = 3;
 export const GENERAL_INFLATION = 2.3;
+export const NOMINAL_DISCOUNT_RATE = (1.0 + REAL_DISCOUNT_RATE) * (1 + GENERAL_INFLATION) - 1;
 
 export const PANEL_LIFETIME = 25;
 export const INVERTER_LIFETIME = 15;

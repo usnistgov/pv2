@@ -16,7 +16,7 @@ import {
     ANNUAL_MAINTENANCE,
     DEGRADATION_RATE,
     GENERAL_INFLATION,
-    INVERTER_LIFETIME, INVERTER_REPLACEMENT,
+    INVERTER_LIFETIME, INVERTER_REPLACEMENT, NOMINAL_DISCOUNT_RATE,
     PANEL_LIFETIME,
     REAL_DISCOUNT_RATE, SREC_CONTRACT_LENGTH, SREC_UPFRONT,
     STUDY_PERIOD
@@ -158,6 +158,7 @@ export class AnalysisAssumptionsFormStore {
     rootStore: ApplicationStore;
 
     studyPeriod?: number = STUDY_PERIOD;
+    nominalDiscountRate?: number = NOMINAL_DISCOUNT_RATE;
     realDiscountRate?: number = REAL_DISCOUNT_RATE;
     generalInflation?: number = GENERAL_INFLATION;
     residualValueApproach = RESIDUAL_VALUE_APPROACH_OPTIONS[0];
@@ -171,12 +172,14 @@ export class AnalysisAssumptionsFormStore {
 
     get isDone() {
         return this.studyPeriod !== undefined &&
+            this.nominalDiscountRate !== undefined &&
             this.realDiscountRate !== undefined &&
             this.generalInflation !== undefined
     }
 
     reset() {
         this.studyPeriod = STUDY_PERIOD;
+        this.nominalDiscountRate = NOMINAL_DISCOUNT_RATE;
         this.realDiscountRate = REAL_DISCOUNT_RATE;
         this.generalInflation = GENERAL_INFLATION;
         this.residualValueApproach = RESIDUAL_VALUE_APPROACH_OPTIONS[0];

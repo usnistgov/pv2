@@ -11,7 +11,7 @@ import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import {
     GENERAL_INFLATION_INFO,
     GENERAL_INFLATION_LABEL,
-    GENERAL_INFLATION_TOOLTIP,
+    GENERAL_INFLATION_TOOLTIP, NOMINAL_DISCOUNT_RATE_LABEL, NOMINAL_DISCOUNT_RATE_TOOLTIP,
     REAL_DISCOUNT_RATE_INFO,
     REAL_DISCOUNT_RATE_LABEL,
     REAL_DISCOUNT_RATE_TOOLTIP,
@@ -27,7 +27,8 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 
 // Stylesheets
 import "../Form.sass";
-import {DecimalTest, defaultIfUndefined} from "../../../Utils";
+import {calculateNominalDiscountRate, calculateRealDiscountRate, DecimalTest, defaultIfUndefined} from "../../../Utils";
+import {GENERAL_INFLATION} from "../../../Defaults";
 
 const AnalysisAssumptionsForm = observer(() => {
     const store = useContext(Store).analysisAssumptionsFormStore;
@@ -36,9 +37,11 @@ const AnalysisAssumptionsForm = observer(() => {
         <Box className={"form-page-container"}>
             <MaterialHeader text={"Analysis Assumptions"} right={<ResetButton onClick={() => store.reset()}/>}/>
             <div className={"form-page-text"}>
-                Provide general assumptions for the economic analysis. Default values are provided. See User Guide for
-                detailed guidance on study period (timeframe of analysis), discount rate (time value of money), and
-                inflation rate (purchasing power over time).
+                Provide general assumptions for the economic analysis. Default values are provided. The real discount
+                rate is calculated using the nominal discount rate and inflation rate. A common nominal discount rate
+                value is either a homeowner's mortgage interest rate or the expected average return on investing in
+                the stock/bond market. See User Guide for detailed guidance on study period (timeframe of analysis),
+                discount rate (time value of money), and inflation rate (purchasing power over time).
             </div>
             <Box className={"form-single-column-container"}>
                 <Info tooltip={STUDY_PERIOD_TOOLTIP} info={STUDY_PERIOD_INFO}>
@@ -53,6 +56,24 @@ const AnalysisAssumptionsForm = observer(() => {
                         InputProps={Adornment.YEAR}
                         type={"number"}/>
                 </Info>
+                <Info tooltip={NOMINAL_DISCOUNT_RATE_TOOLTIP}>
+                    <ValidatedTextField
+                        fullWidth
+                        variant={"filled"}
+                        label={NOMINAL_DISCOUNT_RATE_LABEL}
+                        schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
+                        value={defaultIfUndefined(store.nominalDiscountRate, '')}
+                        onValidate={action((value: number) => {
+                            store.nominalDiscountRate = value;
+                            store.realDiscountRate = calculateRealDiscountRate(value, store.generalInflation ?? GENERAL_INFLATION);
+                        })}
+                        onError={action(() => {
+                            store.nominalDiscountRate = undefined;
+                            store.realDiscountRate = undefined;
+                        })}
+                        InputProps={Adornment.PERCENT}
+                        type={"number"}/>
+                </Info>
                 <Info tooltip={REAL_DISCOUNT_RATE_TOOLTIP} info={REAL_DISCOUNT_RATE_INFO}>
                     <ValidatedTextField
                         fullWidth
@@ -60,8 +81,14 @@ const AnalysisAssumptionsForm = observer(() => {
                         label={REAL_DISCOUNT_RATE_LABEL}
                         schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
                         value={defaultIfUndefined(store.realDiscountRate, '')}
-                        onValidate={action((value: number) => store.realDiscountRate = value)}
-                        onError={action(() => store.realDiscountRate = undefined)}
+                        onValidate={action((value: number) => {
+                            store.nominalDiscountRate = calculateNominalDiscountRate(value, store.generalInflation ?? GENERAL_INFLATION);
+                            store.realDiscountRate = value;
+                        })}
+                        onError={action(() => {
+                            store.nominalDiscountRate = undefined;
+                            store.realDiscountRate = undefined;
+                        })}
                         InputProps={Adornment.PERCENT}
                         type={"number"}/>
                 </Info>

@@ -23,6 +23,9 @@ export const STUDY_PERIOD_INFO = "Study period is the length of the time period 
     "Can select a study period between 1 year and 40 years. Recommend a study period equal to the solar panel " +
     "warranty length.";
 
+export const NOMINAL_DISCOUNT_RATE_LABEL = "Nominal Discount Rate";
+export const NOMINAL_DISCOUNT_RATE_TOOLTIP = "Nominal Discount Rate";
+
 export const REAL_DISCOUNT_RATE_LABEL = "Real Discount Rate";
 export const REAL_DISCOUNT_RATE_TOOLTIP = "Time value of money excluding inflation";
 export const REAL_DISCOUNT_RATE_INFO = "Real Discount Rates reflect Time Value of Money excluding from changes in " +
