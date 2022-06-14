@@ -186,6 +186,8 @@ export class AnalysisAssumptionsFormStore {
 export class ElectricalCostFormStore {
     rootStore: ApplicationStore;
 
+    isAdvanced = false;
+
     electricalCompanyName = "";
     netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
     annualConsumption: number | undefined = undefined;

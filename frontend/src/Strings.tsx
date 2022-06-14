@@ -41,6 +41,14 @@ export const ELECTRICAL_COMPANY_NAME_LABEL = "Electricity Utility Company (optio
 export const ELECTRICAL_COMPANY_NAME_TOOLTIP = "Electricity Provider Name";
 export const ELECTRICAL_COMPANY_NAME_INFO = "Electricity Provider Name. For informational purposes only.";
 
+export const ELECTRICITY_PRICE_STRUCTURE_LABEL = "Show Advanced Electricity Price Structure";
+export const ELECTRICITY_PRICE_STRUCTURE_INFO = "Average Electricity Price is calculated using the total electric " +
+    "bill ($) and dividing by total electricity consumption (kWh). Detailed Electricity Rate Schedule requires a " +
+    "breakdown of costs as defined in the homeowner's electricity rate schedule (available on their electricity " +
+    "providers website)."
+
+export const AVERAGE_ELECTRICITY_PRICE_LABEL = "Average Electricity Price";
+
 export const ANNUAL_CONSUMPTION_LABEL = "Annual Consumption";
 export const ANNUAL_CONSUMPTION_TOOLTIP = "Annual household electricity consumption (kWh)";
 export const ANNUAL_CONSUMPTION_INFO = "Annual consumption of the household. Use previous year’s bills or obtain " +
