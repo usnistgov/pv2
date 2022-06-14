@@ -77,6 +77,7 @@ export class ApplicationStore {
 
         autorun(() => this.calculateEscalationRates(this.addressFormStore.zipcode));
         autorun(() => this.getEnvironmentVariables(this.addressFormStore.zipcode));
+        autorun(() => this.getAverageElectricityPrice(this.addressFormStore.zipcode));
     }
 
     getEnvironmentVariables(zipcode: string) {
@@ -104,6 +105,23 @@ export class ApplicationStore {
             })
             .catch((reason: any) => {
                 console.log(reason);
+            });
+    }
+
+    getAverageElectricityPrice(zipcode: string) {
+        if (zipcode.length <= 0)
+            return;
+
+        fetch(`/api/average-electricity-price/zipcode/${zipcode}`)
+            .then(toJson)
+            .then((value) => value[0]?.average_electricity_price)
+            .then((value) => {
+                this.electricalCostFormStore.electricUnitPrice = value;
+                this.electricalCostFormStore.excessGenerationUnitPrice = value;
+            })
+            .catch((reason: any) => {
+                console.log(reason);
+                return undefined;
             });
     }
 }
@@ -171,10 +189,10 @@ export class ElectricalCostFormStore {
     electricalCompanyName = "";
     netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
     annualConsumption: number | undefined = undefined;
-    monthlyFlatRateCharge: number | undefined = undefined;
+    monthlyFlatRateCharge: number | undefined = 0;
     electricUnitPrice: number | undefined = undefined;
     excessGenerationUnitPrice: number | undefined = undefined;
-    pvGridConnectionRate: number | undefined = undefined;
+    pvGridConnectionRate: number | undefined = 0;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
@@ -192,10 +210,10 @@ export class ElectricalCostFormStore {
         this.electricalCompanyName = "";
         this.netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
         this.annualConsumption = undefined;
-        this.monthlyFlatRateCharge = undefined;
-        this.electricUnitPrice = undefined;
-        this.excessGenerationUnitPrice = undefined;
-        this.pvGridConnectionRate = undefined;
+        this.monthlyFlatRateCharge = 0;
+        this.pvGridConnectionRate = 0;
+
+        this.rootStore.getAverageElectricityPrice(this.rootStore.addressFormStore.zipcode);
 
         this.rootStore.escalationRateFormStore.reset()
     }

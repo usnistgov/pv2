@@ -41,6 +41,8 @@ app.get("/api/escalation-rates/:zipcode", createQuery("SELECT array_agg(rate ORD
     "         INNER JOIN region_escalation_rates rer on state_info.region = rer.region " +
     "WHERE zipcode = $1 " +
     "GROUP BY zipcode;"));
+ 
+app.get("/api/average-electricity-price/zipcode/:zipcode", createQuery("SELECT average_electricity_price FROM zip_state_mapping INNER JOIN state_info ON zip_state_mapping.state = state_info.full_name WHERE zipcode = $1;"))
 
 app.get('*', (request, response) => {
    response.set({"Content-Security_Policy": "default-src"})
