@@ -7,7 +7,8 @@ services:
     networks:
       - default
   postgres:
-    image: postgres:14.1
+    #image: postgres:14.1
+    build: ./backend/database/
     restart: always
     hostname: postgres
     ports:
