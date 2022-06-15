@@ -11,7 +11,7 @@ import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import {
     GENERAL_INFLATION_INFO,
     GENERAL_INFLATION_LABEL,
-    GENERAL_INFLATION_TOOLTIP, NOMINAL_DISCOUNT_RATE_LABEL, NOMINAL_DISCOUNT_RATE_TOOLTIP,
+    GENERAL_INFLATION_TOOLTIP, NOMINAL_DISCOUNT_RATE_INFO, NOMINAL_DISCOUNT_RATE_LABEL, NOMINAL_DISCOUNT_RATE_TOOLTIP,
     REAL_DISCOUNT_RATE_INFO,
     REAL_DISCOUNT_RATE_LABEL,
     REAL_DISCOUNT_RATE_TOOLTIP,
@@ -56,7 +56,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         InputProps={Adornment.YEAR}
                         type={"number"}/>
                 </Info>
-                <Info tooltip={NOMINAL_DISCOUNT_RATE_TOOLTIP}>
+                <Info tooltip={NOMINAL_DISCOUNT_RATE_TOOLTIP} info={NOMINAL_DISCOUNT_RATE_INFO}>
                     <ValidatedTextField
                         fullWidth
                         variant={"filled"}
@@ -65,7 +65,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         value={defaultIfUndefined(store.nominalDiscountRate, '')}
                         onValidate={action((value: number) => {
                             store.nominalDiscountRate = value;
-                            store.realDiscountRate = calculateRealDiscountRate(value, store.generalInflation ?? GENERAL_INFLATION);
+                            store.realDiscountRate = parseFloat((calculateRealDiscountRate(value / 100, (store.generalInflation ?? GENERAL_INFLATION) / 100) * 100).toFixed(2));
                         })}
                         onError={action(() => {
                             store.nominalDiscountRate = undefined;
@@ -82,7 +82,7 @@ const AnalysisAssumptionsForm = observer(() => {
                         schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
                         value={defaultIfUndefined(store.realDiscountRate, '')}
                         onValidate={action((value: number) => {
-                            store.nominalDiscountRate = calculateNominalDiscountRate(value, store.generalInflation ?? GENERAL_INFLATION);
+                            store.nominalDiscountRate = parseFloat((calculateNominalDiscountRate(value / 100, (store.generalInflation ?? GENERAL_INFLATION) / 100) * 100).toFixed(2));
                             store.realDiscountRate = value;
                         })}
                         onError={action(() => {

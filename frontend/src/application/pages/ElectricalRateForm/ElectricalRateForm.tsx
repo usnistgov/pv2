@@ -84,7 +84,13 @@ const ElectricalRateForm = observer(() => {
                         <FormControlLabel
                             control={
                                 <Switch checked={store.isAdvanced}
-                                          onChange={action((change: any) => store.isAdvanced = change.target.checked)}
+                                          onChange={action((change: any) => {
+                                              store.isAdvanced = change.target.checked;
+
+                                              if(!store.isAdvanced) {
+                                                  store.excessGenerationUnitPrice = store.electricUnitPrice;
+                                              }
+                                          })}
                                         color={"primary"}
                                 />
                             }

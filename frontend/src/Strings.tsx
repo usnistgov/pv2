@@ -25,6 +25,8 @@ export const STUDY_PERIOD_INFO = "Study period is the length of the time period 
 
 export const NOMINAL_DISCOUNT_RATE_LABEL = "Nominal Discount Rate";
 export const NOMINAL_DISCOUNT_RATE_TOOLTIP = "Nominal Discount Rate";
+export const NOMINAL_DISCOUNT_RATE_INFO = "Nominal Discount Rates reflect Time Value of Money including changes in " +
+    "the purchasing power of the dollar (i.e., general inflation)";
 
 export const REAL_DISCOUNT_RATE_LABEL = "Real Discount Rate";
 export const REAL_DISCOUNT_RATE_TOOLTIP = "Time value of money excluding inflation";
@@ -44,11 +46,11 @@ export const ELECTRICAL_COMPANY_NAME_LABEL = "Electricity Utility Company (optio
 export const ELECTRICAL_COMPANY_NAME_TOOLTIP = "Electricity Provider Name";
 export const ELECTRICAL_COMPANY_NAME_INFO = "Electricity Provider Name. For informational purposes only.";
 
-export const ELECTRICITY_PRICE_STRUCTURE_LABEL = "Show Advanced Electricity Price Structure";
+export const ELECTRICITY_PRICE_STRUCTURE_LABEL = "Use Advanced Electricity Price Structure";
 export const ELECTRICITY_PRICE_STRUCTURE_INFO = "Average Electricity Price is calculated using the total electric " +
     "bill ($) and dividing by total electricity consumption (kWh). Detailed Electricity Rate Schedule requires a " +
     "breakdown of costs as defined in the homeowner's electricity rate schedule (available on their electricity " +
-    "providers website)."
+    "providers website). Average Electricity Price is defaulted to state annual average electricity cost."
 
 export const AVERAGE_ELECTRICITY_PRICE_LABEL = "Average Electricity Price";
 
