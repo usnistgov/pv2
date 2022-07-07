@@ -20,7 +20,7 @@ export async function getGraphData(graphOption: GraphOption, index: number, resu
     switch (graphOption) {
         case GraphOption.NET_VALUE: {
             return {
-                id: "",
+                id: 1,
                 data: result.FlowSummary[index].totCostDisc.map((value: number, year: number) => {
                     store.graphMax = value;
 
@@ -32,7 +32,7 @@ export async function getGraphData(graphOption: GraphOption, index: number, resu
             let initial = result.FlowSummary[0];
 
             return {
-                id: "",
+                id: 1,
                 data: result.FlowSummary[index].totCostDisc.map((value: number, year: number) => {
                     let saving = initial.totCostDisc[year] - value;
 
@@ -47,7 +47,7 @@ export async function getGraphData(graphOption: GraphOption, index: number, resu
             let accumulator = 0;
 
             return {
-                id: "",
+                id: 1,
                 data: result.FlowSummary[index].totCostDisc.map((value: number, year: number) => {
                     let cumulativeSaving = accumulator + (initial.totCostDisc[year] - value);
                     accumulator = cumulativeSaving;
@@ -67,7 +67,7 @@ export async function getGraphData(graphOption: GraphOption, index: number, resu
                 return emptySerie;
 
             return {
-                id: "",
+                id: 1,
                 data: current.totTagQ.map((value: number, year: number) => {
                     store.graphMax = value;
 
@@ -88,7 +88,7 @@ export async function getGraphData(graphOption: GraphOption, index: number, resu
                 return emptySerie;
 
             return {
-                id: "",
+                id: 1,
                 data: current.totTagQ.map((value: number, year: number) => {
                     let cumulativeReduction = accumulator + ((initial?.totTagQ[year] ?? 0) - value);
                     accumulator = cumulativeReduction;

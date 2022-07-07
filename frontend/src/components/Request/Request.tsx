@@ -64,13 +64,13 @@ const Request = observer(() => {
                     headers: {
                         "Content-Type": "application/json",
                         "Accept": "application/json",
-                        "Authorization": `Api-Key ${process.env.REACT_APP_API_TOKEN}`
+                        "Authorization": `Api-Key ${import.meta.env.VITE_API_TOKEN}`
                     },
                     body: JSON.stringify(request)
                 }
 
                 // Fetch results from E3
-                fetch(process.env.REACT_APP_REQUEST_URL ?? "", fetchOptions)
+                fetch(import.meta.env.VITE_REQUEST_URL ?? "", fetchOptions)
                     .then((response) => {
                         if (response.ok)
                             return response;

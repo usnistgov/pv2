@@ -14,6 +14,7 @@ import {scrollTo} from "../../Utils";
 export default function LandingPage(): ReactElement {
     const store = useContext(Store);
     useEffect(() => store.reset());
+
     return (
         <>
             <div className={"landing-page-title"} id={"title"}>

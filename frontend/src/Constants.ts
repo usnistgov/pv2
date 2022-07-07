@@ -6,9 +6,9 @@ const Constants = {
 
     routes: {
         LANDING_PAGE: "/",
-        APPLICATION: "/application",
-        RESULTS: "/results",
-        FAQ: "/faq",
+        APPLICATION: "application",
+        RESULTS: "/application/results",
+        FAQ: "faq",
     },
 
     // Material UI theme definition

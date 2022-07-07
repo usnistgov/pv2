@@ -1,7 +1,7 @@
-import {PropsWithChildren, ReactElement} from "react";
+import {ReactElement} from "react";
 
 // Library Imports
-import {Link} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import {Container} from "@material-ui/core";
 
 // Stylesheets
@@ -11,7 +11,7 @@ import Constants from "../../Constants";
 /**
  * Component for displaying a header with link options.
  */
-export default function Header({children}: PropsWithChildren<{}>): ReactElement {
+export default function Header(): ReactElement {
     return (
         <Container maxWidth="lg">
             <div className="header-wrapper">
@@ -31,7 +31,7 @@ export default function Header({children}: PropsWithChildren<{}>): ReactElement 
                 </div>
                 <hr/>
             </div>
-            {children}
+            <Outlet/>
         </Container>
     );
 }

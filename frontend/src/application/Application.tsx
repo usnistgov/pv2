@@ -21,7 +21,7 @@ const Application = observer(() => {
     const [finished, setFinished] = useState(false);
 
     if (finished)
-        navigate(Constants.routes.RESULTS)
+        navigate(Constants.routes.RESULTS);
 
     return <StepperNav onFinish={() => setFinished(true)}>
         <StepperPage label={"Address"} isDone={() => store.addressFormStore.isDone}>

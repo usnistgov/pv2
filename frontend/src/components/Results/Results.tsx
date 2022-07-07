@@ -6,7 +6,7 @@ import {Skeleton} from "@material-ui/lab";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiArrowLeft} from "@mdi/js";
 import {observer} from "mobx-react-lite";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ResultCard from "../Card/ResultCard/ResultCard";
 import MaterialHeader from "../MaterialHeader/MaterialHeader";
 import {Store} from "../../application/ApplicationStore";
@@ -36,6 +36,7 @@ interface ResultsProps {
 const Results = observer(({result}: ResultsProps) => {
     const store = useContext(Store);
     const upfront = store.srecFormStore.srecPaymentsUpFront ?? SREC_UPFRONT;
+    const navigate = useNavigate();
 
     let srecUpfront = upfront / 1000 *
         (store.solarSystemFormStore.totalSystemSize ?? 0);
@@ -57,9 +58,7 @@ const Results = observer(({result}: ResultsProps) => {
                 text={"System Summary"}
                 left={
                     <div className={"result-back-button"}>
-                        <Button component={Link}
-                                to={Constants.routes.APPLICATION}
-                                startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>
+                        <Button onClick={() => navigate(-1)} startIcon={<MdiIcon path={mdiArrowLeft} size={1}/>}>
                             Back
                         </Button>
                     </div>

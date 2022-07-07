@@ -9,6 +9,7 @@ import {observer} from "mobx-react-lite";
 import {getGraphData} from "../../../GetGraphData";
 import {runInAction} from "mobx";
 import {compactCurrencyFormatter, compactNumberFormatter} from "../../../Format";
+import {Box, Paper} from "@material-ui/core";
 
 const GraphCard = observer(({altId, result}: any) => {
     const store = useContext(Store).resultUiStore;
@@ -29,6 +30,8 @@ const GraphCard = observer(({altId, result}: any) => {
                 return false;
         }
     }
+
+    console.log(graphData);
 
     return (
         <Card title={altLabels[altId]}>
@@ -59,6 +62,7 @@ const GraphCard = observer(({altId, result}: any) => {
                         legendOffset: 25,
                         legendPosition: 'middle',
                     }}
+                    sliceTooltip={({slice}) => <Paper className={"graph-tooltip"}>{slice.points[0].data.yFormatted}</Paper>}
                 />
             </div>
         </Card>
