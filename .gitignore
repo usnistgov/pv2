@@ -33,3 +33,4 @@ yarn-error.log*
 /src/config.json
 
 .env*
+/frontend/dist/
