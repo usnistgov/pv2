@@ -4,7 +4,6 @@ import {Children, ReactElement, useContext, useState} from 'react';
 import {Button, Grid, Step, StepButton, StepLabel, Stepper} from "@material-ui/core";
 import {Icon as MdiIcon} from "@mdi/react"
 import {mdiArrowLeft, mdiArrowRight, mdiCheck, mdiClose} from "@mdi/js";
-import {useHistory} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
 // User Imports
@@ -15,6 +14,7 @@ import "./StepperNav.sass"
 import {action} from "mobx";
 import {scrollTo} from "../../Utils";
 import Sticky from "../Sticky/Sticky";
+import {useNavigate} from "react-router-dom";
 
 export interface StepperNavProps {
     // List of StepperPage components that should be a part of the Stepper Nav.
@@ -33,7 +33,7 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
     const [isSticky, setIsSticky] = useState(false);
 
     // React-router history object
-    const history = useHistory();
+    const navigate = useNavigate();
 
     // Boolean values for view generation
     const isFirstStep: boolean = store.current <= 0;
@@ -73,7 +73,7 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
                       spacing={0}>
                     <Grid item xs={1}>
                         <Button
-                            onClick={isFirstStep ? history.goBack : () => {
+                            onClick={isFirstStep ? () => navigate(-1) : () => {
                                 store.previous();
                                 scrollToStickyNav();
                             }}
