@@ -8,6 +8,7 @@ const Constants = {
         LANDING_PAGE: "/",
         APPLICATION: "/application",
         RESULTS: "/results",
+        FAQ: "/faq",
     },
 
     // Material UI theme definition

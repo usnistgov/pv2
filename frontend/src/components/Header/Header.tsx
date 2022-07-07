@@ -25,6 +25,9 @@ export default function Header({children}: PropsWithChildren<{}>): ReactElement 
                     <a className={"menu-option"} href={"docs/PV2 Example.pdf"} target={"_blank"}>
                         Example Quote & Electric Bill
                     </a>
+                    <Link className={"menu-option"} to={Constants.routes.FAQ}>
+                        FAQ
+                    </Link>
                 </div>
                 <hr/>
             </div>
