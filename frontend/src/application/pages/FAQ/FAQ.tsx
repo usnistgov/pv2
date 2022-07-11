@@ -47,9 +47,9 @@ export default function FAQ() {
                 photovoltaic system?</h1>
             <p>
                 Yes, but you will need to find data for the system production and installation costs. A couple sources
-                for cost data by state include
-                <a href={"https://emp.lbl.gov/tracking-sun-tool"}> LBL’s Tracking the Sun</a> and
-                <a href={"https://www.energysage.com/data"}> EnergySage</a>.
+                for cost data by state include&nbsp;
+                <a href={"https://emp.lbl.gov/tracking-sun-tool"}>LBL’s Tracking the Sun</a>&nbsp;and&nbsp;
+                <a href={"https://www.energysage.com/data"}>EnergySage</a>.
             </p>
             <div className={"divider"}/>
             <h1>What is an SREC?</h1>
@@ -61,7 +61,7 @@ export default function FAQ() {
             <div className={"divider"}/>
             <h1>How do I find the value (if any) of SRECs in my state?</h1>
             <p>
-                One source for SREC market data is SRECTrade:
+                One source for SREC market data is SRECTrade:&nbsp;
                 <a href={"https://www.srectrade.com/markets/rps/srec/introduction"}>
                     https://www.srectrade.com/markets/rps/srec/introduction
                 </a>
