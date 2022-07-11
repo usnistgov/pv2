@@ -90,7 +90,7 @@ const Request = observer(() => {
     return (
         <>
             <ErrorDialog predicate={error !== null} error={error} errorDetails={errorDetails}/>
-            <LoadingIndicator predicate={result === null}/>
+            <LoadingIndicator predicate={(result === undefined || result === null)}/>
             <Results result={result}/>
         </>
     );
