@@ -5,7 +5,7 @@ import {Store} from "../../application/ApplicationStore";
 import {observer} from "mobx-react-lite";
 
 // User Imports
-import {promiseLog, toJson} from "../../Utils";
+import {toJson} from "../../Utils";
 import {createE3Request} from "./RequestGenerator/E3RequestGenerator";
 import Results from "../Results/Results";
 import ErrorDialog from "../ErrorDialog";
@@ -39,14 +39,8 @@ const Request = observer(() => {
     const [errorDetails, setErrorDetails] = useState<string | null>(null);
 
     function showError(e: FetchError) {
-        if (e.response) {
-            e.response.json()
-                .then((details) => {
-                    console.log(details);
-                    return details;
-                })
-                .then(setErrorDetails);
-        }
+        if (e.response)
+            e.response.json().then(setErrorDetails);
 
         setError(e);
     }
@@ -78,7 +72,6 @@ const Request = observer(() => {
                         throw new FetchError("E3 fetch failed", response);
                     })
                     .then(toJson)
-                    .then(promiseLog)
                     .then(setResult)
                     .catch(showError);
             });

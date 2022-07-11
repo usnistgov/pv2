@@ -257,7 +257,6 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
         bcnObjects: Array.from(bcnCache.values()).map(bcn => bcn.output())
     }
 
-    console.log(result);
     return result;
 }
 

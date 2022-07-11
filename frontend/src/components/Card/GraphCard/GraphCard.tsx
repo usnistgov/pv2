@@ -31,8 +31,6 @@ const GraphCard = observer(({altId, result}: any) => {
         }
     }
 
-    console.log(graphData);
-
     return (
         <Card title={altLabels[altId]}>
             <div className={"result-graph"}>

@@ -14,8 +14,6 @@ const PdfGraph = ({result}: PdfGraphProps) => {
     const store = useContext(Store).resultUiStore;
     const [data, setData] = useState<Serie[]>([]);
 
-    console.log(data);
-
     async function getData(): Promise<Serie[]> {
         let res: Serie[] = [];
 

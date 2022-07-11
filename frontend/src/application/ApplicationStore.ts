@@ -102,9 +102,6 @@ export class ApplicationStore {
             .then((result) => {
                 this.escalationRateFormStore.productionEscalationRateForYear = result;
                 this.escalationRateFormStore.escalationRateForYear = result;
-            })
-            .catch((reason: any) => {
-                console.log(reason);
             });
     }
 
@@ -118,10 +115,6 @@ export class ApplicationStore {
             .then((value) => {
                 this.electricalCostFormStore.electricUnitPrice = value;
                 this.electricalCostFormStore.excessGenerationUnitPrice = value;
-            })
-            .catch((reason: any) => {
-                console.log(reason);
-                return undefined;
             });
     }
 }
