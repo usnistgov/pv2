@@ -28,7 +28,7 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 // Stylesheets
 import "../Form.sass";
 import {calculateNominalDiscountRate, calculateRealDiscountRate, DecimalTest, defaultIfUndefined} from "../../../Utils";
-import {GENERAL_INFLATION} from "../../../Defaults";
+import {GENERAL_INFLATION, NOMINAL_DISCOUNT_RATE} from "../../../Defaults";
 
 const AnalysisAssumptionsForm = observer(() => {
     const store = useContext(Store).analysisAssumptionsFormStore;
@@ -99,7 +99,10 @@ const AnalysisAssumptionsForm = observer(() => {
                         label={GENERAL_INFLATION_LABEL}
                         schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
                         value={defaultIfUndefined(store.generalInflation, '')}
-                        onValidate={action((value: number) => store.generalInflation = value)}
+                        onValidate={action((value: number) => {
+                            store.generalInflation = value;
+                            store.realDiscountRate = parseFloat((calculateRealDiscountRate((store.nominalDiscountRate ?? NOMINAL_DISCOUNT_RATE) / 100, value / 100) * 100).toFixed(2));
+                        })}
                         onError={action(() => store.generalInflation = undefined)}
                         InputProps={Adornment.PERCENT}
                         type={"number"}/>
