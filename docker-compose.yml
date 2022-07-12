@@ -4,6 +4,11 @@ services:
     build: ./
     ports:
       - "3000:80"
+    environment:
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: OZr*ca^(H=r"*^;#SktbGSwX79K|ep)[g{ao4jHh
+      POSTGRES_DB: PV2
     networks:
       - default
   postgres:
@@ -15,7 +20,7 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: AuTWRecHIFBdg5LJ6WbbUmFVPs3zhCwh
+      POSTGRES_PASSWORD: OZr*ca^(H=r"*^;#SktbGSwX79K|ep)[g{ao4jHh
       POSTGRES_DB: PV2
     networks:
       - default
