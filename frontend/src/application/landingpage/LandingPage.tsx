@@ -41,7 +41,7 @@ export default function LandingPage(): ReactElement {
                         through the system’s service life. The goal of [PV]<sup>2</sup> is to assist homeowners in
                         making
                         economical decisions related to solar PV. The current version is focused on allowing a homeowner
-                        to evaluate the cost-effectiveness of a specific solar PV system from a proposed contact from a
+                        to evaluate the cost-effectiveness of a specific solar PV system from a proposed contract from a
                         solar installer. The homeowner will need information from the solar installer contract and their
                         electricity bill.
                     </div>
@@ -78,9 +78,9 @@ export default function LandingPage(): ReactElement {
                         <a href={"https://www.nist.gov/"}>
                             National Institute of Standards and Technology (NIST)
                         </a>
-                        . E3 provides ASTM standards-based economic evaluation across a range of analysis types,
-                        including
-                        life cycle cost analysis (LCCA) and benefit-cost analysis (BCA).
+                        . E3 provides American Society for Testing and Materials (ASTM) standards-based economic
+                        evaluation across a range of analysis types, including life cycle cost analysis (LCCA) and
+                        benefit-cost analysis (BCA).
                     </div>
                     <hr/>
                 </div>

@@ -150,6 +150,8 @@ export class AddressFormStore {
 export class AnalysisAssumptionsFormStore {
     rootStore: ApplicationStore;
 
+    isAdvanced = false;
+
     studyPeriod?: number = STUDY_PERIOD;
     nominalDiscountRate?: number = NOMINAL_DISCOUNT_RATE;
     realDiscountRate?: number = REAL_DISCOUNT_RATE;
@@ -171,6 +173,8 @@ export class AnalysisAssumptionsFormStore {
     }
 
     reset() {
+        this.isAdvanced = false;
+
         this.studyPeriod = STUDY_PERIOD;
         this.nominalDiscountRate = NOMINAL_DISCOUNT_RATE;
         this.realDiscountRate = REAL_DISCOUNT_RATE;
@@ -205,6 +209,8 @@ export class ElectricalCostFormStore {
     }
 
     reset() {
+        this.isAdvanced = false;
+
         this.electricalCompanyName = "";
         this.netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
         this.annualConsumption = undefined;

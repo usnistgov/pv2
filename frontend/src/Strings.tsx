@@ -17,11 +17,41 @@ export const STATE_LABEL = "State (optional)";
 export const ZIPCODE_TOOLTIP = "Your ZIP Code (Required)";
 export const ZIPCODE_LABEL = "ZIP Code";
 
-export const STUDY_PERIOD_LABEL = "Study Period";
+export const STUDY_PERIOD_EXPLANATION = <div>
+    <strong>Study Period (Analysis Timeframe)</strong><br/>The study period is
+    the timeframe over which you are completing the analysis. The recommended study period is the expected life of
+    solar photovoltaic system because it will account for all costs of owning and operating the system. The default
+    value is set to 25 years because that is a common warranty period for solar panels.
+</div>;
+export const STUDY_PERIOD_LABEL = "Study Period (Analysis Timeframe)";
 export const STUDY_PERIOD_TOOLTIP = "Study period is the analysis time frame";
 export const STUDY_PERIOD_INFO = "Study period is the length of the time period covered by the economic evaluation. " +
     "Can select a study period between 1 year and 40 years. Recommend a study period equal to the solar panel " +
     "warranty length.";
+
+export const DISCOUNT_RATES_EXPLANATION = <>
+    <p>
+        An important factor in evaluating the cost-effectiveness of a long-lived asset (10+ years), such as a solar
+        photovoltaic system, is the time value of money. Time value of money means that a dollar received or paid today
+        (present value) is worth more than a dollar received or paid in the future (future value).
+    </p>
+    <p>
+        To combine costs that occur at different times, all the costs must be discounted to its value in today's
+        (present) value. The discount rate that is used to calculate this present value can be thought of as the return
+        on investment or cost of borrowing that makes you indifferent to receiving or paying the present value now or
+        the future value later.
+    </p>
+    <p>
+        For example, if you are indifferent to receiving $0.90 now or $1.00 in 1 year, then
+        your discount rate is 10% because you are willing to receive 10% less now than wait 1 year.
+    </p>
+    <p>
+        A discount rate can either be in real or nominal terms. A nominal discount rate includes general inflation
+        while a real discount rate excludes general inflation. General inflation is the rate of increase in all prices
+        over time. These three values are necessary to complete the economic analysis. Additional explanation of these
+        three terms is provided for each input below as well as in the User Guide.
+    </p>
+</>;
 
 export const NOMINAL_DISCOUNT_RATE_LABEL = "Nominal Discount Rate";
 export const NOMINAL_DISCOUNT_RATE_TOOLTIP = "Nominal Discount Rate";
