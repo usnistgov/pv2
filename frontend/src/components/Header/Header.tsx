@@ -19,12 +19,12 @@ export default function Header(): ReactElement {
                     <Link className={"menu-option"} to={Constants.routes.LANDING_PAGE}>
                         Home
                     </Link>
-                    <a className={"menu-option"} href={"docs/user-guide.pdf"} target={"_blank"}>
+                    <Link className={"menu-option"} to={"/docs/user-guide.pdf"} target={"_blank"}>
                         User Guide
-                    </a>
-                    <a className={"menu-option"} href={"docs/PV2 Example.pdf"} target={"_blank"}>
+                    </Link>
+                    <Link className={"menu-option"} to={"/docs/PV2 Example.pdf"} target={"_blank"}>
                         Example Quote & Electric Bill
-                    </a>
+                    </Link>
                     <Link className={"menu-option"} to={Constants.routes.FAQ} target={"_blank"}>
                         FAQ
                     </Link>
