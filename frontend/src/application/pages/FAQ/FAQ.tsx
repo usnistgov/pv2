@@ -20,13 +20,14 @@ export default function FAQ() {
             <h1>What is my study period?</h1>
             <p>
                 The study period the timeframe over which the analysis is completed. A common study period is the
-                expected lifediv of the solar photovoltaic system and is defaulted to 25 years because it’s a common
-                warranty for solar panels.
+                expected lifetime of the solar photovoltaic system. This is defaulted to 25 years because it is a
+                common warranty for solar panels.
             </p>
             <div className={"divider"}/>
             <h1>Where does [PV]<sup>2</sup> get its electricity price data?</h1>
             <p>
-                The default electricity data is the most recent average annual electricity costs per the EIA.
+                The default electricity data is the most recent average annual electricity costs per the Energy
+                Information Administration (EIA).
             </p>
             <div className={"divider"}/>
             <h1>How do I find my electricity rate schedule?</h1>
@@ -82,7 +83,7 @@ export default function FAQ() {
                 annual savings, which makes it a more accurate measure of returns.
             </p>
             <div className={"divider"}/>
-            <h1>What source of GHG emissions are included in the estimate?</h1>
+            <h1>What source of Greenhouse Gas (GHG) emissions are included in the estimate?</h1>
             <p>
                 GHG emissions are included for both operational and embodied emissions. Operational emissions come from
                 electricity consumption from the electric grid. Electricity generation by a solar photovoltaic system
@@ -95,10 +96,10 @@ export default function FAQ() {
                 life (disposal or recycling).
             </p>
             <div className={"divider"}/>
-            <h1>What GHG emissions are included in the environmental impacts?</h1>
+            <h1>What Greenhouse Gas (GHG) emissions are included in the environmental impacts?</h1>
             <p>
                 The primary GHGs included in the emissions estimate are carbon dioxide (CO2), methane (CH4), and
-                nitrous oxide (N2O). Other emissions are included, such as X.
+                nitrous oxide (N2O). Other emissions are included, such as sulfur hexafluoride (SF6).
             </p>
             <div className={"divider"}/>
             <h1>What is the social cost of carbon?</h1>
