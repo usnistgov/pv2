@@ -25,7 +25,7 @@ export default function Header(): ReactElement {
                     <a className={"menu-option"} href={"docs/PV2 Example.pdf"} target={"_blank"}>
                         Example Quote & Electric Bill
                     </a>
-                    <Link className={"menu-option"} to={Constants.routes.FAQ}>
+                    <Link className={"menu-option"} to={Constants.routes.FAQ} target={"_blank"}>
                         FAQ
                     </Link>
                 </div>
