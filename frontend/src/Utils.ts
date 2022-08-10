@@ -52,6 +52,19 @@ export const DecimalTest = {
     }
 }
 
+export const HighElectricalCostTest = {
+    name: "Electrical Cost is too high",
+    message: "Price set unexpectedly high. Ensure your price is in $/kWh.",
+    test: (value: any) => {
+        // Must be defined
+        if (value === undefined || value === null)
+            return false;
+
+        // Must be less than or equal to 1.
+        return value <= 1;
+    },
+}
+
 /**
  * Checks a value is valid and if so returns that value, otherwise it returns the string "NA".
  *

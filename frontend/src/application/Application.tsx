@@ -30,7 +30,7 @@ const Application = observer(() => {
         <StepperPage label={"Analysis Assumptions"} isDone={() => store.analysisAssumptionsFormStore.isDone}>
             <AnalysisAssumptionsForm/>
         </StepperPage>
-        <StepperPage label={"Electrical Rate"} isDone={() => store.electricalCostFormStore.isDone}>
+        <StepperPage label={"Electrical Costs"} isDone={() => store.electricalCostFormStore.isDone}>
             <ElectricalRateForm/>
         </StepperPage>
         <StepperPage label={"Solar PV System"} isDone={() => store.solarSystemFormStore.isDone}>

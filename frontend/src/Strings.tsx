@@ -84,7 +84,7 @@ export const ELECTRICITY_PRICE_STRUCTURE_INFO = "Average Electricity Price is ca
 
 export const AVERAGE_ELECTRICITY_PRICE_LABEL = "Average Electricity Price";
 
-export const ANNUAL_CONSUMPTION_LABEL = "Annual Consumption";
+export const ANNUAL_CONSUMPTION_LABEL = "Annual Electricity Consumption";
 export const ANNUAL_CONSUMPTION_TOOLTIP = "Annual household electricity consumption (kWh)";
 export const ANNUAL_CONSUMPTION_INFO = "Annual consumption of the household. Use previous year’s bills or obtain " +
     "consumption data from the users online account at the electricity provider.";
