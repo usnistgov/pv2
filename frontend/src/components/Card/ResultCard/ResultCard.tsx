@@ -50,7 +50,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                             <div>Total Cost (NPV)</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={5} className={"right"}>
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(alt.totalCosts) ? currencyFormatter.format(parseFloat(alt.totalCosts)) : "NA"
@@ -68,7 +68,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                             <div>Net Savings</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={5} className={"right"}>
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(alt.netSavings) ? currencyFormatter.format(parseFloat(alt.netSavings)) : "NA"
@@ -86,7 +86,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                             <div>AIRR</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={5} className={"right"}>
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(alt.AIRR) && alt.AIRR !== undefined ?
@@ -105,7 +105,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                             <div>Simple Payback Period</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={5} className={"right"}>
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(alt.SPP) && alt.SPP !== undefined && alt.SPP !== 'Infinity' ?
@@ -124,7 +124,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                             <div>Electricity Reduction</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid className={"vertical-center"} item xs={5}>
+                    <Grid className={"vertical-center right"} item xs={5}>
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(alt.deltaQuant?.["Electricity"]) ?
@@ -143,7 +143,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                             <div>Carbon Footprint</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid className={"vertical-center"} item xs={5}>
+                    <Grid className={"vertical-center right"} item xs={5}>
                         <div className={"side-tooltip-container"}>
                             {valid(gwp) ? `${numberFormatter.format(gwp)} tons CO2e` : "NA"}
                             <div className={"side-tooltip"}>
@@ -159,7 +159,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                             <div>Social Cost of Carbon</div>
                         </FormTooltip>
                     </Grid>
-                    <Grid className={"vertical-center"} item xs={5}>
+                    <Grid className={"vertical-center right"} item xs={5}>
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(gwp) ? `${currencyFormatter.format(gwp * Constants.SOCIAL_COST_OF_CARBON)}` : "NA"
