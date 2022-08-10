@@ -22,8 +22,8 @@ export default function Explanation({title, information, expandable = false}: Ex
         }
         <h4>{title}</h4>
         </div>
-        <p style={{display: expanded ? "block" : "none"}}>
+        <div style={{display: !expandable || expanded ? "block" : "none"}}>
             {information}
-        </p>
+        </div>
     </div>
 }
