@@ -169,7 +169,7 @@ export const VIEW_ANNUAL_ESCALATION_RATES_OPTIONS = [
     "No"
 ];
 
-export const ESCALATION_RATES_SAME_OR_DIFF_LABEL = "Are escalation rates the same for consumption and production?";
+export const ESCALATION_RATES_SAME_OR_DIFF_LABEL = "Same escalation rates for consumption and production?";
 export const ESCALATION_RATES_SAME_OR_DIFF_OPTIONS = [
     "Same",
     "Different"
