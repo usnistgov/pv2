@@ -6,13 +6,12 @@ import {Skeleton} from "@material-ui/lab";
 import {Icon as MdiIcon} from "@mdi/react";
 import {mdiArrowLeft} from "@mdi/js";
 import {observer} from "mobx-react-lite";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import ResultCard from "../Card/ResultCard/ResultCard";
 import MaterialHeader from "../MaterialHeader/MaterialHeader";
 import {Store} from "../../application/ApplicationStore";
 import "./Results.sass";
 import Downloads from "../Download/Downloads";
-import Constants from "../../Constants";
 import InputReport from "../InputReport/InputReport";
 import Card from "../Card/Card";
 import GraphCard from "../Card/GraphCard/GraphCard";
@@ -22,7 +21,7 @@ import {SREC_UPFRONT} from "../../Defaults";
 import MeasureSummary from "../../typings/MeasureSummary";
 import OptionalSummary from "../../typings/OptionalSummary";
 import {Result} from "../../typings/Result";
-import {currencyFormatter} from "../../Format";
+import {currencyFormatter, numberFormatter, years} from "../../Format";
 
 interface ResultsProps {
     result?: Result;
@@ -30,7 +29,7 @@ interface ResultsProps {
 
 /**
  * This page requests calculations from the E3 API and displays the results. Results are shown in side-by-side
- * card form with some data and graphs. Finally the user can download a CSV file containing the E3 results. This
+ * card form with some data and graphs. Finally, the user can download a CSV file containing the E3 results. This
  * component takes not props since all necessary information for the E3 request is obtained from the redux store.
  */
 const Results = observer(({result}: ResultsProps) => {
@@ -73,13 +72,13 @@ const Results = observer(({result}: ResultsProps) => {
                                 {store.solarSystemFormStore.systemDescription}
                             </Grid>
                             <Grid item xs={7}>System Size</Grid>
-                            <Grid item xs={5}>{store.solarSystemFormStore.totalSystemSize} W</Grid>
+                            <Grid item xs={5} className={"right"}>{numberFormatter.format(store.solarSystemFormStore.totalSystemSize ?? 0)} W</Grid>
                             <Grid item xs={7}>System Efficiency</Grid>
-                            <Grid item xs={5}>{store.solarSystemFormStore.panelEfficiency ?? 0}%</Grid>
+                            <Grid item xs={5} className={"right"}>{store.solarSystemFormStore.panelEfficiency ?? 0} %</Grid>
                             <Grid item xs={7}>Panel Lifetime</Grid>
-                            <Grid item xs={5}>{store.solarSystemFormStore.panelLifetime}yr</Grid>
+                            <Grid item xs={5} className={"right"}>{years(store.solarSystemFormStore.panelLifetime)}</Grid>
                             <Grid item xs={7}>Inverter Lifetime</Grid>
-                            <Grid item xs={5}>{store.solarSystemFormStore.inverterLifetimeOrDefault}yr</Grid>
+                            <Grid item xs={5} className={"right"}>{years(store.solarSystemFormStore.inverterLifetimeOrDefault)}</Grid>
                         </Grid>
                     </Card>
                 </Grid>
@@ -88,11 +87,11 @@ const Results = observer(({result}: ResultsProps) => {
                         <div className={"initial-cost-card vertical-center"}>
                             <Grid className={"card-table"} container spacing={4}>
                                 <Grid item xs={7}>Total Installation Cost</Grid>
-                                <Grid item xs={5}>
+                                <Grid item xs={5} className={"right"}>
                                     {currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
                                 </Grid>
                                 <Grid item xs={7}>Amount Financed</Grid>
-                                <Grid item xs={5}>
+                                <Grid item xs={5} className={"right"}>
                                     {
                                         store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] ?
                                             `-${currencyFormatter.format(
@@ -103,17 +102,17 @@ const Results = observer(({result}: ResultsProps) => {
                                     }
                                 </Grid>
                                 <Grid item xs={7} className={"net-cost-line"}>Upfront Out-of-Pocket Cost</Grid>
-                                <Grid item xs={5} className={"net-cost-line"}>
+                                <Grid item xs={5} className={"net-cost-line right"}>
                                     {store.costsFormStore.loanOrCash === LOAN_OR_CASH_OPTIONS[0] ?
                                         currencyFormatter.format(store.costsFormStore.downPayment ?? 0) :
                                         currencyFormatter.format(store.costsFormStore.totalInstallationCosts ?? 0)}
                                 </Grid>
                                 <Grid item xs={7}>Federal Tax Credit</Grid>
-                                <Grid item xs={5}>
+                                <Grid item xs={5} className={"right"}>
                                     -{currencyFormatter.format(parseFloat(store.costsFormStore.federalTaxCredit ?? "0"))}
                                 </Grid>
                                 <Grid item xs={7}>Grants or Rebates</Grid>
-                                <Grid item xs={5}>
+                                <Grid item xs={5} className={"right"}>
                                     -{currencyFormatter.format(
                                     store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0
                                 )}
@@ -122,11 +121,11 @@ const Results = observer(({result}: ResultsProps) => {
                                     store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
                                     <>
                                         <Grid item xs={7}>SREC Upfront Payment</Grid>
-                                        <Grid item xs={5}>-{currencyFormatter.format(srecUpfront)}</Grid>
+                                        <Grid item xs={5} className={"right"}>-{currencyFormatter.format(srecUpfront)}</Grid>
                                     </>
                                 }
                                 <Grid item xs={7} className={"net-cost-line"}>Net Initial Cost</Grid>
-                                <Grid item xs={5} className={"net-cost-line"}>
+                                <Grid item xs={5} className={"net-cost-line right"}>
                                     {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
                                 </Grid>
                             </Grid>

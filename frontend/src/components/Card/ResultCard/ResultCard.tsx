@@ -24,7 +24,7 @@ import {
     RESULT_ELECTRICAL_REDUCTION_TOOLTIP, RESULT_NET_SAVINGS_TOOLTIP, RESULT_SCC_TOOLTIP,
     RESULT_SPP_TOOLTIP, RESULT_TOTAL_COST_TOOLTIP
 } from "../../../Strings";
-import {currencyFormatter, numberFormatter} from "../../../Format";
+import {currencyFormatter, numberFormatter, years} from "../../../Format";
 
 export interface ResultCardProps {
     // The alternative objects
@@ -90,7 +90,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(alt.AIRR) && alt.AIRR !== undefined ?
-                                    `${(parseFloat(alt.AIRR) * 100).toFixed(2)}%` : "NA"
+                                    `${(parseFloat(alt.AIRR) * 100).toFixed(2)} %` : "NA"
                             }
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_AIRR_TOOLTIP}>
@@ -109,7 +109,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(alt.SPP) && alt.SPP !== undefined && alt.SPP !== 'Infinity' ?
-                                    `${Math.round(parseFloat(alt.SPP))}yr` : "NA"
+                                    years(Math.round(parseFloat(alt.SPP))) : "NA"
                             }
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_SPP_TOOLTIP}>
