@@ -1,5 +1,3 @@
-import Card from "../Card";
-import {altLabels} from "../../Request/RequestGenerator/E3RequestGenerator";
 import {ResponsiveLine, Serie} from "@nivo/line";
 import React, {useContext, useEffect, useState} from "react";
 import "./GraphCard.sass";
@@ -9,18 +7,19 @@ import {observer} from "mobx-react-lite";
 import {getGraphData} from "../../../GetGraphData";
 import {runInAction} from "mobx";
 import {compactCurrencyFormatter, compactNumberFormatter} from "../../../Format";
-import {Box, Paper} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
+import {altLabels} from "../../Request/RequestGenerator/E3RequestGenerator";
 
-const GraphCard = observer(({altId, result}: any) => {
+const GraphCard = observer(({result, option}: any) => {
     const store = useContext(Store).resultUiStore;
-    const [graphData, setGraphData] = useState<Serie>({id: "", data: []});
+    const [graphData, setGraphData] = useState<Serie[]>([{id: "", data: []}]);
 
     useEffect(() => {
-        runInAction(() => getGraphData(store.graphOption, altId, result, store).then(setGraphData));
-    }, [store.graphOption, result]);
+        runInAction(() => getGraphData(option, result, store).then(setGraphData));
+    }, [option, result]);
 
     function useDollarSign() {
-        switch (store.graphOption) {
+        switch (option) {
             case GraphOption.SAVINGS:
             case GraphOption.CUMULATIVE:
             case GraphOption.NET_VALUE:
@@ -32,18 +31,29 @@ const GraphCard = observer(({altId, result}: any) => {
     }
 
     return (
-        <Card title={altLabels[altId]}>
+        <Paper className={"graph-card"}>
+            <div className={"graph-card-title"}>
+                <div>{option.toString()}</div>
+            </div>
             <div className={"result-graph"}>
                 <ResponsiveLine
                     animate
                     enableArea
-                    enableSlices={"x"}
                     useMesh={true}
-                    margin={{top: 5, right: 5, bottom: 35, left: 40}}
-                    data={[graphData]}
+                    margin={{top: 30, right: 5, bottom: 35, left: 40}}
+                    data={graphData}
                     xScale={{type: 'linear'}}
-                    yScale={{type: 'linear', min: -store.graphMax, max: store.graphMax, stacked: true}}
+                    yScale={{type: 'linear', min: "auto", max: "auto"}}
                     yFormat={useDollarSign() ? ">-$,.2f" : ">-,.2f"}
+                    legends={[{
+                        anchor: "top",
+                        direction: "row",
+                        itemWidth: 150,
+                        itemHeight: 24,
+                        translateY: -30,
+                        symbolShape: "circle",
+                        symbolSize: 12
+                    }]}
                     axisLeft={{
                         tickSize: 0,
                         tickPadding: 5,
@@ -60,10 +70,16 @@ const GraphCard = observer(({altId, result}: any) => {
                         legendOffset: 25,
                         legendPosition: 'middle',
                     }}
-                    sliceTooltip={({slice}) => <Paper className={"graph-tooltip"}>{slice.points[0].data.yFormatted}</Paper>}
+                    tooltip={({point}) => <Paper className={"graph-tooltip"}>
+                        <div className={"label"}>
+                            <div className={"dot"} style={{background: point.color}}></div>
+                            {point.serieId}
+                        </div>
+                        <div>{`Year ${point.data.xFormatted}: ${point.data.yFormatted}`}</div>
+                    </Paper>}
                 />
             </div>
-        </Card>
+        </Paper>
     )
 });
 

@@ -15,8 +15,7 @@ import Downloads from "../Download/Downloads";
 import InputReport from "../InputReport/InputReport";
 import Card from "../Card/Card";
 import GraphCard from "../Card/GraphCard/GraphCard";
-import {LOAN_OR_CASH_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../Strings";
-import GraphOptionSelect from "../GraphOptionSelect/GraphOptionSelect";
+import {GraphOption, LOAN_OR_CASH_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../Strings";
 import {SREC_UPFRONT} from "../../Defaults";
 import MeasureSummary from "../../typings/MeasureSummary";
 import OptionalSummary from "../../typings/OptionalSummary";
@@ -72,13 +71,17 @@ const Results = observer(({result}: ResultsProps) => {
                                 {store.solarSystemFormStore.systemDescription}
                             </Grid>
                             <Grid item xs={7}>System Size</Grid>
-                            <Grid item xs={5} className={"right"}>{numberFormatter.format(store.solarSystemFormStore.totalSystemSize ?? 0)} W</Grid>
+                            <Grid item xs={5}
+                                  className={"right"}>{numberFormatter.format(store.solarSystemFormStore.totalSystemSize ?? 0)} W</Grid>
                             <Grid item xs={7}>System Efficiency</Grid>
-                            <Grid item xs={5} className={"right"}>{store.solarSystemFormStore.panelEfficiency ?? 0} %</Grid>
+                            <Grid item xs={5}
+                                  className={"right"}>{store.solarSystemFormStore.panelEfficiency ?? 0} %</Grid>
                             <Grid item xs={7}>Panel Lifetime</Grid>
-                            <Grid item xs={5} className={"right"}>{years(store.solarSystemFormStore.panelLifetime)}</Grid>
+                            <Grid item xs={5}
+                                  className={"right"}>{years(store.solarSystemFormStore.panelLifetime)}</Grid>
                             <Grid item xs={7}>Inverter Lifetime</Grid>
-                            <Grid item xs={5} className={"right"}>{years(store.solarSystemFormStore.inverterLifetimeOrDefault)}</Grid>
+                            <Grid item xs={5}
+                                  className={"right"}>{years(store.solarSystemFormStore.inverterLifetimeOrDefault)}</Grid>
                         </Grid>
                     </Card>
                 </Grid>
@@ -121,7 +124,8 @@ const Results = observer(({result}: ResultsProps) => {
                                     store.srecFormStore.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
                                     <>
                                         <Grid item xs={7}>SREC Upfront Payment</Grid>
-                                        <Grid item xs={5} className={"right"}>-{currencyFormatter.format(srecUpfront)}</Grid>
+                                        <Grid item xs={5}
+                                              className={"right"}>-{currencyFormatter.format(srecUpfront)}</Grid>
                                     </>
                                 }
                                 <Grid item xs={7} className={"net-cost-line"}>Net Initial Cost</Grid>
@@ -146,15 +150,10 @@ const Results = observer(({result}: ResultsProps) => {
             </Grid>
 
             <MaterialHeader text={"Graphs"}/>
-            <GraphOptionSelect/>
-            <Grid container justifyContent={"center"} spacing={2}>
-                {componentOrSkeleton((result) => result.MeasureSummary.map((res: any, index: number) => {
-                    return <Grid item key={index}>
-                        <GraphCard
-                            altId={res.altID}
-                            result={result}/>
-                    </Grid>
-                }))}
+            <Grid container spacing={2} justifyContent={"center"}>
+                {Object.values(GraphOption).map(option => <Grid item xs={6} key={option}>
+                    <GraphCard result={result} option={option}/>
+                </Grid>)}
             </Grid>
 
             <MaterialHeader text={"All Inputs"} bottomMargin={false}/>

@@ -14,25 +14,9 @@ const PdfGraph = ({result}: PdfGraphProps) => {
     const store = useContext(Store).resultUiStore;
     const [data, setData] = useState<Serie[]>([]);
 
-    async function getData(): Promise<Serie[]> {
-        let res: Serie[] = [];
-
-        const purchaseSerie = await getGraphData(GraphOption.CUMULATIVE, 1, result, store);
-        purchaseSerie.id = "Purchase";
-        res = res.concat(purchaseSerie);
-
-        if(result.FlowSummary.length - 1 == 2){
-            const ppaSerie = await getGraphData(GraphOption.CUMULATIVE, 2, result, store);
-            ppaSerie.id = "PPA";
-            res = res.concat(ppaSerie);
-        }
-
-        return res;
-    }
-
     useEffect(() => {
-        getData().then(data => setData(data));
-    }, [])
+        getGraphData(GraphOption.CUMULATIVE, result, store).then(data => setData(data));
+    }, [result, store])
     //TODO: generate result data
 
     return (
@@ -66,12 +50,12 @@ const PdfGraph = ({result}: PdfGraphProps) => {
                 legends = {[
                     {
                         anchor: "bottom-right",
-                        direction: "row",
-                        translateX: 10,
+                        direction: "column",
+                        translateX: 20,
                         translateY: -4,
                         symbolShape: "circle",
-                        itemWidth: 80,
-                        itemHeight: 20,
+                        itemWidth: 150,
+                        itemHeight: 24,
                     }
                 ]}
             />
