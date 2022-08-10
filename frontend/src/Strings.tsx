@@ -72,7 +72,7 @@ export const NOMINAL_DISCOUNT_RATE_INFO = "Nominal Discount Rates reflect Time V
 export const REAL_DISCOUNT_RATE_EXPLANATION_LABEL = "What is the Real Discount Rate?";
 export const REAL_DISCOUNT_RATE_EXPLANATION = <p>
     The real discount rate is the discount rate excluding general rate of inflation. Unless the user directly provides
-    it, [PV]^2 calculates the real discount rate using the nominal discount rate and inflation rate.
+    it, [PV]<sup>2</sup> calculates the real discount rate using the nominal discount rate and inflation rate.
 </p>;
 export const REAL_DISCOUNT_RATE_LABEL = "Real Discount Rate";
 export const REAL_DISCOUNT_RATE_TOOLTIP = "Time value of money excluding inflation";

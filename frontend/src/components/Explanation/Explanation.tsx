@@ -1,5 +1,5 @@
 import {IconButton} from "@material-ui/core";
-import Icon from "@mdi/react";
+import {Icon} from "@mdi/react";
 import {mdiMinus, mdiPlus} from "@mdi/js";
 import {ReactNode, useState} from "react";
 import "./Explanation.sass";
