@@ -47,7 +47,7 @@ const EscalationRateForm = observer(() => {
         <CollapseContainer text={"Advanced"}>
             <AdvancedBox>
                 <div className={"form-advanced-header"}>
-                    Consumption Escalation Rates
+                    Electricity Price Escalation Rates (Consumption)
                 </div>
                 <Info tooltip={VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP} info={VIEW_ANNUAL_ESCALATION_RATES_INFO}>
                     <FormControl fullWidth variant={"filled"}>
@@ -74,7 +74,7 @@ const EscalationRateForm = observer(() => {
                         {createFields(store.escalationRateForYear)}
                     </div>
                     <div className={"form-advanced-header"}>
-                        Production Escalation Rates
+                        Electricity Price Escalation Rates (Production)
                     </div>
                     <FormControl fullWidth variant={"filled"}>
                         <InputLabel
