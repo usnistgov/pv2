@@ -241,8 +241,8 @@ export const TOTAL_INSTALLATION_COSTS_LABEL = "Total Installation Costs";
 export const TOTAL_INSTALLATION_COSTS_TOOLTIP = "Total (gross) costs of installing the system before financial " +
     "incentives";
 export const TOTAL_INSTALLATION_COSTS_INFO = "Total (gross) costs of installing the system before financial " +
-    "incentives, such as federal tax credits and state/local grants or rebates. User should exclude any costs for " +
-    "re-roofing.";
+    "incentives, such as federal tax credits and state/local grants or rebates. User should INCLUDE any up-front " +
+    "utility connection fee. User should EXCLUDE any costs for re-roofing.";
 
 export const FEDERAL_TAX_CREDIT_LABEL = "Federal Tax Credit - 26% of Total Installed Cost";
 export const FEDERAL_TAX_CREDIT_TOOLTIP = "Currently 26% of total installation costs";
@@ -274,22 +274,22 @@ export const PPA_OPTIONS = [
     "No"
 ];
 
-export const PPA_CONTRACT_LENGTH_LABEL = "PPA Contract Length";
+export const PPA_CONTRACT_LENGTH_LABEL = "PPA/Lease Contract Length";
 export const PPA_CONTRACT_LENGTH_TOOLTIP = "Length of PPA/Lease Contract";
 export const PPA_CONTRACT_LENGTH_INFO = "Length of PPA/Lease Contract. 40 years or less.";
 
-export const PPA_ELECTRICITY_RATE_LABEL = "PPA Electricity Rate";
+export const PPA_ELECTRICITY_RATE_LABEL = "PPA/Lease Electricity Rate";
 export const PPA_ELECTRICITY_RATE_TOOLTIP = "Price of electricity produced by solar PV system";
 export const PPA_ELECTRICITY_RATE_INFO = "Price of electricity produced by solar PV system. Typically this price is " +
     "less than price paid to electricity provider.";
 
-export const PPA_ESCALATION_RATE_LABEL = "PPA Escalation Rate (constant)";
+export const PPA_ESCALATION_RATE_LABEL = "PPA/Lease Escalation Rate (constant)";
 export const PPA_ESCALATION_RATE_TOOLTIP = "Rate at which the price of electricity from solar PV system increases " +
     "year-over-year";
 export const PPA_ESCALATION_RATE_INFO = "Rate at which the price of electricity from solar PV system increases " +
     "year-over-year.";
 
-export const PPA_PURCHASE_PRICE_LABEL = "PPA Purchase Price";
+export const PPA_PURCHASE_PRICE_LABEL = "PPA/Lease Purchase Price";
 export const PPA_PURCHASE_PRICE_TOOLTIP = "Cost to purchase system at the end of the contract";
 export const PPA_PURCHASE_PRICE_INFO = "Cost to purchase system at the end of the contract. If purchased, all " +
     "production from the PV system after the end of the contract is owned by the homeowner";
