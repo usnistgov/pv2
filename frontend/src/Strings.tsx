@@ -1,3 +1,5 @@
+import React from "react";
+
 export const CATEGORIES = [
     "Address",
     "Analysis Assumptions",
@@ -17,18 +19,19 @@ export const STATE_LABEL = "State (optional)";
 export const ZIPCODE_TOOLTIP = "Your ZIP Code (Required)";
 export const ZIPCODE_LABEL = "ZIP Code";
 
-export const STUDY_PERIOD_EXPLANATION = <div>
-    <strong>Study Period (Analysis Timeframe)</strong><br/>The study period is
-    the timeframe over which you are completing the analysis. The recommended study period is the expected life of
-    solar photovoltaic system because it will account for all costs of owning and operating the system. The default
-    value is set to 25 years because that is a common warranty period for solar panels.
-</div>;
+export const STUDY_PERIOD_EXPLANATION_TITLE = "Study Period (Analysis Timeframe)";
+export const STUDY_PERIOD_EXPLANATION = <p>
+    The study period is the timeframe over which you are completing the analysis. The recommended study period is the
+    expected life of solar photovoltaic system because it will account for all costs of owning and operating the system.
+    The default value is set to 25 years because that is a common warranty period for solar panels.
+</p>;
 export const STUDY_PERIOD_LABEL = "Study Period (Analysis Timeframe)";
 export const STUDY_PERIOD_TOOLTIP = "Study period is the analysis time frame";
 export const STUDY_PERIOD_INFO = "Study period is the length of the time period covered by the economic evaluation. " +
     "Can select a study period between 1 year and 40 years. Recommend a study period equal to the solar panel " +
     "warranty length.";
 
+export const DISCOUNT_RATES_EXPLANATION_TITLE = "Explanation of Time Value of Money and Discount Rates";
 export const DISCOUNT_RATES_EXPLANATION = <>
     <p>
         An important factor in evaluating the cost-effectiveness of a long-lived asset (10+ years), such as a solar
@@ -53,19 +56,39 @@ export const DISCOUNT_RATES_EXPLANATION = <>
     </p>
 </>;
 
+export const NOMINAL_DISCOUNT_RATE_EXPLANATION_TITLE = "What is the Nominal Discount Rate?";
+export const NOMINAL_DISCOUNT_RATE_EXPLANATION = <p>
+    A nominal discount rate is the discount rate including general inflation, and is likely to be easier for a user to
+    be aware. A common nominal discount rate value is either a homeowner's mortgage interest rate (3 % - 6 % on 30-year)
+    or the expected average return on investing in the stock market (average of 8 % to 12 %) or bond market (currently
+    3% on 30-year treasury). These are "nominal" because it is the rate earned or paid including general inflation of
+    overall prices.
+</p>;
 export const NOMINAL_DISCOUNT_RATE_LABEL = "Nominal Discount Rate";
 export const NOMINAL_DISCOUNT_RATE_TOOLTIP = "Nominal Discount Rate";
 export const NOMINAL_DISCOUNT_RATE_INFO = "Nominal Discount Rates reflect Time Value of Money including changes in " +
     "the purchasing power of the dollar (i.e., general inflation)";
 
+export const REAL_DISCOUNT_RATE_EXPLANATION_LABEL = "What is the Real Discount Rate?";
+export const REAL_DISCOUNT_RATE_EXPLANATION = <p>
+    The real discount rate is the discount rate excluding general rate of inflation. Unless the user directly provides
+    it, [PV]^2 calculates the real discount rate using the nominal discount rate and inflation rate.
+</p>;
 export const REAL_DISCOUNT_RATE_LABEL = "Real Discount Rate";
 export const REAL_DISCOUNT_RATE_TOOLTIP = "Time value of money excluding inflation";
 export const REAL_DISCOUNT_RATE_INFO = "Real Discount Rates reflect Time Value of Money excluding from changes in " +
     "the purchasing power of the dollar (i.e., general inflation)";
 
-export const GENERAL_INFLATION_LABEL = "General Inflation Rate";
-export const GENERAL_INFLATION_TOOLTIP = "General rate of price changes over time";
-export const GENERAL_INFLATION_INFO = "General inflation rate is the rate of rise in the general price level, or, " +
+export const INFLATION_RATE_EXPLANATION_LABEL = "What is the Inflation Rate?";
+export const INFLATION_RATE_EXPLANATION = <p>
+    Inflation rate is the long-run general rate of inflation in the economy. The Federal Reserve has a long-run general
+    inflation target of 2 %. Historically, inflation has been below this target with the exception of 2021 and 2022 with
+    much higher rates (7 % +). Expectations are that inflation will decrease in the future back towards, but slightly
+    higher than the 2 % target.
+</p>;
+export const INFLATION_RATE_LABEL = "General Inflation Rate";
+export const INFLATION_RATE_TOOLTIP = "General rate of price changes over time";
+export const INFLATION_RATE_INFO = "General inflation rate is the rate of rise in the general price level, or, " +
     "put another way, a decline in the general purchasing power of the dollar.";
 
 export const RESIDUAL_VALUE_APPROACH_OPTIONS = [

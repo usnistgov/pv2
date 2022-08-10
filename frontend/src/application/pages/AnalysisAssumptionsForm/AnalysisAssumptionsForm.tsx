@@ -1,21 +1,29 @@
-import React, {useContext, useState} from "react";
-
-// Library Imports
+import React, {useContext} from "react";
 import {Box, FormControl, FormControlLabel, Switch} from "@material-ui/core";
 import * as Yup from "yup";
 import {observer} from "mobx-react-lite";
 import {action} from "mobx";
-
-// User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import {
-    DISCOUNT_RATES_EXPLANATION, ELECTRICITY_PRICE_STRUCTURE_LABEL,
-    GENERAL_INFLATION_INFO,
-    GENERAL_INFLATION_LABEL,
-    GENERAL_INFLATION_TOOLTIP, NOMINAL_DISCOUNT_RATE_INFO, NOMINAL_DISCOUNT_RATE_LABEL, NOMINAL_DISCOUNT_RATE_TOOLTIP,
+    DISCOUNT_RATES_EXPLANATION,
+    DISCOUNT_RATES_EXPLANATION_TITLE,
+    INFLATION_RATE_EXPLANATION,
+    INFLATION_RATE_EXPLANATION_LABEL,
+    INFLATION_RATE_INFO,
+    INFLATION_RATE_LABEL,
+    INFLATION_RATE_TOOLTIP,
+    NOMINAL_DISCOUNT_RATE_EXPLANATION,
+    NOMINAL_DISCOUNT_RATE_EXPLANATION_TITLE,
+    NOMINAL_DISCOUNT_RATE_INFO,
+    NOMINAL_DISCOUNT_RATE_LABEL,
+    NOMINAL_DISCOUNT_RATE_TOOLTIP,
+    REAL_DISCOUNT_RATE_EXPLANATION,
+    REAL_DISCOUNT_RATE_EXPLANATION_LABEL,
     REAL_DISCOUNT_RATE_INFO,
     REAL_DISCOUNT_RATE_LABEL,
-    REAL_DISCOUNT_RATE_TOOLTIP, STUDY_PERIOD_EXPLANATION,
+    REAL_DISCOUNT_RATE_TOOLTIP,
+    STUDY_PERIOD_EXPLANATION,
+    STUDY_PERIOD_EXPLANATION_TITLE,
     STUDY_PERIOD_INFO,
     STUDY_PERIOD_LABEL,
     STUDY_PERIOD_TOOLTIP
@@ -25,8 +33,6 @@ import ValidatedTextField from "../../../components/ValidatedTextField";
 import Info from "../../../components/Info/Info";
 import Adornment from "../../../components/Adornments";
 import ResetButton from "../../../components/ResetButton/ResetButton";
-
-// Stylesheets
 import "../Form.sass";
 import {calculateNominalDiscountRate, calculateRealDiscountRate, DecimalTest, defaultIfUndefined} from "../../../Utils";
 import {GENERAL_INFLATION, NOMINAL_DISCOUNT_RATE} from "../../../Defaults";
@@ -34,21 +40,13 @@ import Explanation from "../../../components/Explanation/Explanation";
 
 const AnalysisAssumptionsForm = observer(() => {
     const store = useContext(Store).analysisAssumptionsFormStore;
-    const showDiscountRates = useState(false);
 
     return (
         <Box className={"form-page-container"}>
             <MaterialHeader text={"Analysis Assumptions"} right={<ResetButton onClick={() => store.reset()}/>}/>
             <Box className={"form-single-column-container"}>
                 <div>
-                    <Explanation title={"Study Period (Analysis Timeframe)"} information={<p>
-                        The study period is
-                        the timeframe over which you are completing the analysis. The recommended study period is the
-                        expected life of
-                        solar photovoltaic system because it will account for all costs of owning and operating the
-                        system. The default
-                        value is set to 25 years because that is a common warranty period for solar panels.
-                    </p>}/>
+                    <Explanation title={STUDY_PERIOD_EXPLANATION_TITLE} information={STUDY_PERIOD_EXPLANATION}/>
                     <Info tooltip={STUDY_PERIOD_TOOLTIP} info={STUDY_PERIOD_INFO}>
                         <ValidatedTextField
                             fullWidth
@@ -74,18 +72,12 @@ const AnalysisAssumptionsForm = observer(() => {
                 </FormControl>
                 {store.isAdvanced &&
                     <>
-                        <Explanation title={"Explanation of Time Value of Money and Discount Rates"}
+                        <Explanation title={DISCOUNT_RATES_EXPLANATION_TITLE}
                                      information={DISCOUNT_RATES_EXPLANATION}/>
                         <div style={{height: "16px"}}></div>
                         <div>
-                            <Explanation title={"What is the Nominal Discount Rate?"} information={
-                                <p>A nominal discount rate is the discount rate including general inflation, and is
-                                    likely to be easier for a user to be aware. A common nominal discount rate value is
-                                    either a homeowner's mortgage interest rate (3 % - 6 % on 30-year) or the expected
-                                    average return on investing in the stock market (average of 8 % to 12 %) or bond
-                                    market (currently 3% on 30-year treasury). These are "nominal" because it is the
-                                    rate earned or paid including general inflation of overall prices.</p>
-                            } expandable/>
+                            <Explanation title={NOMINAL_DISCOUNT_RATE_EXPLANATION_TITLE}
+                                         information={NOMINAL_DISCOUNT_RATE_EXPLANATION} expandable/>
                             <Info tooltip={NOMINAL_DISCOUNT_RATE_TOOLTIP} info={NOMINAL_DISCOUNT_RATE_INFO}>
                                 <ValidatedTextField
                                     fullWidth
@@ -107,21 +99,13 @@ const AnalysisAssumptionsForm = observer(() => {
                         </div>
                         <div style={{height: "16px"}}></div>
                         <div>
-                            <Explanation title={"What is the Inflation Rate?"} information={
-                                <p>Inflation rate is the long-run general rate of inflation in the economy. The Federal
-                                    Reserve has a long-run general inflation target of 2 %. Historically, inflation has
-                                    been
-                                    below this target with the exception of 2021 and 2022 with much higher rates (7 %
-                                    +).
-                                    Expectations are that inflation will decrease in the future back towards, but
-                                    slightly
-                                    higher than the 2 % target.</p>
-                            } expandable/>
-                            <Info tooltip={GENERAL_INFLATION_TOOLTIP} info={GENERAL_INFLATION_INFO}>
+                            <Explanation title={INFLATION_RATE_EXPLANATION_LABEL}
+                                         information={INFLATION_RATE_EXPLANATION} expandable/>
+                            <Info tooltip={INFLATION_RATE_TOOLTIP} info={INFLATION_RATE_INFO}>
                                 <ValidatedTextField
                                     fullWidth
                                     variant={"filled"}
-                                    label={GENERAL_INFLATION_LABEL}
+                                    label={INFLATION_RATE_LABEL}
                                     schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
                                     value={defaultIfUndefined(store.generalInflation, '')}
                                     onValidate={action((value: number) => {
@@ -135,12 +119,8 @@ const AnalysisAssumptionsForm = observer(() => {
                         </div>
                         <div style={{height: "16px"}}></div>
                         <div>
-                            <Explanation title={"What is the Real Discount Rate?"} information={
-                                <p>The real discount rate is the discount rate excluding general rate of inflation.
-                                    Unless
-                                    the user directly provides it, [PV]^2 calculates the real discount rate using the
-                                    nominal discount rate and inflation rate.</p>
-                            } expandable/>
+                            <Explanation title={REAL_DISCOUNT_RATE_EXPLANATION_LABEL}
+                                         information={REAL_DISCOUNT_RATE_EXPLANATION} expandable/>
                             <Info tooltip={REAL_DISCOUNT_RATE_TOOLTIP} info={REAL_DISCOUNT_RATE_INFO}>
                                 <ValidatedTextField
                                     fullWidth
