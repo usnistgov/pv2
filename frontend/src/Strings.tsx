@@ -318,12 +318,30 @@ export const MONTHLY_PAYMENT_LABEL = "Monthly Loan Payment";
 export const MONTHLY_PAYMENT_TOOLTIP = "Monthly payment on the loan";
 export const MONTHLY_PAYMENT_INFO = "Monthly payment on the loan.";
 
-export const SREC_PAYMENTS_LABEL = "SREC Payments";
+export const SREC_PAYMENTS_LABEL = "SREC Payment Type";
 export const SREC_PAYMENTS_TOOLTIP = "Solar Renewable Energy Credit";
-export const SREC_PAYMENTS_INFO = "A Solar Renewable Energy Credit (SREC) is a certificate that serves as proof that " +
-    "a unit of electricity was generated from solar energy. These credits are required in some states to meet " +
-    "renewable-based electricity requirements. Homeowners may have the option of receiving an upfront lump sum " +
-    "payment based on capacity (kW) or payments over time based on the solar PV system’s electricity production (MWh).";
+export const SREC_PAYMENTS_INFO = <div>
+    A Solar Renewable Energy Credit (SREC) is a certificate that serves as proof that a unit of electricity was
+    generated from solar energy. These credits are required in some states to meet renewable-based electricity
+    requirements. Homeowners may have the option of receiving an upfront lump sum payment based on capacity (kW) or
+    payments over time based on the solar PV system’s electricity production (MWh).<br/>States where SRECs may have value
+    (as of August 2022): <ul>
+    <li>Delaware</li>
+    <li>District of Columbia</li>
+    <li>Illinois</li>
+    <li>Indiana</li>
+    <li>Kentucky</li>
+    <li>Maryland</li>
+    <li>Massachusetts</li>
+    <li>Michigan</li>
+    <li>New Jersey</li>
+    <li>Ohio</li>
+    <li>Pennsylvania</li>
+    <li>Virginia</li>
+</ul>
+    Information on Solar Markets is available <a
+    href={"https://www.srectrade.com/markets/rps/srec/"}>here</a>.
+</div>;
 export const SREC_PAYMENTS_OPTIONS = [
     "None",
     "Up-front Payment",

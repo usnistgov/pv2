@@ -44,7 +44,9 @@ const SrecForm = observer(() => {
                 PV system. A homeowner may be able to receive an upfront payment based on the size of the system or
                 payments over time based on electricity production. All values should be available from the solar
                 contract proposal and vary significantly by location. See User Guide for detailed guidance on how to
-                populate the SREC information inputs.
+                populate the SREC information inputs. For additional information about potential SREC values in
+                your state, go to <a href={"https://www.srectrade.com/markets/rps/srec/"} target={"_blank"}>
+                SREC Trade</a>.
             </div>
 
             <Box className={"form-single-column-container"}>
