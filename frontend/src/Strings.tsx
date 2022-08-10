@@ -177,6 +177,9 @@ export const ESCALATION_RATES_SAME_OR_DIFF_OPTIONS = [
 
 export const SYSTEM_DESCRIPTION_LABEL = "System Description";
 export const SYSTEM_DESCRIPTION_TOOLTIP = "General description of solar PV system being analyzed.";
+export const SYSTEM_DESCRIPTION_INFO = "System Description is the phrase used to describe the system being analyzed, " +
+    "and will be provided at the beginning of the results report. This phrase will help to differentiate between " +
+    "reports created for different systems.";
 
 export const PANEL_EFFICIENCY_LABEL = "Rated Efficiency of Solar Panels";
 export const PANEL_EFFICIENCY_TOOLTIP = "Rated efficiency of the solar panels";

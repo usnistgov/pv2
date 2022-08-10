@@ -29,7 +29,11 @@ import {
     PANEL_EFFICIENCY_TOOLTIP,
     PANEL_LIFETIME_INFO,
     PANEL_LIFETIME_LABEL,
-    PANEL_LIFETIME_TOOLTIP, SYSTEM_DESCRIPTION_LABEL, SYSTEM_DESCRIPTION_TOOLTIP, TOTAL_SYSTEM_SIZE_INFO,
+    PANEL_LIFETIME_TOOLTIP,
+    SYSTEM_DESCRIPTION_INFO,
+    SYSTEM_DESCRIPTION_LABEL,
+    SYSTEM_DESCRIPTION_TOOLTIP,
+    TOTAL_SYSTEM_SIZE_INFO,
     TOTAL_SYSTEM_SIZE_LABEL,
     TOTAL_SYSTEM_SIZE_TOOLTIP
 } from "../../../Strings";
@@ -41,7 +45,7 @@ import {Store} from "../../ApplicationStore";
 import "../Form.sass";
 import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
-import {DecimalTest, defaultIfUndefined} from "../../../Utils";
+import {DecimalTest, defaultIfUndefined, MustBeHighWattage, PVEfficiencyRealistic} from "../../../Utils";
 
 /**
  * Form for details about the output of the PV system.
@@ -58,7 +62,7 @@ const SolarSystemForm = observer(() => {
                 rate). See User Guide for detailed guidance on how to populate the solar PV system information inputs.
             </div>
             <Box className={"form-single-column-container"}>
-                <Info tooltip={SYSTEM_DESCRIPTION_TOOLTIP}>
+                <Info tooltip={SYSTEM_DESCRIPTION_TOOLTIP} info={SYSTEM_DESCRIPTION_INFO}>
                     <ValidatedTextField fullWidth
                                         required
                                         multiline
@@ -75,9 +79,12 @@ const SolarSystemForm = observer(() => {
                                         variant={"filled"}
                                         label={PANEL_EFFICIENCY_LABEL}
                                         value={defaultIfUndefined(store.panelEfficiency, '')}
-                                        schema={Yup.number().max(100).min(0).test(DecimalTest)}
+                                        schema={Yup.number().test(PVEfficiencyRealistic).test(DecimalTest)}
                                         onValidate={action((value) => store.panelEfficiency = value)}
-                                        onError={action(() => store.panelEfficiency = undefined)}
+                                        onError={action((value) => {
+                                            if (value === undefined || value === null || value === "")
+                                                store.panelEfficiency = undefined
+                                        })}
                                         InputProps={Adornment.PERCENT}
                                         type={"number"}/>
                 </Info>
@@ -105,9 +112,12 @@ const SolarSystemForm = observer(() => {
                                         variant={"filled"}
                                         label={TOTAL_SYSTEM_SIZE_LABEL}
                                         value={defaultIfUndefined(store.totalSystemSize, '')}
-                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        schema={Yup.number().required().test(MustBeHighWattage).test(DecimalTest)}
                                         onValidate={action((value) => store.totalSystemSize = value)}
-                                        onError={action(() => store.totalSystemSize = undefined)}
+                                        onError={action((value) => {
+                                            if (value === undefined || value === null || value === "")
+                                                store.totalSystemSize = undefined
+                                        })}
                                         InputProps={endAdornment("Watts")}
                                         type={"number"}/>
                 </Info>

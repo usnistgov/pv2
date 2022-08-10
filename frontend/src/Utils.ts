@@ -15,7 +15,7 @@ export function fetchMap<A, B, C>(url: string, map: (input: A, json: C) => B): (
     return async (input: A) => data.then(json => map(input, json));
 }
 
-export const defaultIfUndefined = <A, B>(value: A, defaultValue: B): A | B  => {
+export const defaultIfUndefined = <A, B>(value: A, defaultValue: B): A | B => {
     return value === undefined ? defaultValue : value
 }
 
@@ -63,6 +63,32 @@ export const HighElectricalCostTest = {
         // Must be less than or equal to 1.
         return value <= 1;
     },
+}
+
+export const MustBeHighWattage = {
+    name: "System Size must be over 1000W",
+    message: "System unexpectedly small. Check if you inputted your system in kW instead of W.",
+    test: (value: any) => {
+        // Must be defined
+        if (value === undefined || value === null)
+            return false;
+
+        //Must be greater than or equal to 1000
+        return value >= 1000;
+    }
+}
+
+export const PVEfficiencyRealistic = {
+    name: "Solar cell efficiency must be realistic.",
+    message: "Efficiency is unrealistic. Check to see if you inputted efficiency in decimal form instead of percent.",
+    test: (value: any) => {
+        // Must be defined
+        if (value === undefined || value === null)
+            return false;
+
+        //Must be greater than 10% and less than 40%
+        return value >= 10 && value <=40
+    }
 }
 
 /**

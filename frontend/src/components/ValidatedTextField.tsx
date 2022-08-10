@@ -11,7 +11,7 @@ interface ValidatedTextFieldProps {
     schema: any;
 
     // Callback for when an error occurs during validation.
-    onError?: () => void;
+    onError?: (value: any) => void;
 }
 
 const ValidatedTextField = observer(({
@@ -33,7 +33,7 @@ const ValidatedTextField = observer(({
                 setErrorMessages(null);
             })
             .catch((schemaError: { errors: any; }) => {
-                onError?.();
+                onError?.(value);
                 setErrorMessages(schemaError.errors)
             });
     };
