@@ -242,7 +242,7 @@ export const INVERTER_LIFETIME_INFO = <div>
 export const DEGRADATION_RATE_LABEL = "System Efficiency Degradation Rate (Year-Over-Year %)";
 export const DEGRADATION_RATE_TOOLTIP = "Rate at which the solar production decreases year-over-year";
 export const DEGRADATION_RATE_INFO = "Degradation Rate is the rate at which the solar production decreases each year." +
-    " Default is 0.05%. Specific system degradation should be in the solar PV system warranty document.";
+    " Default is 0.5%. Specific system degradation should be in the solar PV system warranty document.";
 
 export const TOTAL_INSTALLATION_COSTS_LABEL = "Total Installation Costs";
 export const TOTAL_INSTALLATION_COSTS_TOOLTIP = "Total (gross) costs of installing the system before financial " +
