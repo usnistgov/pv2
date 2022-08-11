@@ -13,7 +13,7 @@ import {Store} from "../../ApplicationStore";
 import {
     ANNUAL_MAINTENANCE_COSTS_INFO,
     ANNUAL_MAINTENANCE_COSTS_LABEL,
-    ANNUAL_MAINTENANCE_COSTS_TOOLTIP,
+    ANNUAL_MAINTENANCE_COSTS_TOOLTIP, COST_FORM_ADVANCED_LABEL,
     FEDERAL_TAX_CREDIT_INFO,
     FEDERAL_TAX_CREDIT_LABEL,
     FEDERAL_TAX_CREDIT_TOOLTIP,
@@ -126,7 +126,7 @@ const CostsForm = observer(() => {
                                         InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
-                <CollapseContainer text="Advanced">
+                <CollapseContainer text={COST_FORM_ADVANCED_LABEL}>
                     <AdvancedBox>
                         <Info tooltip={INVERTER_REPLACEMENT_COSTS_TOOLTIP} info={INVERTER_REPLACEMENT_COSTS_INFO}>
                             <ValidatedTextField fullWidth

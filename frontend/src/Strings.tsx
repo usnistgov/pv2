@@ -157,6 +157,8 @@ export const PV_GRID_CONNECTION_RATE_TOOLTIP = "Annual charge for connecting a s
 export const PV_GRID_CONNECTION_RATE_INFO = "Annual charge for connection of solar PV system to the electric grid. " +
     "In most cases, no connection fee exists ($0).";
 
+export const ELECTRICAL_RATE_ADVANCED_LABEL = "Utility Escalation Rates (advanced)";
+
 export const VIEW_ANNUAL_ESCALATION_RATES_LABEL = "Do you want to view/edit annual escalation rates?";
 export const VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP = "Annual escalation rates for electricity prices";
 export const VIEW_ANNUAL_ESCALATION_RATES_INFO = <div>Annual escalation rates for electricity prices. The default values
@@ -165,7 +167,7 @@ export const VIEW_ANNUAL_ESCALATION_RATES_INFO = <div>Annual escalation rates fo
         Annual Supplement to NIST Handbook 135
     </a>
     .
-</div>
+</div>;
 export const VIEW_ANNUAL_ESCALATION_RATES_OPTIONS = [
     "Yes",
     "No"
@@ -215,6 +217,8 @@ export const ANNUAL_PRODUCTION_INFO = "Estimated annual production in the initia
     "annual production (kWh) is available from the solar contract proposal. Calculations account for decreasing " +
     "production due to efficiency degradation of the solar PV system";
 
+export const SOLAR_SYSTEM_ADVANCED_LABEL = "System Lifetime and Degradation (advanced)";
+
 export const PANEL_LIFETIME_LABEL = "Panel Lifetime";
 export const PANEL_LIFETIME_TOOLTIP = "Expected service life of solar panels";
 export const PANEL_LIFETIME_INFO = "Panel lifetime is the expected service life of the solar panels. Typically use " +
@@ -255,6 +259,8 @@ export const TAX_CRED_OR_REBATE_LABEL = "State/Local Tax Credits/Grants/Rebates"
 export const TAX_CRED_OR_REBATE_TOOLTIP = "Financial incentives from state and local programs";
 export const TAX_CRED_OR_REBATE_INFO = "State and local financial incentives include grant and rebate programs. Loan " +
     "programs will be addressed under \"Cash or Loan Option\" below.";
+
+export const COST_FORM_ADVANCED_LABEL = "Maintenance, Repair, and Replacement Costs (advanced)";
 
 export const INVERTER_REPLACEMENT_COSTS_LABEL = "Inverter Replacement Costs";
 export const INVERTER_REPLACEMENT_COSTS_TOOLTIP = "Costs of replacing only the inverter(s)";

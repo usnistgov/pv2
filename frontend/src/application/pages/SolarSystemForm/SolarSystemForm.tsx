@@ -29,7 +29,7 @@ import {
     PANEL_EFFICIENCY_TOOLTIP,
     PANEL_LIFETIME_INFO,
     PANEL_LIFETIME_LABEL,
-    PANEL_LIFETIME_TOOLTIP,
+    PANEL_LIFETIME_TOOLTIP, SOLAR_SYSTEM_ADVANCED_LABEL,
     SYSTEM_DESCRIPTION_INFO,
     SYSTEM_DESCRIPTION_LABEL,
     SYSTEM_DESCRIPTION_TOOLTIP,
@@ -133,7 +133,7 @@ const SolarSystemForm = observer(() => {
                                         InputProps={Adornment.KWH}
                                         type={"number"}/>
                 </Info>
-                <CollapseContainer text={"Advanced"}>
+                <CollapseContainer text={SOLAR_SYSTEM_ADVANCED_LABEL}>
                     <AdvancedBox>
                         <Info tooltip={PANEL_LIFETIME_TOOLTIP} info={PANEL_LIFETIME_INFO}>
                             <ValidatedTextField fullWidth

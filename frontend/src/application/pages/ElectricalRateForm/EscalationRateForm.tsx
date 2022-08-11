@@ -11,6 +11,7 @@ import CollapseContainer from "../../../components/CollapseContainer/CollapseCon
 import {Store} from "../../ApplicationStore";
 import ValidatedTextField from "../../../components/ValidatedTextField";
 import {
+    ELECTRICAL_RATE_ADVANCED_LABEL,
     ESCALATION_RATES_SAME_OR_DIFF_LABEL,
     ESCALATION_RATES_SAME_OR_DIFF_OPTIONS,
     VIEW_ANNUAL_ESCALATION_RATES_INFO,
@@ -44,7 +45,7 @@ const EscalationRateForm = observer(() => {
     }
 
     return (
-        <CollapseContainer text={"Advanced"}>
+        <CollapseContainer text={ELECTRICAL_RATE_ADVANCED_LABEL}>
             <AdvancedBox>
                 <div className={"form-advanced-header"}>
                     Electricity Price Escalation Rates (Consumption)
