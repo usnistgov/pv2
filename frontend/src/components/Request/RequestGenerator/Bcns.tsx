@@ -1,6 +1,7 @@
 import {ApplicationStore} from "../../../application/ApplicationStore";
 import {generateVarValue} from "../../../Utils";
 import {DEGRADATION_RATE, GENERAL_INFLATION, INVERTER_LIFETIME, STUDY_PERIOD} from "../../../Defaults";
+import {getAnnualConsumption} from "./E3RequestGenerator";
 
 export function gridConsumption(store: ApplicationStore): object {
     return {
@@ -18,7 +19,7 @@ export function gridConsumption(store: ApplicationStore): object {
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: store.analysisAssumptionsFormStore.studyPeriod,
         valuePerQ: store.electricalCostFormStore.electricUnitPrice,
-        quant: store.electricalCostFormStore.annualConsumption ?? 0,
+        quant: getAnnualConsumption(store),
         quantVarRate: null,
         quantVarValue: null,
         quantUnit: "kWh"
@@ -51,7 +52,7 @@ export function netGridConsumption(store: ApplicationStore): object {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
 
-    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
 
@@ -59,7 +60,7 @@ export function netGridConsumption(store: ApplicationStore): object {
 
     const netGridConsumptionRates = generateVarValue(
         netElectricity.map((value) => Math.max(0, value)),
-        store.electricalCostFormStore.annualConsumption ?? 0
+        getAnnualConsumption(store)
     );
 
     return {
@@ -77,7 +78,7 @@ export function netGridConsumption(store: ApplicationStore): object {
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: studyPeriod, // Study Period
         valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
-        quant: store.electricalCostFormStore.annualConsumption ?? 0,
+        quant: getAnnualConsumption(store),
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: netGridConsumptionRates,
         quantUnit: "kWh"
@@ -120,7 +121,7 @@ export function netPanelProduction(store: ApplicationStore): object {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
 
-    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
 
@@ -570,7 +571,7 @@ export function acidificationPotentialConsumption(store: ApplicationStore): obje
     const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
     const acidificationPotential = store.analysisAssumptionsFormStore.environmentalVariables?.acidificationPotential ?? 0;
 
-    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
 
@@ -579,7 +580,7 @@ export function acidificationPotentialConsumption(store: ApplicationStore): obje
 
     const netAcidificationRates = generateVarValue(
         netAcidification.map((value) => Math.max(0, value)),
-        store.electricalCostFormStore.annualConsumption ?? 0
+        getAnnualConsumption(store)
     );
 
     return {
@@ -597,7 +598,7 @@ export function acidificationPotentialConsumption(store: ApplicationStore): obje
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: studyPeriod, // Study Period
         valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
-        quant: store.electricalCostFormStore.annualConsumption ?? 0,
+        quant: getAnnualConsumption(store),
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: netAcidificationRates,
         quantUnit: "kg"
@@ -609,7 +610,7 @@ export function acidificationPotentialProduction(store: ApplicationStore): objec
     const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
     const acidificationPotential = store.analysisAssumptionsFormStore.environmentalVariables?.acidificationPotential ?? 0;
 
-    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
 
@@ -661,7 +662,7 @@ export function globalWarmingPotentialBaseline(store: ApplicationStore): object 
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: store.analysisAssumptionsFormStore.studyPeriod,
         valuePerQ: 1,
-        quant: (store.electricalCostFormStore.annualConsumption ?? 0) * (globalWarmingPotential / 1000),
+        quant: (getAnnualConsumption(store)) * (globalWarmingPotential / 1000),
         quantVarRate: null,
         quantVarValue: null,
         quantUnit: "kg"
@@ -673,7 +674,7 @@ export function globalWarmingPotentialConsumption(store: ApplicationStore): obje
     const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
     const globalWarmingPotential = store.analysisAssumptionsFormStore.environmentalVariables?.globalWarmingPotential ?? 0;
 
-    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
 
@@ -682,7 +683,7 @@ export function globalWarmingPotentialConsumption(store: ApplicationStore): obje
 
     const netGlobalWarmingPotentialRates = generateVarValue(
         netGlobalWarmingPotential.map((value) => Math.max(0, value)),
-        store.electricalCostFormStore.annualConsumption ?? 0
+        getAnnualConsumption(store)
     );
 
     return {
@@ -700,7 +701,7 @@ export function globalWarmingPotentialConsumption(store: ApplicationStore): obje
             null : store.escalationRateFormStore.escalationRateForYear,
         recurEndDate: studyPeriod, // Study Period
         valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
-        quant: store.electricalCostFormStore.annualConsumption ?? 0,
+        quant: getAnnualConsumption(store),
         quantVarRate: "Percent Delta Timestep X-1",
         quantVarValue: netGlobalWarmingPotentialRates,
         quantUnit: "kg"
@@ -712,7 +713,7 @@ export function globalWarmingPotentialProduction(store: ApplicationStore): objec
     const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
     const globalWarmingPotential = store.analysisAssumptionsFormStore.environmentalVariables?.globalWarmingPotential ?? 0;
 
-    const annualConsumption = Array(studyPeriod + 1).fill(store.electricalCostFormStore.annualConsumption ?? 0);
+    const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
     const annualProduction = Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
         .map((value, index) => value * (1.0 - index * (degradationRate / 100)));
 

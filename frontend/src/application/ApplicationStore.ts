@@ -2,7 +2,7 @@ import {autorun, makeAutoObservable, reaction} from "mobx";
 import React from "react";
 import {
     ESCALATION_RATES_SAME_OR_DIFF_OPTIONS, GraphOption,
-    INVERTER_TYPE_OPTIONS,
+    INVERTER_TYPE_OPTIONS, KNOW_ANNUAL_CONSUMPTION_OPTIONS,
     LOAN_OR_CASH_OPTIONS,
     NET_METERING_FEED_TARIFF_OPTIONS,
     PPA_OPTIONS,
@@ -205,6 +205,7 @@ export class ElectricalCostFormStore {
 
     electricalCompanyName = "";
     netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
+    knowAnnualConsumption: string = KNOW_ANNUAL_CONSUMPTION_OPTIONS[0];
     annualConsumption: number | undefined = undefined;
     monthlyFlatRateCharge: number | undefined = 0;
     electricUnitPrice: number | undefined = undefined;
@@ -217,7 +218,10 @@ export class ElectricalCostFormStore {
     }
 
     get isDone(): boolean {
-        return this.annualConsumption !== undefined &&
+        return (
+                this.annualConsumption !== undefined ||
+                this.knowAnnualConsumption === KNOW_ANNUAL_CONSUMPTION_OPTIONS[0]
+            ) &&
             this.monthlyFlatRateCharge !== undefined &&
             this.electricUnitPrice !== undefined &&
             this.excessGenerationUnitPrice !== undefined;
@@ -228,6 +232,7 @@ export class ElectricalCostFormStore {
 
         this.electricalCompanyName = "";
         this.netMeteringFeedTariff = NET_METERING_FEED_TARIFF_OPTIONS[0];
+        this.knowAnnualConsumption = KNOW_ANNUAL_CONSUMPTION_OPTIONS[0];
         this.annualConsumption = undefined;
         this.monthlyFlatRateCharge = 0;
         this.pvGridConnectionRate = 0;

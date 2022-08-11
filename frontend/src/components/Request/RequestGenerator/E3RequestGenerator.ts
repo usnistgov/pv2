@@ -28,7 +28,7 @@ import {
     upfrontSrec
 } from "./Bcns";
 import {
-    INVERTER_TYPE_OPTIONS,
+    INVERTER_TYPE_OPTIONS, KNOW_ANNUAL_CONSUMPTION_OPTIONS,
     LOAN_OR_CASH_OPTIONS,
     NET_METERING_FEED_TARIFF_OPTIONS,
     PPA_OPTIONS,
@@ -260,3 +260,9 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
     return result;
 }
 
+export function getAnnualConsumption(store: ApplicationStore) {
+    if(store.electricalCostFormStore.knowAnnualConsumption == KNOW_ANNUAL_CONSUMPTION_OPTIONS[0])
+        return store.solarSystemFormStore.estimatedAnnualProduction ?? 0;
+
+    return store.electricalCostFormStore.annualConsumption ?? 0;
+}

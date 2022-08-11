@@ -26,14 +26,14 @@ import {
     EXCESS_GENERATION_UNIT_PRICE_TOOLTIP,
     FLAT_RATE_CHARGE_INFO,
     FLAT_RATE_CHARGE_LABEL,
-    FLAT_RATE_CHARGE_TOOLTIP,
+    FLAT_RATE_CHARGE_TOOLTIP, KNOW_ANNUAL_CONSUMPTION_LABEL, KNOW_ANNUAL_CONSUMPTION_OPTIONS,
     NET_METERING_FEED_TARIFF_INFO,
     NET_METERING_FEED_TARIFF_LABEL,
     NET_METERING_FEED_TARIFF_OPTIONS,
     NET_METERING_FEED_TARIFF_TOOLTIP,
     PV_GRID_CONNECTION_RATE_INFO,
     PV_GRID_CONNECTION_RATE_LABEL,
-    PV_GRID_CONNECTION_RATE_TOOLTIP
+    PV_GRID_CONNECTION_RATE_TOOLTIP, VIEW_ANNUAL_ESCALATION_RATES_LABEL, VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
 } from "../../../Strings";
 import Adornment from "../../../components/Adornments";
 import EscalationRateForm from "./EscalationRateForm";
@@ -67,30 +67,49 @@ const ElectricalRateForm = observer(() => {
                                         schema={Yup.string()}
                                         onValidate={action((value) => store.electricalCompanyName = value)}/>
                 </Info>
-                <Info tooltip={ANNUAL_CONSUMPTION_TOOLTIP} info={ANNUAL_CONSUMPTION_INFO}>
-                    <ValidatedTextField fullWidth
-                                        required
-                                        variant={"filled"}
-                                        label={ANNUAL_CONSUMPTION_LABEL}
-                                        value={defaultIfUndefined(store.annualConsumption, '')}
-                                        schema={Yup.number().required().min(0).test(DecimalTest)}
-                                        onValidate={action((value) => store.annualConsumption = value)}
-                                        onError={action(() => store.annualConsumption = undefined)}
-                                        InputProps={Adornment.KWH}
-                                        type={"number"}/>
-                </Info>
+                <FormControl fullWidth variant={"filled"}>
+                    <InputLabel
+                        id={KNOW_ANNUAL_CONSUMPTION_LABEL}>{KNOW_ANNUAL_CONSUMPTION_LABEL}</InputLabel>
+                    <Select className={"form-select-left-align"}
+                            fullWidth
+                            labelId={KNOW_ANNUAL_CONSUMPTION_LABEL}
+                            value={store.knowAnnualConsumption}
+                            onChange={action((event) => {
+                                store.knowAnnualConsumption = event.target.value as string;
+                            })}>
+                        {
+                            KNOW_ANNUAL_CONSUMPTION_OPTIONS.map((option, index) =>
+                                <MenuItem value={option} key={index}>{option}</MenuItem>
+                            )
+                        }
+                    </Select>
+                </FormControl>
+                {store.knowAnnualConsumption === KNOW_ANNUAL_CONSUMPTION_OPTIONS[1] &&
+                    <Info tooltip={ANNUAL_CONSUMPTION_TOOLTIP} info={ANNUAL_CONSUMPTION_INFO}>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={ANNUAL_CONSUMPTION_LABEL}
+                                            value={defaultIfUndefined(store.annualConsumption, '')}
+                                            schema={Yup.number().required().min(0).test(DecimalTest)}
+                                            onValidate={action((value) => store.annualConsumption = value)}
+                                            onError={action(() => store.annualConsumption = undefined)}
+                                            InputProps={Adornment.KWH}
+                                            type={"number"}/>
+                    </Info>
+                }
                 <Info info={ELECTRICITY_PRICE_STRUCTURE_INFO}>
                     <FormControl>
                         <FormControlLabel
                             control={
                                 <Switch checked={store.isAdvanced}
-                                          onChange={action((change: any) => {
-                                              store.isAdvanced = change.target.checked;
+                                        onChange={action((change: any) => {
+                                            store.isAdvanced = change.target.checked;
 
-                                              if(!store.isAdvanced) {
-                                                  store.excessGenerationUnitPrice = store.electricUnitPrice;
-                                              }
-                                          })}
+                                            if (!store.isAdvanced) {
+                                                store.excessGenerationUnitPrice = store.electricUnitPrice;
+                                            }
+                                        })}
                                         color={"primary"}
                                 />
                             }
@@ -100,19 +119,19 @@ const ElectricalRateForm = observer(() => {
                 {
                     !store.isAdvanced &&
                     <>
-                            <ValidatedTextField fullWidth
-                                                required
-                                                variant={"filled"}
-                                                label={AVERAGE_ELECTRICITY_PRICE_LABEL}
-                                                value={defaultIfUndefined(store.electricUnitPrice, '')}
-                                                schema={Yup.number().required().min(0).test(HighElectricalCostTest).test(DecimalTest)}
-                                                onValidate={action((value) => {
-                                                    store.electricUnitPrice = value;
-                                                    store.excessGenerationUnitPrice = value;
-                                                })}
-                                                onError={action(() => store.electricUnitPrice = undefined)}
-                                                InputProps={Adornment.DOLLAR_PER_KWH}
-                                                type={"number"}/>
+                        <ValidatedTextField fullWidth
+                                            required
+                                            variant={"filled"}
+                                            label={AVERAGE_ELECTRICITY_PRICE_LABEL}
+                                            value={defaultIfUndefined(store.electricUnitPrice, '')}
+                                            schema={Yup.number().required().min(0).test(HighElectricalCostTest).test(DecimalTest)}
+                                            onValidate={action((value) => {
+                                                store.electricUnitPrice = value;
+                                                store.excessGenerationUnitPrice = value;
+                                            })}
+                                            onError={action(() => store.electricUnitPrice = undefined)}
+                                            InputProps={Adornment.DOLLAR_PER_KWH}
+                                            type={"number"}/>
                     </>
                 }
                 {

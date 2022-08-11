@@ -4,6 +4,7 @@ import {TabContext, TabList, TabPanel} from "@material-ui/lab";
 import "./InputReport.sass";
 import {CATEGORIES, LOAN_OR_CASH_OPTIONS, PPA_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../Strings";
 import {Store} from "../../application/ApplicationStore";
+import {getAnnualConsumption} from "../Request/RequestGenerator/E3RequestGenerator";
 
 export default function InputReport() {
     const [tabPosition, setTabPosition] = useState(CATEGORIES[0]);
@@ -75,6 +76,7 @@ function AnalysisAssumptionsReport() {
 
 function ElectricalRateReport() {
     const store = useContext(Store).electricalCostFormStore;
+    const rootStore = useContext(Store);
 
     return (
         <div className={"input-report-container"}>
@@ -84,7 +86,7 @@ function ElectricalRateReport() {
                 <Grid item xs={6}>Net Metering or Feed-in Tariff:</Grid>
                 <Grid item xs={6}>{store.netMeteringFeedTariff}</Grid>
                 <Grid item xs={6}>Annual Consumption:</Grid>
-                <Grid item xs={6}>{store.annualConsumption}</Grid>
+                <Grid item xs={6}>{getAnnualConsumption(rootStore)}</Grid>
                 <Grid item xs={6}>Monthly Connection Fee:</Grid>
                 <Grid item xs={6}>{store.monthlyFlatRateCharge}</Grid>
                 <Grid item xs={6}>Electric Unit Price:</Grid>

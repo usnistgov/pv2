@@ -2,6 +2,7 @@ import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
 import LabeledText from "../LabeledText";
 import {currencyFormatter} from "../../../../Format";
+import {getAnnualConsumption} from "../../../Request/RequestGenerator/E3RequestGenerator";
 
 const PdfElectricalRateInput = ({store}: PdfInputSectionProps) => {
     const electricity = store.electricalCostFormStore;
@@ -13,7 +14,7 @@ const PdfElectricalRateInput = ({store}: PdfInputSectionProps) => {
                 <LabeledText label={"Electrical Company Name"} content={electricity.electricalCompanyName}/>
             }
             <LabeledText label={"Metering Type"} content={electricity.netMeteringFeedTariff}/>
-            <LabeledText label={"Annual Consumption"} content={`${electricity.annualConsumption ?? 0} kWh`}/>
+            <LabeledText label={"Annual Consumption"} content={`${getAnnualConsumption(store)} kWh`}/>
             <LabeledText label={"Connection Fee"}
                          content={currencyFormatter.format(electricity.monthlyFlatRateCharge ?? 0)}/>
             <LabeledText label={"Electric Unit Price"}
