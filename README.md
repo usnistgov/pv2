@@ -8,16 +8,18 @@ Clone the repository:
     $ git clone https://github.com/usnistgov/pv2.git
     $ cd pv2
 
-## Run locally for development
+## Run locally for development (will not autofill some data)
 Build and run with yarn:
 
+    $ cd frontend/
     $ yarn install
-    $ yarn run start
+    $ yarn run dev
 
 Or build and run with npm:
 
+    $ cd frontend/
     $ npm install
-    $ npm run start
+    $ npm run dev
 
 ## Run production build on docker 
 Ensure docker and docker-compose are installed.
