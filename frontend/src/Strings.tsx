@@ -47,8 +47,8 @@ export const DISCOUNT_RATES_EXPLANATION = <>
         the future value later.
     </p>
     <p>
-        For example, if you are indifferent to receiving $0.90 now or $1.00 in 1 year, then
-        your discount rate is 10% because you are willing to receive 10% less now than wait 1 year.
+        For example, if you are indifferent to receiving $1.00 now or $1.10 in 1 year, then your discount rate is 10%
+        because you require an additional 10% to wait 1 year for the money.
     </p>
     <p>
         A discount rate can either be in real or nominal terms. A nominal discount rate includes general inflation
@@ -61,10 +61,10 @@ export const DISCOUNT_RATES_EXPLANATION = <>
 export const NOMINAL_DISCOUNT_RATE_EXPLANATION_TITLE = "What is the Nominal Discount Rate?";
 export const NOMINAL_DISCOUNT_RATE_EXPLANATION = <p>
     A nominal discount rate is the discount rate including general inflation, and is likely to be easier for a user to
-    be aware. A common nominal discount rate value is either a homeowner's mortgage interest rate (3 % - 6 % on 30-year)
-    or the expected average return on investing in the stock market (average of 8 % to 12 %) or bond market (currently
-    3% on 30-year treasury). These are "nominal" because it is the rate earned or paid including general inflation of
-    overall prices.
+    determine. A common nominal discount rate value is either a homeowner's mortgage interest rate
+    (3 % to 6 % on 30-year) or the expected average return on investing in the stock market (average of 8 % to 12 %)
+    or bond market (currently 3% on 30-year treasury). These are "nominal" because it is the rate earned or paid
+    including general inflation of overall prices.
 </p>;
 export const NOMINAL_DISCOUNT_RATE_LABEL = "Nominal Discount Rate";
 export const NOMINAL_DISCOUNT_RATE_TOOLTIP = "Nominal Discount Rate";
@@ -74,7 +74,8 @@ export const NOMINAL_DISCOUNT_RATE_INFO = "Nominal Discount Rates reflect Time V
 export const REAL_DISCOUNT_RATE_EXPLANATION_LABEL = "What is the Real Discount Rate?";
 export const REAL_DISCOUNT_RATE_EXPLANATION = <p>
     The real discount rate is the discount rate excluding general rate of inflation. Unless the user directly provides
-    it, [PV]<sup>2</sup> calculates the real discount rate using the nominal discount rate and inflation rate.
+    it, [PV]<sup>2</sup> calculates the real discount rate using the nominal discount rate and inflation rate. The
+    default value is based on the that used for federal energy efficiency projects
 </p>;
 export const REAL_DISCOUNT_RATE_LABEL = "Real Discount Rate";
 export const REAL_DISCOUNT_RATE_TOOLTIP = "Time value of money excluding inflation";
@@ -83,10 +84,10 @@ export const REAL_DISCOUNT_RATE_INFO = "Real Discount Rates reflect Time Value o
 
 export const INFLATION_RATE_EXPLANATION_LABEL = "What is the Inflation Rate?";
 export const INFLATION_RATE_EXPLANATION = <p>
-    Inflation rate is the long-run general rate of inflation in the economy. The Federal Reserve has a long-run general
-    inflation target of 2 %. Historically, inflation has been below this target with the exception of 2021 and 2022 with
-    much higher rates (7 % +). Expectations are that inflation will decrease in the future back towards, but slightly
-    higher than the 2 % target.
+    Inflation rate is the long-run general rate of inflation in overall prices in the economy. The Federal Reserve
+    has a long-run general inflation target of 2 %. Historically, inflation has been below this target with the
+    exception of 2021 and 2022 with much higher rates (7 % +). Expectations are that inflation will decrease in the
+    future back towards, but slightly higher than the 2 % target.
 </p>;
 export const INFLATION_RATE_LABEL = "General Inflation Rate";
 export const INFLATION_RATE_TOOLTIP = "General rate of price changes over time";
@@ -109,6 +110,9 @@ export const ELECTRICITY_PRICE_STRUCTURE_INFO = "Average Electricity Price is ca
 
 export const AVERAGE_ELECTRICITY_PRICE_LABEL = "Average Electricity Price";
 
+export const KNOW_ANNUAL_CONSUMPTION_INFO = "If you cannot provide your annual electricity consumption, the tool " +
+    "assumes this value equals the solar PV system's initial estimated annual generation. It's common for solar " +
+    "installers to size the system to offset consumption.";
 export const KNOW_ANNUAL_CONSUMPTION_LABEL = "Do you know your annual electricity consumption?";
 export const KNOW_ANNUAL_CONSUMPTION_OPTIONS = [
     "No",
@@ -168,8 +172,9 @@ export const ELECTRICAL_RATE_ADVANCED_LABEL = "Utility Escalation Rates (advance
 
 export const VIEW_ANNUAL_ESCALATION_RATES_LABEL = "Do you want to view/edit annual escalation rates?";
 export const VIEW_ANNUAL_ESCALATION_RATES_TOOLTIP = "Annual escalation rates for electricity prices";
-export const VIEW_ANNUAL_ESCALATION_RATES_INFO = <div>Annual escalation rates for electricity prices. The default values
-    are based on EIA projections for each Census Region and published in the&nbsp;
+export const VIEW_ANNUAL_ESCALATION_RATES_INFO = <div>
+    Annual escalation rates for electricity prices. These escalation rates are in real term (exclude inflation). The
+    default values are based on EIA projections for each Census Region and published in the&nbsp;
     <a href={"https://nvlpubs.nist.gov/nistpubs/ir/2021/NIST.IR.85-3273-36.pdf"}>
         Annual Supplement to NIST Handbook 135
     </a>

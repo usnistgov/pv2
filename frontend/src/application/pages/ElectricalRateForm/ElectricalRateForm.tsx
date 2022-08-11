@@ -14,26 +14,34 @@ import ValidatedTextField from "../../../components/ValidatedTextField";
 import {
     ANNUAL_CONSUMPTION_INFO,
     ANNUAL_CONSUMPTION_LABEL,
-    ANNUAL_CONSUMPTION_TOOLTIP, AVERAGE_ELECTRICITY_PRICE_LABEL,
+    ANNUAL_CONSUMPTION_TOOLTIP,
+    AVERAGE_ELECTRICITY_PRICE_LABEL,
     ELECTRICAL_COMPANY_NAME_INFO,
     ELECTRICAL_COMPANY_NAME_LABEL,
     ELECTRICAL_COMPANY_NAME_TOOLTIP,
     ELECTRICAL_UNIT_PRICE_INFO,
     ELECTRICAL_UNIT_PRICE_LABEL,
-    ELECTRICAL_UNIT_PRICE_TOOLTIP, ELECTRICITY_PRICE_STRUCTURE_INFO, ELECTRICITY_PRICE_STRUCTURE_LABEL,
+    ELECTRICAL_UNIT_PRICE_TOOLTIP,
+    ELECTRICITY_PRICE_STRUCTURE_INFO,
+    ELECTRICITY_PRICE_STRUCTURE_LABEL,
     EXCESS_GENERATION_UNIT_PRICE_INFO,
     EXCESS_GENERATION_UNIT_PRICE_LABEL,
     EXCESS_GENERATION_UNIT_PRICE_TOOLTIP,
     FLAT_RATE_CHARGE_INFO,
     FLAT_RATE_CHARGE_LABEL,
-    FLAT_RATE_CHARGE_TOOLTIP, KNOW_ANNUAL_CONSUMPTION_LABEL, KNOW_ANNUAL_CONSUMPTION_OPTIONS,
+    FLAT_RATE_CHARGE_TOOLTIP,
+    KNOW_ANNUAL_CONSUMPTION_INFO,
+    KNOW_ANNUAL_CONSUMPTION_LABEL,
+    KNOW_ANNUAL_CONSUMPTION_OPTIONS,
     NET_METERING_FEED_TARIFF_INFO,
     NET_METERING_FEED_TARIFF_LABEL,
     NET_METERING_FEED_TARIFF_OPTIONS,
     NET_METERING_FEED_TARIFF_TOOLTIP,
     PV_GRID_CONNECTION_RATE_INFO,
     PV_GRID_CONNECTION_RATE_LABEL,
-    PV_GRID_CONNECTION_RATE_TOOLTIP, VIEW_ANNUAL_ESCALATION_RATES_LABEL, VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
+    PV_GRID_CONNECTION_RATE_TOOLTIP,
+    VIEW_ANNUAL_ESCALATION_RATES_LABEL,
+    VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
 } from "../../../Strings";
 import Adornment from "../../../components/Adornments";
 import EscalationRateForm from "./EscalationRateForm";
@@ -67,23 +75,25 @@ const ElectricalRateForm = observer(() => {
                                         schema={Yup.string()}
                                         onValidate={action((value) => store.electricalCompanyName = value)}/>
                 </Info>
-                <FormControl fullWidth variant={"filled"}>
-                    <InputLabel
-                        id={KNOW_ANNUAL_CONSUMPTION_LABEL}>{KNOW_ANNUAL_CONSUMPTION_LABEL}</InputLabel>
-                    <Select className={"form-select-left-align"}
-                            fullWidth
-                            labelId={KNOW_ANNUAL_CONSUMPTION_LABEL}
-                            value={store.knowAnnualConsumption}
-                            onChange={action((event) => {
-                                store.knowAnnualConsumption = event.target.value as string;
-                            })}>
-                        {
-                            KNOW_ANNUAL_CONSUMPTION_OPTIONS.map((option, index) =>
-                                <MenuItem value={option} key={index}>{option}</MenuItem>
-                            )
-                        }
-                    </Select>
-                </FormControl>
+                <Info info={KNOW_ANNUAL_CONSUMPTION_INFO}>
+                    <FormControl fullWidth variant={"filled"}>
+                        <InputLabel
+                            id={KNOW_ANNUAL_CONSUMPTION_LABEL}>{KNOW_ANNUAL_CONSUMPTION_LABEL}</InputLabel>
+                        <Select className={"form-select-left-align"}
+                                fullWidth
+                                labelId={KNOW_ANNUAL_CONSUMPTION_LABEL}
+                                value={store.knowAnnualConsumption}
+                                onChange={action((event) => {
+                                    store.knowAnnualConsumption = event.target.value as string;
+                                })}>
+                            {
+                                KNOW_ANNUAL_CONSUMPTION_OPTIONS.map((option, index) =>
+                                    <MenuItem value={option} key={index}>{option}</MenuItem>
+                                )
+                            }
+                        </Select>
+                    </FormControl>
+                </Info>
                 {store.knowAnnualConsumption === KNOW_ANNUAL_CONSUMPTION_OPTIONS[1] &&
                     <Info tooltip={ANNUAL_CONSUMPTION_TOOLTIP} info={ANNUAL_CONSUMPTION_INFO}>
                         <ValidatedTextField fullWidth
@@ -98,24 +108,29 @@ const ElectricalRateForm = observer(() => {
                                             type={"number"}/>
                     </Info>
                 }
-                <Info info={ELECTRICITY_PRICE_STRUCTURE_INFO}>
-                    <FormControl>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={store.isAdvanced}
-                                        onChange={action((change: any) => {
-                                            store.isAdvanced = change.target.checked;
+                <div>
+                    <p>
+                        <strong>Do you want to use a simple (average) or advanced electricity price structure?</strong>
+                    </p>
+                    <Info info={ELECTRICITY_PRICE_STRUCTURE_INFO}>
+                        <FormControl>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={store.isAdvanced}
+                                            onChange={action((change: any) => {
+                                                store.isAdvanced = change.target.checked;
 
-                                            if (!store.isAdvanced) {
-                                                store.excessGenerationUnitPrice = store.electricUnitPrice;
-                                            }
-                                        })}
-                                        color={"primary"}
-                                />
-                            }
-                            label={ELECTRICITY_PRICE_STRUCTURE_LABEL}/>
-                    </FormControl>
-                </Info>
+                                                if (!store.isAdvanced) {
+                                                    store.excessGenerationUnitPrice = store.electricUnitPrice;
+                                                }
+                                            })}
+                                            color={"primary"}
+                                    />
+                                }
+                                label={ELECTRICITY_PRICE_STRUCTURE_LABEL}/>
+                        </FormControl>
+                    </Info>
+                </div>
                 {
                     !store.isAdvanced &&
                     <>
