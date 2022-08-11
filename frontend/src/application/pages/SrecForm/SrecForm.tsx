@@ -27,19 +27,47 @@ import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
 import {DecimalTest, defaultIfUndefined} from "../../../Utils";
 import {STUDY_PERIOD} from "../../../Defaults";
+import Constants from "../../../Constants";
 
 /**
  * Form for SREC details.
  */
 const SrecForm = observer(() => {
     const store = useContext(Store).srecFormStore;
+    const addressStore = useContext(Store).addressFormStore;
 
     const studyPeriod = useContext(Store).analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
+
+    function getSRECStateText(state: string) {
+        if(Constants.SREC_STATES.includes(state)) {
+            return <p>
+                Your state {state} has an SREC market. See&nbsp;
+                <a href={"https://www.srectrade.com/markets/rps/srec/"}>
+                    SREC Trade
+                </a>
+                &nbsp;for recent SREC prices.
+            </p>
+        }
+
+        if(Constants.ADJACENT_SREC_STATES.includes(state)) {
+            return <p>
+                Your state {state} does not have an SREC market, but you might be able to sell your SRECs in a
+                surrounding state. See&nbsp;
+                <a href={"https://www.srectrade.com/markets/rps/srec/"}>
+                    SREC Trade
+                </a>
+                &nbsp;for information on which state market(s) you can register in and their recent SREC prices.
+            </p>
+        }
+
+        return <p>Your state {state} does not have an SREC market. Leave SREC Payment Type as 'None'.</p>;
+    }
 
     return (
         <Box className={"form-page-container"}>
             <MaterialHeader text={"SREC Payments"} right={<ResetButton onClick={() => store.reset()}/>}/>
             <div className={"form-page-text"}>
+                <p>
                 Provide information on the value of the Solar Renewable Energy Credits (SREC) generated from the solar
                 PV system. A homeowner may be able to receive an upfront payment based on the size of the system or
                 payments over time based on electricity production. All values should be available from the solar
@@ -47,8 +75,9 @@ const SrecForm = observer(() => {
                 populate the SREC information inputs. For additional information about potential SREC values in
                 your state, go to <a href={"https://www.srectrade.com/markets/rps/srec/"} target={"_blank"}>
                 SREC Trade</a>.
+                </p>
+                {getSRECStateText(addressStore.normalizedState)}
             </div>
-
             <Box className={"form-single-column-container"}>
                 <Info tooltip={SREC_PAYMENTS_TOOLTIP} info={SREC_PAYMENTS_INFO}>
                     <FormControl fullWidth variant={"filled"}>

@@ -33,6 +33,8 @@ function createQuery(query) {
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
+app.get("/api/state/:zipcode", createQuery("SELECT state FROM zip_state_mapping WHERE zipcode = $1"));
+
 app.get("/api/environment/:zipcode", createQuery("SELECT * FROM environment WHERE zipcode = $1"));
 
 app.get("/api/escalation-rates/:zipcode", createQuery("SELECT array_agg(rate ORDER BY year) rates " +

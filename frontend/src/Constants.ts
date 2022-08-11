@@ -27,7 +27,10 @@ const Constants = {
                 contrastText: '#ffffff',
             },
         }
-    })
+    }),
+
+    SREC_STATES: ["Illinois", "Ohio", "Virginia", "District of Columbia", "Maryland", "Delaware", "Pennsylvania", "New Jersey", "Massachusetts"],
+    ADJACENT_SREC_STATES: ["Indiana", "Kentucky", "West Virginia", "Michigan", "Rhode Island", "Connecticut", "New Hampshire", "Vermont", "Maine"],
 }
 
 export default Constants;

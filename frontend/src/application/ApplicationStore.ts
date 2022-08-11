@@ -78,6 +78,7 @@ export class ApplicationStore {
         autorun(() => this.calculateEscalationRates(this.addressFormStore.zipcode));
         autorun(() => this.getEnvironmentVariables(this.addressFormStore.zipcode));
         autorun(() => this.getAverageElectricityPrice(this.addressFormStore.zipcode));
+        autorun(() => this.getNormalizedState(this.addressFormStore.zipcode));
     }
 
     getEnvironmentVariables(zipcode: string) {
@@ -117,6 +118,18 @@ export class ApplicationStore {
                 this.electricalCostFormStore.excessGenerationUnitPrice = value;
             });
     }
+
+    getNormalizedState(zipcode: string) {
+        if (zipcode.length <= 0)
+            return;
+
+        fetch(`/api/state/${zipcode}`)
+            .then(toJson)
+            .then((value) => value[0]?.state)
+            .then((value) => {
+                this.addressFormStore.normalizedState = value;
+            });
+    }
 }
 
 /**
@@ -129,6 +142,8 @@ export class AddressFormStore {
     city = "";
     state = "";
     zipcode = "";
+
+    normalizedState = "";
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
