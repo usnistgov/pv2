@@ -341,17 +341,22 @@ export const SREC_PAYMENTS_INFO = <div>
     requirements. Homeowners may have the option of receiving an upfront lump sum payment based on capacity (kW) or
     payments over time based on the solar PV system’s electricity production (MWh).<br/>States where SRECs may have value
     (as of August 2022): <ul>
+    <li>Connecticut</li>
     <li>Delaware</li>
     <li>District of Columbia</li>
     <li>Illinois</li>
     <li>Indiana</li>
     <li>Kentucky</li>
+    <li>Maine</li>
     <li>Maryland</li>
     <li>Massachusetts</li>
     <li>Michigan</li>
+    <li>New Hampshire</li>
     <li>New Jersey</li>
     <li>Ohio</li>
+    <li>Rhode Island</li>
     <li>Pennsylvania</li>
+    <li>Vermont</li>
     <li>Virginia</li>
 </ul>
     Information on Solar Markets is available <a
