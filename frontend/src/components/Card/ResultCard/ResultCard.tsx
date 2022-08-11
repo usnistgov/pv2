@@ -128,7 +128,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                         <div className={"side-tooltip-container"}>
                             {
                                 valid(alt.deltaQuant?.["Electricity"]) ?
-                                    `${numberFormatter.format(-(alt.deltaQuant?.["Electricity"] ?? 0))} kWh` : "NA"
+                                    `${numberFormatter.format(Math.round(-(alt.deltaQuant?.["Electricity"] ?? 0)))} kWh` : "NA"
                             }
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_ELECTRICAL_REDUCTION_TOOLTIP}>
@@ -145,7 +145,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                     </Grid>
                     <Grid className={"vertical-center right"} item xs={5}>
                         <div className={"side-tooltip-container"}>
-                            {valid(gwp) ? `${numberFormatter.format(gwp)} tons CO2e` : "NA"}
+                            {valid(gwp) ? `${numberFormatter.format(Math.round(gwp))} tons CO2e` : "NA"}
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_CARBON_FOOTPRINT_TOOLTIP}>
                                     <MdiIcon path={mdiInformation} size={1} color={'#898989'}/>

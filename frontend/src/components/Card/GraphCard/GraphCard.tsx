@@ -8,7 +8,6 @@ import {getGraphData} from "../../../GetGraphData";
 import {runInAction} from "mobx";
 import {compactCurrencyFormatter, compactNumberFormatter} from "../../../Format";
 import {Paper} from "@material-ui/core";
-import {altLabels} from "../../Request/RequestGenerator/E3RequestGenerator";
 
 const GraphCard = observer(({result, option}: any) => {
     const store = useContext(Store).resultUiStore;

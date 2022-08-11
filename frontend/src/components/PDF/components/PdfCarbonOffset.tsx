@@ -36,7 +36,7 @@ const PdfCarbonOffset = ({result}: {result: Result}) => {
       <PdfSection title={"Carbon Offset"}>
           <View style={styles.carbonOffsetContainer}>
               <Image style={styles.carbonOffsetImage} src={"/images/leaf-svgrepo-com.png"}/>
-              <Text style={{paddingVertical: "14px"}}>{`${numberFormatter.format(gwp)} tons C02e`}</Text>
+              <Text style={{paddingVertical: "14px"}}>{`${numberFormatter.format(Math.round(gwp))} tons C02e`}</Text>
           </View>
           <View style={styles.carbonOffsetCentered}>
               <Text>Social Cost of Carbon</Text>
