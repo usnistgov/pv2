@@ -19,12 +19,11 @@ const GraphCard = observer(({result, option}: any) => {
 
     function useDollarSign() {
         switch (option) {
-            case GraphOption.SAVINGS:
             case GraphOption.CUMULATIVE:
             case GraphOption.NET_VALUE:
                 return true;
-            case GraphOption.NET_ELECTRICAL_CONSUMPTION:
-            case GraphOption.ELECTRICAL_REDUCTION:
+            case GraphOption.ANNUAL_NET_ELECTRICAL_CONSUMPTION:
+            case GraphOption.CUMULATIVE_ELECTRICAL_REDUCTION:
                 return false;
         }
     }

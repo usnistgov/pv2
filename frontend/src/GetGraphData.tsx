@@ -29,19 +29,6 @@ export async function getGraphData(graphOption: GraphOption, result: Result, sto
                 }
             })
         }
-        case GraphOption.SAVINGS: {
-            let initial = result.FlowSummary[0];
-
-            return result.FlowSummary.map((summary, index) => {
-                return {
-                    id: altLabels[index],
-                    data: summary.totCostDisc.map((value: number, year: number) => {
-                        let saving = initial.totCostDisc[year] - value;
-                        return {x: year, y: saving};
-                    })
-                };
-            });
-        }
         case GraphOption.CUMULATIVE: {
             let initial = result.FlowSummary[0];
 
@@ -59,7 +46,7 @@ export async function getGraphData(graphOption: GraphOption, result: Result, sto
                 };
             });
         }
-        case GraphOption.NET_ELECTRICAL_CONSUMPTION: {
+        case GraphOption.ANNUAL_NET_ELECTRICAL_CONSUMPTION: {
             return result.OptionalSummary
                 .filter(summary => summary.tag === "Electricity")
                 .map((summary) => {
@@ -71,7 +58,7 @@ export async function getGraphData(graphOption: GraphOption, result: Result, sto
                     };
                 });
         }
-        case GraphOption.ELECTRICAL_REDUCTION: {
+        case GraphOption.CUMULATIVE_ELECTRICAL_REDUCTION: {
             let initial = result.OptionalSummary.find((value: OptionalSummary) => {
                 return value.tag === "Electricity" && value.altID == 0;
             });

@@ -376,10 +376,9 @@ export const SREC_PAYMENT_YEARS = "Number of Years there will be SREC Payments";
 
 export enum GraphOption {
     NET_VALUE = "Annual Costs - Net Present Value",
-    SAVINGS = "Annual Net Savings",
     CUMULATIVE = "Cumulative Net Savings",
-    NET_ELECTRICAL_CONSUMPTION = "Net Electrical Consumption",
-    ELECTRICAL_REDUCTION = "Electricity Reduction"
+    ANNUAL_NET_ELECTRICAL_CONSUMPTION = "Annual Net Electricity Consumption",
+    CUMULATIVE_ELECTRICAL_REDUCTION = "Cumulative Electricity Reduction"
 }
 
 export const RESULT_TOTAL_COST_TOOLTIP = "Total Net Present Value Costs";

@@ -18,12 +18,11 @@ const GraphOptionSelect = observer(() => {
                     uiStore.graphOption = event.target.value as GraphOption;
                 })}>
                 <MenuItem value={GraphOption.CUMULATIVE}>{GraphOption.CUMULATIVE}</MenuItem>
-                <MenuItem value={GraphOption.SAVINGS}>{GraphOption.SAVINGS}</MenuItem>
                 <MenuItem value={GraphOption.NET_VALUE}>{GraphOption.NET_VALUE}</MenuItem>
-                <MenuItem value={GraphOption.NET_ELECTRICAL_CONSUMPTION}>
-                    {GraphOption.NET_ELECTRICAL_CONSUMPTION}
+                <MenuItem value={GraphOption.ANNUAL_NET_ELECTRICAL_CONSUMPTION}>
+                    {GraphOption.ANNUAL_NET_ELECTRICAL_CONSUMPTION}
                 </MenuItem>
-                <MenuItem value={GraphOption.ELECTRICAL_REDUCTION}>{GraphOption.ELECTRICAL_REDUCTION}</MenuItem>
+                <MenuItem value={GraphOption.CUMULATIVE_ELECTRICAL_REDUCTION}>{GraphOption.CUMULATIVE_ELECTRICAL_REDUCTION}</MenuItem>
             </Select>
         </FormControl>
     </div>
