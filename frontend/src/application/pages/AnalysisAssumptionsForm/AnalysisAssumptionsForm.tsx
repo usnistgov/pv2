@@ -5,6 +5,7 @@ import {observer} from "mobx-react-lite";
 import {action} from "mobx";
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
 import {
+    CUSTOMIZE_DISCOUNT_RATE_SWITCH,
     DISCOUNT_RATES_EXPLANATION,
     DISCOUNT_RATES_EXPLANATION_TITLE,
     INFLATION_RATE_EXPLANATION,
@@ -61,15 +62,18 @@ const AnalysisAssumptionsForm = observer(() => {
                     </Info>
                 </div>
 
-                <FormControl>
-                    <FormControlLabel
-                        control={
-                            <Switch checked={store.isAdvanced}
-                                    onChange={action((change: any) => store.isAdvanced = change.target.checked)}
-                                    color={"primary"}/>
-                        }
-                        label={"Use Custom Discount Rates"}/>
-                </FormControl>
+                <div>
+                    <p><strong>Do you want to modify the default discount and/or inflation rates?</strong></p>
+                    <FormControl>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={store.isAdvanced}
+                                        onChange={action((change: any) => store.isAdvanced = change.target.checked)}
+                                        color={"primary"}/>
+                            }
+                            label={CUSTOMIZE_DISCOUNT_RATE_SWITCH}/>
+                    </FormControl>
+                </div>
                 {store.isAdvanced &&
                     <>
                         <Explanation title={DISCOUNT_RATES_EXPLANATION_TITLE}
