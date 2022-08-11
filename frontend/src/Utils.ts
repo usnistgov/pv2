@@ -52,23 +52,6 @@ export const DecimalTest = {
     }
 }
 
-export const TwoDecimalTest = {
-    name: "2 Decimals",
-    message: "Too many decimals, can only have 2.",
-    test: (value: any) => {
-        // Must be defined
-        if (value === undefined || value === null)
-            return false;
-
-        // Must not be an integer
-        if (value.toString().split('.').length <= 1)
-            return true;
-
-        // Must have 2 or fewer decimals
-        return value.toString().split('.')[1].length <= 2;
-    }
-}
-
 export const HighElectricalCostTest = {
     name: "Electrical Cost is too high",
     message: "Price set unexpectedly high. Ensure your price is in $/kWh.",

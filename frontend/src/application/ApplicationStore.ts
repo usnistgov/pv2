@@ -351,7 +351,7 @@ export class CostsFormStore {
     totalInstallationCosts = undefined;
     stateOrLocalTaxCreditsOrGrantsOrRebates = undefined;
     // Advanced
-    inverterReplacementCosts? = INVERTER_REPLACEMENT;
+    inverterReplacementCosts?: string | number = INVERTER_REPLACEMENT;
     annualMaintenanceCosts? = ANNUAL_MAINTENANCE;
 
     inverterReplacementCostsDefault: boolean = true;
@@ -382,7 +382,7 @@ export class CostsFormStore {
         switch (this.rootStore.solarSystemFormStore.inverterType) {
             case INVERTER_TYPE_OPTIONS[0]:
             case INVERTER_TYPE_OPTIONS[1]:
-                return (this.rootStore.solarSystemFormStore.totalSystemSize ?? 0) * 0.18;
+                return ((this.rootStore.solarSystemFormStore.totalSystemSize ?? 0) * 0.18).toFixed(2);
 
             case INVERTER_TYPE_OPTIONS[2]:
             default:

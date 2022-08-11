@@ -13,7 +13,8 @@ import {Store} from "../../ApplicationStore";
 import {
     ANNUAL_MAINTENANCE_COSTS_INFO,
     ANNUAL_MAINTENANCE_COSTS_LABEL,
-    ANNUAL_MAINTENANCE_COSTS_TOOLTIP, COST_FORM_ADVANCED_LABEL,
+    ANNUAL_MAINTENANCE_COSTS_TOOLTIP,
+    COST_FORM_ADVANCED_LABEL,
     FEDERAL_TAX_CREDIT_INFO,
     FEDERAL_TAX_CREDIT_LABEL,
     FEDERAL_TAX_CREDIT_TOOLTIP,
@@ -67,7 +68,7 @@ import Adornment from "../../../components/Adornments";
 import "../Form.sass";
 import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
-import {DecimalTest, defaultIfUndefined, TwoDecimalTest} from "../../../Utils";
+import {DecimalTest, defaultIfUndefined} from "../../../Utils";
 
 /**
  * Creates a form to input the costs of the PV system.
@@ -133,7 +134,7 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={INVERTER_REPLACEMENT_COSTS_LABEL}
                                                 value={defaultIfUndefined(store.inverterReplacementCostsOrDefault, '')}
-                                                schema={Yup.number().required().min(0).test(TwoDecimalTest)}
+                                                schema={Yup.number().required().min(0).test(DecimalTest)}
                                                 onValidate={action((value) => {
                                                     store.inverterReplacementCostsOrDefault = value
                                                 })}
@@ -148,7 +149,7 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={ANNUAL_MAINTENANCE_COSTS_LABEL}
                                                 value={defaultIfUndefined(store.annualMaintenanceCosts, '')}
-                                                schema={Yup.number().required().min(0).test(TwoDecimalTest)}
+                                                schema={Yup.number().required().min(0).test(DecimalTest)}
                                                 onValidate={action((value) => store.annualMaintenanceCosts = value)}
                                                 onError={action(() => store.annualMaintenanceCosts = undefined)}
                                                 InputProps={Adornment.DOLLAR}

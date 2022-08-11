@@ -13,7 +13,7 @@ const PdfCostsInput = ({store}: PdfInputSectionProps) => {
             <LabeledText label={"Grants or Rebates"}
                          content={currencyFormatter.format(costs.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0)}/>
             <LabeledText label={"Inverter Replacement Costs"}
-                         content={currencyFormatter.format(costs.inverterReplacementCostsOrDefault ?? 0)}/>
+                         content={currencyFormatter.format(parseFloat(costs.inverterReplacementCostsOrDefault?.toString() ?? '0'))}/>
             <LabeledText label={"Annual Maintenance Costs"}
                          content={currencyFormatter.format(costs.annualMaintenanceCosts ?? 0)}/>
         </PdfSection>
