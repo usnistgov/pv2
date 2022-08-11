@@ -136,7 +136,7 @@ export const NET_METERING_FEED_TARIFF_INFO = <div>Net metering means that the ho
     typically at different rates. Most states use Net Metering. Homeowner can obtain this information from the
     solar installer or&nbsp;
     <a href={"https://www.dsireusa.org/resources/detailed-summary-maps/"}>
-        DSIREUSE.org
+        DSIREUSA.org
     </a>
     .
 </div>
@@ -145,8 +145,9 @@ export const NET_METERING_FEED_TARIFF_OPTIONS = [
     "Feed in Tariff (Gross Metering)"
 ];
 
-export const EXCESS_GENERATION_UNIT_PRICE_LABEL = "Excess Generation / FiT Unit Price";
-export const EXCESS_GENERATION_UNIT_PRICE_TOOLTIP = "Price per unit of electricity produced ($/kWh)";
+export const EXCESS_GENERATION_UNIT_PRICE_LABEL = "Excess Generation / FiT / PBI Unit Price";
+export const EXCESS_GENERATION_UNIT_PRICE_TOOLTIP = "Price per unit of electricity produced ($/kWh). Feed in " +
+    "Tarrif (FiT). Production Based Incentive (PBI).";
 export const EXCESS_GENERATION_UNIT_PRICE_INFO = "Price per unit of electricity produced ($/kWh), which is typically " +
     "equal to or less than the electricity unit price for consumption and varies by utility. Should be provided in " +
     "your electricity bill or utility rate schedule, on the provider website, or by the solar installer. See User " +
