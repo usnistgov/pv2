@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 
 // Library Imports
-import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
+import {Box, FormControl, InputLabel, MenuItem, Paper, Select} from "@material-ui/core";
 import * as Yup from "yup";
 import {observer} from "mobx-react-lite";
 
@@ -46,12 +46,15 @@ import "../Form.sass";
 import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
 import {DecimalTest, defaultIfUndefined, MustBeHighWattage, PVEfficiencyRealistic} from "../../../Utils";
+import {compactCurrencyFormatter, compactNumberFormatter} from "../../../Format";
+import {ResponsiveLine} from "@nivo/line";
 
 /**
  * Form for details about the output of the PV system.
  */
 const SolarSystemForm = observer(() => {
     const store = useContext(Store).solarSystemFormStore;
+    const studyPeriod = useContext(Store).analysisAssumptionsFormStore.studyPeriod ?? 25;
 
     return (
         <Box className={"form-page-container"}>
@@ -170,6 +173,44 @@ const SolarSystemForm = observer(() => {
                                                 InputProps={Adornment.PERCENT}
                                                 type={"number"}/>
                         </Info>
+                        <div style={{width: "100%", height: 200}}>
+                            <ResponsiveLine
+                                animate
+                                enableArea
+                                useMesh={true}
+                                margin={{top: 24, right: 14, bottom: 35, left: 35}}
+                                data={[{
+                                    id: "Panel Degradation",
+                                    data: Array.from(Array(studyPeriod + 1).keys())
+                                        .map((year) => {
+                                            return {
+                                                x: year,
+                                                y: 100 - (year * (store.degradationRate ?? 0))
+                                            }
+                                        })
+                                }]}
+                                xScale={{type: 'linear'}}
+                                yScale={{type: 'linear', min: 0, max: 100}}
+                                axisLeft={{
+                                    tickSize: 0,
+                                    tickPadding: 5,
+                                    legendPosition: "middle",
+                                    legendOffset: -30,
+                                    legend: "%"
+                                }}
+                                axisBottom={{
+                                    tickSize: 0,
+                                    tickPadding: 5,
+                                    tickValues: 10,
+                                    legend: 'year',
+                                    legendOffset: 25,
+                                    legendPosition: 'middle',
+                                }}
+                                tooltip={({point}) => <Paper style={{padding: 8}}>
+                                    <div>{`Year ${point.data.xFormatted}: ${point.data.yFormatted}%`}</div>
+                                </Paper>}
+                            />
+                        </div>
                     </AdvancedBox>
                 </CollapseContainer>
             </Box>
