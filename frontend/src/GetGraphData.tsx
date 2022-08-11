@@ -9,9 +9,9 @@ import {altLabels} from "./components/Request/RequestGenerator/E3RequestGenerato
  * Generates graph data for the given graph options and result object.
  *
  * @param graphOption
- * @param index
  * @param result
  * @param store
+ * @param colors
  */
 export async function getGraphData(graphOption: GraphOption, result: Result, store: ResultUiStore): Promise<Serie[]> {
     const emptySerie = {id: "", data: []};
@@ -49,7 +49,7 @@ export async function getGraphData(graphOption: GraphOption, result: Result, sto
         case GraphOption.ANNUAL_NET_ELECTRICAL_CONSUMPTION: {
             return result.OptionalSummary
                 .filter(summary => summary.tag === "Electricity")
-                .map((summary) => {
+                .map((summary, index) => {
                     return {
                         id: altLabels[summary.altID],
                         data: summary.totTagQ.map((value: number, year: number) => {
@@ -65,7 +65,7 @@ export async function getGraphData(graphOption: GraphOption, result: Result, sto
 
             return result.OptionalSummary
                 .filter(summary => summary.tag === "Electricity")
-                .map((summary) => {
+                .map((summary, index) => {
                     let accumulator = 0;
 
                     if (initial === undefined)

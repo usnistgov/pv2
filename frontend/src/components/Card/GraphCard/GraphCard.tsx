@@ -1,13 +1,40 @@
-import {ResponsiveLine, Serie} from "@nivo/line";
+import {CustomLayerProps, ResponsiveLine, Serie} from "@nivo/line";
 import React, {useContext, useEffect, useState} from "react";
 import "./GraphCard.sass";
-import {GraphOption} from "../../../Strings";
+import {GraphOption, PPA_OPTIONS} from "../../../Strings";
 import {Store} from "../../../application/ApplicationStore";
 import {observer} from "mobx-react-lite";
 import {getGraphData} from "../../../GetGraphData";
 import {runInAction} from "mobx";
 import {compactCurrencyFormatter, compactNumberFormatter} from "../../../Format";
 import {Paper} from "@material-ui/core";
+import {altLabels} from "../../Request/RequestGenerator/E3RequestGenerator";
+
+const DashedSolidLine = ({ series, lineGenerator, xScale, yScale }: CustomLayerProps) => {
+    return series.map(({ id, data, color }: Serie) => (
+        <path
+            key={id}
+            d={lineGenerator(
+                data.map((d) => ({
+                    x: (xScale as any)(d.data.x),
+                    y: (yScale as any)(d.data.y)
+                }))
+            )}
+            fill="none"
+            stroke={color}
+            style={
+                id === altLabels[2]
+                    ? {
+                        strokeDasharray: "3, 6",
+                        strokeWidth: 3
+                    }
+                    : {
+                        strokeWidth: 2
+                    }
+            }
+        />
+    ));
+};
 
 const GraphCard = observer(({result, option}: any) => {
     const store = useContext(Store).resultUiStore;
@@ -38,6 +65,7 @@ const GraphCard = observer(({result, option}: any) => {
                     animate
                     enableArea
                     useMesh={true}
+                    colors={{"scheme": "category10"}}
                     margin={{top: 30, right: 5, bottom: 35, left: 40}}
                     data={graphData}
                     xScale={{type: 'linear'}}
@@ -75,6 +103,18 @@ const GraphCard = observer(({result, option}: any) => {
                         </div>
                         <div>{`Year ${point.data.xFormatted}: ${point.data.yFormatted}`}</div>
                     </Paper>}
+                    layers={[
+                        "grid",
+                        "markers",
+                        "axes",
+                        "areas",
+                        "crosshair",
+                        "slices",
+                        "points",
+                        "mesh",
+                        "legends",
+                        DashedSolidLine
+                    ]}
                 />
             </div>
         </Paper>
