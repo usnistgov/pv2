@@ -1,7 +1,7 @@
 import {createTheme} from "@material-ui/core";
 
 const Constants = {
-    FEDERAL_TAX_CREDIT: 0.26,
+    FEDERAL_TAX_CREDIT: 0.30,
     SOCIAL_COST_OF_CARBON: 51,
 
     routes: {

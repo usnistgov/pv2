@@ -1,4 +1,5 @@
 import React from "react";
+import Constants from "./Constants";
 
 export const CATEGORIES = [
     "Address",
@@ -262,9 +263,9 @@ export const TOTAL_INSTALLATION_COSTS_INFO = "Total (gross) costs of installing 
     "incentives, such as federal tax credits and state/local grants or rebates. User should INCLUDE any up-front " +
     "utility connection fee. User should EXCLUDE any costs for re-roofing.";
 
-export const FEDERAL_TAX_CREDIT_LABEL = "Federal Tax Credit - 26% of Total Installed Cost";
-export const FEDERAL_TAX_CREDIT_TOOLTIP = "Currently 26% of total installation costs";
-export const FEDERAL_TAX_CREDIT_INFO = "Federal tax credit is currently 26% of total installation costs. This " +
+export const FEDERAL_TAX_CREDIT_LABEL = `Federal Tax Credit - ${(Constants.FEDERAL_TAX_CREDIT * 100).toFixed(0)}% of Total Installed Cost`;
+export const FEDERAL_TAX_CREDIT_TOOLTIP = `Currently ${(Constants.FEDERAL_TAX_CREDIT * 100).toFixed(0)}% of total installation costs`;
+export const FEDERAL_TAX_CREDIT_INFO = `Federal tax credit is currently ${(Constants.FEDERAL_TAX_CREDIT * 100).toFixed(0)}% of total installation costs. This ` +
     "credit applies to all costs associated with the installation.";
 
 export const TAX_CRED_OR_REBATE_LABEL = "State/Local Tax Credits/Grants/Rebates";
