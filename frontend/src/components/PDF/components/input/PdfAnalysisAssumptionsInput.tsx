@@ -9,6 +9,7 @@ const PdfAnalysisAssumptionsInput = ({store}: PdfInputSectionProps) => {
         <PdfSection title={"Analysis Assumptions"}>
             <LabeledText label={"Study Period"} content={`${assumptions.studyPeriod} yr`}/>
             <LabeledText label={"Real Discount Rate"} content={`${assumptions.realDiscountRate}%`}/>
+            <LabeledText label={"Nominal Discount Rate"} content={`${assumptions.nominalDiscountRate}%`}/>
             <LabeledText label={"General Inflation Rate"} content={`${assumptions.generalInflation}%`}/>
         </PdfSection>
     );

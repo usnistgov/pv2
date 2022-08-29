@@ -1,4 +1,4 @@
-import {Document, Image, Page, StyleSheet, Text, View, Font} from '@react-pdf/renderer';
+import {Document, Font, Image, Page, StyleSheet, Text, View} from '@react-pdf/renderer';
 import {ApplicationStore} from "../../application/ApplicationStore";
 import PdfInitialCost from "./components/PdfInitialCost";
 import PdfSystemInformation from "./components/PdfSystemInformation";
@@ -12,7 +12,6 @@ import PdfElectricalRateInput from "./components/input/PdfElectricalRateInput";
 import PdfSolarSystemInput from "./components/input/PdfSolarSystemInput";
 import PdfDisclaimer from "./components/input/PdfDisclaimer";
 import PdfCostsInput from "./components/input/PdfCostsInput";
-import {PPA_OPTIONS} from "../../Strings";
 import PdfLoanOrCashInput from "./components/input/PdfLoanOrCashInput";
 import PdfPpaOptionInput from "./components/input/PdfPpaOptionInput";
 import PdfSrecInput from "./components/input/PdfSrecInput";

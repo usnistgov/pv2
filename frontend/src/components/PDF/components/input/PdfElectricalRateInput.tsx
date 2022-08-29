@@ -1,7 +1,7 @@
 import PdfInputSectionProps from "./Props";
 import PdfSection from "../PdfSection";
 import LabeledText from "../LabeledText";
-import {currencyFormatter} from "../../../../Format";
+import {threeDecimalCurrencyFormatter, twoDecimalCurrencyFormatter} from "../../../../Format";
 import {getAnnualConsumption} from "../../../Request/RequestGenerator/E3RequestGenerator";
 
 const PdfElectricalRateInput = ({store}: PdfInputSectionProps) => {
@@ -16,13 +16,13 @@ const PdfElectricalRateInput = ({store}: PdfInputSectionProps) => {
             <LabeledText label={"Metering Type"} content={electricity.netMeteringFeedTariff}/>
             <LabeledText label={"Annual Consumption"} content={`${getAnnualConsumption(store)} kWh`}/>
             <LabeledText label={"Connection Fee"}
-                         content={currencyFormatter.format(electricity.monthlyFlatRateCharge ?? 0)}/>
+                         content={twoDecimalCurrencyFormatter.format(electricity.monthlyFlatRateCharge ?? 0)}/>
             <LabeledText label={"Electric Unit Price"}
-                         content={currencyFormatter.format(electricity.electricUnitPrice ?? 0)}/>
+                         content={threeDecimalCurrencyFormatter.format(electricity.electricUnitPrice ?? 0)}/>
             <LabeledText label={"Generation Unit Price"}
-                         content={currencyFormatter.format(electricity.excessGenerationUnitPrice ?? 0)}/>
+                         content={threeDecimalCurrencyFormatter.format(electricity.excessGenerationUnitPrice ?? 0)}/>
             <LabeledText label={"PV Grid Connection Fee"}
-                         content={currencyFormatter.format(electricity.pvGridConnectionRate ?? 0)}/>
+                         content={twoDecimalCurrencyFormatter.format(electricity.pvGridConnectionRate ?? 0)}/>
         </PdfSection>
     );
 }

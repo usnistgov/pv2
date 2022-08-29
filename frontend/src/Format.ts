@@ -10,6 +10,18 @@ export const compactCurrencyFormatter = Intl.NumberFormat('en-US', {
     notation: 'compact',
 });
 
+export const twoDecimalCurrencyFormatter = Intl.NumberFormat('en-US', {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2
+});
+
+export const threeDecimalCurrencyFormatter = Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 3
+});
+
 export const numberFormatter = Intl.NumberFormat('en-US', {});
 
 export const compactNumberFormatter = Intl.NumberFormat('en-US', {
