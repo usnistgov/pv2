@@ -4,7 +4,7 @@ import Constants from "./Constants";
 export const CATEGORIES = [
     "Address",
     "Analysis Assumptions",
-    "Electrical Rate",
+    "Electrical Costs",
     "Escalation Rates",
     "Solar PV System",
     "Costs",

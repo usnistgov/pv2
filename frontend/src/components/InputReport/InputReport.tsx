@@ -65,6 +65,8 @@ function AnalysisAssumptionsReport() {
                 <Grid item xs={6}>{store.studyPeriod}</Grid>
                 <Grid item xs={6}>Real Discount Rate:</Grid>
                 <Grid item xs={6}>{store.realDiscountRate}</Grid>
+                <Grid item xs={6}>Nominal Discount Rate:</Grid>
+                <Grid item xs={6}>{store.nominalDiscountRate}</Grid>
                 <Grid item xs={6}>General Inflation Rate:</Grid>
                 <Grid item xs={6}>{store.generalInflation}</Grid>
                 <Grid item xs={6}>Residual Value Approach:</Grid>
