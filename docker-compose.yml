@@ -11,8 +11,8 @@ services:
       POSTGRES_DB: PV2
     networks:
       - default
-    volumes:
-      - docs:/root/frontend/build/docs/
+    #volumes:
+    #  - docs:/root/frontend/build/docs/
   postgres:
     #image: postgres:14.1
     build: ./backend/database/
@@ -27,8 +27,8 @@ services:
     networks:
       - default
 
-volumes:
-  docs:
+#volumes:
+#  docs:
     #driver: local
     #driver_opts:
     #  type: none
