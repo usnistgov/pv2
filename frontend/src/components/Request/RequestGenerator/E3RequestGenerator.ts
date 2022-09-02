@@ -17,7 +17,7 @@ import {
     maintenanceCostsAfterPpa,
     netGridConsumption,
     netPanelProduction,
-    panelProduction,
+    panelProduction, panelReplacement,
     ppaConsumption,
     ppaSystemPurchasePrice,
     productionBasedSrec,
@@ -72,6 +72,9 @@ function firstAlternative(store: ApplicationStore) {
     bcns.push(createBcn("Federal Tax Credit", altId, () => federalTaxCredit(store)));
     bcns.push(createBcn("Grants Rebates", altId, () => grantsRebates(store)));
     bcns.push(createBcn("Maintenance Costs", altId, () => maintenanceCosts(store)));
+
+    if((store.solarSystemFormStore.panelLifetime ?? 25) < (store.analysisAssumptionsFormStore.studyPeriod ?? 25))
+        bcns.push(createBcn("Panel replacement", altId, () => panelReplacement(store)))
 
     switch (store.electricalCostFormStore.netMeteringFeedTariff) {
         case NET_METERING_FEED_TARIFF_OPTIONS[0]:
@@ -140,6 +143,9 @@ function ppaAlternative(store: ApplicationStore) {
     bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
     bcns.push(createBcn("Consumption Global Warming Potential", altId, () => globalWarmingPotentialConsumption(store)));
     bcns.push(createBcn("Production Global Warming Potential", altId, () => globalWarmingPotentialProduction(store)));
+
+    if((store.solarSystemFormStore.panelLifetime ?? 25) < (store.analysisAssumptionsFormStore.studyPeriod ?? 25))
+        bcns.push(createBcn("Panel Replacement", altId, () => panelReplacement(store)))
 
     const ppaContractLength = store.costsFormStore.ppaContractLength ?? studyPeriod;
     if (ppaContractLength < studyPeriod) {
@@ -256,6 +262,8 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
         alternativeObjects: alternativeObjects,
         bcnObjects: Array.from(bcnCache.values()).map(bcn => bcn.output())
     }
+
+    console.log(result);
 
     return result;
 }

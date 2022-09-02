@@ -183,7 +183,7 @@ export function totalInstallationCosts(store: ApplicationStore): object {
         bcnTag: "Investment Costs",
         initialOcc: 0,
         bcnInvestBool: true,
-        bcnLife: 25,
+        bcnLife: store.solarSystemFormStore.panelLifetime,
         rvBool: false,
         recurBool: false,
         recurInterval: null,
@@ -198,12 +198,37 @@ export function totalInstallationCosts(store: ApplicationStore): object {
     }
 }
 
-export function totalInstallationCostsResidualValue(store: ApplicationStore): object {
+export function panelReplacement(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
         bcnTag: "Investment Costs",
-        initialOcc: 0,
+        initialOcc: (store.solarSystemFormStore.panelLifetime ?? 25) + 1,
+        bcnInvestBool: true,
+        bcnLife: store.solarSystemFormStore.panelLifetime,
+        rvBool: false,
+        recurBool: true,
+        recurInterval: store.solarSystemFormStore.panelLifetime,
+        recurVarRate: null,
+        recurVarValue: null,
+        recurEndDate: null,
+        valuePerQ: store.costsFormStore.totalInstallationCosts,
+        quant: 1,
+        quantVarRate: null,
+        quantVarValue: null,
+        quantUnit: null
+    }
+}
+
+export function totalInstallationCostsResidualValue(store: ApplicationStore): object {
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? 25;
+    const panelLifetime = store.solarSystemFormStore.panelLifetime ?? 25;
+
+    return {
+        bcnType: "Cost",
+        bcnSubType: "Direct",
+        bcnTag: "Investment Costs",
+        initialOcc: panelLifetime * Math.floor(studyPeriod / panelLifetime),
         bcnInvestBool: true,
         bcnLife: store.solarSystemFormStore.panelLifetime,
         rvBool: true,
@@ -250,9 +275,9 @@ export function loanDownPayment(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Loan Payments",
         initialOcc: 0,
-        bcnInvestBool: true,
+        bcnInvestBool: false,
         bcnLife: 25,
         rvBool: false,
         recurBool: false,
@@ -286,9 +311,9 @@ export function loanPayoff(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Loan Payments",
         initialOcc: 1,
-        bcnInvestBool: true,
+        bcnInvestBool: false,
         bcnLife: null,
         rvBool: false,
         rvOnly: false,
