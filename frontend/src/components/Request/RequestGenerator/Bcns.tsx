@@ -1,7 +1,18 @@
 import {ApplicationStore} from "../../../application/ApplicationStore";
 import {generateVarValue} from "../../../Utils";
-import {DEGRADATION_RATE, GENERAL_INFLATION, INVERTER_LIFETIME, STUDY_PERIOD} from "../../../Defaults";
+import {DEGRADATION_RATE, GENERAL_INFLATION, INVERTER_LIFETIME, PANEL_LIFETIME, STUDY_PERIOD} from "../../../Defaults";
 import {getAnnualConsumption} from "./E3RequestGenerator";
+import solarSystemForm from "../../../application/pages/SolarSystemForm/SolarSystemForm";
+
+function degradation(store: ApplicationStore): (value: number, index: number) => number {
+    const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
+    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
+    const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
+
+    return (value: number, index: number) => {
+        return value * (1.0 - (index % panelLifetime) * (degradationRate / 100))
+    }
+}
 
 export function gridConsumption(store: ApplicationStore): object {
     return {
@@ -91,7 +102,7 @@ export function panelProduction(store: ApplicationStore): object {
 
     const annualProduction = generateVarValue(
         Array(studyPeriod + 1).fill(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-            .map((value, index) => value * (1.0 - index * (degradationRate / 100))),
+            .map(degradation(store)),
         store.solarSystemFormStore.estimatedAnnualProduction ?? 0
     );
 
