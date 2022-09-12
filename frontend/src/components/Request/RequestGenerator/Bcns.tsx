@@ -283,9 +283,9 @@ export function loanDownPayment(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Loan Payments",
+        bcnTag: "Investment Costs",
         initialOcc: 0,
-        bcnInvestBool: false,
+        bcnInvestBool: true,
         bcnLife: 25,
         rvBool: false,
         recurBool: false,
