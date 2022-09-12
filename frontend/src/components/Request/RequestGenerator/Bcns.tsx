@@ -188,7 +188,7 @@ export function totalInstallationCosts(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Installation Costs",
         initialOcc: 0,
         bcnInvestBool: true,
         bcnLife: store.solarSystemFormStore.panelLifetime,
@@ -210,7 +210,7 @@ export function panelReplacement(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "System Replacement Costs",
         initialOcc: (store.solarSystemFormStore.panelLifetime ?? 25) + 1,
         bcnInvestBool: true,
         bcnLife: store.solarSystemFormStore.panelLifetime,
@@ -235,7 +235,7 @@ export function totalInstallationCostsResidualValue(store: ApplicationStore): ob
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Resale Value",
         initialOcc: panelLifetime * Math.floor(studyPeriod / panelLifetime),
         bcnInvestBool: true,
         bcnLife: store.solarSystemFormStore.panelLifetime,
@@ -260,7 +260,7 @@ export function inverterReplacement(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Inverter Replacement Costs",
         initialOcc: store.solarSystemFormStore.inverterLifetimeOrDefault,
         bcnInvestBool: false,
         bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
@@ -283,7 +283,7 @@ export function loanDownPayment(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Loan Down Payment",
         initialOcc: 0,
         bcnInvestBool: true,
         bcnLife: 25,
@@ -319,7 +319,7 @@ export function loanPayoff(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Loan Payments",
+        bcnTag: "Future Loan Payments",
         initialOcc: 1,
         bcnInvestBool: false,
         bcnLife: null,
@@ -342,7 +342,7 @@ export function federalTaxCredit(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Upfront Financial Incentives",
         initialOcc: 0,
         bcnInvestBool: true,
         bcnLife: null,
@@ -364,7 +364,7 @@ export function grantsRebates(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Upfront Financial Incentives",
         initialOcc: 0,
         bcnInvestBool: true,
         bcnLife: null,
@@ -435,7 +435,7 @@ export function ppaSystemPurchasePrice(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Future Purchase Costs",
         initialOcc: (store.costsFormStore.ppaContractLength ?? 0) + 1, // End of PPA contract
         bcnInvestBool: true,
         bcnLife: null,
@@ -566,7 +566,7 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object {
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
-        bcnTag: "Investment Costs",
+        bcnTag: "Inverter Replacement Costs",
         initialOcc: initial,
         bcnInvestBool: false,
         bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
