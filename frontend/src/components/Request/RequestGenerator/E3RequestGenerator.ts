@@ -109,7 +109,14 @@ function firstAlternative(store: ApplicationStore) {
     switch (store.solarSystemFormStore.inverterType) {
         case INVERTER_TYPE_OPTIONS[0]:
         case INVERTER_TYPE_OPTIONS[1]:
-            bcns.push(createBcn("Inverter Replacement Costs", altId, () => inverterReplacement(store)));
+
+            const inverterOptions = inverterReplacement(store);
+
+            for(let i = 0; i < inverterOptions.length; i++) {
+                bcns.push(createBcn(`Inverter Replacement Costs ${i}`, altId, () => inverterOptions[i]));
+            }
+
+            //bcns.push(createBcn("Inverter Replacement Costs", altId, () => inverterReplacement(store)));
             break;
 
         default:

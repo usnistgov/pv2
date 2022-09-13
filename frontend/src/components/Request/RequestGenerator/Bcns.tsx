@@ -236,13 +236,13 @@ export function totalInstallationCostsResidualValue(store: ApplicationStore): ob
         bcnType: "Cost",
         bcnSubType: "Direct",
         bcnTag: "Resale Value",
-        initialOcc: panelLifetime * Math.floor(studyPeriod / panelLifetime),
+        initialOcc: 1,
         bcnInvestBool: true,
         bcnLife: store.solarSystemFormStore.panelLifetime,
         rvBool: true,
         rvOnly: true,
-        recurBool: false,
-        recurInterval: null,
+        recurBool: true,
+        recurInterval: store.solarSystemFormStore.panelLifetime,
         recurVarRate: null,
         recurVarValue: null,
         recurEndDate: null,
@@ -253,30 +253,36 @@ export function totalInstallationCostsResidualValue(store: ApplicationStore): ob
         quantUnit: null
     }
 }
-
-export function inverterReplacement(store: ApplicationStore): object {
+export function inverterReplacement(store: ApplicationStore): object[] {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
+    const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Inverter Replacement Costs",
-        initialOcc: store.solarSystemFormStore.inverterLifetimeOrDefault,
-        bcnInvestBool: false,
-        bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
-        rvBool: true,
-        rvOnly: false,
-        recurBool: true,
-        recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: studyPeriod + 1,
-        valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
+    const result: object[] = [];
+
+    for(let i = 0; i > studyPeriod / panelLifetime ; i++){
+        result.push({
+            bcnType: "Cost",
+            bcnSubType: "Direct",
+            bcnTag: "Inverter Replacement Costs",
+            initialOcc: i * panelLifetime,
+            bcnInvestBool: false,
+            bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
+            rvBool: true,
+            rvOnly: false,
+            recurBool: true,
+            recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
+            recurVarRate: null,
+            recurVarValue: null,
+            recurEndDate: i * panelLifetime + 1,
+            valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
+            quant: 1,
+            quantVarRate: null,
+            quantVarValue: null,
+            quantUnit: null
+        })
     }
+
+    return result;
 }
 
 export function loanDownPayment(store: ApplicationStore): object {
