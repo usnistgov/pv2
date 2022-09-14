@@ -269,7 +269,7 @@ export function inverterReplacement(store: ApplicationStore): object[] {
             bcnType: "Cost",
             bcnSubType: "Direct",
             bcnTag: "Inverter Replacement Costs",
-            initialOcc: i === 0 ? inverterLifetime + 1 : i * panelLifetime + 1,
+            initialOcc: i === 0 ? inverterLifetime + 1 : i * panelLifetime + inverterLifetime + 1,
             bcnInvestBool: false,
             bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
             rvBool: i >= (studyPeriod / panelLifetime) - 1,
