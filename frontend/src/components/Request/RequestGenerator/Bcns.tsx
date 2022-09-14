@@ -261,9 +261,6 @@ export function inverterReplacement(store: ApplicationStore): object[] {
 
     const result: object[] = [];
 
-    console.log("Creating inverter replacement BCNs");
-    console.log(studyPeriod / panelLifetime);
-
     for (let i = 0; i < studyPeriod / panelLifetime; i++) {
         result.push({
             bcnType: "Cost",
@@ -566,7 +563,7 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
     }
 }
 
-export function inverterReplacementAfterPpa(store: ApplicationStore): object {
+export function inverterReplacementAfterPpa(store: ApplicationStore): object[] {
     const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const inverterLifetime = store.solarSystemFormStore.inverterLifetime ?? INVERTER_LIFETIME;
@@ -577,15 +574,12 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object {
 
     const result: object[] = [];
 
-    console.log("Creating inverter replacement BCNs");
-    console.log(studyPeriod / panelLifetime);
-
     for (let i = 0; i < studyPeriod / panelLifetime; i++) {
         result.push({
             bcnType: "Cost",
             bcnSubType: "Direct",
             bcnTag: "Inverter Replacement Costs",
-            initialOcc: i === 0 ? inverterLifetime + 1 : i * panelLifetime + 1,
+            initialOcc: i === 0 ? inverterLifetime + 1 : i * panelLifetime + panelLifetime + 1,
             bcnInvestBool: false,
             bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
             rvBool: i >= (studyPeriod / panelLifetime) - 1,
