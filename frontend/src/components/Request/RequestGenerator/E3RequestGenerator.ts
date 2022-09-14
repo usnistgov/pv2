@@ -110,7 +110,11 @@ function firstAlternative(store: ApplicationStore) {
         case INVERTER_TYPE_OPTIONS[0]:
         case INVERTER_TYPE_OPTIONS[1]:
 
+            console.log("Adding BCNs");
+
             const inverterOptions = inverterReplacement(store);
+
+            console.log(inverterOptions);
 
             for(let i = 0; i < inverterOptions.length; i++) {
                 bcns.push(createBcn(`Inverter Replacement Costs ${i}`, altId, () => inverterOptions[i]));

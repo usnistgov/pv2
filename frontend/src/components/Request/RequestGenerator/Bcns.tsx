@@ -1,4 +1,4 @@
-import {ApplicationStore} from "../../../application/ApplicationStore";
+import {ApplicationStore, store} from "../../../application/ApplicationStore";
 import {generateVarValue} from "../../../Utils";
 import {DEGRADATION_RATE, GENERAL_INFLATION, INVERTER_LIFETIME, PANEL_LIFETIME, STUDY_PERIOD} from "../../../Defaults";
 import {getAnnualConsumption} from "./E3RequestGenerator";
@@ -253,27 +253,32 @@ export function totalInstallationCostsResidualValue(store: ApplicationStore): ob
         quantUnit: null
     }
 }
+
 export function inverterReplacement(store: ApplicationStore): object[] {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
+    const inverterLifetime = store.solarSystemFormStore.inverterLifetimeOrDefault ?? INVERTER_LIFETIME;
 
     const result: object[] = [];
 
-    for(let i = 0; i > studyPeriod / panelLifetime ; i++){
+    console.log("Creating inverter replacement BCNs");
+    console.log(studyPeriod / panelLifetime);
+
+    for (let i = 0; i < studyPeriod / panelLifetime; i++) {
         result.push({
             bcnType: "Cost",
             bcnSubType: "Direct",
             bcnTag: "Inverter Replacement Costs",
-            initialOcc: i * panelLifetime,
+            initialOcc: i === 0 ? inverterLifetime + 1 : i * panelLifetime + 1,
             bcnInvestBool: false,
             bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
-            rvBool: true,
+            rvBool: i >= (studyPeriod / panelLifetime) - 1,
             rvOnly: false,
             recurBool: true,
             recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
             recurVarRate: null,
             recurVarValue: null,
-            recurEndDate: i * panelLifetime + 1,
+            recurEndDate: (i + 1) * panelLifetime + 1,
             valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
             quant: 1,
             quantVarRate: null,
@@ -562,6 +567,7 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
 }
 
 export function inverterReplacementAfterPpa(store: ApplicationStore): object {
+    const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const inverterLifetime = store.solarSystemFormStore.inverterLifetime ?? INVERTER_LIFETIME;
 
@@ -569,26 +575,35 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object {
         (store.costsFormStore.ppaContractLength ?? studyPeriod) / inverterLifetime
     ) * inverterLifetime
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Inverter Replacement Costs",
-        initialOcc: initial,
-        bcnInvestBool: false,
-        bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
-        rvBool: true,
-        rvOnly: false,
-        recurBool: true,
-        recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: studyPeriod + 1,
-        valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
+    const result: object[] = [];
+
+    console.log("Creating inverter replacement BCNs");
+    console.log(studyPeriod / panelLifetime);
+
+    for (let i = 0; i < studyPeriod / panelLifetime; i++) {
+        result.push({
+            bcnType: "Cost",
+            bcnSubType: "Direct",
+            bcnTag: "Inverter Replacement Costs",
+            initialOcc: i === 0 ? inverterLifetime + 1 : i * panelLifetime + 1,
+            bcnInvestBool: false,
+            bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
+            rvBool: i >= (studyPeriod / panelLifetime) - 1,
+            rvOnly: false,
+            recurBool: true,
+            recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
+            recurVarRate: null,
+            recurVarValue: null,
+            recurEndDate: (i + 1) * panelLifetime + 1,
+            valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
+            quant: 1,
+            quantVarRate: null,
+            quantVarValue: null,
+            quantUnit: null
+        })
     }
+
+    return result;
 }
 
 export function acidificationPotentialConsumption(store: ApplicationStore): object {
