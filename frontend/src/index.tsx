@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {MuiThemeProvider} from "@material-ui/core";
+import {ThemeProvider} from "@material-ui/core";
 import LandingPage from "./application/landingpage/LandingPage";
 import Application from "./application/Application";
 import {Store, store} from "./application/ApplicationStore";
@@ -18,7 +18,7 @@ const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
 root.render(
     <BrowserRouter>
-        <MuiThemeProvider theme={Constants.theme}>
+        <ThemeProvider theme={Constants.theme}>
             <Store.Provider value={store}>
                 <Routes>
                     <Route element={<Header/>}>
@@ -32,6 +32,6 @@ root.render(
             </Store.Provider>
 
             <Disclaimer/>
-        </MuiThemeProvider>
+        </ThemeProvider>
     </BrowserRouter>
 );
