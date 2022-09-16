@@ -68,10 +68,13 @@ function firstAlternative(store: ApplicationStore) {
     let bcns = [];
     bcns.push(createBcn("Grid Electricity Demand Charge", altId, () => gridDemandCharge(store)));
     bcns.push(createBcn("PV Grid Connection Fee", altId, () => pvGridConnectionRate(store)))
-    bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
     bcns.push(createBcn("Federal Tax Credit", altId, () => federalTaxCredit(store)));
     bcns.push(createBcn("Grants Rebates", altId, () => grantsRebates(store)));
     bcns.push(createBcn("Maintenance Costs", altId, () => maintenanceCosts(store)));
+
+    // If the panels are never replaced but the lifetime is greater than our study period, include residual value
+    if((store.solarSystemFormStore.panelLifetime ?? 25) > (store.analysisAssumptionsFormStore.studyPeriod ?? 25))
+        bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
 
     if ((store.solarSystemFormStore.panelLifetime ?? 25) < (store.analysisAssumptionsFormStore.studyPeriod ?? 25))
         bcns.push(createBcn("Panel replacement", altId, () => panelReplacement(store)))
@@ -147,9 +150,12 @@ function ppaAlternative(store: ApplicationStore) {
     bcns.push(createBcn("Net Panel Electricity Production", altId, () => netPanelProduction(store)));
     bcns.push(createBcn("Electricity Consumption - PPA", altId, () => ppaConsumption(store)));
     bcns.push(createBcn("Solar PV Purchase Price", altId, () => ppaSystemPurchasePrice(store)));
-    bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
     bcns.push(createBcn("Consumption Global Warming Potential", altId, () => globalWarmingPotentialConsumption(store)));
     bcns.push(createBcn("Production Global Warming Potential", altId, () => globalWarmingPotentialProduction(store)));
+
+    // If the panels are never replaced but the lifetime is greater than our study period, include residual value
+    if((store.solarSystemFormStore.panelLifetime ?? 25) > (store.analysisAssumptionsFormStore.studyPeriod ?? 25))
+        bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
 
     if ((store.solarSystemFormStore.panelLifetime ?? 25) < (store.analysisAssumptionsFormStore.studyPeriod ?? 25))
         bcns.push(createBcn("Panel Replacement", altId, () => panelReplacement(store)))
