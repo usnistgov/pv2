@@ -229,11 +229,14 @@ export function panelReplacement(store: ApplicationStore): object {
 }
 
 export function panelReplacementAfterPPA(store: ApplicationStore): object {
+    const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
+    const ppaEnd = store.costsFormStore.ppaContractLength ?? 10;
+
     return {
         bcnType: "Cost",
         bcnSubType: "Direct",
         bcnTag: "System Replacement Costs",
-        initialOcc: (store.solarSystemFormStore.panelLifetime ?? 25) + 1,
+        initialOcc: Math.ceil(ppaEnd / panelLifetime) * panelLifetime + 1,
         bcnInvestBool: true,
         bcnLife: store.solarSystemFormStore.panelLifetime,
         rvBool: false,
@@ -623,12 +626,18 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object[] {
 
     const result: object[] = [];
 
+    //Calculate first replacement after PPA ends
+    const initialOccurrence = Math.ceil(ppaEnd / inverterLifetime) * inverterLifetime;
+    const firstPanelReplacement = Math.ceil(ppaEnd / panelLifetime) * panelLifetime;
+
+    const skipped = Math.floor(ppaEnd / panelLifetime);
+
     for (let i = 0; i < (studyPeriod - ppaEnd) / panelLifetime; i++) {
         result.push({
             bcnType: "Cost",
             bcnSubType: "Direct",
             bcnTag: "Inverter Replacement Costs",
-            initialOcc: i === 0 ? ppaEnd + inverterLifetime + 1 : ppaEnd + (i * panelLifetime) + inverterLifetime + 1,
+            initialOcc: i === 0 ? initialOccurrence + 1 : ((i + skipped) * panelLifetime) + inverterLifetime + 1,
             bcnInvestBool: false,
             bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
             rvBool: false,
@@ -637,7 +646,7 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object[] {
             recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
             recurVarRate: null,
             recurVarValue: null,
-            recurEndDate: ppaEnd + ((i + 1) * panelLifetime) + 1,
+            recurEndDate: ((i + skipped + 1) * panelLifetime) + 1,
             valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
             quant: 1,
             quantVarRate: null,

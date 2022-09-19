@@ -17,7 +17,7 @@ import {
     maintenanceCostsAfterPpa,
     netGridConsumption,
     netPanelProduction,
-    panelProduction, panelReplacement,
+    panelProduction, panelReplacement, panelReplacementAfterPPA,
     ppaConsumption,
     ppaSystemPurchasePrice,
     productionBasedSrec,
@@ -158,7 +158,7 @@ function ppaAlternative(store: ApplicationStore) {
         bcns.push(createBcn("Total Installation Costs Residual Value", altId, () => totalInstallationCostsResidualValue(store)));
 
     if ((store.solarSystemFormStore.panelLifetime ?? 25) < (store.analysisAssumptionsFormStore.studyPeriod ?? 25))
-        bcns.push(createBcn("Panel Replacement", altId, () => panelReplacement(store)))
+        bcns.push(createBcn("Panel Replacement", altId, () => panelReplacementAfterPPA(store)))
 
     const ppaContractLength = store.costsFormStore.ppaContractLength ?? studyPeriod;
     if (ppaContractLength < studyPeriod) {
