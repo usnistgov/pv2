@@ -69,12 +69,14 @@ import "../Form.sass";
 import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
 import {DecimalTest, defaultIfUndefined} from "../../../Utils";
+import {PANEL_LIFETIME} from "../../../Defaults";
 
 /**
  * Creates a form to input the costs of the PV system.
  */
 const CostsForm = observer(() => {
     const store = useContext(Store).costsFormStore;
+    const systemInfo = useContext(Store).solarSystemFormStore;
 
     return (
         <Box className={"form-page-container"}>
@@ -139,8 +141,8 @@ const CostsForm = observer(() => {
                                                     store.inverterReplacementCostsOrDefault = value
                                                 })}
                                                 onError={action(() => {
-                                                        store.inverterReplacementCostsOrDefault = undefined
-                                                    })}
+                                                    store.inverterReplacementCostsOrDefault = undefined
+                                                })}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -179,55 +181,55 @@ const CostsForm = observer(() => {
                     </FormControl>
                 </Info>
                 {store.loanOrCash === LOAN_OR_CASH_OPTIONS[0] &&
-                <>
-                    <Info tooltip={LOAN_DOWN_PAYMENT_TOOLTIP} info={LOAN_DOWN_PAYMENT_INFO}>
-                        <ValidatedTextField fullWidth
-                                            required
-                                            variant={"filled"}
-                                            label={LOAN_DOWN_PAYMENT_LABEL}
-                                            value={defaultIfUndefined(store.downPayment, '')}
-                                            schema={Yup.number().required().min(0).test(DecimalTest)}
-                                            onValidate={action((value) => store.downPayment = value)}
-                                            onError={action(() => store.downPayment = undefined)}
-                                            InputProps={Adornment.DOLLAR}
-                                            type={"number"}/>
-                    </Info>
-                    <Info tooltip={NOMINAL_INTEREST_RATE_TOOLTIP} info={NOMINAL_INTEREST_RATE_INFO}>
-                        <ValidatedTextField fullWidth
-                                            variant={"filled"}
-                                            label={NOMINAL_INTEREST_RATE_LABEL}
-                                            value={defaultIfUndefined(store.nominalInterestRate, '')}
-                                            schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
-                                            onValidate={action((value) => store.nominalInterestRate = value)}
-                                            onError={action(() => store.nominalInterestRate = undefined)}
-                                            InputProps={Adornment.PERCENT}
-                                            type={"number"}/>
-                    </Info>
-                    <Info tooltip={MONTHLY_PAYMENT_TOOLTIP} info={MONTHLY_PAYMENT_INFO}>
-                        <ValidatedTextField fullWidth
-                                            required
-                                            variant={"filled"}
-                                            label={MONTHLY_PAYMENT_LABEL}
-                                            value={defaultIfUndefined(store.monthlyPayment, '')}
-                                            schema={Yup.number().required().moreThan(0).test(DecimalTest)}
-                                            onValidate={action((value) => store.monthlyPayment = value)}
-                                            onError={action(() => store.monthlyPayment = undefined)}
-                                            InputProps={Adornment.DOLLAR}
-                                            type={"number"}/>
-                    </Info>
-                    <Info tooltip={LOAN_LENGTH_TOOLTIP} info={LOAN_LENGTH_INFO}>
-                        <ValidatedTextField fullWidth
-                                            required
-                                            variant={"filled"}
-                                            label={LOAN_LENGTH_LABEL}
-                                            value={defaultIfUndefined(store.loanLength, '')}
-                                            schema={Yup.number().required().min(0).integer()}
-                                            onValidate={action((value) => store.loanLength = value)}
-                                            onError={action(() => store.loanLength = undefined)}
-                                            InputProps={Adornment.YEAR}
-                                            type={"number"}/>
-                    </Info>
-                </>
+                    <>
+                        <Info tooltip={LOAN_DOWN_PAYMENT_TOOLTIP} info={LOAN_DOWN_PAYMENT_INFO}>
+                            <ValidatedTextField fullWidth
+                                                required
+                                                variant={"filled"}
+                                                label={LOAN_DOWN_PAYMENT_LABEL}
+                                                value={defaultIfUndefined(store.downPayment, '')}
+                                                schema={Yup.number().required().min(0).test(DecimalTest)}
+                                                onValidate={action((value) => store.downPayment = value)}
+                                                onError={action(() => store.downPayment = undefined)}
+                                                InputProps={Adornment.DOLLAR}
+                                                type={"number"}/>
+                        </Info>
+                        <Info tooltip={NOMINAL_INTEREST_RATE_TOOLTIP} info={NOMINAL_INTEREST_RATE_INFO}>
+                            <ValidatedTextField fullWidth
+                                                variant={"filled"}
+                                                label={NOMINAL_INTEREST_RATE_LABEL}
+                                                value={defaultIfUndefined(store.nominalInterestRate, '')}
+                                                schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
+                                                onValidate={action((value) => store.nominalInterestRate = value)}
+                                                onError={action(() => store.nominalInterestRate = undefined)}
+                                                InputProps={Adornment.PERCENT}
+                                                type={"number"}/>
+                        </Info>
+                        <Info tooltip={MONTHLY_PAYMENT_TOOLTIP} info={MONTHLY_PAYMENT_INFO}>
+                            <ValidatedTextField fullWidth
+                                                required
+                                                variant={"filled"}
+                                                label={MONTHLY_PAYMENT_LABEL}
+                                                value={defaultIfUndefined(store.monthlyPayment, '')}
+                                                schema={Yup.number().required().moreThan(0).test(DecimalTest)}
+                                                onValidate={action((value) => store.monthlyPayment = value)}
+                                                onError={action(() => store.monthlyPayment = undefined)}
+                                                InputProps={Adornment.DOLLAR}
+                                                type={"number"}/>
+                        </Info>
+                        <Info tooltip={LOAN_LENGTH_TOOLTIP} info={LOAN_LENGTH_INFO}>
+                            <ValidatedTextField fullWidth
+                                                required
+                                                variant={"filled"}
+                                                label={LOAN_LENGTH_LABEL}
+                                                value={defaultIfUndefined(store.loanLength, '')}
+                                                schema={Yup.number().required().min(0).integer()}
+                                                onValidate={action((value) => store.loanLength = value)}
+                                                onError={action(() => store.loanLength = undefined)}
+                                                InputProps={Adornment.YEAR}
+                                                type={"number"}/>
+                        </Info>
+                    </>
                 }
             </Box>
             <MaterialHeader text={"PPA/Lease Option"} right={<ResetButton onClick={() => store.resetPpa()}/>}/>
@@ -257,11 +259,17 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={PPA_CONTRACT_LENGTH_LABEL}
                                             value={defaultIfUndefined(store.ppaContractLength, '')}
-                                            schema={Yup.number().required().max(40).min(1).integer()}
+                                            schema={Yup.number().required()
+                                                .max(systemInfo.panelLifetime ?? PANEL_LIFETIME)
+                                                .min(1)
+                                                .integer()}
                                             onValidate={action((value) => {
                                                 store.ppaContractLength = value
                                             })}
-                                            onError={action(() => store.ppaContractLength = undefined)}
+                                            onError={action((value) => {
+                                                if (value === undefined || value === null || value === "")
+                                                    store.ppaContractLength = undefined;
+                                            })}
                                             InputProps={Adornment.YEAR}
                                             type={"number"}/>
                     </Info>

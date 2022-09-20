@@ -119,7 +119,7 @@ const SolarSystemForm = observer(() => {
                                         onValidate={action((value) => store.totalSystemSize = value)}
                                         onError={action((value) => {
                                             if (value === undefined || value === null || value === "")
-                                                store.totalSystemSize = undefined
+                                                store.totalSystemSize = undefined;
                                         })}
                                         InputProps={endAdornment("Watts")}
                                         type={"number"}/>
@@ -130,9 +130,12 @@ const SolarSystemForm = observer(() => {
                                         variant={"filled"}
                                         label={ANNUAL_PRODUCTION_LABEL}
                                         value={defaultIfUndefined(store.estimatedAnnualProduction, '')}
-                                        schema={Yup.number().required().min(0).test(DecimalTest)}
+                                        schema={Yup.number().required().min(1000).test(DecimalTest)}
                                         onValidate={action((value) => store.estimatedAnnualProduction = value)}
-                                        onError={action(() => store.estimatedAnnualProduction = undefined)}
+                                        onError={action((value) => {
+                                            if (value === undefined || value === null || value === "")
+                                                store.estimatedAnnualProduction = undefined;
+                                        })}
                                         InputProps={Adornment.KWH}
                                         type={"number"}/>
                 </Info>
@@ -143,9 +146,12 @@ const SolarSystemForm = observer(() => {
                                                 variant={"filled"}
                                                 label={PANEL_LIFETIME_LABEL}
                                                 value={defaultIfUndefined(store.panelLifetime, '')}
-                                                schema={Yup.number().required().max(40).min(1).integer()}
+                                                schema={Yup.number().required().max(40).min(10).integer()}
                                                 onValidate={action((value) => store.panelLifetime = value)}
-                                                onError={action(() => store.panelLifetime = undefined)}
+                                                onError={action((value) => {
+                                                    if (value === undefined || value === null || value === "")
+                                                        store.panelLifetime = undefined;
+                                                })}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
@@ -154,11 +160,14 @@ const SolarSystemForm = observer(() => {
                                                 variant={"filled"}
                                                 label={INVERTER_LIFETIME_LABEL}
                                                 value={defaultIfUndefined(store.inverterLifetimeOrDefault, '')}
-                                                schema={Yup.number().required().max(40).min(1).integer()}
+                                                schema={Yup.number().required().max(40).min(5).integer()}
                                                 onValidate={action((value) => {
                                                     store.inverterLifetimeOrDefault = value
                                                 })}
-                                                onError={action(() => store.inverterLifetimeOrDefault = undefined)}
+                                                onError={action((value) => {
+                                                    if (value === undefined || value === null || value === "")
+                                                        store.inverterLifetimeOrDefault = undefined;
+                                                })}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
@@ -167,9 +176,12 @@ const SolarSystemForm = observer(() => {
                                                 variant={"filled"}
                                                 label={DEGRADATION_RATE_LABEL}
                                                 value={defaultIfUndefined(store.degradationRate, '')}
-                                                schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
+                                                schema={Yup.number().required().max(2.5).min(0).test(DecimalTest)}
                                                 onValidate={action((value) => store.degradationRate = value)}
-                                                onError={action(() => store.degradationRate = undefined)}
+                                                onError={action((value) => {
+                                                    if (value === undefined || value === null || value === "")
+                                                        store.degradationRate = undefined;
+                                                })}
                                                 InputProps={Adornment.PERCENT}
                                                 type={"number"}/>
                         </Info>
