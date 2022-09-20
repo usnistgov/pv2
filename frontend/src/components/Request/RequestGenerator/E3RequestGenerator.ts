@@ -174,7 +174,7 @@ function ppaAlternative(store: ApplicationStore) {
                 const inverterOptions = inverterReplacementAfterPpa(store);
 
                 for (let i = 0; i < inverterOptions.length; i++) {
-                    bcns.push(createBcn("Inverter Replacement Costs After PPA", altId, () => inverterOptions[i]));
+                    bcns.push(createBcn(`Inverter Replacement Costs After PPA ${i}`, altId, () => inverterOptions[i]));
                 }
 
                 bcns.push(createBcn("Inverter Residual Value After PPA", altId, () => inverterReplacementResidualValue(store)));

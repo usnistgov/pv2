@@ -239,7 +239,7 @@ export function panelReplacementAfterPPA(store: ApplicationStore): object {
         initialOcc: Math.ceil(ppaEnd / panelLifetime) * panelLifetime + 1,
         bcnInvestBool: true,
         bcnLife: store.solarSystemFormStore.panelLifetime,
-        rvBool: false,
+        rvBool: true,
         recurBool: true,
         recurInterval: store.solarSystemFormStore.panelLifetime,
         recurVarRate: null,
@@ -317,7 +317,7 @@ export function inverterReplacementResidualValue(store: ApplicationStore): objec
     const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
     const inverterLifetime = store.solarSystemFormStore.inverterLifetimeOrDefault ?? INVERTER_LIFETIME;
 
-    const index = (studyPeriod / panelLifetime) - 1;
+    const index = Math.ceil(studyPeriod / panelLifetime) - 1;
 
     return {
         bcnType: "Cost",
@@ -632,7 +632,7 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object[] {
 
     const skipped = Math.floor(ppaEnd / panelLifetime);
 
-    for (let i = 0; i < (studyPeriod - ppaEnd) / panelLifetime; i++) {
+    for (let i = 0; i < Math.ceil(studyPeriod / panelLifetime) - skipped; i++) {
         result.push({
             bcnType: "Cost",
             bcnSubType: "Direct",
