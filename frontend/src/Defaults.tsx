@@ -12,3 +12,5 @@ export const ANNUAL_MAINTENANCE = 0;
 
 export const SREC_UPFRONT = 0;
 export const SREC_CONTRACT_LENGTH = 10;
+
+export const SYSTEM_DESCRIPTION = "My System";

@@ -1,8 +1,10 @@
 import {autorun, makeAutoObservable, reaction} from "mobx";
 import React from "react";
 import {
-    ESCALATION_RATES_SAME_OR_DIFF_OPTIONS, GraphOption,
-    INVERTER_TYPE_OPTIONS, KNOW_ANNUAL_CONSUMPTION_OPTIONS,
+    ESCALATION_RATES_SAME_OR_DIFF_OPTIONS,
+    GraphOption,
+    INVERTER_TYPE_OPTIONS,
+    KNOW_ANNUAL_CONSUMPTION_OPTIONS,
     LOAN_OR_CASH_OPTIONS,
     NET_METERING_FEED_TARIFF_OPTIONS,
     PPA_OPTIONS,
@@ -16,10 +18,15 @@ import {
     ANNUAL_MAINTENANCE,
     DEGRADATION_RATE,
     GENERAL_INFLATION,
-    INVERTER_LIFETIME, INVERTER_REPLACEMENT, NOMINAL_DISCOUNT_RATE,
+    INVERTER_LIFETIME,
+    INVERTER_REPLACEMENT,
+    NOMINAL_DISCOUNT_RATE,
     PANEL_LIFETIME,
-    REAL_DISCOUNT_RATE, SREC_CONTRACT_LENGTH, SREC_UPFRONT,
-    STUDY_PERIOD
+    REAL_DISCOUNT_RATE,
+    SREC_CONTRACT_LENGTH,
+    SREC_UPFRONT,
+    STUDY_PERIOD,
+    SYSTEM_DESCRIPTION
 } from "../Defaults";
 import {Environment} from "../typings/Environment";
 import _ from "lodash";
@@ -269,7 +276,7 @@ export class EscalationRateFormStore {
 export class SolarSystemFormStore {
     rootStore: ApplicationStore;
 
-    systemDescription = undefined;
+    systemDescription: string | undefined = SYSTEM_DESCRIPTION;
     panelEfficiency = undefined;
     inverterType = INVERTER_TYPE_OPTIONS[0];
     totalSystemSize = undefined;
@@ -330,7 +337,7 @@ export class SolarSystemFormStore {
     }
 
     reset() {
-        this.systemDescription = undefined;
+        this.systemDescription = SYSTEM_DESCRIPTION;
         this.panelEfficiency = undefined;
         this.inverterType = INVERTER_TYPE_OPTIONS[0];
         this.totalSystemSize = undefined;
