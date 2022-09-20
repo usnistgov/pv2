@@ -42,7 +42,7 @@ const SrecForm = observer(() => {
         if(Constants.SREC_STATES.includes(state)) {
             return <p>
                 Your state {state} has an SREC market. See&nbsp;
-                <a href={"https://www.srectrade.com/markets/rps/srec/"}>
+                <a href={"https://www.srectrade.com/markets/rps/srec/"} target={"_blank"}>
                     SREC Trade
                 </a>
                 &nbsp;for recent SREC prices.
@@ -53,7 +53,7 @@ const SrecForm = observer(() => {
             return <p>
                 Your state {state} does not have an SREC market, but you might be able to sell your SRECs in a
                 surrounding state. See&nbsp;
-                <a href={"https://www.srectrade.com/markets/rps/srec/"}>
+                <a href={"https://www.srectrade.com/markets/rps/srec/"} target={"_blank"}>
                     SREC Trade
                 </a>
                 &nbsp;for information on which state market(s) you can register in and their recent SREC prices.

@@ -366,7 +366,7 @@ export const SREC_PAYMENTS_INFO = <div>
     <li>Virginia</li>
 </ul>
     Information on Solar Markets is available <a
-    href={"https://www.srectrade.com/markets/rps/srec/"}>here</a>.
+    href={"https://www.srectrade.com/markets/rps/srec/"} target={"_blank"}>here</a>.
 </div>;
 export const SREC_PAYMENTS_OPTIONS = [
     "None",
