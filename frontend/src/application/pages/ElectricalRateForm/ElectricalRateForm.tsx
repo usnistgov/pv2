@@ -48,11 +48,16 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 import "../Form.sass";
 import {defaultIfUndefined} from "../../../Utils";
 
+interface ElectricalRateFormProps {
+    step: number;
+}
+
 /*
  * Displays the electrical rate form.
  */
-const ElectricalRateForm = observer(() => {
+const ElectricalRateForm = observer(({step}: ElectricalRateFormProps) => {
     const store = useContext(Store).electricalCostFormStore;
+    const uiStore = useContext(Store).formUiStore;
 
     return (
         <Box className={"form-page-container"}>
@@ -70,7 +75,8 @@ const ElectricalRateForm = observer(() => {
                                         label={ELECTRICAL_COMPANY_NAME_LABEL}
                                         value={defaultIfUndefined(store.electricalCompanyName, '')}
                                         schema={store.electricalCompanyNameSchema}
-                                        action={(value) => store.electricalCompanyName = value}/>
+                                        action={(value) => store.electricalCompanyName = value}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <Info info={KNOW_ANNUAL_CONSUMPTION_INFO}>
                     <FormControl fullWidth variant={"filled"}>
@@ -101,7 +107,8 @@ const ElectricalRateForm = observer(() => {
                                             schema={store.annualConsumptionSchema}
                                             action={(value) => store.annualConsumption = value}
                                             InputProps={Adornment.KWH}
-                                            type={"number"}/>
+                                            type={"number"}
+                                            shouldUpdate={() => uiStore.newStep !== step}/>
                     </Info>
                 }
                 <div>
@@ -141,7 +148,8 @@ const ElectricalRateForm = observer(() => {
                                                 store.excessGenerationUnitPrice = value;
                                             }}
                                             InputProps={Adornment.DOLLAR_PER_KWH}
-                                            type={"number"}/>
+                                            type={"number"}
+                                            shouldUpdate={() => uiStore.newStep !== step}/>
                     </>
                 }
                 {
@@ -156,7 +164,8 @@ const ElectricalRateForm = observer(() => {
                                                 schema={store.flatRateChargeSchema}
                                                 action={(value) => store.monthlyFlatRateCharge = value}
                                                 InputProps={Adornment.DOLLAR}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={ELECTRICAL_UNIT_PRICE_TOOLTIP} info={ELECTRICAL_UNIT_PRICE_INFO}>
                             <ValidatedTextField fullWidth
@@ -167,7 +176,8 @@ const ElectricalRateForm = observer(() => {
                                                 schema={store.electricalUnitPriceSchema}
                                                 action={(value) => store.electricUnitPrice = value}
                                                 InputProps={Adornment.DOLLAR_PER_KWH}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={NET_METERING_FEED_TARIFF_TOOLTIP} info={NET_METERING_FEED_TARIFF_INFO}>
                             <FormControl fullWidth variant={"filled"}>
@@ -197,7 +207,8 @@ const ElectricalRateForm = observer(() => {
                                                 schema={store.excessGenerationUnitPriceSchema}
                                                 action={(value) => store.excessGenerationUnitPrice = value}
                                                 InputProps={Adornment.DOLLAR_PER_KWH}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={PV_GRID_CONNECTION_RATE_TOOLTIP} info={PV_GRID_CONNECTION_RATE_INFO}>
                             <ValidatedTextField fullWidth
@@ -207,11 +218,12 @@ const ElectricalRateForm = observer(() => {
                                                 schema={store.pvGridConnectionRateSchema}
                                                 action={(value) => store.pvGridConnectionRate = value}
                                                 InputProps={Adornment.DOLLAR_PER_KW}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                     </>
                 }
-                <EscalationRateForm/>
+                <EscalationRateForm step={step}/>
             </Box>
         </Box>
     );

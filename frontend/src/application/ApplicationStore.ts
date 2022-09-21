@@ -711,6 +711,7 @@ export class FormUiStore {
 
     _current = 0;
     seen = new Set();
+    newStep: undefined | number = 0;
 
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
@@ -732,6 +733,11 @@ export class FormUiStore {
     }
 
     set current(value: number) {
+        if(!this.seen.has(value))
+            this.newStep = value;
+        else
+            this.newStep = undefined;
+
         this._current = value;
         this.seen.add(value);
     }

@@ -38,8 +38,13 @@ import {calculateNominalDiscountRate, calculateRealDiscountRate, defaultIfUndefi
 import {GENERAL_INFLATION, NOMINAL_DISCOUNT_RATE} from "../../../Defaults";
 import Explanation from "../../../components/Explanation/Explanation";
 
-const AnalysisAssumptionsForm = observer(() => {
+interface AnalysisAssumptionFormProps {
+    step: number;
+}
+
+const AnalysisAssumptionsForm = observer(({step}: AnalysisAssumptionFormProps) => {
     const store = useContext(Store).analysisAssumptionsFormStore;
+    const uiStore = useContext(Store).formUiStore;
 
     return (
         <Box className={"form-page-container"}>
@@ -56,7 +61,8 @@ const AnalysisAssumptionsForm = observer(() => {
                             value={defaultIfUndefined(store.studyPeriod, '')}
                             action={(value: number) => store.studyPeriod = value}
                             InputProps={Adornment.YEAR}
-                            type={"number"}/>
+                            type={"number"}
+                            shouldUpdate={() => uiStore.newStep !== step}/>
                     </Info>
                 </div>
 
@@ -92,7 +98,8 @@ const AnalysisAssumptionsForm = observer(() => {
                                         store.realDiscountRate = parseFloat((calculateRealDiscountRate(value / 100, (store.generalInflation ?? GENERAL_INFLATION) / 100) * 100).toFixed(2));
                                     }}
                                     InputProps={Adornment.PERCENT}
-                                    type={"number"}/>
+                                    type={"number"}
+                                    shouldUpdate={() => uiStore.newStep !== step}/>
                             </Info>
                         </div>
                         <div style={{height: "16px"}}></div>
@@ -111,7 +118,8 @@ const AnalysisAssumptionsForm = observer(() => {
                                         store.realDiscountRate = parseFloat((calculateRealDiscountRate((store.nominalDiscountRate ?? NOMINAL_DISCOUNT_RATE) / 100, value / 100) * 100).toFixed(2));
                                     }}
                                     InputProps={Adornment.PERCENT}
-                                    type={"number"}/>
+                                    type={"number"}
+                                    shouldUpdate={() => uiStore.newStep !== step}/>
                             </Info>
                         </div>
                         <div style={{height: "16px"}}></div>
@@ -130,7 +138,8 @@ const AnalysisAssumptionsForm = observer(() => {
                                         store.realDiscountRate = value;
                                     }}
                                     InputProps={Adornment.PERCENT}
-                                    type={"number"}/>
+                                    type={"number"}
+                                    shouldUpdate={() => uiStore.newStep !== step}/>
                             </Info>
                         </div>
                     </>

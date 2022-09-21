@@ -48,11 +48,16 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 import {defaultIfUndefined} from "../../../Utils";
 import {DegradationRateGraph} from "../../../components/DegradationRateGraph";
 
+interface SolarSystemFormProps {
+    step: number;
+}
+
 /**
  * Form for details about the output of the PV system.
  */
-const SolarSystemForm = observer(() => {
+const SolarSystemForm = observer(({step}: SolarSystemFormProps) => {
     const store = useContext(Store).solarSystemFormStore;
+    const uiStore = useContext(Store).formUiStore;
 
     return (
         <Box className={"form-page-container"}>
@@ -72,7 +77,8 @@ const SolarSystemForm = observer(() => {
                                         label={SYSTEM_DESCRIPTION_LABEL}
                                         value={defaultIfUndefined(store.systemDescription, '')}
                                         action={(value) => store.systemDescription = value}
-                                        schema={store.systemDescriptionSchema}/>
+                                        schema={store.systemDescriptionSchema}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <Info tooltip={PANEL_EFFICIENCY_TOOLTIP} info={PANEL_EFFICIENCY_INFO}>
                     <ValidatedTextField fullWidth
@@ -82,7 +88,8 @@ const SolarSystemForm = observer(() => {
                                         schema={store.panelEfficiencySchema}
                                         action={(value) => store.panelEfficiency = value}
                                         InputProps={Adornment.PERCENT}
-                                        type={"number"}/>
+                                        type={"number"}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <Info tooltip={INVERTER_TYPE_TOOLTIP} info={INVERTER_TYPE_INFO}>
                     <FormControl fullWidth variant={"filled"}>
@@ -111,7 +118,8 @@ const SolarSystemForm = observer(() => {
                                         schema={store.totalSystemSizeSchema}
                                         action={(value) => store.totalSystemSize = value}
                                         InputProps={endAdornment("Watts")}
-                                        type={"number"}/>
+                                        type={"number"}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <Info tooltip={ANNUAL_PRODUCTION_TOOLTIP} info={ANNUAL_PRODUCTION_INFO}>
                     <ValidatedTextField fullWidth
@@ -122,7 +130,8 @@ const SolarSystemForm = observer(() => {
                                         schema={store.estimatedAnnualProductionSchema}
                                         action={(value) => store.estimatedAnnualProduction = value}
                                         InputProps={Adornment.KWH}
-                                        type={"number"}/>
+                                        type={"number"}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <CollapseContainer text={SOLAR_SYSTEM_ADVANCED_LABEL}>
                     <AdvancedBox>
@@ -134,7 +143,8 @@ const SolarSystemForm = observer(() => {
                                                 schema={store.panelLifetimeSchema}
                                                 action={(value) => store.panelLifetime = value}
                                                 InputProps={Adornment.YEAR}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={INVERTER_LIFETIME_TOOLTIP} info={INVERTER_LIFETIME_INFO}>
                             <ValidatedTextField fullWidth
@@ -144,7 +154,8 @@ const SolarSystemForm = observer(() => {
                                                 schema={store.inverterLifetimeSchema}
                                                 action={(value) => store.inverterLifetimeOrDefault = value}
                                                 InputProps={Adornment.YEAR}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={DEGRADATION_RATE_TOOLTIP} info={DEGRADATION_RATE_INFO}>
                             <ValidatedTextField fullWidth
@@ -154,7 +165,8 @@ const SolarSystemForm = observer(() => {
                                                 schema={store.degradationRateSchema}
                                                 action={(value) => store.degradationRate = value}
                                                 InputProps={Adornment.PERCENT}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <DegradationRateGraph/>
                     </AdvancedBox>

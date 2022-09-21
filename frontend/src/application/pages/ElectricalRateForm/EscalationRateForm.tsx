@@ -22,8 +22,13 @@ import Adornment from "../../../components/Adornments";
 import Info from "../../../components/Info/Info";
 import {action} from "mobx";
 
-const EscalationRateForm = observer(() => {
+interface EscalationRateFormProps {
+    step: number;
+}
+
+const EscalationRateForm = observer(({step}: EscalationRateFormProps) => {
     const store = useContext(Store).escalationRateFormStore;
+    const uiStore = useContext(Store).formUiStore;
 
     function createFields(values: number[]): JSX.Element[] {
         return values.map((rate, i) => {
@@ -37,7 +42,8 @@ const EscalationRateForm = observer(() => {
                                     schema={store.escalationRateSchema}
                                     action={(value) =>  values[i] = value / 100}
                                     InputProps={Adornment.PERCENT}
-                                    type={"number"}/>
+                                    type={"number"}
+                                    shouldUpdate={() => uiStore.newStep !== step}/>
             )
         })
     }

@@ -71,12 +71,16 @@ import ResetButton from "../../../components/ResetButton/ResetButton";
 import {DecimalTest, defaultIfUndefined, PPAContractLengthLTEPanelLifetime} from "../../../Utils";
 import {PANEL_LIFETIME} from "../../../Defaults";
 
+interface CostFormProps {
+    step: number;
+}
+
 /**
  * Creates a form to input the costs of the PV system.
  */
-const CostsForm = observer(() => {
+const CostsForm = observer(({step}: CostFormProps) => {
     const store = useContext(Store).costsFormStore;
-    const systemInfo = useContext(Store).solarSystemFormStore;
+    const uiStore = useContext(Store).formUiStore;
 
     return (
         <Box className={"form-page-container"}>
@@ -99,7 +103,8 @@ const CostsForm = observer(() => {
                                         schema={store.totalInstallationCostsSchema}
                                         action={(value) => store.totalInstallationCosts = value}
                                         InputProps={Adornment.DOLLAR}
-                                        type={"number"}/>
+                                        type={"number"}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <Info tooltip={FEDERAL_TAX_CREDIT_TOOLTIP} info={FEDERAL_TAX_CREDIT_INFO}>
                     <TextField fullWidth
@@ -121,7 +126,8 @@ const CostsForm = observer(() => {
                                         schema={store.stateOrLocalTaxCreditsOrGrantsOrRebatesSchema}
                                         action={(value) => store.stateOrLocalTaxCreditsOrGrantsOrRebates = value}
                                         InputProps={Adornment.DOLLAR}
-                                        type={"number"}/>
+                                        type={"number"}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <CollapseContainer text={COST_FORM_ADVANCED_LABEL}>
                     <AdvancedBox>
@@ -133,7 +139,8 @@ const CostsForm = observer(() => {
                                                 schema={store.inverterReplacementCostsSchema}
                                                 action={(value) => store.inverterReplacementCostsOrDefault = value}
                                                 InputProps={Adornment.DOLLAR}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={ANNUAL_MAINTENANCE_COSTS_TOOLTIP} info={ANNUAL_MAINTENANCE_COSTS_INFO}>
                             <ValidatedTextField fullWidth
@@ -143,7 +150,8 @@ const CostsForm = observer(() => {
                                                 schema={store.annualMaintenanceCostsSchema}
                                                 action={(value) => store.annualMaintenanceCosts = value}
                                                 InputProps={Adornment.DOLLAR}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                     </AdvancedBox>
                 </CollapseContainer>
@@ -179,7 +187,8 @@ const CostsForm = observer(() => {
                                                 schema={store.downPaymentSchema}
                                                 action={(value) => store.downPayment = value}
                                                 InputProps={Adornment.DOLLAR}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={NOMINAL_INTEREST_RATE_TOOLTIP} info={NOMINAL_INTEREST_RATE_INFO}>
                             <ValidatedTextField fullWidth
@@ -189,7 +198,8 @@ const CostsForm = observer(() => {
                                                 schema={store.nominalInterestRateSchema}
                                                 action={(value) => store.nominalInterestRate = value}
                                                 InputProps={Adornment.PERCENT}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={MONTHLY_PAYMENT_TOOLTIP} info={MONTHLY_PAYMENT_INFO}>
                             <ValidatedTextField fullWidth
@@ -200,7 +210,8 @@ const CostsForm = observer(() => {
                                                 schema={store.monthlyPaymentSchema}
                                                 action={(value) => store.monthlyPayment = value}
                                                 InputProps={Adornment.DOLLAR}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                         <Info tooltip={LOAN_LENGTH_TOOLTIP} info={LOAN_LENGTH_INFO}>
                             <ValidatedTextField fullWidth
@@ -211,7 +222,8 @@ const CostsForm = observer(() => {
                                                 schema={store.loanLengthSchema}
                                                 action={(value) => store.loanLength = value}
                                                 InputProps={Adornment.YEAR}
-                                                type={"number"}/>
+                                                type={"number"}
+                                                shouldUpdate={() => uiStore.newStep !== step}/>
                         </Info>
                     </>
                 }
@@ -246,7 +258,8 @@ const CostsForm = observer(() => {
                                             schema={store.ppaContractLengthSchema}
                                             action={(value) => store.ppaContractLength = value}
                                             InputProps={Adornment.YEAR}
-                                            type={"number"}/>
+                                            type={"number"}
+                                            shouldUpdate={() => uiStore.newStep !== step}/>
                     </Info>
                     <Info tooltip={PPA_ELECTRICITY_RATE_TOOLTIP} info={PPA_ELECTRICITY_RATE_INFO}>
                         <ValidatedTextField fullWidth
@@ -257,7 +270,8 @@ const CostsForm = observer(() => {
                                             schema={store.ppaElectricityRateSchema}
                                             action={(value) => store.ppaElectricityRate = value}
                                             InputProps={Adornment.DOLLAR}
-                                            type={"number"}/>
+                                            type={"number"}
+                                            shouldUpdate={() => uiStore.newStep !== step}/>
                     </Info>
                     <Info tooltip={PPA_ESCALATION_RATE_TOOLTIP} info={PPA_ESCALATION_RATE_INFO}>
                         <ValidatedTextField fullWidth
@@ -268,7 +282,8 @@ const CostsForm = observer(() => {
                                             schema={store.ppaEscalationRateSchema}
                                             action={(value) => store.ppaEscalationRate = value}
                                             InputProps={Adornment.PERCENT}
-                                            type={"number"}/>
+                                            type={"number"}
+                                            shouldUpdate={() => uiStore.newStep !== step}/>
                     </Info>
                     <Info tooltip={PPA_PURCHASE_PRICE_TOOLTIP} info={PPA_PURCHASE_PRICE_INFO}>
                         <ValidatedTextField fullWidth
@@ -279,7 +294,8 @@ const CostsForm = observer(() => {
                                             schema={store.ppaPurcahsePriceSchema}
                                             action={(value) => store.ppaPurchasePrice = value}
                                             InputProps={Adornment.DOLLAR}
-                                            type={"number"}/>
+                                            type={"number"}
+                                            shouldUpdate={() => uiStore.newStep !== step}/>
                     </Info>
                 </>
                 }

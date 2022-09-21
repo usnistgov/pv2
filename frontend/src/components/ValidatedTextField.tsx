@@ -1,6 +1,6 @@
 import {observer} from "mobx-react-lite";
 import {TextFieldProps} from "@material-ui/core/TextField/TextField";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {TextField} from "@material-ui/core";
 import {action as mobxAction} from "mobx";
 
@@ -15,6 +15,8 @@ interface ValidatedTextFieldProps {
     onError?: (value: any) => void;
 
     action?: (value: any) => void;
+
+    shouldUpdate?: () => boolean;
 }
 
 const ValidatedTextField = observer(({
@@ -25,6 +27,8 @@ const ValidatedTextField = observer(({
                                          onError,
                                          schema,
                                          action,
+                                         shouldUpdate,
+    value,
                                          ...props
                                      }: ValidatedTextFieldProps & TextFieldProps, ref) => {
     // Error state
@@ -44,14 +48,20 @@ const ValidatedTextField = observer(({
 
     const curriedAction = mobxAction((value: any) => action?.(value));
 
+    useEffect(() => {
+        if(shouldUpdate && shouldUpdate())
+            validate(value);
+    }, [shouldUpdate]);
+
     return <TextField inputRef={ref}
                       error={error || errorMessages !== null}
                       helperText={errorMessages ? <>{helperText} {errorMessages}</> : helperText}
                       onChange={(event) => {
                           validate(event.currentTarget.value);
-                          curriedAction(event.currentTarget.value);
+                          curriedAction(schema.cast(event.currentTarget.value));
                           onChange?.(event);
                       }}
+                      value={value}
                       {...props}/>
 }, {forwardRef: true});
 

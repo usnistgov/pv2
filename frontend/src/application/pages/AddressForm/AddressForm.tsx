@@ -21,12 +21,17 @@ import ValidatedTextField from "../../../components/ValidatedTextField";
 import Info from "../../../components/Info/Info";
 import ResetButton from "../../../components/ResetButton/ResetButton";
 
+interface AddressFormProps {
+    step: number;
+}
+
 /*
  * The AddressForm component is the first page of the application form that lets user fill
  * in their address and displays an embedded iframe of Google Maps with the inputted location.
  */
-const AddressForm = observer(() => {
+const AddressForm = observer(({step}: AddressFormProps) => {
     const store = useContext(Store).addressFormStore;
+    const uiStore = useContext(Store).formUiStore;
 
     return (
         <Box className={"form-page-container"}>
@@ -42,7 +47,8 @@ const AddressForm = observer(() => {
                                         value={store.address}
                                         variant={"filled"}
                                         schema={store.addressSchema}
-                                        action={(value) => store.address = value}/>
+                                        action={(value) => store.address = value}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <Info tooltip={CITY_TOOLTIP}>
                     <ValidatedTextField fullWidth
@@ -50,7 +56,8 @@ const AddressForm = observer(() => {
                                         value={store.city}
                                         variant={"filled"}
                                         schema={store.citySchema}
-                                        action={(value) => store.city = value}/>
+                                        action={(value) => store.city = value}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 <Info tooltip={STATE_TOOLTIP}>
                     <ValidatedTextField fullWidth
@@ -58,7 +65,8 @@ const AddressForm = observer(() => {
                                         value={store.state}
                                         variant={"filled"}
                                         schema={store.stateSchema}
-                                        action={(value) => store.state = value}/>
+                                        action={(value) => store.state = value}
+                                        shouldUpdate={() => uiStore.seen.has(step)}/>
                 </Info>
                 <Info tooltip={ZIPCODE_TOOLTIP}>
                     <ValidatedTextField fullWidth
@@ -67,7 +75,8 @@ const AddressForm = observer(() => {
                                         value={store.zipcode}
                                         variant={"filled"}
                                         schema={store.zipcodeSchema}
-                                        action={(value) => store.zipcode = value}/>
+                                        action={(value) => store.zipcode = value}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
             </Box>
         </Box>

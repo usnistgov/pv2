@@ -25,24 +25,24 @@ const Application = observer(() => {
 
     return <StepperNav onFinish={() => setFinished(true)}>
         <StepperPage label={"Address"} isDone={() => store.addressFormStore.validate}>
-            <AddressForm/>
+            <AddressForm step={0}/>
         </StepperPage>
         <StepperPage label={"Analysis Assumptions"} isDone={() => store.analysisAssumptionsFormStore.validate}>
-            <AnalysisAssumptionsForm/>
+            <AnalysisAssumptionsForm step={1}/>
         </StepperPage>
         <StepperPage label={"Electrical Costs"} isDone={() => {
             return store.electricalCostFormStore.validate && store.escalationRateFormStore.validate;
         }}>
-            <ElectricalRateForm/>
+            <ElectricalRateForm step={2}/>
         </StepperPage>
         <StepperPage label={"Solar PV System"} isDone={() => store.solarSystemFormStore.validate}>
-            <SolarSystemForm/>
+            <SolarSystemForm step={3}/>
         </StepperPage>
         <StepperPage label={"Solar PV Costs"} isDone={() => store.costsFormStore.validate}>
-            <CostsForm/>
+            <CostsForm step={4}/>
         </StepperPage>
         <StepperPage label={"SREC"} isDone={() => store.srecFormStore.validate}>
-            <SrecForm/>
+            <SrecForm step={5}/>
         </StepperPage>
     </StepperNav>
 });

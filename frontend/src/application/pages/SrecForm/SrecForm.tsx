@@ -29,12 +29,17 @@ import {DecimalTest, defaultIfUndefined} from "../../../Utils";
 import {STUDY_PERIOD} from "../../../Defaults";
 import Constants from "../../../Constants";
 
+interface SrecFormProps {
+    step: number;
+}
+
 /**
  * Form for SREC details.
  */
-const SrecForm = observer(() => {
+const SrecForm = observer(({step}: SrecFormProps) => {
     const store = useContext(Store).srecFormStore;
     const addressStore = useContext(Store).addressFormStore;
+    const uiStore = useContext(Store).formUiStore;
 
     const studyPeriod = useContext(Store).analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
 
@@ -106,7 +111,8 @@ const SrecForm = observer(() => {
                                         schema={store.srecPaymentsUpFrontSchema}
                                         action={(value) => store.srecPaymentsUpFront = value}
                                         InputProps={Adornment.DOLLAR_PER_KW}
-                                        type={"number"}/>
+                                        type={"number"}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                 </Info>
                 }
                 {store.srecPayments === SREC_PAYMENTS_OPTIONS[2] &&
@@ -118,7 +124,8 @@ const SrecForm = observer(() => {
                                         schema={store.srecPayments}
                                         action={(value) => store.srecContractLength = value}
                                         InputProps={Adornment.YEAR}
-                                        type={"number"}/>
+                                        type={"number"}
+                                        shouldUpdate={() => uiStore.newStep !== step}/>
                     <div className="form-two-column-container">
                         {store.srecPaymentsProductionBased
                             .filter((_, index) => index < (store.srecContractLength ?? 0))
@@ -135,7 +142,8 @@ const SrecForm = observer(() => {
                                                         schema={store.srecPaymentsProductionBasedSchema}
                                                         action={(value) => store.srecPaymentsProductionBased[i + 1] = value}
                                                         InputProps={Adornment.DOLLAR_PER_MWH}
-                                                        type={"number"}/>
+                                                        type={"number"}
+                                                        shouldUpdate={() => uiStore.newStep !== step}/>
                                 )
                             })}
                     </div>
