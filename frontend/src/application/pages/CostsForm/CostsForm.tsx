@@ -96,9 +96,8 @@ const CostsForm = observer(() => {
                                         variant={"filled"}
                                         label={TOTAL_INSTALLATION_COSTS_LABEL}
                                         value={defaultIfUndefined(store.totalInstallationCosts, '')}
-                                        schema={Yup.number().required().min(0).test(DecimalTest)}
-                                        onValidate={action((value) => store.totalInstallationCosts = value)}
-                                        onError={() => store.totalInstallationCosts = undefined}
+                                        schema={store.totalInstallationCostsSchema}
+                                        action={(value) => store.totalInstallationCosts = value}
                                         InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
@@ -119,13 +118,8 @@ const CostsForm = observer(() => {
                                         variant={"filled"}
                                         label={TAX_CRED_OR_REBATE_LABEL}
                                         value={defaultIfUndefined(store.stateOrLocalTaxCreditsOrGrantsOrRebates, '')}
-                                        schema={Yup.number().required().min(0).test(DecimalTest)}
-                                        onValidate={action((value) => {
-                                            store.stateOrLocalTaxCreditsOrGrantsOrRebates = value
-                                        })}
-                                        onError={action(() => {
-                                            store.stateOrLocalTaxCreditsOrGrantsOrRebates = undefined
-                                        })}
+                                        schema={store.stateOrLocalTaxCreditsOrGrantsOrRebatesSchema}
+                                        action={(value) => store.stateOrLocalTaxCreditsOrGrantsOrRebates = value}
                                         InputProps={Adornment.DOLLAR}
                                         type={"number"}/>
                 </Info>
@@ -136,13 +130,8 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={INVERTER_REPLACEMENT_COSTS_LABEL}
                                                 value={defaultIfUndefined(store.inverterReplacementCostsOrDefault, '')}
-                                                schema={Yup.number().required().min(0).test(DecimalTest)}
-                                                onValidate={action((value) => {
-                                                    store.inverterReplacementCostsOrDefault = value
-                                                })}
-                                                onError={action(() => {
-                                                    store.inverterReplacementCostsOrDefault = undefined
-                                                })}
+                                                schema={store.inverterReplacementCostsSchema}
+                                                action={(value) => store.inverterReplacementCostsOrDefault = value}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -151,9 +140,8 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={ANNUAL_MAINTENANCE_COSTS_LABEL}
                                                 value={defaultIfUndefined(store.annualMaintenanceCosts, '')}
-                                                schema={Yup.number().required().min(0).test(DecimalTest)}
-                                                onValidate={action((value) => store.annualMaintenanceCosts = value)}
-                                                onError={action(() => store.annualMaintenanceCosts = undefined)}
+                                                schema={store.annualMaintenanceCostsSchema}
+                                                action={(value) => store.annualMaintenanceCosts = value}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -188,9 +176,8 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={LOAN_DOWN_PAYMENT_LABEL}
                                                 value={defaultIfUndefined(store.downPayment, '')}
-                                                schema={Yup.number().required().min(0).test(DecimalTest)}
-                                                onValidate={action((value) => store.downPayment = value)}
-                                                onError={action(() => store.downPayment = undefined)}
+                                                schema={store.downPaymentSchema}
+                                                action={(value) => store.downPayment = value}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -199,9 +186,8 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={NOMINAL_INTEREST_RATE_LABEL}
                                                 value={defaultIfUndefined(store.nominalInterestRate, '')}
-                                                schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
-                                                onValidate={action((value) => store.nominalInterestRate = value)}
-                                                onError={action(() => store.nominalInterestRate = undefined)}
+                                                schema={store.nominalInterestRateSchema}
+                                                action={(value) => store.nominalInterestRate = value}
                                                 InputProps={Adornment.PERCENT}
                                                 type={"number"}/>
                         </Info>
@@ -211,9 +197,8 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={MONTHLY_PAYMENT_LABEL}
                                                 value={defaultIfUndefined(store.monthlyPayment, '')}
-                                                schema={Yup.number().required().moreThan(0).test(DecimalTest)}
-                                                onValidate={action((value) => store.monthlyPayment = value)}
-                                                onError={action(() => store.monthlyPayment = undefined)}
+                                                schema={store.monthlyPaymentSchema}
+                                                action={(value) => store.monthlyPayment = value}
                                                 InputProps={Adornment.DOLLAR}
                                                 type={"number"}/>
                         </Info>
@@ -223,9 +208,8 @@ const CostsForm = observer(() => {
                                                 variant={"filled"}
                                                 label={LOAN_LENGTH_LABEL}
                                                 value={defaultIfUndefined(store.loanLength, '')}
-                                                schema={Yup.number().required().min(0).integer()}
-                                                onValidate={action((value) => store.loanLength = value)}
-                                                onError={action(() => store.loanLength = undefined)}
+                                                schema={store.loanLengthSchema}
+                                                action={(value) => store.loanLength = value}
                                                 InputProps={Adornment.YEAR}
                                                 type={"number"}/>
                         </Info>
@@ -259,17 +243,8 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={PPA_CONTRACT_LENGTH_LABEL}
                                             value={defaultIfUndefined(store.ppaContractLength, '')}
-                                            schema={Yup.number().required()
-                                                .test(PPAContractLengthLTEPanelLifetime(systemInfo.panelLifetime ?? PANEL_LIFETIME))
-                                                .min(1)
-                                                .integer()}
-                                            onValidate={action((value) => {
-                                                store.ppaContractLength = value
-                                            })}
-                                            onError={action((value) => {
-                                                if (value === undefined || value === null || value === "")
-                                                    store.ppaContractLength = undefined;
-                                            })}
+                                            schema={store.ppaContractLengthSchema}
+                                            action={(value) => store.ppaContractLength = value}
                                             InputProps={Adornment.YEAR}
                                             type={"number"}/>
                     </Info>
@@ -279,9 +254,8 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={PPA_ELECTRICITY_RATE_LABEL}
                                             value={defaultIfUndefined(store.ppaElectricityRate, '')}
-                                            schema={Yup.number().required().min(0).test(DecimalTest)}
-                                            onValidate={action((value) => store.ppaElectricityRate = value)}
-                                            onError={action(() => store.ppaElectricityRate = undefined)}
+                                            schema={store.ppaElectricityRateSchema}
+                                            action={(value) => store.ppaElectricityRate = value}
                                             InputProps={Adornment.DOLLAR}
                                             type={"number"}/>
                     </Info>
@@ -291,9 +265,8 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={PPA_ESCALATION_RATE_LABEL}
                                             value={defaultIfUndefined(store.ppaEscalationRate, '')}
-                                            schema={Yup.number().required().min(0).test(DecimalTest)}
-                                            onValidate={action((value) => store.ppaEscalationRate = value)}
-                                            onError={action(() => store.ppaEscalationRate = undefined)}
+                                            schema={store.ppaEscalationRateSchema}
+                                            action={(value) => store.ppaEscalationRate = value}
                                             InputProps={Adornment.PERCENT}
                                             type={"number"}/>
                     </Info>
@@ -303,9 +276,8 @@ const CostsForm = observer(() => {
                                             variant={"filled"}
                                             label={PPA_PURCHASE_PRICE_LABEL}
                                             value={defaultIfUndefined(store.ppaPurchasePrice, '')}
-                                            schema={Yup.number().required().min(0).test(DecimalTest)}
-                                            onValidate={action((value) => store.ppaPurchasePrice = value)}
-                                            onError={action(() => store.ppaPurchasePrice = undefined)}
+                                            schema={store.ppaPurcahsePriceSchema}
+                                            action={(value) => store.ppaPurchasePrice = value}
                                             InputProps={Adornment.DOLLAR}
                                             type={"number"}/>
                     </Info>

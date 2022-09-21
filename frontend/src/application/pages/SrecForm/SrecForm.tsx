@@ -103,9 +103,8 @@ const SrecForm = observer(() => {
                                         variant={"filled"}
                                         label={SREC_PAYMENTS_UP_FRONT_LABEL}
                                         value={defaultIfUndefined(store.srecPaymentsUpFront, '')}
-                                        schema={Yup.number().required().min(0).test(DecimalTest)}
-                                        onValidate={action((value) => store.srecPaymentsUpFront = value)}
-                                        onError={action(() => store.srecPaymentsUpFront = undefined)}
+                                        schema={store.srecPaymentsUpFrontSchema}
+                                        action={(value) => store.srecPaymentsUpFront = value}
                                         InputProps={Adornment.DOLLAR_PER_KW}
                                         type={"number"}/>
                 </Info>
@@ -116,9 +115,8 @@ const SrecForm = observer(() => {
                                         variant={"filled"}
                                         label={SREC_PAYMENT_YEARS}
                                         value={defaultIfUndefined(store.srecContractLength, '')}
-                                        schema={Yup.number().required().min(0).max(studyPeriod).integer()}
-                                        onValidate={action((value) => store.srecContractLength = value)}
-                                        onError={action(() => store.srecContractLength = undefined)}
+                                        schema={store.srecPayments}
+                                        action={(value) => store.srecContractLength = value}
                                         InputProps={Adornment.YEAR}
                                         type={"number"}/>
                     <div className="form-two-column-container">
@@ -134,13 +132,8 @@ const SrecForm = observer(() => {
                                                             store.srecPaymentsProductionBased[i + 1],
                                                             ''
                                                         )}
-                                                        schema={Yup.number().required().min(0).test(DecimalTest)}
-                                                        onValidate={action((value) => {
-                                                            store.srecPaymentsProductionBased[i + 1] = value
-                                                        })}
-                                                        onError={action(() => {
-                                                            store.srecPaymentsProductionBased[i + 1] = undefined
-                                                        })}
+                                                        schema={store.srecPaymentsProductionBasedSchema}
+                                                        action={(value) => store.srecPaymentsProductionBased[i + 1] = value}
                                                         InputProps={Adornment.DOLLAR_PER_MWH}
                                                         type={"number"}/>
                                 )

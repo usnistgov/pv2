@@ -24,22 +24,24 @@ const Application = observer(() => {
         navigate(Constants.routes.RESULTS);
 
     return <StepperNav onFinish={() => setFinished(true)}>
-        <StepperPage label={"Address"} isDone={() => store.addressFormStore.isDone}>
+        <StepperPage label={"Address"} isDone={() => store.addressFormStore.validate}>
             <AddressForm/>
         </StepperPage>
-        <StepperPage label={"Analysis Assumptions"} isDone={() => store.analysisAssumptionsFormStore.isDone}>
+        <StepperPage label={"Analysis Assumptions"} isDone={() => store.analysisAssumptionsFormStore.validate}>
             <AnalysisAssumptionsForm/>
         </StepperPage>
-        <StepperPage label={"Electrical Costs"} isDone={() => store.electricalCostFormStore.isDone}>
+        <StepperPage label={"Electrical Costs"} isDone={() => {
+            return store.electricalCostFormStore.validate && store.escalationRateFormStore.validate;
+        }}>
             <ElectricalRateForm/>
         </StepperPage>
-        <StepperPage label={"Solar PV System"} isDone={() => store.solarSystemFormStore.isDone}>
+        <StepperPage label={"Solar PV System"} isDone={() => store.solarSystemFormStore.validate}>
             <SolarSystemForm/>
         </StepperPage>
-        <StepperPage label={"Solar PV Costs"} isDone={() => store.costsFormStore.isDone}>
+        <StepperPage label={"Solar PV Costs"} isDone={() => store.costsFormStore.validate}>
             <CostsForm/>
         </StepperPage>
-        <StepperPage label={"SREC"} isDone={() => store.srecFormStore.isDone}>
+        <StepperPage label={"SREC"} isDone={() => store.srecFormStore.validate}>
             <SrecForm/>
         </StepperPage>
     </StepperNav>

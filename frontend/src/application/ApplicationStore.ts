@@ -12,7 +12,15 @@ import {
     SREC_PAYMENTS_OPTIONS,
     VIEW_ANNUAL_ESCALATION_RATES_OPTIONS
 } from "../Strings";
-import {take, toJson} from "../Utils";
+import {
+    DecimalTest,
+    HighElectricalCostTest,
+    MustBeHighWattage, PPAContractLengthLTEPanelLifetime,
+    PVEfficiencyRealistic,
+    take,
+    toJson,
+    validateFields
+} from "../Utils";
 import Constants from "../Constants";
 import {
     ANNUAL_MAINTENANCE,
@@ -30,6 +38,7 @@ import {
 } from "../Defaults";
 import {Environment} from "../typings/Environment";
 import _ from "lodash";
+import {number, object, string} from "yup";
 
 /**
  * Main application store. Contains all sub-stores that contain form data.
@@ -152,13 +161,29 @@ export class AddressFormStore {
 
     normalizedState = "";
 
+    //Validation Schemas
+    addressSchema = string();
+    citySchema = string();
+    stateSchema = string();
+    zipcodeSchema = string().required();
+
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
     }
 
-    get isDone(): boolean {
-        return this.zipcode !== "";
+    get validate(): boolean {
+        return validateFields(object({
+            address: this.addressSchema,
+            city: this.citySchema,
+            state: this.stateSchema,
+            zipcode: this.zipcodeSchema
+        }), {
+            address: this.address,
+            city: this.city,
+            state: this.state,
+            zipcode: this.zipcode
+        });
     }
 
     reset() {
@@ -182,16 +207,29 @@ export class AnalysisAssumptionsFormStore {
 
     environmentalVariables?: Environment;
 
+    //Validation Schemas
+    studyPeriodSchema = number().typeError("Must be a number").required().max(40).min(1).integer();
+    nominalDiscountRateSchema = number().typeError("Must be a number").required().max(100).min(0).test(DecimalTest);
+    inflationRateSchema = number().typeError("Must be a number").required().max(100).min(0).test(DecimalTest);
+    realDiscountRateSchema = number().typeError("Must be a number").required().max(100).min(0).test(DecimalTest);
+
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore
     }
 
-    get isDone() {
-        return this.studyPeriod !== undefined &&
-            this.nominalDiscountRate !== undefined &&
-            this.realDiscountRate !== undefined &&
-            this.generalInflation !== undefined
+    get validate() {
+        return validateFields(object({
+            studyPeriod: this.studyPeriodSchema,
+            nominalDiscountRate: this.nominalDiscountRateSchema,
+            inflationRate: this.inflationRateSchema,
+            realDiscountRate: this.realDiscountRateSchema
+        }), {
+            studyPeriod: this.studyPeriod,
+            nominalDiscountRate: this.nominalDiscountRate,
+            inflationRate: this.generalInflation,
+            realDiscountRate: this.realDiscountRate
+        });
     }
 
     reset() {
@@ -219,19 +257,52 @@ export class ElectricalCostFormStore {
     excessGenerationUnitPrice: number | undefined = undefined;
     pvGridConnectionRate: number | undefined = 0;
 
+    //Validation Schemas
+    electricalCompanyNameSchema = string();
+    annualConsumptionSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+    averageElectricityPriceSchema = number().typeError("Must be a number").required().min(0).test(HighElectricalCostTest).test(DecimalTest);
+    flatRateChargeSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+    electricalUnitPriceSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest).test(HighElectricalCostTest);
+    excessGenerationUnitPriceSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest).test(HighElectricalCostTest);
+    pvGridConnectionRateSchema = number().typeError("Must be a number").min(0).test(DecimalTest);
+
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
     }
 
-    get isDone(): boolean {
-        return (
-                this.annualConsumption !== undefined ||
-                this.knowAnnualConsumption === KNOW_ANNUAL_CONSUMPTION_OPTIONS[0]
-            ) &&
-            this.monthlyFlatRateCharge !== undefined &&
-            this.electricUnitPrice !== undefined &&
-            this.excessGenerationUnitPrice !== undefined;
+    get validate(): boolean {
+        if (this.knowAnnualConsumption === KNOW_ANNUAL_CONSUMPTION_OPTIONS[0]) {
+            return validateFields(object({
+                electricalCompanyName: this.electricalCompanyNameSchema,
+                electricUnitPrice: this.averageElectricityPriceSchema,
+                flatRateCharge: this.flatRateChargeSchema,
+                excessGenerationUntiPrice: this.averageElectricityPriceSchema,
+                pvGridConnectionRate: this.pvGridConnectionRateSchema
+            }), {
+                electricalCompanyName: this.electricalCompanyName,
+                electricUnitPrice: this.electricUnitPrice,
+                flatRateCharge: this.monthlyFlatRateCharge,
+                excessGenerationUntiPrice: this.excessGenerationUnitPrice,
+                pvGridConnectionRate: this.pvGridConnectionRate
+            });
+        }
+
+        return validateFields(object({
+            annualConsumption: this.annualConsumptionSchema,
+            electricalCompanyName: this.electricalCompanyNameSchema,
+            electricUnitPrice: this.electricalUnitPriceSchema,
+            flatRateCharge: this.flatRateChargeSchema,
+            excessGenerationUntiPrice: this.excessGenerationUnitPriceSchema,
+            pvGridConnectionRate: this.pvGridConnectionRateSchema
+        }), {
+            annualConsumption: this.annualConsumption,
+            electricalCompanyName: this.electricalCompanyName,
+            electricUnitPrice: this.electricUnitPrice,
+            flatRateCharge: this.monthlyFlatRateCharge,
+            excessGenerationUntiPrice: this.excessGenerationUnitPrice,
+            pvGridConnectionRate: this.pvGridConnectionRate
+        });
     }
 
     reset() {
@@ -258,9 +329,30 @@ export class EscalationRateFormStore {
     escalationRateForYear: number[] = [];
     productionEscalationRateForYear: number[] = [];
 
+    //Validation Schemas
+    escalationRateSchema = number().typeError("Must be a number").required().max(100).min(-100).test(DecimalTest);
+
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
+    }
+
+    get validate(): boolean {
+        if (this.viewAnnualEscalationRates === VIEW_ANNUAL_ESCALATION_RATES_OPTIONS[0]) {
+            for (let rate of this.escalationRateForYear) {
+                if (!validateFields(this.escalationRateSchema, rate))
+                    return false;
+            }
+        }
+
+        if (this.escalationRatesSameOrDiff === ESCALATION_RATES_SAME_OR_DIFF_OPTIONS[1]) {
+            for (let rate of this.productionEscalationRateForYear) {
+                if (!validateFields(this.escalationRateSchema, rate))
+                    return false;
+            }
+        }
+
+        return true;
     }
 
     reset() {
@@ -288,19 +380,35 @@ export class SolarSystemFormStore {
 
     lifetimeDefault: boolean = true;
 
+    //Validation Schemas
+    systemDescriptionSchema = string().required();
+    panelEfficiencySchema = number().typeError("Must be a number").test(PVEfficiencyRealistic).test(DecimalTest);
+    totalSystemSizeSchema = number().typeError("Must be a number").required().test(MustBeHighWattage).test(DecimalTest);
+    estimatedAnnualProductionSchema = number().typeError("Must be a number").required().min(1000).test(DecimalTest);
+    panelLifetimeSchema = number().typeError("Must be a number").required().max(40).min(10).integer();
+    inverterLifetimeSchema = number().typeError("Must be a number").required().max(40).min(5).integer();
+    degradationRateSchema = number().typeError("Must be a number").required().max(2.5).min(0).test(DecimalTest);
+
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
 
         this.rootStore = rootStore;
     }
 
-    get isDone(): boolean {
-        return this.systemDescription !== undefined &&
-            this.totalSystemSize !== undefined &&
-            this.estimatedAnnualProduction !== undefined &&
-            this.panelLifetime !== undefined &&
-            this.inverterLifetime !== undefined &&
-            this.degradationRate !== undefined;
+    get validate(): boolean {
+        return validateFields(object({
+            systemDescription: this.systemDescriptionSchema,
+            totalSystemSize: this.totalSystemSizeSchema,
+            estimatedAnnualProduction: this.estimatedAnnualProductionSchema,
+            inverterLifetime: this.inverterLifetimeSchema,
+            degradationRate: this.degradationRateSchema
+        }), {
+            systemDescription: this.systemDescription,
+            totalSystemSize: this.totalSystemSize,
+            estimatedAnnualProduction: this.estimatedAnnualProduction,
+            inverterLifetime: this.inverterLifetime,
+            degradationRate: this.degradationRate
+        });
     }
 
     get inverterLifetimeOrDefault() {
@@ -376,6 +484,29 @@ export class CostsFormStore {
     monthlyPayment = undefined;
     loanLength = undefined;
 
+    //Validation Schemas
+    totalInstallationCostsSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+    stateOrLocalTaxCreditsOrGrantsOrRebatesSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+    inverterReplacementCostsSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+    annualMaintenanceCostsSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+
+    downPaymentSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+    nominalInterestRateSchema = number().typeError("Must be a number").required().max(100).min(0).test(DecimalTest);
+    monthlyPaymentSchema = number().typeError("Must be a number").required().moreThan(0).test(DecimalTest);
+    loanLengthSchema = number().typeError("Must be a number").required().min(0).integer();
+
+    get ppaContractLengthSchema() {
+        return number().typeError("Must be a number")
+            .required()
+            .test(PPAContractLengthLTEPanelLifetime(this.rootStore.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME))
+            .min(1)
+            .integer()
+    }
+
+    ppaElectricityRateSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+    ppaEscalationRateSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+    ppaPurcahsePriceSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
         this.rootStore = rootStore;
@@ -406,27 +537,49 @@ export class CostsFormStore {
         return ((this.totalInstallationCosts ?? 0) * Constants.FEDERAL_TAX_CREDIT).toFixed(2);
     }
 
-    get isDone(): boolean {
-        return (
-                this.totalInstallationCosts !== undefined &&
-                this.stateOrLocalTaxCreditsOrGrantsOrRebates !== undefined &&
-                this.inverterReplacementCosts !== undefined &&
-                this.annualMaintenanceCosts !== undefined
-            ) &&
-            (
-                this.loanOrCash === LOAN_OR_CASH_OPTIONS[1] || (
-                    this.loanLength !== undefined &&
-                    this.downPayment !== undefined &&
-                    this.monthlyPayment !== undefined
-                )
-            ) && (
-                this.ppaOption === PPA_OPTIONS[1] || (
-                    this.ppaContractLength !== undefined &&
-                    this.ppaElectricityRate !== undefined &&
-                    this.ppaEscalationRate !== undefined &&
-                    this.ppaPurchasePrice !== undefined
-                )
-            )
+    get validate(): boolean {
+        let loan = true;
+        let ppa = true;
+
+        const base = validateFields(object({
+            totalInstallationCosts: this.totalInstallationCostsSchema,
+            stateOrLocalTaxCreditOrGrantsOrRebates: this.stateOrLocalTaxCreditsOrGrantsOrRebatesSchema,
+            inverterReplacementCosts: this.inverterReplacementCostsSchema,
+            annualMaintenance: this.annualMaintenanceCostsSchema
+        }), {
+            totalInstallationCosts: this.totalInstallationCosts,
+            stateOrLocalTaxCreditOrGrantsOrRebates: this.stateOrLocalTaxCreditsOrGrantsOrRebates,
+            inverterReplacementCosts: this.inverterReplacementCosts,
+            annualMaintenance: this.annualMaintenanceCosts
+        });
+
+        if (this.loanOrCash === LOAN_OR_CASH_OPTIONS[0]) {
+            loan = validateFields(object({
+                loanLength: this.loanLengthSchema,
+                downPayment: this.downPaymentSchema,
+                monthlyPayment: this.monthlyPaymentSchema
+            }), {
+                loanLength: this.loanLength,
+                downPayment: this.downPayment,
+                monthlyPayment: this.monthlyPayment
+            });
+        }
+
+        if (this.ppaOption === PPA_OPTIONS[0]) {
+            ppa = validateFields(object({
+                ppaContractLength: this.ppaContractLengthSchema,
+                ppaElectricityRate: this.ppaElectricityRateSchema,
+                ppaEscalationRate: this.ppaEscalationRateSchema,
+                ppaPurchasePrice: this.ppaPurcahsePriceSchema
+            }), {
+                ppaContractLength: this.ppaContractLength,
+                ppaElectricityRate: this.ppaElectricityRate,
+                ppaEscalationRate: this.ppaEscalationRate,
+                ppaPurchasePrice: this.ppaPurchasePrice
+            });
+        }
+
+        return base && loan && ppa;
     }
 
     resetPvCost() {
@@ -464,6 +617,20 @@ export class SrecFormStore {
     srecPaymentsProductionBased: (number | undefined)[] = [];
     srecContractLength? = SREC_CONTRACT_LENGTH;
 
+    //Validation Schemas
+    srecPaymentsUpFrontSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+
+    get srecContractLengthSchema() {
+        return number()
+            .typeError("Must be a number")
+            .required()
+            .min(0)
+            .max(this.rootStore.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD)
+            .integer();
+    }
+
+    srecPaymentsProductionBasedSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
+
     constructor(rootStore: ApplicationStore) {
         makeAutoObservable(this, {rootStore: false});
 
@@ -474,15 +641,23 @@ export class SrecFormStore {
             .fill(0);
     }
 
-    get isDone(): boolean {
-        return this.srecPayments === SREC_PAYMENTS_OPTIONS[0] || (
-            this.srecPayments === SREC_PAYMENTS_OPTIONS[1] &&
-            this.srecPaymentsUpFront !== undefined
-        ) || (
-            this.srecPayments === SREC_PAYMENTS_OPTIONS[2] &&
-            this.srecPaymentsProductionBased.every((value) => value !== undefined) &&
-            this.srecContractLength !== undefined
-        )
+    get validate(): boolean {
+        if (this.srecPayments === SREC_PAYMENTS_OPTIONS[0])
+            return true;
+
+        if (this.srecPayments === SREC_PAYMENTS_OPTIONS[1])
+            return validateFields(this.srecPaymentsUpFrontSchema, this.srecPaymentsUpFront);
+
+        if (this.srecPayments === SREC_PAYMENTS_OPTIONS[2]) {
+            for(let payment of this.srecPaymentsProductionBased){
+                if(!validateFields(this.srecPaymentsProductionBasedSchema, payment))
+                    return false;
+            }
+
+            return validateFields(this.srecContractLengthSchema, this.srecContractLength);
+        }
+
+        return false;
     }
 
     reset() {
@@ -544,12 +719,12 @@ export class FormUiStore {
         this.seen.add(0);
     }
 
-    isDone(): boolean {
-        return this.rootStore.addressFormStore.isDone &&
-            this.rootStore.electricalCostFormStore.isDone &&
-            this.rootStore.solarSystemFormStore.isDone &&
-            this.rootStore.costsFormStore.isDone &&
-            this.rootStore.srecFormStore.isDone
+    validate(): boolean {
+        return this.rootStore.addressFormStore.validate &&
+            this.rootStore.electricalCostFormStore.validate &&
+            this.rootStore.solarSystemFormStore.validate &&
+            this.rootStore.costsFormStore.validate &&
+            this.rootStore.srecFormStore.validate
     }
 
     get current(): number {

@@ -105,7 +105,7 @@ const StepperNav = observer(({children, onFinish}: StepperNavProps) => {
                                              size={1}/>
                                 }
                                 data-testid={"forward-button"}
-                                disabled={isLastStep && !store.isDone()}
+                                disabled={isLastStep && !store.validate()}
                         >
                             {isLastStep ? "Finish" : "Next"}
                         </Button>

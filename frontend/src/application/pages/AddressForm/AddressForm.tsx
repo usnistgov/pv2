@@ -1,10 +1,8 @@
 import React, {useContext} from "react";
 
 // Library Imports
-import {Box, Grid} from "@material-ui/core";
-import * as Yup from "yup";
+import {Box} from "@material-ui/core";
 import {observer} from "mobx-react-lite";
-import {action} from "mobx";
 
 // User Imports
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
@@ -43,24 +41,24 @@ const AddressForm = observer(() => {
                                         label={ADDRESS_LABEL}
                                         value={store.address}
                                         variant={"filled"}
-                                        schema={Yup.string()}
-                                        onValidate={action((value) => store.address = value)}/>
+                                        schema={store.addressSchema}
+                                        action={(value) => store.address = value}/>
                 </Info>
                 <Info tooltip={CITY_TOOLTIP}>
                     <ValidatedTextField fullWidth
                                         label={CITY_LABEL}
                                         value={store.city}
                                         variant={"filled"}
-                                        schema={Yup.string()}
-                                        onValidate={action((value) => store.city = value)}/>
+                                        schema={store.citySchema}
+                                        action={(value) => store.city = value}/>
                 </Info>
                 <Info tooltip={STATE_TOOLTIP}>
                     <ValidatedTextField fullWidth
                                         label={STATE_LABEL}
                                         value={store.state}
                                         variant={"filled"}
-                                        schema={Yup.string()}
-                                        onValidate={action((value) => store.state = value)}/>
+                                        schema={store.stateSchema}
+                                        action={(value) => store.state = value}/>
                 </Info>
                 <Info tooltip={ZIPCODE_TOOLTIP}>
                     <ValidatedTextField fullWidth
@@ -68,8 +66,8 @@ const AddressForm = observer(() => {
                                         label={ZIPCODE_LABEL}
                                         value={store.zipcode}
                                         variant={"filled"}
-                                        schema={Yup.string().required()}
-                                        onValidate={action((value) => store.zipcode = value)}/>
+                                        schema={store.zipcodeSchema}
+                                        action={(value) => store.zipcode = value}/>
                 </Info>
             </Box>
         </Box>

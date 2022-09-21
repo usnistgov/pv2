@@ -97,7 +97,7 @@ export const PPAContractLengthLTEPanelLifetime = (panelLifetime: number) => {
         message: `Contract length must be less than or equal to Panel Lifetime (${panelLifetime})`,
         test: (value: any) => {
             //Must be defined
-            if(value === undefined || value === null)
+            if (value === undefined || value === null)
                 return false;
 
             //Must be less than or equal to panel lifetime
@@ -126,4 +126,13 @@ export function calculateNominalDiscountRate(real: number, inflation: number): n
 
 export function calculateRealDiscountRate(nominal: number, inflation: number): number {
     return ((1 + nominal) / (1 + inflation)) - 1;
+}
+
+export function validateFields(schema: any, obj: any): boolean {
+    try {
+        schema.validateSync(obj);
+        return true;
+    } catch {
+        return false;
+    }
 }

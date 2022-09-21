@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import {Box, FormControl, FormControlLabel, Switch} from "@material-ui/core";
-import * as Yup from "yup";
 import {observer} from "mobx-react-lite";
 import {action} from "mobx";
 import MaterialHeader from "../../../components/MaterialHeader/MaterialHeader";
@@ -35,7 +34,7 @@ import Info from "../../../components/Info/Info";
 import Adornment from "../../../components/Adornments";
 import ResetButton from "../../../components/ResetButton/ResetButton";
 import "../Form.sass";
-import {calculateNominalDiscountRate, calculateRealDiscountRate, DecimalTest, defaultIfUndefined} from "../../../Utils";
+import {calculateNominalDiscountRate, calculateRealDiscountRate, defaultIfUndefined} from "../../../Utils";
 import {GENERAL_INFLATION, NOMINAL_DISCOUNT_RATE} from "../../../Defaults";
 import Explanation from "../../../components/Explanation/Explanation";
 
@@ -53,10 +52,9 @@ const AnalysisAssumptionsForm = observer(() => {
                             fullWidth
                             variant={"filled"}
                             label={STUDY_PERIOD_LABEL}
-                            schema={Yup.number().required().max(40).min(1).integer()}
+                            schema={store.studyPeriodSchema}
                             value={defaultIfUndefined(store.studyPeriod, '')}
-                            onValidate={action((value: number) => store.studyPeriod = value)}
-                            onError={action(() => store.studyPeriod = undefined)}
+                            action={(value: number) => store.studyPeriod = value}
                             InputProps={Adornment.YEAR}
                             type={"number"}/>
                     </Info>
@@ -87,16 +85,12 @@ const AnalysisAssumptionsForm = observer(() => {
                                     fullWidth
                                     variant={"filled"}
                                     label={NOMINAL_DISCOUNT_RATE_LABEL}
-                                    schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
+                                    schema={store.nominalDiscountRateSchema}
                                     value={defaultIfUndefined(store.nominalDiscountRate, '')}
-                                    onValidate={action((value: number) => {
+                                    action={(value: number) => {
                                         store.nominalDiscountRate = value;
                                         store.realDiscountRate = parseFloat((calculateRealDiscountRate(value / 100, (store.generalInflation ?? GENERAL_INFLATION) / 100) * 100).toFixed(2));
-                                    })}
-                                    onError={action(() => {
-                                        store.nominalDiscountRate = undefined;
-                                        store.realDiscountRate = undefined;
-                                    })}
+                                    }}
                                     InputProps={Adornment.PERCENT}
                                     type={"number"}/>
                             </Info>
@@ -110,13 +104,12 @@ const AnalysisAssumptionsForm = observer(() => {
                                     fullWidth
                                     variant={"filled"}
                                     label={INFLATION_RATE_LABEL}
-                                    schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
+                                    schema={store.inflationRateSchema}
                                     value={defaultIfUndefined(store.generalInflation, '')}
-                                    onValidate={action((value: number) => {
+                                    action={(value: number) => {
                                         store.generalInflation = value;
                                         store.realDiscountRate = parseFloat((calculateRealDiscountRate((store.nominalDiscountRate ?? NOMINAL_DISCOUNT_RATE) / 100, value / 100) * 100).toFixed(2));
-                                    })}
-                                    onError={action(() => store.generalInflation = undefined)}
+                                    }}
                                     InputProps={Adornment.PERCENT}
                                     type={"number"}/>
                             </Info>
@@ -130,16 +123,12 @@ const AnalysisAssumptionsForm = observer(() => {
                                     fullWidth
                                     variant={"filled"}
                                     label={REAL_DISCOUNT_RATE_LABEL}
-                                    schema={Yup.number().required().max(100).min(0).test(DecimalTest)}
+                                    schema={store.realDiscountRateSchema}
                                     value={defaultIfUndefined(store.realDiscountRate, '')}
-                                    onValidate={action((value: number) => {
+                                    action={(value: number) => {
                                         store.nominalDiscountRate = parseFloat((calculateNominalDiscountRate(value / 100, (store.generalInflation ?? GENERAL_INFLATION) / 100) * 100).toFixed(2));
                                         store.realDiscountRate = value;
-                                    })}
-                                    onError={action(() => {
-                                        store.nominalDiscountRate = undefined;
-                                        store.realDiscountRate = undefined;
-                                    })}
+                                    }}
                                     InputProps={Adornment.PERCENT}
                                     type={"number"}/>
                             </Info>
