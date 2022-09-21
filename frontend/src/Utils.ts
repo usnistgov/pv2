@@ -93,15 +93,15 @@ export const PVEfficiencyRealistic = {
 
 export const PPAContractLengthLTEPanelLifetime = (panelLifetime: number) => {
     return {
-        name: "PPA contract length less or equal to panel lifetime.",
-        message: `Contract length must be less than or equal to Panel Lifetime (${panelLifetime})`,
+        name: "PPA contract length less than the panel lifetime.",
+        message: `Contract length must be less than the Panel Lifetime (${panelLifetime})`,
         test: (value: any) => {
             //Must be defined
             if (value === undefined || value === null)
                 return false;
 
             //Must be less than or equal to panel lifetime
-            return value <= panelLifetime;
+            return value < panelLifetime;
         }
     }
 }
