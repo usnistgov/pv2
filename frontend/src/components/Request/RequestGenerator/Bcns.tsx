@@ -628,7 +628,6 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object[] {
 
     //Calculate first replacement after PPA ends
     const initialOccurrence = Math.ceil(ppaEnd / inverterLifetime) * inverterLifetime;
-    const firstPanelReplacement = Math.ceil(ppaEnd / panelLifetime) * panelLifetime;
 
     const skipped = Math.floor(ppaEnd / panelLifetime);
 

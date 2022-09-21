@@ -297,7 +297,8 @@ export const PPA_OPTIONS = [
 
 export const PPA_CONTRACT_LENGTH_LABEL = "PPA/Lease Contract Length";
 export const PPA_CONTRACT_LENGTH_TOOLTIP = "Length of PPA/Lease Contract";
-export const PPA_CONTRACT_LENGTH_INFO = "Length of PPA/Lease Contract. 40 years or less.";
+export const PPA_CONTRACT_LENGTH_INFO = "Length of PPA/Lease Contract. Contract must be shorter than Panel Lifetime " +
+    "provided under 'System Lifetime and Degradation (advanced)' under 'Solar PV System'.";
 
 export const PPA_ELECTRICITY_RATE_LABEL = "PPA/Lease Electricity Rate";
 export const PPA_ELECTRICITY_RATE_TOOLTIP = "Price of electricity produced by solar PV system";

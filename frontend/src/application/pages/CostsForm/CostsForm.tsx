@@ -68,7 +68,7 @@ import Adornment from "../../../components/Adornments";
 import "../Form.sass";
 import {action} from "mobx";
 import ResetButton from "../../../components/ResetButton/ResetButton";
-import {DecimalTest, defaultIfUndefined} from "../../../Utils";
+import {DecimalTest, defaultIfUndefined, PPAContractLengthLTEPanelLifetime} from "../../../Utils";
 import {PANEL_LIFETIME} from "../../../Defaults";
 
 /**
@@ -260,7 +260,7 @@ const CostsForm = observer(() => {
                                             label={PPA_CONTRACT_LENGTH_LABEL}
                                             value={defaultIfUndefined(store.ppaContractLength, '')}
                                             schema={Yup.number().required()
-                                                .max(systemInfo.panelLifetime ?? PANEL_LIFETIME)
+                                                .test(PPAContractLengthLTEPanelLifetime(systemInfo.panelLifetime ?? PANEL_LIFETIME))
                                                 .min(1)
                                                 .integer()}
                                             onValidate={action((value) => {
