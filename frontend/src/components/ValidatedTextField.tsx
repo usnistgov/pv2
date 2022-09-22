@@ -58,7 +58,14 @@ const ValidatedTextField = observer(({
                       helperText={errorMessages ? <>{helperText} {errorMessages}</> : helperText}
                       onChange={(event) => {
                           validate(event.currentTarget.value);
-                          curriedAction(schema.cast(event.currentTarget.value));
+                          
+                          try {
+                              const castedValue = schema.cast(event.currentTarget.value);
+                              curriedAction(castedValue);
+                          } catch {
+                              curriedAction(undefined);
+                          }
+
                           onChange?.(event);
                       }}
                       value={value}

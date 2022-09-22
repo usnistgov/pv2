@@ -39,9 +39,8 @@ export const DecimalTest = {
     name: "4 Decimals",
     message: "Too many decimals, can only have 4.",
     test: (value: any) => {
-        // Must be defined
-        if (value === undefined || value === null)
-            return false;
+        if(value === undefined)
+            return true;
 
         // Must not be an integer
         if (value.toString().split('.').length <= 1)
@@ -56,9 +55,8 @@ export const HighElectricalCostTest = {
     name: "Electrical Cost is too high",
     message: "Price set unexpectedly high. Ensure your price is in $/kWh.",
     test: (value: any) => {
-        // Must be defined
-        if (value === undefined || value === null)
-            return false;
+        if(value === undefined)
+            return true;
 
         // Must be less than or equal to 1.
         return value <= 1;
@@ -69,9 +67,8 @@ export const MustBeHighWattage = {
     name: "System Size must be over 1000W",
     message: "System unexpectedly small. Check if you inputted your system in kW instead of W.",
     test: (value: any) => {
-        // Must be defined
-        if (value === undefined || value === null)
-            return false;
+        if(value === undefined)
+            return true;
 
         //Must be greater than or equal to 1000
         return value >= 1000;
@@ -82,9 +79,8 @@ export const PVEfficiencyRealistic = {
     name: "Solar cell efficiency must be realistic.",
     message: "Efficiency is unrealistic. Check to see if you inputted efficiency in decimal form instead of percent.",
     test: (value: any) => {
-        // Must be defined
-        if (value === undefined || value === null)
-            return false;
+        if(value === undefined)
+            return true;
 
         //Must be greater than 10% and less than 40%
         return value >= 10 && value <= 40
@@ -96,9 +92,8 @@ export const PPAContractLengthLTEPanelLifetime = (panelLifetime: number) => {
         name: "PPA contract length less than the panel lifetime.",
         message: `Contract length must be less than the Panel Lifetime (${panelLifetime})`,
         test: (value: any) => {
-            //Must be defined
-            if (value === undefined || value === null)
-                return false;
+            if (value === undefined)
+                return true;
 
             //Must be less than or equal to panel lifetime
             return value < panelLifetime;
