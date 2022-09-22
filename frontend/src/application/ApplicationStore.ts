@@ -400,12 +400,14 @@ export class SolarSystemFormStore {
             systemDescription: this.systemDescriptionSchema,
             totalSystemSize: this.totalSystemSizeSchema,
             estimatedAnnualProduction: this.estimatedAnnualProductionSchema,
+            panelLifetime: this.panelLifetimeSchema,
             inverterLifetime: this.inverterLifetimeSchema,
             degradationRate: this.degradationRateSchema
         }), {
             systemDescription: this.systemDescription,
             totalSystemSize: this.totalSystemSize,
             estimatedAnnualProduction: this.estimatedAnnualProduction,
+            panelLifetime: this.panelLifetime,
             inverterLifetime: this.inverterLifetime,
             degradationRate: this.degradationRate
         });
@@ -491,9 +493,9 @@ export class CostsFormStore {
     annualMaintenanceCostsSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
 
     downPaymentSchema = number().typeError("Must be a number").required().min(0).test(DecimalTest);
-    nominalInterestRateSchema = number().typeError("Must be a number").required().max(100).min(0).test(DecimalTest);
+    nominalInterestRateSchema = number().typeError("Must be a number").max(100).min(0).test(DecimalTest);
     monthlyPaymentSchema = number().typeError("Must be a number").required().moreThan(0).test(DecimalTest);
-    loanLengthSchema = number().typeError("Must be a number").required().min(0).integer();
+    loanLengthSchema = number().typeError("Must be a number").required().moreThan(0).integer();
 
     get ppaContractLengthSchema() {
         return number().typeError("Must be a number")

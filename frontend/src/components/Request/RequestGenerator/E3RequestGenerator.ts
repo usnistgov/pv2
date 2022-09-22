@@ -261,7 +261,7 @@ export async function createE3Request(store: ApplicationStore): Promise<any> {
             timestepVal: "Year",
             timestepComp: "EndOfYear",
             outputRealBool: true,
-            interestRate: store.costsFormStore.nominalInterestRate,
+            interestRate: store.costsFormStore.nominalInterestRate ?? null,
             dRateReal: realDiscountRate / 100,
             dRateNom: (1 + (generalInflation / 100)) *
                 (1 + (realDiscountRate / 100)) - 1,

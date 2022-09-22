@@ -194,7 +194,7 @@ const CostsForm = observer(({step}: CostFormProps) => {
                             <ValidatedTextField fullWidth
                                                 variant={"filled"}
                                                 label={NOMINAL_INTEREST_RATE_LABEL}
-                                                value={defaultIfUndefined(store.nominalInterestRate, '')}
+                                                value={store.nominalInterestRate}
                                                 schema={store.nominalInterestRateSchema}
                                                 action={(value) => store.nominalInterestRate = value}
                                                 InputProps={Adornment.PERCENT}
