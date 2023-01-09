@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ThemeProvider} from "@material-ui/core";
 import LandingPage from "./application/landingpage/LandingPage";
@@ -13,6 +13,23 @@ import './main.sass';
 import NotFound from "./application/pages/NotFound/NotFound";
 import FAQ from "./application/pages/FAQ/FAQ";
 import {createRoot} from "react-dom/client";
+import ReactGA from "react-ga";
+
+ReactGA.initialize(import.meta.env.VITE_GA_TRACKING_ID);
+
+function App() {
+    useEffect(() => ReactGA.pageview(window.location.pathname + window.location.search), []);
+
+    return <Routes>
+        <Route element={<Header/>}>
+            <Route index element={<LandingPage/>}/>
+            <Route path={Constants.routes.RESULTS} element={<Request/>}/>
+            <Route path={Constants.routes.APPLICATION} element={<Application/>}/>
+            <Route path={Constants.routes.FAQ} element={<FAQ/>}/>
+            <Route path={"*"} element={<NotFound/>}/>
+        </Route>
+    </Routes>
+}
 
 const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
@@ -20,15 +37,7 @@ root.render(
     <BrowserRouter>
         <ThemeProvider theme={Constants.theme}>
             <Store.Provider value={store}>
-                <Routes>
-                    <Route element={<Header/>}>
-                        <Route index element={<LandingPage/>}/>
-                        <Route path={Constants.routes.RESULTS} element={<Request/>}/>
-                        <Route path={Constants.routes.APPLICATION} element={<Application/>}/>
-                        <Route path={Constants.routes.FAQ} element={<FAQ/>}/>
-                        <Route path={"*"} element={<NotFound/>}/>
-                    </Route>
-                </Routes>
+                <App/>
             </Store.Provider>
 
             <Disclaimer/>

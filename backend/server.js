@@ -12,7 +12,7 @@ const pool = new Pool({
 app.use(expressCspHeader({
     directives: {
         "default-src": [SELF, "*.nist.gov"],
-        "script-src": [SELF, "'unsafe-eval'", "'unsafe-inline'", "pages.nist.gov"],
+        "script-src": [SELF, "'unsafe-eval'", "'unsafe-inline'", "pages.nist.gov", "www.google-analytics.com"],
         "style-src": [SELF, "'unsafe-inline'", "pages.nist.gov", "unpkg.com"],
         "img-src": [SELF, "data:", "pages.nist.gov"],
         "frame-src": ["www.google.com"],
