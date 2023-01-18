@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ThemeProvider} from "@material-ui/core";
 import LandingPage from "./application/landingpage/LandingPage";
@@ -13,13 +13,8 @@ import './main.sass';
 import NotFound from "./application/pages/NotFound/NotFound";
 import FAQ from "./application/pages/FAQ/FAQ";
 import {createRoot} from "react-dom/client";
-import ReactGA from "react-ga";
-
-ReactGA.initialize(import.meta.env.VITE_GA_TRACKING_ID);
 
 function App() {
-    useEffect(() => ReactGA.pageview(window.location.pathname + window.location.search), []);
-
     return <Routes>
         <Route element={<Header/>}>
             <Route index element={<LandingPage/>}/>

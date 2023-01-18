@@ -25,7 +25,6 @@ specifiers:
   react: ^18.0.0
   react-csv: ^2.2.2
   react-dom: ^18.0.0
-  react-ga: ^3.3.1
   react-router-dom: ^6.3.0
   sass: ^1.53.0
   typescript: ^4.6.3
@@ -51,7 +50,6 @@ dependencies:
   react: 18.2.0
   react-csv: 2.2.2
   react-dom: 18.2.0_react@18.2.0
-  react-ga: 3.3.1_sh5qlbywuemxd2y3xkrw2y2kr4
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   yup: 0.32.11
 
@@ -1822,16 +1820,6 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: false
-
-  /react-ga/3.3.1_sh5qlbywuemxd2y3xkrw2y2kr4:
-    resolution: {integrity: sha512-4Vc0W5EvXAXUN/wWyxvsAKDLLgtJ3oLmhYYssx+YzphJpejtOst6cbIHCIyF50Fdxuf5DDKqRYny24yJ2y7GFQ==}
-    peerDependencies:
-      prop-types: ^15.6.0
-      react: ^15.6.2 || ^16.0 || ^17 || ^18
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:

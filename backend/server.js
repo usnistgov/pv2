@@ -11,12 +11,12 @@ const pool = new Pool({
 
 app.use(expressCspHeader({
     directives: {
-        "default-src": [SELF, "*.nist.gov"],
-        "script-src": [SELF, "'unsafe-eval'", "'unsafe-inline'", "pages.nist.gov", "www.google-analytics.com"],
-        "style-src": [SELF, "'unsafe-inline'", "pages.nist.gov", "unpkg.com"],
-        "img-src": [SELF, "data:", "pages.nist.gov"],
-        "frame-src": ["www.google.com"],
-        "connect-src": [SELF, "*.nist.gov", "cdn.jsdelivr.net"]
+        "default-src": [SELF, "https://*.nist.gov"],
+        "script-src": [SELF, "'unsafe-eval'", "'unsafe-inline'", "https://pages.nist.gov", "https://dap.digitalgov.gov", "https://www.google-analytics.com", "https://www.youtube.com"],
+        "style-src": [SELF, "'unsafe-inline'", "https://pages.nist.gov", "https://unpkg.com"],
+        "img-src": [SELF, "data:", "https://pages.nist.gov"],
+        "frame-src": ["https://www.google.com"],
+        "connect-src": [SELF, "https://*.nist.gov", "https://cdn.jsdelivr.net", "https://www.google-analytics.com"]
     }
 }));
 
