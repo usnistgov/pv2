@@ -49,7 +49,7 @@ const Request = observer(() => {
             .then((request) => {
                 console.log(request.build());
                 // Generate fetch post request
-                /*const fetchOptions: RequestInit = {
+                const fetchOptions: RequestInit = {
                     method: "POST",
                     signal: controller.signal,
                     headers: {
@@ -70,7 +70,7 @@ const Request = observer(() => {
                     })
                     .then(toJson)
                     .then(setResult)
-                    .catch(showError);*/
+                    .catch(showError);
             });
 
         // If the component is unmounted, abort the request
