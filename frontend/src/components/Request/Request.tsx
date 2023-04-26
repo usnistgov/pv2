@@ -1,10 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
-
-// Library Imports
 import {Store} from "../../application/ApplicationStore";
 import {observer} from "mobx-react-lite";
-
-// User Imports
 import {toJson} from "../../Utils";
 import {createE3Request} from "./RequestGenerator/E3RequestGenerator";
 import Results from "../Results/Results";
@@ -51,8 +47,9 @@ const Request = observer(() => {
 
         createE3Request(store)
             .then((request) => {
+                console.log(request.build());
                 // Generate fetch post request
-                const fetchOptions: RequestInit = {
+                /*const fetchOptions: RequestInit = {
                     method: "POST",
                     signal: controller.signal,
                     headers: {
@@ -60,7 +57,7 @@ const Request = observer(() => {
                         "Accept": "application/json",
                         "Authorization": `Api-Key ${import.meta.env.VITE_API_TOKEN}`
                     },
-                    body: JSON.stringify(request)
+                    body: JSON.stringify(request.build())
                 }
 
                 // Fetch results from E3
@@ -73,7 +70,7 @@ const Request = observer(() => {
                     })
                     .then(toJson)
                     .then(setResult)
-                    .catch(showError);
+                    .catch(showError);*/
             });
 
         // If the component is unmounted, abort the request

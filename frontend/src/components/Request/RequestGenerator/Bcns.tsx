@@ -1,8 +1,9 @@
-import {ApplicationStore, store} from "../../../application/ApplicationStore";
+import {ApplicationStore} from "../../../application/ApplicationStore";
 import {generateVarValue} from "../../../Utils";
 import {DEGRADATION_RATE, GENERAL_INFLATION, INVERTER_LIFETIME, PANEL_LIFETIME, STUDY_PERIOD} from "../../../Defaults";
 import {getAnnualConsumption} from "./E3RequestGenerator";
-import solarSystemForm from "../../../application/pages/SolarSystemForm/SolarSystemForm";
+import {BcnBuilder, BcnSubType, BcnType, RecurBuilder, VarRate} from "e3-sdk";
+import "../../../Extensions";
 
 function annualProduction(store: ApplicationStore): number[] {
     const degradationRate = store.solarSystemFormStore.degradationRate ?? DEGRADATION_RATE;
@@ -17,52 +18,43 @@ function annualProduction(store: ApplicationStore): number[] {
         })
 }
 
-export function gridConsumption(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Electricity",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: store.analysisAssumptionsFormStore.studyPeriod,
-        valuePerQ: store.electricalCostFormStore.electricUnitPrice,
-        quant: getAnnualConsumption(store),
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: "kWh"
-    }
+export function gridConsumption(store: ApplicationStore): BcnBuilder {
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .addEscalationRateForYear(store)
+        .end(store.analysisAssumptionsFormStore.studyPeriod ?? 25);
+
+    return new BcnBuilder()
+        .name("Grid Electricity Consumption")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Electricity")
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(store.electricalCostFormStore.electricUnitPrice ?? 1)
+        .quantity(getAnnualConsumption(store))
+        .quantityUnit("kWh");
 }
 
-export function gridDemandCharge(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: null,
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: 0.0,
-        recurEndDate: store.analysisAssumptionsFormStore.studyPeriod,
-        valuePerQ: (store.electricalCostFormStore.monthlyFlatRateCharge ?? 0) * 12, // Multiply monthly rate to get yearly rate
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function gridDemandCharge(store: ApplicationStore): BcnBuilder {
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .varValue([0.0])
+        .end(store.analysisAssumptionsFormStore.studyPeriod ?? 25);
+
+    return new BcnBuilder()
+        .name("Grid Electricity Demand Charge")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue((store.electricalCostFormStore.monthlyFlatRateCharge ?? 0) * 12)
+        .quantity(1);
 }
 
-export function netGridConsumption(store: ApplicationStore): object {
+export function netGridConsumption(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
 
     const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
@@ -75,29 +67,27 @@ export function netGridConsumption(store: ApplicationStore): object {
         getAnnualConsumption(store)
     );
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Electricity",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: studyPeriod, // Study Period
-        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
-        quant: getAnnualConsumption(store),
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: netGridConsumptionRates,
-        quantUnit: "kWh"
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .addEscalationRateForYear(store)
+        .end(studyPeriod);
+
+    return new BcnBuilder()
+        .name("Net Grid Electricity Consumption")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Electricity")
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(store.electricalCostFormStore.electricUnitPrice ?? 1)
+        .quantity(getAnnualConsumption(store))
+        .quantityVarRate(VarRate.PERCENT_DELTA)
+        .quantityVarValue(netGridConsumptionRates)
+        .quantityUnit("kWh");
 }
 
-export function panelProduction(store: ApplicationStore): object {
+export function panelProduction(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
 
     const production = generateVarValue(
@@ -105,29 +95,27 @@ export function panelProduction(store: ApplicationStore): object {
         store.solarSystemFormStore.estimatedAnnualProduction ?? 0
     );
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Electricity",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: studyPeriod,
-        valuePerQ: store.electricalCostFormStore.excessGenerationUnitPrice ?? 0, //Excess Production Rate
-        quant: -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0),
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: production,
-        quantUnit: "kWh"
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .addEscalationRateForYear(store)
+        .end(studyPeriod);
+
+    return new BcnBuilder()
+        .name("Panel Electricity Production")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Electricity")
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(store.electricalCostFormStore.excessGenerationUnitPrice ?? 0)
+        .quantity(-(store.solarSystemFormStore.estimatedAnnualProduction ?? 0))
+        .quantityVarRate(VarRate.PERCENT_DELTA)
+        .quantityVarValue(production)
+        .quantityUnit("kWh");
 }
 
-export function netPanelProduction(store: ApplicationStore): object {
+export function netPanelProduction(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
 
     const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
@@ -140,230 +128,181 @@ export function netPanelProduction(store: ApplicationStore): object {
         -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
     );
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Electricity",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: studyPeriod,
-        valuePerQ: store.electricalCostFormStore.excessGenerationUnitPrice ?? 0, //Excess Production Rate
-        quant: -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0),
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: netProductionRates,
-        quantUnit: "kWh"
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .addEscalationRateForYear(store)
+        .end(studyPeriod);
+
+    return new BcnBuilder()
+        .name("Net Panel Electricity Production")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Electricity")
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(store.electricalCostFormStore.excessGenerationUnitPrice ?? 0)
+        .quantity(-(store.solarSystemFormStore.estimatedAnnualProduction ?? 0))
+        .quantityVarRate(VarRate.PERCENT_DELTA)
+        .quantityVarValue(netProductionRates)
+        .quantityUnit("kWh");
 }
 
-export function pvGridConnectionRate(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: null,
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: 0.0,
-        recurEndDate: store.analysisAssumptionsFormStore.studyPeriod, // Study Period
-        valuePerQ: store.electricalCostFormStore.pvGridConnectionRate, // PV Connection Fee
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function pvGridConnectionRate(store: ApplicationStore): BcnBuilder {
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .varValue([0.0])
+        .end(store.analysisAssumptionsFormStore.studyPeriod ?? 25);
+
+    return new BcnBuilder()
+        .name("PV Grid Connection Fee")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(store.electricalCostFormStore.pvGridConnectionRate ?? 1)
+        .quantity(1);
 }
 
-export function totalInstallationCosts(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Installation Costs",
-        initialOcc: 0,
-        bcnInvestBool: true,
-        bcnLife: store.solarSystemFormStore.panelLifetime,
-        rvBool: false,
-        recurBool: false,
-        recurInterval: null,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: store.costsFormStore.totalInstallationCosts,
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function totalInstallationCosts(store: ApplicationStore): BcnBuilder {
+    return new BcnBuilder()
+        .name("Total Installation Costs")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Installation Costs")
+        .invest()
+        .initialOccurrence(0)
+        .life(store.solarSystemFormStore.panelLifetime ?? 0)
+        .quantityValue(store.costsFormStore.totalInstallationCosts ?? 1)
+        .quantity(1);
 }
 
-export function panelReplacement(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "System Replacement Costs",
-        initialOcc: (store.solarSystemFormStore.panelLifetime ?? 25) + 1,
-        bcnInvestBool: true,
-        bcnLife: store.solarSystemFormStore.panelLifetime,
-        rvBool: true,
-        recurBool: true,
-        recurInterval: store.solarSystemFormStore.panelLifetime,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: store.costsFormStore.totalInstallationCosts,
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function panelReplacement(store: ApplicationStore): BcnBuilder {
+    const recurBuilder = new RecurBuilder()
+        .interval(store.solarSystemFormStore.panelLifetime ?? 1);
+
+    return new BcnBuilder()
+        .name("Panel replacement")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("System Replacement Costs")
+        .initialOccurrence((store.solarSystemFormStore.panelLifetime ?? 25) + 1)
+        .invest()
+        .residualValue()
+        .life(store.solarSystemFormStore.panelLifetime ?? 1)
+        .recur(recurBuilder)
+        .quantityValue(store.costsFormStore.totalInstallationCosts ?? 1)
+        .quantity(1);
 }
 
-export function panelReplacementAfterPPA(store: ApplicationStore): object {
+export function panelReplacementAfterPPA(store: ApplicationStore): BcnBuilder {
     const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
     const ppaEnd = store.costsFormStore.ppaContractLength ?? 10;
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "System Replacement Costs",
-        initialOcc: Math.ceil(ppaEnd / panelLifetime) * panelLifetime + 1,
-        bcnInvestBool: true,
-        bcnLife: store.solarSystemFormStore.panelLifetime,
-        rvBool: true,
-        recurBool: true,
-        recurInterval: store.solarSystemFormStore.panelLifetime,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: store.costsFormStore.totalInstallationCosts,
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(store.solarSystemFormStore.panelLifetime ?? 1);
+
+    return new BcnBuilder()
+        .name("Panel Replacement")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("System Replacement Costs")
+        .initialOccurrence(Math.ceil(ppaEnd / panelLifetime) * panelLifetime + 1)
+        .invest()
+        .life(store.solarSystemFormStore.panelLifetime ?? 1)
+        .residualValue()
+        .recur(recurBuilder)
+        .quantityValue(store.costsFormStore.totalInstallationCosts ?? 1)
+        .quantity(1);
 }
 
-export function totalInstallationCostsResidualValue(store: ApplicationStore): object {
-    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? 25;
-    const panelLifetime = store.solarSystemFormStore.panelLifetime ?? 25;
+export function totalInstallationCostsResidualValue(store: ApplicationStore): BcnBuilder {
+    const recurBuilder = new RecurBuilder()
+        .interval(store.solarSystemFormStore.panelLifetime ?? 1)
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Resale Value",
-        initialOcc: 0,
-        bcnInvestBool: true,
-        bcnLife: store.solarSystemFormStore.panelLifetime,
-        rvBool: true,
-        rvOnly: true,
-        recurBool: true,
-        recurInterval: store.solarSystemFormStore.panelLifetime,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: store.costsFormStore.totalInstallationCosts,
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+    return new BcnBuilder()
+        .name("Total Installation Costs Residual Value")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .initialOccurrence(0)
+        .invest()
+        .life(store.solarSystemFormStore.panelLifetime ?? 1)
+        .residualValue()
+        .residualValueOnly()
+        .recur(recurBuilder)
+        .quantityValue(store.costsFormStore.totalInstallationCosts ?? 1)
+        .quantity(1);
 }
 
-export function inverterReplacement(store: ApplicationStore): object[] {
+export function inverterReplacement(store: ApplicationStore): BcnBuilder[] {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
     const inverterLifetime = store.solarSystemFormStore.inverterLifetimeOrDefault ?? INVERTER_LIFETIME;
 
-    const result: object[] = [];
+    const result: BcnBuilder[] = [];
 
     for (let i = 0; i < Math.round((studyPeriod / panelLifetime) - (1 / inverterLifetime) + (1 / panelLifetime)); i++) {
-        result.push({
-            bcnType: "Cost",
-            bcnSubType: "Direct",
-            bcnTag: "Inverter Replacement Costs",
-            initialOcc: i === 0 ? inverterLifetime + 1 : i * panelLifetime + inverterLifetime + 1,
-            bcnInvestBool: false,
-            bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
-            rvBool: false,
-            rvOnly: false,
-            recurBool: true,
-            recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
-            recurVarRate: null,
-            recurVarValue: null,
-            recurEndDate: (i + 1) * panelLifetime + 1,
-            valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
-            quant: 1,
-            quantVarRate: null,
-            quantVarValue: null,
-            quantUnit: null
-        })
+        const recurBuilder = new RecurBuilder()
+            .interval(store.solarSystemFormStore.inverterLifetimeOrDefault ?? 1)
+            .end((i + 1) * panelLifetime + 1);
+
+        result.push(
+            new BcnBuilder()
+                .name(`Inverter Replacement Costs ${i}`)
+                .type(BcnType.COST)
+                .subType(BcnSubType.DIRECT)
+                .addTag("Inverter Replacement Costs")
+                .initialOccurrence(i === 0 ? inverterLifetime + 1 : i * panelLifetime + inverterLifetime + 1)
+                .life(store.solarSystemFormStore.inverterLifetimeOrDefault ?? 1)
+                .recur(recurBuilder)
+                .quantityValue(parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'))
+                .quantity(1)
+        );
     }
 
     return result;
 }
 
-export function inverterReplacementResidualValue(store: ApplicationStore): object {
+export function inverterReplacementResidualValue(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
     const inverterLifetime = store.solarSystemFormStore.inverterLifetimeOrDefault ?? INVERTER_LIFETIME;
 
     const index = Math.ceil(studyPeriod / panelLifetime) - 1;
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Resale Value",
-        initialOcc: index === 0 ? 0 : index * panelLifetime + 1,
-        bcnInvestBool: false,
-        bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
-        rvBool: true,
-        rvOnly: true,
-        recurBool: true,
-        recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: (index + 1) * panelLifetime + 1,
-        valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    };
+    const recurBuilder = new RecurBuilder()
+        .interval(inverterLifetime)
+        .end((index + 1) * panelLifetime + 1);
+
+    return new BcnBuilder()
+        .name("Inverter Residual Value")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Resale Value")
+        .initialOccurrence(index === 0 ? 0 : index * panelLifetime + 1)
+        .life(inverterLifetime)
+        .residualValue()
+        .residualValueOnly()
+        .recur(recurBuilder)
+        .quantityValue(parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'))
+        .quantity(1);
 }
 
-export function loanDownPayment(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Loan Down Payment",
-        initialOcc: 0,
-        bcnInvestBool: true,
-        bcnLife: 25,
-        rvBool: false,
-        recurBool: false,
-        recurInterval: null,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: store.costsFormStore.downPayment ?? 0,
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function loanDownPayment(store: ApplicationStore): BcnBuilder {
+    return new BcnBuilder()
+        .name("Loan Down Payment")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Loan Down Payment")
+        .initialOccurrence(0)
+        .invest()
+        .life(25)
+        .quantityValue(store.costsFormStore.downPayment ?? 0)
+        .quantity(1);
 }
 
-export function loanPayoff(store: ApplicationStore): object {
+export function loanPayoff(store: ApplicationStore): BcnBuilder {
     let generalInflation = store.analysisAssumptionsFormStore.generalInflation ?? GENERAL_INFLATION;
 
     let studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
@@ -377,218 +316,159 @@ export function loanPayoff(store: ApplicationStore): object {
     }
     let rates = payments.map((value) => value / yearlyAmount);
 
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.YEAR_BY_YEAR)
+        .varValue(rates)
+        .end(store.costsFormStore.loanLength ?? 1);
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Future Loan Payments",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        rvOnly: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Year by Year",
-        recurVarValue: rates,
-        recurEndDate: store.costsFormStore.loanLength ?? 1,
-        valuePerQ: yearlyAmount,
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+    return new BcnBuilder()
+        .name("Monthly Loan Payments")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Future Loan Payments")
+        .recur(recurBuilder)
+        .quantityValue(yearlyAmount)
+        .quantity(1);
 }
 
-export function federalTaxCredit(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Upfront Financial Incentives",
-        initialOcc: 0,
-        bcnInvestBool: true,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: false,
-        recurInterval: null,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: -store.costsFormStore.federalTaxCredit,
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function federalTaxCredit(store: ApplicationStore): BcnBuilder {
+    return new BcnBuilder()
+        .name("Federal Tax Credit")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Upfront Financial Incentives")
+        .invest()
+        .quantity(1)
+        .quantityValue(-store.costsFormStore.federalTaxCredit);
 }
 
-export function grantsRebates(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Upfront Financial Incentives",
-        initialOcc: 0,
-        bcnInvestBool: true,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: false,
-        recurInterval: null,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: -(store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0),
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function grantsRebates(store: ApplicationStore): BcnBuilder {
+    return new BcnBuilder()
+        .name("Grants Rebates")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Upfront Financial Incentives")
+        .initialOccurrence(0)
+        .invest()
+        .quantity(1)
+        .quantityValue(-(store.costsFormStore.stateOrLocalTaxCreditsOrGrantsOrRebates ?? 0));
 }
 
-export function maintenanceCosts(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Maintenance Costs",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: 0.0,
-        recurEndDate: store.analysisAssumptionsFormStore.studyPeriod, // Study Period
-        valuePerQ: store.costsFormStore.annualMaintenanceCosts,	// Maintenance Costs = 0 in this example
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function maintenanceCosts(store: ApplicationStore): BcnBuilder {
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .varValue([0.0])
+        .end(store.analysisAssumptionsFormStore.studyPeriod ?? 25);
+
+    return new BcnBuilder()
+        .name("Maintenance Costs")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Maintenance Costs")
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(store.costsFormStore.annualMaintenanceCosts ?? 1)
+        .quantity(1);
 }
 
-export function ppaConsumption(store: ApplicationStore): object {
+export function ppaConsumption(store: ApplicationStore): BcnBuilder {
     const netProductionRates = generateVarValue(
         annualProduction(store),
         store.solarSystemFormStore.estimatedAnnualProduction ?? 0
     );
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: null,
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: (store.costsFormStore.ppaEscalationRate ?? 0) / 100, // Escalation Rate List or Constant Value for PPA
-        recurEndDate: store.costsFormStore.ppaContractLength, // PPA contract length
-        valuePerQ: store.costsFormStore.ppaElectricityRate, // PPA Rate
-        quant: store.solarSystemFormStore.estimatedAnnualProduction ?? 0, //  = Annual Production
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: netProductionRates, 	//  0.05% degradation rate per year
-        quantUnit: "kWh"
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .varValue([(store.costsFormStore.ppaEscalationRate ?? 0) / 100])
+        .end(store.costsFormStore.ppaContractLength ?? 1);
+
+    return new BcnBuilder()
+        .name("Electricity Consumption - PPA")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(store.costsFormStore.ppaElectricityRate ?? 1)
+        .quantity(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
+        .quantityVarRate(VarRate.PERCENT_DELTA)
+        .quantityVarValue(netProductionRates)
+        .quantityUnit("kWh");
 }
 
-export function ppaSystemPurchasePrice(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Future Purchase Costs",
-        initialOcc: (store.costsFormStore.ppaContractLength ?? 0) + 1, // End of PPA contract
-        bcnInvestBool: true,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: false,
-        recurInterval: null,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: store.costsFormStore.ppaPurchasePrice, // PPA purchase price
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function ppaSystemPurchasePrice(store: ApplicationStore): BcnBuilder {
+    return new BcnBuilder()
+        .name("Solar PV Purchase Price")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Future Purchase Costs")
+        .initialOccurrence((store.costsFormStore.ppaContractLength ?? 0) + 1)
+        .invest()
+        .quantityValue(store.costsFormStore.ppaPurchasePrice ?? 1)
+        .quantity(1);
 }
 
-export function upfrontSrec(store: ApplicationStore): object {
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "SREC",
-        initialOcc: 0,
-        bcnInvestBool: true,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: false,
-        recurInterval: null,
-        recurVarRate: null,
-        recurVarValue: null,
-        recurEndDate: null,
-        valuePerQ: -(store.srecFormStore.srecPaymentsUpFront ?? 0),
-        quant: (store.solarSystemFormStore.totalSystemSize ?? 0) / 1000,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+export function upfrontSrec(store: ApplicationStore): BcnBuilder {
+    return new BcnBuilder()
+        .name("Up Front Solar Renewable Energy Credits")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("SREC")
+        .initialOccurrence(0)
+        .invest()
+        .quantityValue(-(store.srecFormStore.srecPaymentsUpFront ?? 0))
+        .quantity((store.solarSystemFormStore.totalSystemSize ?? 0) / 1000);
 }
 
-export function productionBasedSrec(store: ApplicationStore): object {
+export function productionBasedSrec(store: ApplicationStore): BcnBuilder {
     const production = generateVarValue(
         annualProduction(store).map((value) => value / 1000),
         (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000
     );
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "SREC",
-        initialOcc: 1,
-        bcnInvestBool: true,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Year by Year",
-        recurVarValue: store.srecFormStore.srecPaymentsProductionBased,
-        recurEndDate: store.srecFormStore.srecContractLength,
-        valuePerQ: -1,
-        quant: (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000, // Divide by 1000 to get MWh.
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: production,
-        quantUnit: null
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.YEAR_BY_YEAR)
+        .varValue(store.srecFormStore.srecPaymentsProductionBased as number[] ?? [])
+        .end(store.srecFormStore.srecContractLength ?? 15);
+
+    return new BcnBuilder()
+        .name("Production Based Solar Renewable Energy Credits")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("SREC")
+        .initialOccurrence(1)
+        .invest()
+        .recur(recurBuilder)
+        .quantityValue(-1)
+        .quantity((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000)
+        .quantityVarRate(VarRate.PERCENT_DELTA)
+        .quantityVarValue(production);
 }
 
-export function maintenanceCostsAfterPpa(store: ApplicationStore): object {
+export function maintenanceCostsAfterPpa(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "Maintenance Costs",
-        initialOcc: (store.costsFormStore.ppaContractLength ?? studyPeriod) + 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: 0.0,
-        recurEndDate: store.analysisAssumptionsFormStore.studyPeriod, // Study Period
-        valuePerQ: store.costsFormStore.annualMaintenanceCosts,	// Maintenance Costs = 0 in this example
-        quant: 1,
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: null
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .varValue([0.0])
+        .end(store.analysisAssumptionsFormStore.studyPeriod ?? 1);
+
+    return new BcnBuilder()
+        .name("Maintenance Costs After PPA")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("Maintenance Costs")
+        .initialOccurrence((store.costsFormStore.ppaContractLength ?? studyPeriod) + 1)
+        .recur(recurBuilder)
+        .quantityValue(store.costsFormStore.annualMaintenanceCosts ?? 1)
+        .quantity(1);
 }
 
-export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
+export function productionBasedSrecAfterPpa(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
 
     const production = generateVarValue(
@@ -596,35 +476,34 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): object {
         (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000
     );
 
-    return {
-        bcnType: "Cost",
-        bcnSubType: "Direct",
-        bcnTag: "SREC",
-        initialOcc: (store.costsFormStore.ppaContractLength ?? studyPeriod) + 1,
-        bcnInvestBool: true,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Year by Year",
-        recurVarValue: store.srecFormStore.srecPaymentsProductionBased,
-        recurEndDate: store.srecFormStore.srecContractLength,
-        valuePerQ: -1,
-        quant: (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000, // Divide by 1000 to get MWh.
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: production,
-        quantUnit: null
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.YEAR_BY_YEAR)
+        .varValue(store.srecFormStore.srecPaymentsProductionBased as number[])
+        .end(store.srecFormStore.srecContractLength ?? 1);
+
+    return new BcnBuilder()
+        .name("Production Based Solar Renewable Energy Credits After Purchase")
+        .type(BcnType.COST)
+        .subType(BcnSubType.DIRECT)
+        .addTag("SREC")
+        .initialOccurrence((store.costsFormStore.ppaContractLength ?? studyPeriod) + 1)
+        .invest()
+        .recur(recurBuilder)
+        .quantityValue(-1)
+        .quantity((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000)
+        .quantityVarRate(VarRate.PERCENT_DELTA)
+        .quantityVarValue(production);
 }
 
-export function inverterReplacementAfterPpa(store: ApplicationStore): object[] {
+export function inverterReplacementAfterPpa(store: ApplicationStore): BcnBuilder[] {
     const panelLifetime = store.solarSystemFormStore.panelLifetime ?? PANEL_LIFETIME;
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const inverterLifetime = store.solarSystemFormStore.inverterLifetime ?? INVERTER_LIFETIME;
 
     const ppaEnd = store.costsFormStore.ppaContractLength ?? 10;
 
-    const result: object[] = [];
+    const result: BcnBuilder[] = [];
 
     //Calculate first replacement after PPA ends
     const initialOccurrence = Math.ceil(ppaEnd / inverterLifetime) * inverterLifetime;
@@ -632,131 +511,48 @@ export function inverterReplacementAfterPpa(store: ApplicationStore): object[] {
     const skipped = Math.floor(ppaEnd / panelLifetime);
 
     for (let i = 0; i < Math.round((studyPeriod / panelLifetime) - (1 / inverterLifetime) + (1 / panelLifetime)) - skipped; i++) {
-        result.push({
-            bcnType: "Cost",
-            bcnSubType: "Direct",
-            bcnTag: "Inverter Replacement Costs",
-            initialOcc: i === 0 ? initialOccurrence + 1 : ((i + skipped) * panelLifetime) + inverterLifetime + 1,
-            bcnInvestBool: false,
-            bcnLife: store.solarSystemFormStore.inverterLifetimeOrDefault,
-            rvBool: false,
-            rvOnly: false,
-            recurBool: true,
-            recurInterval: store.solarSystemFormStore.inverterLifetimeOrDefault,
-            recurVarRate: null,
-            recurVarValue: null,
-            recurEndDate: ((i + skipped + 1) * panelLifetime) + 1,
-            valuePerQ: parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'),
-            quant: 1,
-            quantVarRate: null,
-            quantVarValue: null,
-            quantUnit: null
-        })
+        const recurBuilder = new RecurBuilder()
+            .interval(store.solarSystemFormStore.inverterLifetimeOrDefault ?? 1)
+            .end(((i + skipped + 1) * panelLifetime) + 1);
+
+        result.push(new BcnBuilder()
+            .name(`Inverter Replacement Costs After PPA ${i}`)
+            .type(BcnType.COST)
+            .subType(BcnSubType.DIRECT)
+            .addTag("Inverter Replacement Costs")
+            .initialOccurrence(i === 0 ? initialOccurrence + 1 : ((i + skipped) * panelLifetime) + inverterLifetime + 1)
+            .life(store.solarSystemFormStore.inverterLifetimeOrDefault ?? 1)
+            .recur(recurBuilder)
+            .quantityValue(parseFloat(store.costsFormStore.inverterReplacementCostsOrDefault?.toString() ?? '0'))
+            .quantity(1)
+        );
     }
 
     return result;
 }
 
-export function acidificationPotentialConsumption(store: ApplicationStore): object {
-    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
-    const acidificationPotential = store.analysisAssumptionsFormStore.environmentalVariables?.acidificationPotential ?? 0;
-
-    const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
-    const production = annualProduction(store);
-
-    const netAcidification = annualConsumption.map((value, index) => value - production[index])
-        .map((value) => value * (acidificationPotential / 1000));
-
-    const netAcidificationRates = generateVarValue(
-        netAcidification.map((value) => Math.max(0, value)),
-        getAnnualConsumption(store)
-    );
-
-    return {
-        bcnType: "Non-Monetary",
-        bcnSubType: "Direct",
-        bcnTag: "LCIA-Acidification-Potential",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: studyPeriod, // Study Period
-        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
-        quant: getAnnualConsumption(store),
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: netAcidificationRates,
-        quantUnit: "kg"
-    }
-}
-
-export function acidificationPotentialProduction(store: ApplicationStore): object {
-    const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
-    const acidificationPotential = store.analysisAssumptionsFormStore.environmentalVariables?.acidificationPotential ?? 0;
-
-    const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
-    const production = annualProduction(store);
-
-    const netAcidification = annualConsumption.map((value, index) => value - production[index])
-        .map((value) => value * (acidificationPotential / 1000));
-
-    const netAcidificationRates = generateVarValue(
-        netAcidification.map((value) => Math.min(value, 0)),
-        -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-    );
-
-    return {
-        bcnType: "Non-Monetary",
-        bcnSubType: "Direct",
-        bcnTag: "LCIA-Acidification-Potential",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: studyPeriod, // Study Period
-        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
-        quant: -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0),
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: netAcidificationRates,
-        quantUnit: "kg"
-    }
-}
-
-export function globalWarmingPotentialBaseline(store: ApplicationStore): object {
+export function globalWarmingPotentialBaseline(store: ApplicationStore): BcnBuilder {
     const globalWarmingPotential = store.analysisAssumptionsFormStore.environmentalVariables?.globalWarmingPotential ?? 0;
 
-    return {
-        bcnType: "Non-Monetary",
-        bcnSubType: "Direct",
-        bcnTag: "LCIA-Global-Warming-Potential",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: store.analysisAssumptionsFormStore.studyPeriod,
-        valuePerQ: 1,
-        quant: (getAnnualConsumption(store)) * (globalWarmingPotential / 1000),
-        quantVarRate: null,
-        quantVarValue: null,
-        quantUnit: "kg"
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .addEscalationRateForYear(store)
+        .end(store.analysisAssumptionsFormStore.studyPeriod ?? 25);
+
+    return new BcnBuilder()
+        .name("Grid Consumption Global Warming Potential")
+        .type(BcnType.NON_MONETARY)
+        .subType(BcnSubType.DIRECT)
+        .addTag("LCIA-Global-Warming-Potential")
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(1)
+        .quantity((getAnnualConsumption(store)) * (globalWarmingPotential / 1000))
+        .quantityUnit("kg");
 }
 
-export function globalWarmingPotentialConsumption(store: ApplicationStore): object {
+export function globalWarmingPotentialConsumption(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const globalWarmingPotential = store.analysisAssumptionsFormStore.environmentalVariables?.globalWarmingPotential ?? 0;
 
@@ -771,29 +567,26 @@ export function globalWarmingPotentialConsumption(store: ApplicationStore): obje
         getAnnualConsumption(store)
     );
 
-    return {
-        bcnType: "Non-Monetary",
-        bcnSubType: "Direct",
-        bcnTag: "LCIA-Global-Warming-Potential",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: studyPeriod, // Study Period
-        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
-        quant: getAnnualConsumption(store),
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: netGlobalWarmingPotentialRates,
-        quantUnit: "kg"
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .addEscalationRateForYear(store)
+        .end(studyPeriod);
+
+    return new BcnBuilder()
+        .name("Consumption Global Warming Potential")
+        .type(BcnType.NON_MONETARY)
+        .subType(BcnSubType.DIRECT)
+        .addTag("LCIA-Global-Warming-Potential")
+        .recur(recurBuilder)
+        .quantityValue(store.electricalCostFormStore.electricUnitPrice ?? 1)
+        .quantity(getAnnualConsumption(store))
+        .quantityVarRate(VarRate.PERCENT_DELTA)
+        .quantityVarValue(netGlobalWarmingPotentialRates)
+        .quantityUnit("kg");
 }
 
-export function globalWarmingPotentialProduction(store: ApplicationStore): object {
+export function globalWarmingPotentialProduction(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
     const globalWarmingPotential = store.analysisAssumptionsFormStore.environmentalVariables?.globalWarmingPotential ?? 0;
 
@@ -808,24 +601,22 @@ export function globalWarmingPotentialProduction(store: ApplicationStore): objec
         -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
     );
 
-    return {
-        bcnType: "Non-Monetary",
-        bcnSubType: "Direct",
-        bcnTag: "LCIA-Global-Warming-Potential",
-        initialOcc: 1,
-        bcnInvestBool: false,
-        bcnLife: null,
-        rvBool: false,
-        recurBool: true,
-        recurInterval: 1,
-        recurVarRate: "Percent Delta Timestep X-1",
-        recurVarValue: store.escalationRateFormStore.escalationRateForYear.length === 0 ?
-            null : store.escalationRateFormStore.escalationRateForYear,
-        recurEndDate: studyPeriod, // Study Period
-        valuePerQ: store.electricalCostFormStore.electricUnitPrice, // Consumption Rate
-        quant: -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0),
-        quantVarRate: "Percent Delta Timestep X-1",
-        quantVarValue: netGlobalWarmingPotentialRates,
-        quantUnit: "kg"
-    }
+    const recurBuilder = new RecurBuilder()
+        .interval(1)
+        .varRate(VarRate.PERCENT_DELTA)
+        .addEscalationRateForYear(store)
+        .end(studyPeriod);
+
+    return new BcnBuilder()
+        .name("Production Global Warming Potential")
+        .type(BcnType.NON_MONETARY)
+        .subType(BcnSubType.DIRECT)
+        .addTag("LCIA-Global-Warming-Potential")
+        .initialOccurrence(1)
+        .recur(recurBuilder)
+        .quantityValue(store.electricalCostFormStore.electricUnitPrice ?? 1)
+        .quantity(-(store.solarSystemFormStore.estimatedAnnualProduction ?? 0))
+        .quantityVarRate(VarRate.PERCENT_DELTA)
+        .quantityVarValue(netGlobalWarmingPotentialRates)
+        .quantityUnit("kg");
 }
