@@ -6,7 +6,7 @@ import {createE3Request} from "./RequestGenerator/E3RequestGenerator";
 import Results from "../Results/Results";
 import ErrorDialog from "../ErrorDialog";
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
-import {Result} from "../../typings/Result";
+import {E3, Output} from "e3-sdk";
 
 /**
  * Checks if a value is valid, in other words is not null, undefined, etc.
@@ -30,7 +30,7 @@ class FetchError extends Error {
 const Request = observer(() => {
     const store = useContext(Store);
 
-    const [result, setResult] = useState<Result | undefined>(undefined);
+    const [result, setResult] = useState<Output | undefined>(undefined);
     const [error, setError] = useState<FetchError | null>(null);
     const [errorDetails, setErrorDetails] = useState<string | null>(null);
 
@@ -45,8 +45,17 @@ const Request = observer(() => {
     useEffect(() => {
         const controller = new AbortController();
 
+        console.log(import.meta.env.VITE_REQUEST_URL)
+
         createE3Request(store)
-            .then((request) => {
+            .then(request => E3.analyze(import.meta.env.VITE_REQUEST_URL, request, controller.signal))
+            .then(setResult)
+            .catch(showError)
+            /*.then((request) => {
+                E3.analyze(import.meta.env.VITE_REQUEST_URL, request, controller.signal)
+                    .then(setResult)
+                    .catch(showError);
+
                 console.log(request.build());
                 // Generate fetch post request
                 const fetchOptions: RequestInit = {
@@ -55,13 +64,17 @@ const Request = observer(() => {
                     headers: {
                         "Content-Type": "application/json",
                         "Accept": "application/json",
-                        "Authorization": `Api-Key ${import.meta.env.VITE_API_TOKEN}`
+                        "Authorization": `Api-Key: ${import.meta.env.VITE_API_TOKEN}`
                     },
                     body: JSON.stringify(request.build())
                 }
 
                 // Fetch results from E3
                 fetch(import.meta.env.VITE_REQUEST_URL ?? "", fetchOptions)
+                    .then(x => {
+                        console.log(x);
+                        return x;
+                    })
                     .then((response) => {
                         if (response.ok)
                             return response;
@@ -69,9 +82,13 @@ const Request = observer(() => {
                         throw new FetchError("E3 fetch failed", response);
                     })
                     .then(toJson)
+                    .then(x => {
+                        console.log(x);
+                        return x;
+                    })
                     .then(setResult)
                     .catch(showError);
-            });
+            });*/
 
         // If the component is unmounted, abort the request
         return () => controller.abort();

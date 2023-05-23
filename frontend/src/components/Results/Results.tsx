@@ -1,4 +1,5 @@
 import React, {ReactNode, useContext} from "react";
+import {Measures, Optional, Output} from "e3-sdk";
 
 // Library imports
 import {Box, Button, Grid} from "@material-ui/core";
@@ -17,13 +18,10 @@ import Card from "../Card/Card";
 import GraphCard from "../Card/GraphCard/GraphCard";
 import {GraphOption, LOAN_OR_CASH_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../Strings";
 import {SREC_UPFRONT} from "../../Defaults";
-import MeasureSummary from "../../typings/MeasureSummary";
-import OptionalSummary from "../../typings/OptionalSummary";
-import {Result} from "../../typings/Result";
 import {currencyFormatter, numberFormatter, years} from "../../Format";
 
 interface ResultsProps {
-    result?: Result;
+    result?: Output;
 }
 
 /**
@@ -39,7 +37,7 @@ const Results = observer(({result}: ResultsProps) => {
     let srecUpfront = upfront / 1000 *
         (store.solarSystemFormStore.totalSystemSize ?? 0);
 
-    function componentOrSkeleton(component: (result: Result) => ReactNode) {
+    function componentOrSkeleton(component: (result: Output) => ReactNode) {
         if (result !== undefined)
             return component(result);
 
@@ -130,7 +128,7 @@ const Results = observer(({result}: ResultsProps) => {
                                 }
                                 <Grid item xs={7} className={"net-cost-line"}>Net Initial Cost</Grid>
                                 <Grid item xs={5} className={"net-cost-line right"}>
-                                    {currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
+                                    {currencyFormatter.format(result?.required?.[1].totalCostsDiscounted[0] ?? 0)}
                                 </Grid>
                             </Grid>
                         </div>
@@ -140,11 +138,11 @@ const Results = observer(({result}: ResultsProps) => {
 
             <MaterialHeader text={"Results Summary"}/>
             <Grid container justifyContent={"center"} spacing={2}>
-                {componentOrSkeleton((result) => result.MeasureSummary.map((res: MeasureSummary, index: number) => {
+                {componentOrSkeleton((result) => result?.measure?.map((res: Measures, index: number) => {
                     return <Grid item key={index}>
                         <ResultCard
                             alt={res}
-                            optionalSummaries={result.OptionalSummary.filter((value: OptionalSummary) => value.altID === index)}/>
+                            optionalSummaries={result?.optional?.filter((value: Optional) => value.altId === index) ?? []}/>
                     </Grid>
                 }))}
             </Grid>

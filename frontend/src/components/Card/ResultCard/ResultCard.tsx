@@ -15,23 +15,25 @@ import Card from "../Card";
 
 // Stylesheets
 import "./ResultCard.sass";
-import OptionalSummary from "../../../typings/OptionalSummary";
-import MeasureSummary from "../../../typings/MeasureSummary";
 import Constants from "../../../Constants";
 import {
     RESULT_AIRR_TOOLTIP,
     RESULT_CARBON_FOOTPRINT_TOOLTIP,
-    RESULT_ELECTRICAL_REDUCTION_TOOLTIP, RESULT_NET_SAVINGS_TOOLTIP, RESULT_SCC_TOOLTIP,
-    RESULT_SPP_TOOLTIP, RESULT_TOTAL_COST_TOOLTIP
+    RESULT_ELECTRICAL_REDUCTION_TOOLTIP,
+    RESULT_NET_SAVINGS_TOOLTIP,
+    RESULT_SCC_TOOLTIP,
+    RESULT_SPP_TOOLTIP,
+    RESULT_TOTAL_COST_TOOLTIP
 } from "../../../Strings";
 import {currencyFormatter, numberFormatter, years} from "../../../Format";
+import {Measures, Optional} from "e3-sdk"
 
 export interface ResultCardProps {
     // The alternative objects
-    alt: MeasureSummary;
+    alt: Measures;
 
     // List of optional summaries associated with this alternative
-    optionalSummaries: OptionalSummary[];
+    optionalSummaries: Optional[];
 }
 
 /**
@@ -39,11 +41,11 @@ export interface ResultCardProps {
  */
 export default function ResultCard({alt, optionalSummaries}: ResultCardProps): ReactElement {
     const gwpOptional = optionalSummaries.find((summary) => summary.tag === "LCIA-Global-Warming-Potential");
-    const gwp = _.sum(gwpOptional?.totTagQ.map((v) => v / 1000) ?? []);
+    const gwp = _.sum(gwpOptional?.totalTagQuantity.map((v) => v / 1000) ?? []);
 
     return (
         <div className={"side-tooltip-container result-card"}>
-            <Card className={"overflow-visible"} title={altLabels[alt.altID]}>
+            <Card className={"overflow-visible"} title={altLabels[alt.altId]}>
                 <Grid className={"card-table"} container spacing={4}>
                     <Grid item xs={7}>
                         <FormTooltip text={"Total Net Present Value Costs"}>
@@ -53,7 +55,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                     <Grid item xs={5} className={"right"}>
                         <div className={"side-tooltip-container"}>
                             {
-                                valid(alt.totalCosts) ? currencyFormatter.format(parseFloat(alt.totalCosts)) : "NA"
+                                valid(alt.totalCosts) ? currencyFormatter.format(alt.totalCosts) : "NA"
                             }
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_TOTAL_COST_TOOLTIP}>
@@ -71,7 +73,7 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                     <Grid item xs={5} className={"right"}>
                         <div className={"side-tooltip-container"}>
                             {
-                                valid(alt.netSavings) ? currencyFormatter.format(parseFloat(alt.netSavings)) : "NA"
+                                valid(alt.netSavings) ? currencyFormatter.format(alt.netSavings) : "NA"
                             }
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_NET_SAVINGS_TOOLTIP}>
@@ -89,8 +91,8 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                     <Grid item xs={5} className={"right"}>
                         <div className={"side-tooltip-container"}>
                             {
-                                valid(alt.AIRR) && alt.AIRR !== undefined ?
-                                    `${(parseFloat(alt.AIRR) * 100).toFixed(2)} %` : "NA"
+                                valid(alt.airr) && alt.airr !== undefined ?
+                                    `${(alt.airr * 100).toFixed(2)} %` : "NA"
                             }
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_AIRR_TOOLTIP}>
@@ -108,8 +110,8 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                     <Grid item xs={5} className={"right"}>
                         <div className={"side-tooltip-container"}>
                             {
-                                valid(alt.SPP) && alt.SPP !== undefined && alt.SPP !== 'Infinity' ?
-                                    years(Math.round(parseFloat(alt.SPP))) : "NA"
+                                valid(alt.spp) && alt.spp !== undefined ?
+                                    years(Math.round(alt.spp)) : "NA"
                             }
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_SPP_TOOLTIP}>
@@ -127,8 +129,8 @@ export default function ResultCard({alt, optionalSummaries}: ResultCardProps): R
                     <Grid className={"vertical-center right"} item xs={5}>
                         <div className={"side-tooltip-container"}>
                             {
-                                valid(alt.deltaQuant?.["Electricity"]) ?
-                                    `${numberFormatter.format(Math.round(-(alt.deltaQuant?.["Electricity"] ?? 0)))} kWh` : "NA"
+                                valid(alt.deltaQuantity?.["Electricity"]) ?
+                                    `${numberFormatter.format(Math.round(-(alt.deltaQuantity?.["Electricity"] ?? 0)))} kWh` : "NA"
                             }
                             <div className={"side-tooltip"}>
                                 <InfoTooltip text={RESULT_ELECTRICAL_REDUCTION_TOOLTIP}>

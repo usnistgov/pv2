@@ -2,10 +2,10 @@ import CSVDownload from "./CSVDownload";
 import PDFDownload from "./PDFDownload";
 import React from "react";
 import "./Downloads.sass";
-import {Result} from "../../typings/Result";
+import {Output} from "e3-sdk";
 
 interface DownloadsProps {
-    result: Result;
+    result: Output;
 }
 
 /**

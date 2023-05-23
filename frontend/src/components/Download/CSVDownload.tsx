@@ -8,9 +8,9 @@ import {observer} from "mobx-react-lite";
 import {validOrNA} from "../../Utils";
 import {Store} from "../../application/ApplicationStore";
 import {STUDY_PERIOD} from "../../Defaults";
-import {Result} from "../../typings/Result";
 import Constants from "../../Constants";
 import _ from "lodash";
+import {Output} from "e3-sdk";
 
 /**
  * Generates CSV data for the given results and study period.
@@ -18,24 +18,24 @@ import _ from "lodash";
  * @param results The JSON results obtained from E3.
  * @param studyPeriod The study period defined in the redux store.
  */
-function generateCsv(results: Result, studyPeriod: number): any {
-    const altObjects = results.MeasureSummary;
-    const cashFlowObjects = results.FlowSummary;
-    const optionalObjects = results.OptionalSummary;
+function generateCsv(results: Output, studyPeriod: number): any {
+    const altObjects = results.measure ?? [];
+    const cashFlowObjects = results.required ?? [];
+    const optionalObjects = results.optional ?? [];
 
     const totalCosts = altObjects.map((x) => x.totalCosts).map(validOrNA);
     const netSavings = altObjects.map((x) => x.netSavings).map(validOrNA);
-    const airr = altObjects.map((x) => x.AIRR).map(validOrNA);
-    const spp = altObjects.map((x) => x.SPP).map((value: string | number | undefined) => {
+    const airr = altObjects.map((x) => x.airr).map(validOrNA);
+    const spp = altObjects.map((x) => x.spp).map((value: string | number | undefined) => {
         return valid(value) && value !== "Infinity" ? value : "NA"
     });
-    const electricityReduction = altObjects.map((x) => -(x?.deltaQuant?.["Electricity"] ?? 0))
+    const electricityReduction = altObjects.map((x) => -(x?.deltaQuantity?.["Electricity"] ?? 0))
         .map(validOrNA);
     const carbonFootprint = optionalObjects.filter(x => x.tag === "LCIA-Global-Warming-Potential")
-        .map(x => _.sum(x.totTagQ.map((v: any) => parseFloat(v))) / 1000);
+        .map(x => _.sum(x.totalTagQuantity.map((v: any) => parseFloat(v))) / 1000);
     const socialCostOfCarbon = carbonFootprint.map(v => v * Constants.SOCIAL_COST_OF_CARBON);
     const data = Array.from(Array(studyPeriod + 1).keys())
-        .map((index) => [index, ...cashFlowObjects.map((flow) => flow.totCostDisc[index])]);
+        .map((index) => [index, ...cashFlowObjects.map((flow) => flow.totalCostsDiscounted[index])]);
 
     return [
         ["Results Summary"],
@@ -55,7 +55,7 @@ function generateCsv(results: Result, studyPeriod: number): any {
 }
 
 interface CSVDownloadProps {
-    result: Result;
+    result: Output;
 }
 
 /**
