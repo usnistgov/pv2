@@ -7,7 +7,7 @@ RUN corepack prepare pnpm@7.5.0 --activate
 RUN pnpm config set auto-install-peers true
 RUN pnpm config set strict-peer-dependencies false
 COPY frontend/package.json .
-COPY frontend/e3-sdk-1.0.1.tgz .
+COPY frontend/e3-sdk-1.0.6.tgz .
 RUN pnpm install
 COPY frontend/ .
 RUN pnpm run build
