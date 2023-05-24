@@ -84,7 +84,7 @@ const SolarSystemForm = observer(({step}: SolarSystemFormProps) => {
                     <ValidatedTextField fullWidth
                                         variant={"filled"}
                                         label={PANEL_EFFICIENCY_LABEL}
-                                        value={store.panelEfficiency}
+                                        value={defaultIfUndefined(store.panelEfficiency, '')}
                                         schema={store.panelEfficiencySchema}
                                         action={(value) => store.panelEfficiency = value}
                                         InputProps={Adornment.PERCENT}

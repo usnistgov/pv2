@@ -45,7 +45,7 @@ const Request = observer(() => {
     useEffect(() => {
         const controller = new AbortController();
 
-        console.log(import.meta.env.VITE_REQUEST_URL)
+        console.log(import.meta.env.VITE_SERVER_HOSTNAME)
 
         createE3Request(store)
             .then(request => E3.analyze(import.meta.env.VITE_REQUEST_URL, request, controller.signal))

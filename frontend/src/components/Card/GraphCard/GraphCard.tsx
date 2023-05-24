@@ -11,15 +11,18 @@ import {Paper} from "@material-ui/core";
 import {altLabels} from "../../Request/RequestGenerator/E3RequestGenerator";
 
 const DashedSolidLine = ({ series, lineGenerator, xScale, yScale }: CustomLayerProps) => {
-    return series.map(({ id, data, color }: Serie) => (
-        <path
+    return series.map(({ id, data, color }: Serie) => {
+
+        const line = lineGenerator(
+            data.map((d) => ({
+                x: (xScale as any)(d.data.x),
+                y: (yScale as any)(d.data.y)
+            }))
+        );
+
+        return <path
             key={id}
-            d={lineGenerator(
-                data.map((d) => ({
-                    x: (xScale as any)(d.data.x),
-                    y: (yScale as any)(d.data.y)
-                }))
-            )}
+            d={line === null ? undefined : line}
             fill="none"
             stroke={color}
             style={
@@ -32,8 +35,8 @@ const DashedSolidLine = ({ series, lineGenerator, xScale, yScale }: CustomLayerP
                         strokeWidth: 2
                     }
             }
-        />
-    ));
+        />;
+    });
 };
 
 const GraphCard = observer(({result, option}: any) => {

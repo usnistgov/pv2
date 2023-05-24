@@ -3,6 +3,8 @@ const path = require("path");
 const {Pool} = require("pg");
 const {expressCspHeader, SELF} = require("express-csp-header");
 
+console.log(process.env.POSTGRES_HOSTNAME)
+
 const app = express();
 const port = 80;
 const pool = new Pool({

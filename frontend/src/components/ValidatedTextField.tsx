@@ -19,7 +19,7 @@ interface ValidatedTextFieldProps {
     shouldUpdate?: () => boolean;
 }
 
-const ValidatedTextField = observer(({
+const ValidatedTextField = observer(React.forwardRef(({
                                          error,
                                          helperText,
                                          onChange,
@@ -70,6 +70,6 @@ const ValidatedTextField = observer(({
                       }}
                       value={value}
                       {...props}/>
-}, {forwardRef: true});
+}));
 
 export default ValidatedTextField;

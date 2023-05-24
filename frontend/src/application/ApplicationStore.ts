@@ -101,7 +101,7 @@ export class ApplicationStore {
         if (zipcode.length <= 0)
             return;
 
-        fetch(`/api/environment/${zipcode}`)
+        fetch(`${import.meta.env.VITE_SERVER_HOSTNAME}/api/environment/${zipcode}`)
             .then(toJson)
             .then((value) => value[0])
             .then((value) => _.mapKeys(value, (v, k) => _.camelCase(k)))
@@ -112,9 +112,9 @@ export class ApplicationStore {
         if (zipcode.length <= 0)
             return;
 
-        fetch(`/api/escalation-rates/${zipcode}`)
+        fetch(`${import.meta.env.VITE_SERVER_HOSTNAME}/api/escalation-rates/${zipcode}`)
             .then(toJson)
-            .then((result) => result[0].rates)
+            .then((result) => result[0]?.rates ?? [])
             .then<number[]>(take((this.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD) + 1))
             .then((result) => {
                 this.escalationRateFormStore.productionEscalationRateForYear = result;
@@ -126,7 +126,7 @@ export class ApplicationStore {
         if (zipcode.length <= 0)
             return;
 
-        fetch(`/api/average-electricity-price/zipcode/${zipcode}`)
+        fetch(`${import.meta.env.VITE_SERVER_HOSTNAME}/api/average-electricity-price/zipcode/${zipcode}`)
             .then(toJson)
             .then((value) => value[0]?.average_electricity_price)
             .then((value) => {
@@ -139,7 +139,7 @@ export class ApplicationStore {
         if (zipcode.length <= 0)
             return;
 
-        fetch(`/api/state/${zipcode}`)
+        fetch(`${import.meta.env.VITE_SERVER_HOSTNAME}/api/state/${zipcode}`)
             .then(toJson)
             .then((value) => value[0]?.state)
             .then((value) => {
