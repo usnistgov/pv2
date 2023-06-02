@@ -45,52 +45,15 @@ const Request = observer(() => {
     useEffect(() => {
         const controller = new AbortController();
 
-        console.log(import.meta.env.VITE_SERVER_HOSTNAME)
-
         createE3Request(store)
-            .then(request => E3.analyze(import.meta.env.VITE_REQUEST_URL, request, controller.signal))
+            .then(request => E3.analyze(import.meta.env.VITE_REQUEST_URL, request, import.meta.env.VITE_API_TOKEN, controller.signal))
+            .then(x => {
+                console.log(x);
+                return x;
+            })
             .then(setResult)
             .catch(showError)
-            /*.then((request) => {
-                E3.analyze(import.meta.env.VITE_REQUEST_URL, request, controller.signal)
-                    .then(setResult)
-                    .catch(showError);
 
-                console.log(request.build());
-                // Generate fetch post request
-                const fetchOptions: RequestInit = {
-                    method: "POST",
-                    signal: controller.signal,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
-                        "Authorization": `Api-Key: ${import.meta.env.VITE_API_TOKEN}`
-                    },
-                    body: JSON.stringify(request.build())
-                }
-
-                // Fetch results from E3
-                fetch(import.meta.env.VITE_REQUEST_URL ?? "", fetchOptions)
-                    .then(x => {
-                        console.log(x);
-                        return x;
-                    })
-                    .then((response) => {
-                        if (response.ok)
-                            return response;
-
-                        throw new FetchError("E3 fetch failed", response);
-                    })
-                    .then(toJson)
-                    .then(x => {
-                        console.log(x);
-                        return x;
-                    })
-                    .then(setResult)
-                    .catch(showError);
-            });*/
-
-        // If the component is unmounted, abort the request
         return () => controller.abort();
     }, [store]);
 

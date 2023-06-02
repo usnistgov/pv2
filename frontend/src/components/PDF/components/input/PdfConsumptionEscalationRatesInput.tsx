@@ -36,7 +36,8 @@ const PdfConsumptionEscalationRatesInput = ({store}: PdfInputSectionProps) => {
                     {
                         rates.filter((_, index) => index !== 0 && index <= rates.length / 2)
                             .map((rate, index) => {
-                                return <LabeledText label={`${index + 1}`}
+                                return <LabeledText key={index}
+                                                    label={`${index + 1}`}
                                                     content={`${(rate * 100).toFixed(2)}%`}/>
                             })
                     }
@@ -47,6 +48,7 @@ const PdfConsumptionEscalationRatesInput = ({store}: PdfInputSectionProps) => {
                         rates.filter((_, index) => index > rates.length / 2)
                             .map((rate, index) => {
                                 return <LabeledText
+                                    key={index}
                                     label={`${Math.ceil(rates.length / 2) + index + 1}`}
                                     content={`${(rate * 100).toFixed(2)}%`}/>
                             })

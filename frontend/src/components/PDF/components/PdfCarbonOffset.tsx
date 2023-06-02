@@ -1,9 +1,9 @@
 import PdfSection from "./PdfSection";
 import {Image, StyleSheet, Text, View} from "@react-pdf/renderer";
 import _ from "lodash";
-import {Result} from "../../../typings/Result";
 import Constants from "../../../Constants";
 import {currencyFormatter, numberFormatter} from "../../../Format";
+import {Output} from "e3-sdk"
 
 const styles = StyleSheet.create({
     carbonOffsetContainer: {
@@ -24,13 +24,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const PdfCarbonOffset = ({result}: {result: Result}) => {
-    const gwpBaseline = result.OptionalSummary
-        .find(summary => summary.tag === "LCIA-Global-Warming-Potential" && summary.altID == 0);
-    const gwpOptional = result.OptionalSummary
-        .find(summary => summary.tag === "LCIA-Global-Warming-Potential" && summary.altID == 1);
-    const gwp = _.sum(gwpBaseline?.totTagQ.map((v) => v / 1000) ?? []) -
-        _.sum(gwpOptional?.totTagQ.map((v) => v / 1000) ?? []);
+const PdfCarbonOffset = ({result}: {result: Output}) => {
+    if(result === undefined)
+        return <PdfSection title={"Carbon Offset"}/>;
+
+    const gwpBaseline = result.optional
+        ?.find(summary => summary.tag === "LCIA-Global-Warming-Potential" && summary.altId == 0);
+    const gwpOptional = result.optional
+        ?.find(summary => summary.tag === "LCIA-Global-Warming-Potential" && summary.altId == 1);
+    const gwp = _.sum(gwpBaseline?.totalTagQuantity.map((v) => v / 1000) ?? []) -
+        _.sum(gwpOptional?.totalTagQuantity.map((v) => v / 1000) ?? []);
 
     return (
       <PdfSection title={"Carbon Offset"}>

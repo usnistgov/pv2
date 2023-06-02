@@ -1,8 +1,8 @@
 import PdfSection from "./PdfSection";
 import {StyleSheet, Text, View} from '@react-pdf/renderer';
-import {Result} from "../../../typings/Result";
 import {ApplicationStore} from "../../../application/ApplicationStore";
 import {currencyFormatter} from "../../../Format";
+import {Output} from "e3-sdk";
 
 const styles = StyleSheet.create({
     paymentContainer: {
@@ -43,13 +43,16 @@ const styles = StyleSheet.create({
 });
 
 interface PdfPaymentOptions {
-    result: Result;
+    result: Output;
     store: ApplicationStore;
 }
 
 const PdfPaymentOptions = ({result, store}: PdfPaymentOptions) => {
-    const alternativeOne = result.MeasureSummary[1];
-    const alternativeTwo = result.MeasureSummary[2] ?? null;
+    const alternativeOne = result?.measure?.[1];
+    const alternativeTwo = result?.measure?.[2] ?? null;
+
+    if(alternativeOne === undefined)
+        return <PdfSection title={"Paytment Options"}/>
 
     return (
         <PdfSection title={"Payment Options"}>
@@ -57,18 +60,18 @@ const PdfPaymentOptions = ({result, store}: PdfPaymentOptions) => {
             <View style={styles.paymentContainer}>
                 <View style={styles.paymentColumn}>
                     <Text style={styles.paymentText}>
-                        {currencyFormatter.format(parseFloat(alternativeOne.totalCosts))}
+                        {currencyFormatter.format(alternativeOne.totalCosts ?? 0)}
                     </Text>
                     <Text style={styles.paymentText}>
-                        {alternativeOne.SPP !== undefined && alternativeOne.SPP !== 'Infinity' ?
-                            `${Math.round(parseFloat(alternativeOne.SPP))} yr` : "NA"}
+                        {alternativeOne.spp !== undefined && alternativeOne.spp !== Infinity ?
+                            `${Math.round(alternativeOne.spp)} yr` : "NA"}
                     </Text>
                     <Text style={styles.paymentText}>
-                        {alternativeOne.AIRR !== undefined ?
-                            `${(parseFloat(alternativeOne.AIRR) * 100).toFixed(2)}%` : "NA"}
+                        {alternativeOne.airr !== undefined ?
+                            `${(alternativeOne.airr * 100).toFixed(2)}%` : "NA"}
                     </Text>
                     <Text style={styles.paymentText}>
-                        {currencyFormatter.format(parseFloat(alternativeOne.netSavings))}
+                        {currencyFormatter.format(alternativeOne.netSavings)}
                     </Text>
                 </View>
                 <View style={styles.paymentLabelColumn}>
@@ -86,18 +89,18 @@ const PdfPaymentOptions = ({result, store}: PdfPaymentOptions) => {
                     <View style={styles.paymentContainer}>
                         <View style={styles.paymentColumn}>
                             <Text style={styles.paymentText}>
-                                {currencyFormatter.format(parseFloat(alternativeTwo.totalCosts))}
+                                {currencyFormatter.format(alternativeTwo.totalCosts)}
                             </Text>
                             <Text style={styles.paymentText}>
-                                {alternativeTwo.SPP !== undefined && alternativeTwo.SPP !== 'Infinity' ?
-                                    `${Math.round(parseFloat(alternativeTwo.SPP))} yr` : "NA"}
+                                {alternativeTwo.spp !== undefined && alternativeTwo.spp !== Infinity ?
+                                    `${Math.round(alternativeTwo.spp)} yr` : "NA"}
                             </Text>
                             <Text style={styles.paymentText}>
-                                {alternativeTwo.AIRR !== undefined ?
-                                    `${(parseFloat(alternativeTwo.AIRR) * 100).toFixed(2)}%` : "NA"}
+                                {alternativeTwo.airr !== undefined ?
+                                    `${(alternativeTwo.airr * 100).toFixed(2)}%` : "NA"}
                             </Text>
                             <Text style={styles.paymentText}>
-                                {currencyFormatter.format(parseFloat(alternativeTwo.netSavings))}
+                                {currencyFormatter.format(alternativeTwo.netSavings)}
                             </Text>
                         </View>
                         <View style={styles.paymentLabelColumn}>

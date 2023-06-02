@@ -5,7 +5,6 @@ import PdfSystemInformation from "./components/PdfSystemInformation";
 import PdfCumulativeSavings from "./components/PdfCumulativeSavings";
 import PdfCarbonOffset from "./components/PdfCarbonOffset";
 import PdfPaymentOptions from "./components/PdfPaymentOptions";
-import {Result} from "../../typings/Result";
 import PdfAddressInput from "./components/input/PdfAddressInput";
 import PdfAnalysisAssumptionsInput from "./components/input/PdfAnalysisAssumptionsInput";
 import PdfElectricalRateInput from "./components/input/PdfElectricalRateInput";
@@ -17,6 +16,7 @@ import PdfPpaOptionInput from "./components/input/PdfPpaOptionInput";
 import PdfSrecInput from "./components/input/PdfSrecInput";
 import PdfProductionEscalationRatesInput from "./components/input/PdfProductionEscalationRatesInput";
 import PdfConsumptionEscalationRatesInput from "./components/input/PdfConsumptionEscalationRatesInput";
+import {Output} from "e3-sdk";
 
 Font.register({
     family: 'Roboto',
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 
 interface PdfReportProps {
     graphSrc: string;
-    result: Result;
+    result: Output;
     store: ApplicationStore;
 }
 

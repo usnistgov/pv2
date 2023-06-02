@@ -3,11 +3,11 @@ import React, {useContext, useEffect, useState} from "react";
 import {Store} from "../../../application/ApplicationStore";
 import {getGraphData} from "../../../GetGraphData";
 import {GraphOption} from "../../../Strings";
-import {Result} from "../../../typings/Result";
 import {compactCurrencyFormatter} from "../../../Format";
+import {Output} from "e3-sdk";
 
 interface PdfGraphProps {
-    result: Result;
+    result: Output;
 }
 
 const PdfGraph = ({result}: PdfGraphProps) => {

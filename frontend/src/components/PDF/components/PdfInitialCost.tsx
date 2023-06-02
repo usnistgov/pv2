@@ -5,6 +5,7 @@ import {LOAN_OR_CASH_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../../Strings";
 import {SREC_UPFRONT} from "../../../Defaults";
 import {currencyFormatter} from "../../../Format";
 import LabeledText from "./LabeledText";
+import {Output} from "e3-sdk";
 
 const styles = StyleSheet.create({
     initialCostContainer: {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const PdfInitialCost = ({result, store}: { result: any, store: ApplicationStore }) => {
+const PdfInitialCost = ({result, store}: { result: Output, store: ApplicationStore }) => {
     const upfront = store.srecFormStore.srecPaymentsUpFront ?? SREC_UPFRONT;
     let srecUpfront = upfront / 1000 * (store.solarSystemFormStore.totalSystemSize ?? 0);
 
@@ -75,7 +76,7 @@ const PdfInitialCost = ({result, store}: { result: any, store: ApplicationStore 
                 }
             </View>
             <View style={[styles.initialCostContainer, styles.initialCostNetText]}>
-                <LabeledText label={currencyFormatter.format(result?.FlowSummary[1]?.totCostDisc[0] ?? 0)}
+                <LabeledText label={currencyFormatter.format(result?.required?.[1]?.totalCostsDiscounted[0] ?? 0)}
                              content={"Net Initial Cost"}/>
             </View>
         </PdfSection>

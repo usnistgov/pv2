@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+var cors = require('cors')
 const {Pool} = require("pg");
 const {expressCspHeader, SELF} = require("express-csp-header");
 
@@ -10,6 +11,8 @@ const port = 80;
 const pool = new Pool({
     connectionString: `postgres://${process.env.POSTGRES_USER}:${encodeURIComponent(process.env.POSTGRES_PASSWORD)}@${process.env.POSTGRES_HOSTNAME}:5432/${process.env.POSTGRES_DB}`
 })
+
+app.use(cors())
 
 app.use(expressCspHeader({
     directives: {
