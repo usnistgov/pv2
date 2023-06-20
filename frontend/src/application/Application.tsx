@@ -26,6 +26,8 @@ const Application = observer(() => {
     return <StepperNav onFinish={() => setFinished(true)}>
         <StepperPage label={"Address"} isDone={() => store.addressFormStore.validate}>
             <AddressForm step={0}/>
+
+
         </StepperPage>
         <StepperPage label={"Analysis Assumptions"} isDone={() => store.analysisAssumptionsFormStore.validate}>
             <AnalysisAssumptionsForm step={1}/>

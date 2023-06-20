@@ -130,8 +130,8 @@ export class ApplicationStore {
             .then(toJson)
             .then((value) => value[0]?.average_electricity_price)
             .then((value) => {
-                this.electricalCostFormStore.electricUnitPrice = value;
-                this.electricalCostFormStore.excessGenerationUnitPrice = value;
+                this.electricalCostFormStore.electricUnitPrice = parseFloat(value);
+                this.electricalCostFormStore.excessGenerationUnitPrice = parseFloat(value);
             });
     }
 

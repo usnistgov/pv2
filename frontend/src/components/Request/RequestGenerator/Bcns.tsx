@@ -1,5 +1,4 @@
 import {ApplicationStore} from "../../../application/ApplicationStore";
-import {generateVarValue} from "../../../Utils";
 import {DEGRADATION_RATE, GENERAL_INFLATION, INVERTER_LIFETIME, PANEL_LIFETIME, STUDY_PERIOD} from "../../../Defaults";
 import {getAnnualConsumption} from "./E3RequestGenerator";
 import {BcnBuilder, BcnSubType, BcnType, RecurBuilder, VarRate} from "e3-sdk";
@@ -62,11 +61,6 @@ export function netGridConsumption(store: ApplicationStore): BcnBuilder {
 
     const netElectricity = annualConsumption.map((value, index) => value - production[index]);
 
-    const netGridConsumptionRates = generateVarValue(
-        netElectricity.map((value) => Math.max(0, value)),
-        getAnnualConsumption(store)
-    );
-
     const recurBuilder = new RecurBuilder()
         .interval(1)
         .varRate(VarRate.PERCENT_DELTA)
@@ -82,18 +76,13 @@ export function netGridConsumption(store: ApplicationStore): BcnBuilder {
         .recur(recurBuilder)
         .quantityValue(store.electricalCostFormStore.electricUnitPrice ?? 1)
         .quantity(getAnnualConsumption(store))
-        .quantityVarRate(VarRate.PERCENT_DELTA)
-        .quantityVarValue(netGridConsumptionRates)
+        .quantityVarRate(VarRate.YEAR_BY_YEAR)
+        .quantityVarValue(netElectricity.map(value => Math.max(0, value) / getAnnualConsumption(store)))
         .quantityUnit("kWh");
 }
 
 export function panelProduction(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
-
-    const production = generateVarValue(
-        annualProduction(store),
-        store.solarSystemFormStore.estimatedAnnualProduction ?? 0
-    );
 
     const recurBuilder = new RecurBuilder()
         .interval(1)
@@ -110,8 +99,8 @@ export function panelProduction(store: ApplicationStore): BcnBuilder {
         .recur(recurBuilder)
         .quantityValue(store.electricalCostFormStore.excessGenerationUnitPrice ?? 0)
         .quantity(-(store.solarSystemFormStore.estimatedAnnualProduction ?? 0))
-        .quantityVarRate(VarRate.PERCENT_DELTA)
-        .quantityVarValue(production)
+        .quantityVarRate(VarRate.YEAR_BY_YEAR)
+        .quantityVarValue(annualProduction(store).map(x => x / (store.solarSystemFormStore.estimatedAnnualProduction ?? 1)))
         .quantityUnit("kWh");
 }
 
@@ -122,11 +111,6 @@ export function netPanelProduction(store: ApplicationStore): BcnBuilder {
     const production = annualProduction(store);
 
     const netElectricity = annualConsumption.map((value, index) => value - production[index]);
-
-    const netProductionRates = generateVarValue(
-        netElectricity.map((value) => Math.min(value, 0)),
-        -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-    );
 
     const recurBuilder = new RecurBuilder()
         .interval(1)
@@ -143,8 +127,10 @@ export function netPanelProduction(store: ApplicationStore): BcnBuilder {
         .recur(recurBuilder)
         .quantityValue(store.electricalCostFormStore.excessGenerationUnitPrice ?? 0)
         .quantity(-(store.solarSystemFormStore.estimatedAnnualProduction ?? 0))
-        .quantityVarRate(VarRate.PERCENT_DELTA)
-        .quantityVarValue(netProductionRates)
+        .quantityVarRate(VarRate.YEAR_BY_YEAR)
+        .quantityVarValue(netElectricity.map(
+            value => Math.min(value, 0) / -(store.solarSystemFormStore.estimatedAnnualProduction ?? 1)
+        ))
         .quantityUnit("kWh");
 }
 
@@ -374,11 +360,6 @@ export function maintenanceCosts(store: ApplicationStore): BcnBuilder {
 }
 
 export function ppaConsumption(store: ApplicationStore): BcnBuilder {
-    const netProductionRates = generateVarValue(
-        annualProduction(store),
-        store.solarSystemFormStore.estimatedAnnualProduction ?? 0
-    );
-
     const recurBuilder = new RecurBuilder()
         .interval(1)
         .varRate(VarRate.PERCENT_DELTA)
@@ -393,8 +374,10 @@ export function ppaConsumption(store: ApplicationStore): BcnBuilder {
         .recur(recurBuilder)
         .quantityValue(store.costsFormStore.ppaElectricityRate ?? 1)
         .quantity(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-        .quantityVarRate(VarRate.PERCENT_DELTA)
-        .quantityVarValue(netProductionRates)
+        .quantityVarRate(VarRate.YEAR_BY_YEAR)
+        .quantityVarValue(annualProduction(store).map(
+            value => value / (store.solarSystemFormStore.estimatedAnnualProduction ?? 1)
+        ))
         .quantityUnit("kWh");
 }
 
@@ -423,11 +406,6 @@ export function upfrontSrec(store: ApplicationStore): BcnBuilder {
 }
 
 export function productionBasedSrec(store: ApplicationStore): BcnBuilder {
-    const production = generateVarValue(
-        annualProduction(store).map((value) => value / 1000),
-        (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000
-    );
-
     const recurBuilder = new RecurBuilder()
         .interval(1)
         .varRate(VarRate.YEAR_BY_YEAR)
@@ -444,8 +422,10 @@ export function productionBasedSrec(store: ApplicationStore): BcnBuilder {
         .recur(recurBuilder)
         .quantityValue(-1)
         .quantity((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000)
-        .quantityVarRate(VarRate.PERCENT_DELTA)
-        .quantityVarValue(production);
+        .quantityVarRate(VarRate.YEAR_BY_YEAR)
+        .quantityVarValue(annualProduction(store).map(
+            value => (value / 1000) / ((store.solarSystemFormStore.estimatedAnnualProduction ?? 1) / 1000)
+        ));
 }
 
 export function maintenanceCostsAfterPpa(store: ApplicationStore): BcnBuilder {
@@ -471,11 +451,6 @@ export function maintenanceCostsAfterPpa(store: ApplicationStore): BcnBuilder {
 export function productionBasedSrecAfterPpa(store: ApplicationStore): BcnBuilder {
     const studyPeriod = store.analysisAssumptionsFormStore.studyPeriod ?? STUDY_PERIOD;
 
-    const production = generateVarValue(
-        annualProduction(store).map((value) => value / 1000),
-        (store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000
-    );
-
     const recurBuilder = new RecurBuilder()
         .interval(1)
         .varRate(VarRate.YEAR_BY_YEAR)
@@ -492,8 +467,10 @@ export function productionBasedSrecAfterPpa(store: ApplicationStore): BcnBuilder
         .recur(recurBuilder)
         .quantityValue(-1)
         .quantity((store.solarSystemFormStore.estimatedAnnualProduction ?? 0) / 1000)
-        .quantityVarRate(VarRate.PERCENT_DELTA)
-        .quantityVarValue(production);
+        .quantityVarRate(VarRate.YEAR_BY_YEAR)
+        .quantityVarValue(annualProduction(store).map(
+            value => (value / 1000) / ((store.solarSystemFormStore.estimatedAnnualProduction ?? 1) / 1000)
+        ));
 }
 
 export function inverterReplacementAfterPpa(store: ApplicationStore): BcnBuilder[] {
@@ -562,11 +539,6 @@ export function globalWarmingPotentialConsumption(store: ApplicationStore): BcnB
     const netGlobalWarmingPotential = annualConsumption.map((value, index) => value - production[index])
         .map((value) => value * (globalWarmingPotential / 1000));
 
-    const netGlobalWarmingPotentialRates = generateVarValue(
-        netGlobalWarmingPotential.map((value) => Math.max(0, value)),
-        getAnnualConsumption(store)
-    );
-
     const recurBuilder = new RecurBuilder()
         .interval(1)
         .varRate(VarRate.PERCENT_DELTA)
@@ -581,8 +553,10 @@ export function globalWarmingPotentialConsumption(store: ApplicationStore): BcnB
         .recur(recurBuilder)
         .quantityValue(store.electricalCostFormStore.electricUnitPrice ?? 1)
         .quantity(getAnnualConsumption(store))
-        .quantityVarRate(VarRate.PERCENT_DELTA)
-        .quantityVarValue(netGlobalWarmingPotentialRates)
+        .quantityVarRate(VarRate.YEAR_BY_YEAR)
+        .quantityVarValue(netGlobalWarmingPotential.map(
+            value => Math.max(0, value) / getAnnualConsumption(store)
+        ))
         .quantityUnit("kg");
 }
 
@@ -593,13 +567,8 @@ export function globalWarmingPotentialProduction(store: ApplicationStore): BcnBu
     const annualConsumption = Array(studyPeriod + 1).fill(getAnnualConsumption(store));
     const production = annualProduction(store);
 
-    const netGlobalWarmingotential = annualConsumption.map((value, index) => value - production[index])
+    const netGlobalWarmingPotential = annualConsumption.map((value, index) => value - production[index])
         .map((value) => value * (globalWarmingPotential / 1000));
-
-    const netGlobalWarmingPotentialRates = generateVarValue(
-        netGlobalWarmingotential.map((value) => Math.min(value, 0)),
-        -(store.solarSystemFormStore.estimatedAnnualProduction ?? 0)
-    );
 
     const recurBuilder = new RecurBuilder()
         .interval(1)
@@ -616,7 +585,9 @@ export function globalWarmingPotentialProduction(store: ApplicationStore): BcnBu
         .recur(recurBuilder)
         .quantityValue(store.electricalCostFormStore.electricUnitPrice ?? 1)
         .quantity(-(store.solarSystemFormStore.estimatedAnnualProduction ?? 0))
-        .quantityVarRate(VarRate.PERCENT_DELTA)
-        .quantityVarValue(netGlobalWarmingPotentialRates)
+        .quantityVarRate(VarRate.YEAR_BY_YEAR)
+        .quantityVarValue(netGlobalWarmingPotential.map(
+            value => Math.min(value, 0) / -(store.solarSystemFormStore.estimatedAnnualProduction ?? 1)
+        ))
         .quantityUnit("kg");
 }

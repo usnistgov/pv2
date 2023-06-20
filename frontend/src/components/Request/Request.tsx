@@ -46,6 +46,10 @@ const Request = observer(() => {
         const controller = new AbortController();
 
         createE3Request(store)
+            .then(request => {
+                console.log(request.build());
+                return request;
+            })
             .then(request => E3.analyze(import.meta.env.VITE_REQUEST_URL, request, import.meta.env.VITE_API_TOKEN, controller.signal))
             .then(x => {
                 console.log(x);

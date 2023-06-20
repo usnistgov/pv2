@@ -19,22 +19,6 @@ export const defaultIfUndefined = <A, B>(value: A, defaultValue: B): A | B => {
     return value === undefined ? defaultValue : value
 }
 
-export function generateVarValue(array: number[], initial: number): number[] {
-    let tmp = initial;
-
-    return array.map((value) => {
-        if (value === tmp)
-            return 0;
-
-        if (tmp === 0)
-            tmp = initial;
-
-        let result = (value - tmp) / tmp;
-        tmp = value;
-        return result;
-    });
-}
-
 export const DecimalTest = {
     name: "4 Decimals",
     message: "Too many decimals, can only have 4.",
