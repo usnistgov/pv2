@@ -28,7 +28,7 @@
     "react": "^18.0.0",
     "react-csv": "^2.2.2",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.3.0",
+    "react-router-dom": "^6.13.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
