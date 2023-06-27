@@ -1,10 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Store} from "../../application/ApplicationStore";
 import {observer} from "mobx-react-lite";
-import {toJson} from "../../Utils";
 import {createE3Request} from "./RequestGenerator/E3RequestGenerator";
 import Results from "../Results/Results";
-import ErrorDialog from "../ErrorDialog";
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 import {E3, Output} from "e3-sdk";
 
@@ -18,28 +16,11 @@ export function valid(value: any): boolean {
     return value !== null && value !== undefined && typeof value !== 'object' && !isNaN(value);
 }
 
-class FetchError extends Error {
-    response: Response;
-
-    constructor(message: string, response: Response) {
-        super(message);
-        this.response = response;
-    }
-}
-
 const Request = observer(() => {
     const store = useContext(Store);
 
     const [result, setResult] = useState<Output | undefined>(undefined);
-    const [error, setError] = useState<FetchError | null>(null);
-    const [errorDetails, setErrorDetails] = useState<string | null>(null);
-
-    function showError(e: FetchError) {
-        if (e.response)
-            e.response.json().then(setErrorDetails);
-
-        setError(e);
-    }
+    const [error, setError] = useState<boolean>(false);
 
     // Fetches results from E3 API
     useEffect(() => {
@@ -56,15 +37,17 @@ const Request = observer(() => {
                 return x;
             })
             .then(setResult)
-            .catch(showError)
+            .catch(x => {
+                console.log(x);
+                setError(true);
+            });
 
         return () => controller.abort();
-    }, [store]);
+    }, [store, setError]);
 
     return (
         <>
-            <ErrorDialog predicate={error !== null} error={error} errorDetails={errorDetails}/>
-            <LoadingIndicator predicate={(result === undefined || result === null)}/>
+            <LoadingIndicator predicate={(result === undefined || result === null)} error={error}/>
             <Results result={result}/>
         </>
     );
