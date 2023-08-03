@@ -121,7 +121,7 @@ const SrecForm = observer(({step}: SrecFormProps) => {
                                         variant={"filled"}
                                         label={SREC_PAYMENT_YEARS}
                                         value={defaultIfUndefined(store.srecContractLength, '')}
-                                        schema={store.srecPayments}
+                                        schema={store.srecContractLengthSchema}
                                         action={(value) => store.srecContractLength = value}
                                         InputProps={Adornment.YEAR}
                                         type={"number"}
