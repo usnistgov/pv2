@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@csstools/normalize.css':
     specifier: ^12.0.0
@@ -100,8 +104,8 @@ devDependencies:
     specifier: 5.0.4
     version: 5.0.4
   vite:
-    specifier: ^4.3.8
-    version: 4.3.8(@types/node@18.0.3)(sass@1.53.0)
+    specifier: ^4.3.9
+    version: 4.3.9(@types/node@18.0.3)(sass@1.53.0)
 
 packages:
 
@@ -2455,8 +2459,8 @@ packages:
       util-deprecate: 1.0.2
     dev: false
 
-  /vite@4.3.8(@types/node@18.0.3)(sass@1.53.0):
-    resolution: {integrity: sha512-uYB8PwN7hbMrf4j1xzGDk/lqjsZvCDbt/JC5dyfxc19Pg8kRm14LinK/uq+HSLNswZEoKmweGdtpbnxRtrAXiQ==}
+  /vite@4.3.9(@types/node@18.0.3)(sass@1.53.0):
+    resolution: {integrity: sha512-qsTNZjO9NoJNW7KnOrgYwczm0WctJ8m/yqYAMAK9Lxt4SoySUfS5S8ia9K7JHpa3KEeMfyF8LoJ3c5NeBJy6pg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
