@@ -17,8 +17,11 @@ export default function LandingPage(): ReactElement {
 
     return (
         <>
-            <div className={"landing-page-title"} id={"title"}>
-                <h1>Present Value of PhotoVoltaics – [PV]<sup>2</sup></h1>
+            <div className={"lading-page-container"}>
+                <div className={"landing-page-title"} id={"title"}>
+                    <h1>Present Value of PhotoVoltaics – [PV]<sup>2</sup></h1>
+                    <h2 className={"e3-subtitle"}>Powered by E3</h2>
+                </div>
             </div>
             <div className={"start-button"}>
                 <Button
@@ -104,15 +107,6 @@ export default function LandingPage(): ReactElement {
                 <div className="landing-image" style={{"height": "500px"}}>
                     <img src={"/images/example.png"} alt={"example result"}/>
                 </div>
-            </div>
-            <div className={"start-button"}>
-                <Button
-                    onClick={scrollTo(0)}
-                    endIcon={<MdiIcon path={mdiArrowUp} size={1}/>}
-                    variant={"contained"}
-                    size={"large"}>
-                    Top
-                </Button>
             </div>
         </>
     );
