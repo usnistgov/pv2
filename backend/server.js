@@ -17,7 +17,7 @@ app.use(cors())
 app.use(expressCspHeader({
     directives: {
         "default-src": [SELF, "https://*.nist.gov"],
-        "script-src": [SELF, "'unsafe-eval'", "'unsafe-inline'", "https://pages.nist.gov", "https://dap.digitalgov.gov", "https://www.google-analytics.com", "https://www.youtube.com"],
+        "script-src": [SELF, "'unsafe-eval'", "'unsafe-inline'", "https://pages.nist.gov", "https://dap.digitalgov.gov", "https://www.googletagmanager.com", "https://www.youtube.com"],
         "style-src": [SELF, "'unsafe-inline'", "https://pages.nist.gov", "https://unpkg.com"],
         "img-src": [SELF, "data:", "https://pages.nist.gov"],
         "frame-src": ["https://www.google.com"],
