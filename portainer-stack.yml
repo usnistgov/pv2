@@ -1,15 +1,16 @@
-version: "3.6"
-
 services:
-  web:
-    image: dockreg.el.nist.gov/pv2/web
+  server:
+    image: docker.nist.gov:4567/eldst/pv2:latest
     expose:
-      - 5000
+      - "3000:80"
+    environment:
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: OZr*ca^(H=r"*^;#SktbGSwX79K|ep)[g{ao4jHh
+      POSTGRES_DB: PV2
     networks:
       - default
       - traefik_net
-    volumes:
-      - django_static:/usr/src/app/public
     deploy:
       replicas: 1
       labels:
@@ -24,13 +25,12 @@ services:
         - "traefik.http.routers.pv2_router_https.tls"
         - "traefik.http.services.pv2_service.loadbalancer.server.port=5000"
 
-volumes:
-  django_static:
-    driver_opts:
-      type: none
-      device: /DATA/pv2/django_static
-      o: bind
-
-networks:
-  traefik_net:
-    external: true
+  postgres:
+    image: docker.nist.gov:4567/eldst/pv2:db
+    hostname: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: OZr*ca^(H=r"*^;#SktbGSwX79K|ep)[g{ao4jHh
+      POSTGRES_DB: PV2
+    networks:
+      - default

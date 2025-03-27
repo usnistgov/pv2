@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently 'vite' 'cd ../backend/ && nodemon -r dotenv/config server.js' ",
+    "frontend": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -19,7 +20,7 @@
     "@nivo/line": "^0.83.0",
     "@nivo/tooltip": "^0.83.0",
     "@react-pdf/renderer": "^3.0.2",
-    "e3-sdk": "file:./e3-sdk-1.0.10.tgz",
+    "@lrd/e3-sdk": "1.0.14",
     "html2canvas": "^1.4.1",
     "lodash": "^4.17.21",
     "mobx": "^6.6.1",
@@ -44,5 +45,6 @@
     "concurrently": "^8.0.1",
     "nodemon": "^2.0.22",
     "dotenv": "16.0.3"
-  }
+  },
+  "packageManager": "pnpm@10.6.5+sha512.cdf928fca20832cd59ec53826492b7dc25dc524d4370b6b4adbf65803d32efaa6c1c88147c0ae4e8d579a6c9eec715757b50d4fa35eea179d868eada4ed043af"
 }

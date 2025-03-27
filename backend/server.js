@@ -7,7 +7,7 @@ const {expressCspHeader, SELF} = require("express-csp-header");
 console.log(process.env.POSTGRES_HOSTNAME)
 
 const app = express();
-const port = 80;
+const port = 8080;
 const pool = new Pool({
     connectionString: `postgres://${process.env.POSTGRES_USER}:${encodeURIComponent(process.env.POSTGRES_PASSWORD)}@${process.env.POSTGRES_HOSTNAME}:5432/${process.env.POSTGRES_DB}`
 })

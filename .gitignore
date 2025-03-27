@@ -34,3 +34,4 @@ yarn-error.log*
 
 .env*
 /frontend/dist/
+/frontend/.npmrc

@@ -1,0 +1,14 @@
+FROM node:23
+
+WORKDIR /usr/src/app
+
+RUN corepack enable
+RUN corepack prepare pnpm@10.6.5 --activate
+COPY frontend/dist dist/
+COPY backend/package.json .
+RUN pnpm install
+COPY backend/server.js .
+
+EXPOSE 80
+
+CMD ["node", "./server.js"]
