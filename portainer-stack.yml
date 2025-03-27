@@ -1,8 +1,6 @@
 services:
   server:
     image: docker.nist.gov:4567/eldst/pv2:latest
-    expose:
-      - "3000:80"
     environment:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_USER: admin
