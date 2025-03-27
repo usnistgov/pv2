@@ -26,7 +26,7 @@ import {
     RequestBuilder,
     TimestepComp,
     TimestepValue
-} from "e3-sdk";
+} from "@lrd/e3-sdk";
 import "../../../Extensions";
 
 export const altLabels = [
@@ -123,7 +123,7 @@ export async function createE3Request(store: ApplicationStore): Promise<RequestB
         .studyPeriod(store.analysisAssumptionsFormStore.studyPeriod ?? 25)
         .timestepValue(TimestepValue.YEAR)
         .timestepComp(TimestepComp.END_OF_YEAR)
-        .outputReal()
+        .real()
         .interestRate(store.costsFormStore.nominalInterestRate ?? 0.06)
         .discountRateReal(realDiscountRate / 100)
         .discountRateNominal((1 + (generalInflation / 100)) * (1 + (realDiscountRate / 100)) - 1)

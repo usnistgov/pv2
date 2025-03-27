@@ -16,7 +16,7 @@ import PdfPpaOptionInput from "./components/input/PdfPpaOptionInput";
 import PdfSrecInput from "./components/input/PdfSrecInput";
 import PdfProductionEscalationRatesInput from "./components/input/PdfProductionEscalationRatesInput";
 import PdfConsumptionEscalationRatesInput from "./components/input/PdfConsumptionEscalationRatesInput";
-import {Output} from "e3-sdk";
+import {Output} from "@lrd/e3-sdk";
 
 Font.register({
     family: 'Roboto',

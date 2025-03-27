@@ -1,5 +1,5 @@
 import React, {ReactNode, useContext} from "react";
-import {Measures, Optional, Output} from "e3-sdk";
+import {Measures, Optional, Output} from "@lrd/e3-sdk";
 
 // Library imports
 import {Box, Button, Grid} from "@material-ui/core";

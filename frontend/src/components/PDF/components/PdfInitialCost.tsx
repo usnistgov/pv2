@@ -5,7 +5,7 @@ import {LOAN_OR_CASH_OPTIONS, SREC_PAYMENTS_OPTIONS} from "../../../Strings";
 import {SREC_UPFRONT} from "../../../Defaults";
 import {currencyFormatter} from "../../../Format";
 import LabeledText from "./LabeledText";
-import {Output} from "e3-sdk";
+import {Output} from "@lrd/e3-sdk";
 
 const styles = StyleSheet.create({
     initialCostContainer: {

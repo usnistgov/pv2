@@ -2,7 +2,7 @@ import {GraphOption} from "./Strings";
 import {ResultUiStore} from "./application/ApplicationStore";
 import {Serie} from "@nivo/line";
 import {altLabels} from "./components/Request/RequestGenerator/E3RequestGenerator";
-import {Output} from "e3-sdk";
+import {Output} from "@lrd/e3-sdk";
 
 /**
  * Generates graph data for the given graph options and result object.

@@ -4,7 +4,7 @@ import {Store} from "../../../application/ApplicationStore";
 import {getGraphData} from "../../../GetGraphData";
 import {GraphOption} from "../../../Strings";
 import {compactCurrencyFormatter} from "../../../Format";
-import {Output} from "e3-sdk";
+import {Output} from "@lrd/e3-sdk";
 
 interface PdfGraphProps {
     result: Output;

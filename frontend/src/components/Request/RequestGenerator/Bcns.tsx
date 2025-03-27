@@ -1,7 +1,7 @@
 import {ApplicationStore} from "../../../application/ApplicationStore";
 import {DEGRADATION_RATE, GENERAL_INFLATION, INVERTER_LIFETIME, PANEL_LIFETIME, STUDY_PERIOD} from "../../../Defaults";
 import {getAnnualConsumption} from "./E3RequestGenerator";
-import {BcnBuilder, BcnSubType, BcnType, RecurBuilder, VarRate} from "e3-sdk";
+import {BcnBuilder, BcnSubType, BcnType, RecurBuilder, VarRate} from "@lrd/e3-sdk";
 import "../../../Extensions";
 
 function annualProduction(store: ApplicationStore): number[] {

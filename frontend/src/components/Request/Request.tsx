@@ -4,7 +4,7 @@ import {observer} from "mobx-react-lite";
 import {createE3Request} from "./RequestGenerator/E3RequestGenerator";
 import Results from "../Results/Results";
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
-import {E3, Output} from "e3-sdk";
+import {E3, Output} from "@lrd/e3-sdk";
 
 /**
  * Checks if a value is valid, in other words is not null, undefined, etc.

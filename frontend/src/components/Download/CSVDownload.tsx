@@ -10,7 +10,7 @@ import {Store} from "../../application/ApplicationStore";
 import {STUDY_PERIOD} from "../../Defaults";
 import Constants from "../../Constants";
 import _ from "lodash";
-import {Output} from "e3-sdk";
+import {Output} from "@lrd/e3-sdk";
 
 /**
  * Generates CSV data for the given results and study period.

@@ -26,7 +26,7 @@ import {
     RESULT_TOTAL_COST_TOOLTIP
 } from "../../../Strings";
 import {currencyFormatter, numberFormatter, years} from "../../../Format";
-import {Measures, Optional} from "e3-sdk"
+import {Measures, Optional} from "@lrd/e3-sdk"
 
 export interface ResultCardProps {
     // The alternative objects

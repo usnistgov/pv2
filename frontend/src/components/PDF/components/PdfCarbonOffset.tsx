@@ -3,7 +3,7 @@ import {Image, StyleSheet, Text, View} from "@react-pdf/renderer";
 import _ from "lodash";
 import Constants from "../../../Constants";
 import {currencyFormatter, numberFormatter} from "../../../Format";
-import {Output} from "e3-sdk"
+import {Output} from "@lrd/e3-sdk"
 
 const styles = StyleSheet.create({
     carbonOffsetContainer: {

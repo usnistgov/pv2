@@ -1,5 +1,5 @@
 import {ApplicationStore} from "./application/ApplicationStore";
-import {AlternativeBuilder, RecurBuilder} from "e3-sdk";
+import {AlternativeBuilder, RecurBuilder} from "@lrd/e3-sdk";
 import {
     gridConsumption,
     inverterReplacement,
@@ -25,9 +25,9 @@ import {
 } from "./Strings";
 import {STUDY_PERIOD} from "./Defaults";
 
-import {BcnBuilder} from "e3-sdk";
+import {BcnBuilder} from "@lrd/e3-sdk";
 
-declare module "e3-sdk" {
+declare module "@lrd/e3-sdk" {
     export interface AlternativeBuilder {
         addTotalInstallationCostsResidualValue(totalInstallationCostsResidualValueBcn: BcnBuilder, store: ApplicationStore): AlternativeBuilder;
 

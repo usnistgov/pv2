@@ -2,7 +2,7 @@ import PdfSection from "./PdfSection";
 import {StyleSheet, Text, View} from '@react-pdf/renderer';
 import {ApplicationStore} from "../../../application/ApplicationStore";
 import {currencyFormatter} from "../../../Format";
-import {Output} from "e3-sdk";
+import {Output} from "@lrd/e3-sdk";
 
 const styles = StyleSheet.create({
     paymentContainer: {
