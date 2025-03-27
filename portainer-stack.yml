@@ -21,7 +21,7 @@ services:
         - "traefik.http.routers.pv2_router_https.rule=Host(`pv2test.el.nist.gov`)"
         - "traefik.http.routers.pv2_router_https.entrypoints=websecure"
         - "traefik.http.routers.pv2_router_https.tls"
-        - "traefik.http.services.pv2_service.loadbalancer.server.port=5000"
+        - "traefik.http.services.pv2_service.loadbalancer.server.port=8080"
 
   postgres:
     image: docker.nist.gov:4567/eldst/pv2:db
