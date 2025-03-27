@@ -3,7 +3,7 @@ FROM node:23
 WORKDIR /usr/src/app
 
 RUN corepack enable
-COPY frontend/dist dist/
+COPY frontend/dist ./build/
 COPY backend/package.json .
 RUN pnpm install
 COPY backend/server.js .

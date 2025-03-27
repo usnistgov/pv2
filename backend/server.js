@@ -47,7 +47,7 @@ app.get("/api/average-electricity-price/zipcode/:zipcode", createQuery("SELECT a
 
 app.get('*', (request, response) => {
     response.set({"Content-Security_Policy": "default-src"})
-    response.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+    response.sendFile(path.join(__dirname, './build/index.html'));
 });
 
 app.listen(port, () => {
