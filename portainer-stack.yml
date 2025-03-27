@@ -32,3 +32,8 @@ services:
       POSTGRES_DB: PV2
     networks:
       - default
+
+networks:
+  postgres:
+  traefik_net:
+    external: true
