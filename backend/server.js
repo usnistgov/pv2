@@ -35,7 +35,7 @@ function createQuery(query) {
     }
 }
 
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.join(__dirname, './build')));
 
 app.get("/api/state/:zipcode", createQuery("SELECT state FROM ((SELECT abs(zipcode - $1) AS diff, * FROM zip_state_mapping WHERE zipcode <= $1 ORDER BY diff, zipcode DESC LIMIT 1) UNION ALL (SELECT abs(zipcode - $1) AS diff, * FROM zip_state_mapping WHERE zipcode >= $1 ORDER BY diff, zipcode LIMIT 1)) AS joined ORDER BY diff, zipcode LIMIT 1;"));
 

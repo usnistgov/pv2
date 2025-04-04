@@ -1,8 +1,8 @@
 services:
   server:
-    build: ./
+    image: docker.nist.gov:4567/eldst/pv2/server:latest
     ports:
-      - "3000:80"
+      - "8080"
     environment:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_USER: admin
@@ -10,14 +10,10 @@ services:
       POSTGRES_DB: PV2
     networks:
       - default
-      -
+
   postgres:
-    #image: postgres:14.1
-    build: ./backend/database/
-    restart: always
+    image: docker.nist.gov:4567/eldst/pv2/db:latest
     hostname: postgres
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: OZr*ca^(H=r"*^;#SktbGSwX79K|ep)[g{ao4jHh
