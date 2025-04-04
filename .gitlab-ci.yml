@@ -38,7 +38,8 @@ docker-db-build:
   script:
     - cd backend/database
     - docker build -t $CI_REGISTRY_IMAGE/db:latest -t $CI_REGISTRY_IMAGE/db:$CI_COMMIT_SHA .
-    - docker push $CI_REGISTRY_IMAGE/db -a
+    - docker push $CI_REGISTRY_IMAGE/db:latest
+    - docker push $CI_REGISTRY_IMAGE/db:$CI_COMMIT_SHA
 
 docker-build:
   image: docker:latest
@@ -53,7 +54,8 @@ docker-build:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - docker build -t $CI_REGISTRY_IMAGE/server:latest -t $CI_REGISTRY_IMAGE/server:$CI_COMMIT_SHA -f gitlab-dockerfile .
-    - docker push $CI_REGISTRY_IMAGE/server -a
+    - docker push $CI_REGISTRY_IMAGE/server:latest
+    - docker push $CI_REGISTRY_IMAGE/server:$CI_COMMIT_SHA
   needs:
     - job: "build"
       artifacts: true
