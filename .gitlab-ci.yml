@@ -33,14 +33,12 @@ docker-db-build:
   tags: [dind]
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
-      changes:
-        - "backend/database/**/*"
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - cd backend/database
-    - docker build -t $CI_REGISTRY_IMAGE:db .
-    - docker push $CI_REGISTRY_IMAGE:db
+    - docker build -t $CI_REGISTRY_IMAGE/db:latest -t $CI_REGISTRY_IMAGE/db:$CI_COMMIT_SHA .
+    - docker push $CI_REGISTRY_IMAGE/db -a
 
 docker-build:
   image: docker:latest
@@ -53,15 +51,8 @@ docker-build:
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:latest -f gitlab-dockerfile .
-    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker build -t $CI_REGISTRY_IMAGE/server:latest -t $CI_REGISTRY_IMAGE/server:$CI_COMMIT_SHA -f gitlab-dockerfile .
+    - docker push $CI_REGISTRY_IMAGE/server -a
   needs:
     - job: "build"
       artifacts: true
-
-
-include:
-  - component: $CI_SERVER_FQDN/ELDST/ci-components/portainer-deploy@1.2.1
-    inputs:
-      url: haproxy-p.el.nist.gov:9000
-      name: pv2
