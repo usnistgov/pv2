@@ -1,6 +1,6 @@
 services:
   server:
-    image: docker.nist.gov:4567/eldst/pv2:latest
+    image: docker.nist.gov:4567/eldst/pv2/server:latest
     environment:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_USER: admin
@@ -24,7 +24,7 @@ services:
         - "traefik.http.services.pv2_service.loadbalancer.server.port=8080"
 
   postgres:
-    image: docker.nist.gov:4567/eldst/pv2:db
+    image: docker.nist.gov:4567/eldst/pv2/db:latest
     hostname: postgres
     environment:
       POSTGRES_USER: admin
