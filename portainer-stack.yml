@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: OZr*ca^(H=r"*^;#SktbGSwX79K|ep)[g{ao4jHh
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: PV2
     networks:
       - default
@@ -28,7 +28,7 @@ services:
     hostname: postgres
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: OZr*ca^(H=r"*^;#SktbGSwX79K|ep)[g{ao4jHh
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: PV2
     networks:
       - default
